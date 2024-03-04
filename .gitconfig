@@ -1,7 +1,0 @@
-[safe]
-  directory = *
-
-[include]
-  path = /mnt/storage/global/git.conf
-
-
