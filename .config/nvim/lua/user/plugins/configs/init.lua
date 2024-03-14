@@ -29,4 +29,5 @@ require "user.plugins.configs.ufo"
 require "user.plugins.configs.extras.codeium"
 require "user.plugins.configs.extras.lab"
 require "user.plugins.configs.extras.nx"
+require "user.plugins.configs.extras.live-server"
 

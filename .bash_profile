@@ -7,7 +7,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 # export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 export HISTFILE="$HOME/.local/state/shell_history"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
@@ -30,18 +29,17 @@ export KODI_DATA="$XDG_DATA_HOME/kodi"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export W3M_DIR="$XDG_STATE_HOME/w3m"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml" # default ~/.config/starship.toml
 export BUN_INSTALL="$XDG_DATA_HOME/bun"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export PNPM_HOME="$MYSTORAGE/programs/pnpm"
-
+export CARGO_HOME="$MYSTORAGE/programs/cargo"
 
 export GPG_TTY="$(tty)"
 export EDITOR="nvim"
 export ALTERNATE_EDITOR="lvim"
-export TERMINAL="alacritty"
-export BROWSER="brave"
+export TERMINAL="kitty sh -c 'tmux attach || tmux new'"
+export BROWSER="firefox"
 export LSCOLORS="0xGxBxDxCxEgEdxbxgxcxd	"    # terminal colors releated
 export PG_COLOR="always"                     # postgres
 export _JAVA_AWT_WM_NONREPARENTING=1         # For Java Applications
@@ -82,8 +80,10 @@ export PATH="$PATH":"/mnt/storage/programs/android-studio/bin"
 export PATH="$PATH":"/mnt/storage/programs/android-studio-sdk/platform-tools"
 export PATH="$PATH":"/mnt/storage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
-[ -f ~/.bashrc ] && . ~/.bashrc
 
-[ -f ~/.config/shell.sh ] && . ~/.config/shell.sh
+[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" # Cargo environment
 
-[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env"
+[ -f ~/.bashrc ] && . ~/.bashrc ## source .bashrc
+[ -f ~/.config/task.bash ] && . ~/.config/task.bash ## source Taskfile complitions
+[ -f ~/.config/shell.sh ] && . ~/.config/shell.sh ## user's shell preferences
+

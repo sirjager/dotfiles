@@ -241,6 +241,14 @@ local which_keymaps = {
     o = { ":Lspsaga outline <CR>", "outline" },
     r = { ":LspRestart<CR>", "restart lsp" },
 
+    s = {
+      name = "live server",
+      l = { ":LiveServer<CR>", "live server" },
+      i = { ":LiveServerInstall<CR>", "live server install" },
+      s = { ":LiveServerStart<CR>", "start live server" },
+      t = { ":LiveServerStop<CR>", "stop live server" },
+    },
+
     l = {
       name = "lab:code runner",
       r = { ":Lab code run<CR>", "start code runner" },

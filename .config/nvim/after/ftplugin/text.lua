@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = { "*.tex" },
+  pattern = { "*.text" },
   callback = function()
     vim.api.nvim_command "silent !pdflatex %"
   end,

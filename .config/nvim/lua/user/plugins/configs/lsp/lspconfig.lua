@@ -48,6 +48,14 @@ lspconfig.lua_ls.setup {
   },
 }
 
+
+-- css
+lspconfig.bufls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
+
+
 -- css
 lspconfig.cssls.setup {
   capabilities = capabilities,
@@ -108,7 +116,8 @@ lspconfig.yamlls.setup {
       ['http://json.schemastore.org/ansible-stable-2.9'] = 'roles/tasks/*.{yml,yaml}',
       ['http://json.schemastore.org/prettierrc'] = '.prettierrc.{yml,yaml}',
       ['http://json.schemastore.org/stylelintrc'] = '.stylelintrc.{yml,yaml}',
-      ['http://json.schemastore.org/circleciconfig'] = '.circleci/**/*.{yml,yaml}'
+      ['http://json.schemastore.org/circleciconfig'] = '.circleci/**/*.{yml,yaml}',
+      ['https://taskfile.dev/schema.json'] = '**/Taskfile.{yml,yaml}'
     }
   },
 }
