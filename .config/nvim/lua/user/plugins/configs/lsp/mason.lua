@@ -78,6 +78,7 @@ if mason_null_ls_ok then
       -- "ruff", -- py
       -- "rustywind",
       "shellharden", -- sh
+      "shellcheck",
       "jq",
       "shfmt",
       "sqlfmt",

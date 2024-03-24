@@ -37,9 +37,10 @@ export CARGO_HOME="$MYSTORAGE/programs/cargo"
 
 export GPG_TTY="$(tty)"
 export EDITOR="nvim"
+export DIRENV_LOG_FORMAT=""
 export ALTERNATE_EDITOR="lvim"
 export TERMINAL="kitty sh -c 'tmux attach || tmux new'"
-export BROWSER="firefox"
+export BROWSER="chromium"
 export LSCOLORS="0xGxBxDxCxEgEdxbxgxcxd	"    # terminal colors releated
 export PG_COLOR="always"                     # postgres
 export _JAVA_AWT_WM_NONREPARENTING=1         # For Java Applications
@@ -83,7 +84,9 @@ export PATH="$PATH":"/mnt/storage/programs/node/pnpm/global/5/node_modules/grpc-
 
 [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" # Cargo environment
 
+
 [ -f ~/.bashrc ] && . ~/.bashrc ## source .bashrc
 [ -f ~/.config/task.bash ] && . ~/.config/task.bash ## source Taskfile complitions
 [ -f ~/.config/shell.sh ] && . ~/.config/shell.sh ## user's shell preferences
+[ -f "$MYSTORAGE/global/alias" ] && . "$MYSTORAGE/global/alias" ## personal aliases
 

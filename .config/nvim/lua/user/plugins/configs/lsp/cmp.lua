@@ -150,6 +150,15 @@ cmp.setup {
           vim_item.dup = 0
         end
 
+
+        if entry.source.name == "codeium" then
+          vim_item.kind = icons.misc.Wand
+        end
+
+        if entry.source.name == "Codeium" then
+          vim_item.kind = icons.misc.Wand
+        end
+
         if entry.source.name == "copilot" then
           vim_item.kind = icons.git.Octoface
           vim_item.kind_hl_group = "CmpItemKindCopilot"

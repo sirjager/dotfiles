@@ -150,5 +150,6 @@ return {
     Smiley = "",
     Package = "",
     CircuitBoard = "",
+    Wand = "",
   },
 }
