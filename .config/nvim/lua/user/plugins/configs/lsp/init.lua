@@ -12,4 +12,4 @@ require "user.plugins.configs.lsp.nvim-lint"
 require "user.plugins.configs.lsp.tailwindcss-colorizer-cmp"
 require "user.plugins.configs.lsp.nvim-treesitter"
 require "user.plugins.configs.lsp.nvim-treesitter-context"
---[[ require "user.plugins.configs.lsp.go" ]]
+-- require "user.plugins.configs.lsp.go"

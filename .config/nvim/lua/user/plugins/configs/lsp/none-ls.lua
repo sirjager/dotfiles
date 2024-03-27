@@ -31,7 +31,7 @@ null_ls.setup {
 
     null_ls.builtins.formatting.gofumpt,           -- go
     null_ls.builtins.formatting.golines,           -- go
-    null_ls.builtins.diagnostics.gospel,           -- go
+    -- null_ls.builtins.diagnostics.gospel,           -- go
     null_ls.builtins.diagnostics.golangci_lint,    -- go
     null_ls.builtins.formatting.goimports_reviser, -- go imports
 
