@@ -8,6 +8,15 @@ local M = {
   },
 }
 
+M.mason_servers = {
+  "luacheck",
+  "shellcheck",
+  "shfmt",
+  "tailwindcss-language-server",
+  "typescript-language-server",
+  "css-lsp",
+}
+
 M.mason_lspconfig_servers = {
   "astro",
   "lua_ls",
@@ -81,6 +90,9 @@ M.mason_null_ls_servers = {
 
 function M.config()
   require("mason").setup {
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, M.mason_servers)
+    end,
     ui = {
       border = "rounded",
       icons = {

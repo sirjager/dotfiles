@@ -3,7 +3,7 @@ local M = {
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter" },
     { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-    { "FelipeLema/cmp-async-path", event = "InsertEnter" },
+    -- { "FelipeLema/cmp-async-path", event = "InsertEnter" },
     { "hrsh7th/cmp-buffer", event = "InsertEnter" },
     { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
     { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
@@ -26,7 +26,7 @@ function M.config()
   local lspkind = require "lspkind"
   local ts_utils = require "nvim-treesitter.ts_utils"
   local icons = require "dope.icons"
-  local defaults = require "cmp.config.default"()
+  -- local defaults = require "cmp.config.default"()
 
   require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
 
@@ -40,6 +40,7 @@ function M.config()
 
   require("luasnip/loaders/from_vscode").lazy_load()
   require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
+
   vim.opt.completeopt = "menu,menuone,noselect"
 
   cmp.setup {
@@ -93,7 +94,7 @@ function M.config()
       fields = { "kind", "abbr", "menu" }, -- rearrange positions if needed
       format = lspkind.cmp_format {
         mode = "symbol_text", -- show only symbol annotations -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-        maxwidth = 70, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         before = function(entry, vim_item)
           local maxwidth = 50
@@ -158,11 +159,11 @@ function M.config()
         end,
       },
       { name = "luasnip" }, -- snippets completions
-      { name = "codeium" }, -- completions from codeium
+      -- { name = "codeium" }, -- completions from codeium
       -- { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions
-      { name = "async_path" }, -- filesystem path completions
+      -- { name = "async_path" }, -- filesystem path completions
       {
         name = "tmux", -- completions from tmux sessions
         option = {

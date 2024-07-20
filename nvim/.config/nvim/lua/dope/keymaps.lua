@@ -216,7 +216,7 @@ M.which_keymaps = {
 
   s = {
     name = "search",
-    s = { ":Telescope find_files <CR>", "find files" }, -- most used
+    s = { ":Telescope find_files hidden=true no_ignore=false color=always<CR>", "find files" }, -- most used
     b = { ":Telescope buffers <CR>", "opened buffers" },
     e = { ":Telescope emoji <CR>", "find emoji" },
     W = { ":Telescope live_grep <CR>", "find in workspace" },

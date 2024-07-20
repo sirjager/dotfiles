@@ -16,5 +16,30 @@ require("lazy").setup {
   spec = LAZY_PLUGIN_SPEC,
   ui = { border = "rounded" },
   install = { colorscheme = { "onedark" } },
-  change_detection = { enabled = true, notify = false }
+  change_detection = { enabled = true, notify = false },
+  opts = {
+    news = {
+      lazyvim = true,
+      neovim = true,
+    },
+  },
+  checker = { enabled = true },
+  performance = {
+    cache = {
+      enabled = true,
+    },
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        -- "matchit",
+        -- "matchparen",
+        "netrwPlugin",
+        "rplugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 }

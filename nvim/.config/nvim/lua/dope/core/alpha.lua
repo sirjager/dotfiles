@@ -9,14 +9,9 @@ function M.config()
   dashboard.section.header.val = headers.jagervim
   dashboard.section.buttons.val = {
     dashboard.button(
-      "<leader>n",
-      "  > Neovim configurations",
-      ":cd ~/.config/nvim | :Neotree reveal_force_cwd<CR> | :e init.lua<CR>"
-    ),
-    dashboard.button(
-      "<leader>t",
-      "  > Tmux configurations",
-      ":cd ~/.config/tmux | :Neotree reveal_force_cwd<CR> | :e tmux.conf<CR>"
+      "<leader>d",
+      "  > Edit Dotfiles",
+      ":cd ~/dotfiles | :Neotree reveal_force_cwd<CR>"
     ),
     dashboard.button("<leader>q", "  > Quit NVIM", ":qa<CR>"),
   }
