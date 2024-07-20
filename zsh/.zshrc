@@ -113,7 +113,7 @@ alias slv="sudo -E -s ~/.local/bin/lvim"
 alias k='killall -q'
 alias knode='sudo pkill -f nodejs && sudo pkill -f node'
 
-alias s="source ~/.zshrc;"
+alias s=". ~/.zshenv ~/.zshrc;"
 
 # Yay Package Manager / Aur Helper
 alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
@@ -134,8 +134,6 @@ alias n="nvim"
 alias nv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias snv="sudo -E -s nvim"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
-
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
-alias start-docker="sudo systemctl start docker"
-alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 alias kubectl="minikube kubectl"
+alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"

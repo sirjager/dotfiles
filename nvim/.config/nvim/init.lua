@@ -7,8 +7,8 @@ spec("dope.core.notify")
 
 spec "dope.theme"
 spec "dope.core.alpha"
-spec "dope.core.windline"
 spec "dope.core.bufferline"
+spec "dope.core.windline"
 spec "dope.core.whichkey"
 
 spec "dope.core.devicons"

@@ -3,7 +3,6 @@
 export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
-export myscripts="$HOME/dotfiles/scripts"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -81,7 +80,6 @@ export GOCACHE="$mystorage/workspace/goenv/cache"
 export FLUTTER_ROOT="$mystorage/programs/flutter"
 
 export PATH="$PATH:$PNPM_HOME"
-export PATH="$PATH":"$myscripts"
 export PATH="$PATH":"$GOPATH/bin"
 export PATH="$PATH":"$GOROOT/bin"
 export PATH="$PATH":"$JAVA_HOME/bin"

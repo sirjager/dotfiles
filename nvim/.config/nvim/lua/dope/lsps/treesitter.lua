@@ -5,17 +5,55 @@ local M = {
   build = ":TSUpdate",
 }
 
+M.servers = {
+  "astro",
+  "bash",
+  "css",
+  -- "dart",
+  "dockerfile",
+  "go",
+  "gomod",
+  "gosum",
+  "html",
+  "htmldjango",
+  -- "ini",
+  "jq",
+  "json",
+  "json5",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "php",
+  "php_only",
+  "phpdoc",
+  "proto",
+  "python",
+  "regex",
+  "sql",
+  -- "ssh_config",
+  -- "svelte",
+  "toml",
+  "tmux",
+  "tsx",
+  "typescript",
+  "vim",
+  -- "vimdoc",
+  -- "vue",
+  "yaml",
+  "zig",
+}
+
 function M.config()
   vim.filetype.add { extension = { mdx = "mdx" } }
   vim.treesitter.language.register("markdown", "mdx")
-  vim.filetype.add({ extension = { astro = "astro" } })
+  vim.filetype.add { extension = { astro = "astro" } }
   require("nvim-treesitter.configs").setup {
-    ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "yaml" },
+    ensure_installed = M.servers,
     matchup = {
       enable = true,
-      disable = { "c", "ruby", "rust" }
+      disable = { "c", "ruby", "rust" },
     },
-    sync_install = false,
+    sync_install = true,
     auto_install = true,
     playground = { enable = false },
     markid = { enable = true },
@@ -49,20 +87,20 @@ function M.config()
     },
   }
 
-  require("treesitter-context").setup({
-    enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 1,           -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  require("treesitter-context").setup {
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
     -- line_numbers = true,
     multiline_threshold = 1, -- 20, -- Maximum number of lines to show for a single context
-    trim_scope = 'outer',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    mode = 'cursor',         -- Line used to calculate context. Choices: 'cursor', 'topline'
+    trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
     -- Separator between context and content. Should be a single character string, like '-'.
     -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
     separator = nil,
-    zindex = 1,      -- The Z-index of the context window
+    zindex = 1, -- The Z-index of the context window
     on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-  })
+  }
 end
 
 return M
