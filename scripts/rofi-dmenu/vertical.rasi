@@ -1,0 +1,121 @@
+/**
+ *
+ * Author : Ankur Kumar (SirJager)
+ * Github : @SirJager
+ *
+ **/
+
+
+@theme "~/.local/bin/rofi-dmenu/colors.rasi"
+
+* {
+    spacing:                     2;
+    screen-margin:               4px 4px;
+    box-spacing:                 0px;
+    list-padding:                8px;
+    element-padding:             15px;
+    element-radius:              8px;
+    element-spacing:             15px;
+    background-color:            transparent;
+}
+
+window {
+    location:                    south;
+    anchor:                      north;
+    fullscreen:                  false;
+    width:                       99%;
+    height:                      25%;
+    x-offset:                    0px;
+    y-offset:                    -10px;
+    background-color:            @main-bg;
+    border-radius:               @border-radius;
+    border:                      2px solid;
+    border-color:                @border-color;
+}
+
+element {
+    padding: 6px 0px 6px 0px;
+    spacing: 5px;
+    border:  0;
+    cursor:  pointer;
+}
+
+element normal.normal {
+    text-color:            @main-fg;
+    background-color:      transparent;
+}
+
+element selected.normal {
+    text-color:           @selected-fg;
+    background-color:     @selected-bg;
+}
+
+element alternate.normal {
+    text-color:           @alt-fg;
+    background-color:     transparent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    highlight: inherit;
+}
+    
+element-icon {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+}
+
+
+mainbox {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+message {
+    margin: 0px 7px;
+}
+
+textbox {
+    text-color: @main-fg;
+    padding: 10px;
+    background-color: transparent;
+}
+
+prompt {
+    text-color: @main-fg;
+    margin: 0px 10px 0px 0px;
+}
+
+entry {
+    text-color: @selected-bg;
+}
+
+
+listview {
+    margin:           0px 0px 5px 0px;
+    padding:          8px;
+    scrollbar:        true;
+    spacing:          2px;
+    fixed-height:     0;
+}
+
+scrollbar {
+    padding:        0;
+    handle-width:   15px;
+    border:         0;
+    handle-color:         @scrollbar-color;
+    background-color:     @main-bg;
+}
+
+inputbar {
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     12px;
+    border:                      0px solid;
+    text-color:                  @main-fg;
+}
+

@@ -4,7 +4,7 @@ local M = {
 
 function M.config()
   require "bufferline".setup {
-    -- highlights = require("catppuccin.groups.integrations.bufferline").get(),
+    highlights = require("catppuccin.groups.integrations.bufferline").get(),
     options = {
       separator_style = "thin",            -- slant, padded_slant, slope, padded_slope, thick, thin
       numbers = "ordinal",                 -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,

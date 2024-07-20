@@ -1,0 +1,119 @@
+#!/bin/sh
+
+SSH_ADDRESS=""
+CONTAINER=""
+DB_USER=""
+BACKUP_DIR=""
+MAX_BACKUPS=15
+NOTIFY="false"
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-n)
+		NOTIFY="true"
+		shift
+		;;
+	-a=*)
+		SSH_ADDRESS="${1#*=}"
+		shift
+		;;
+	-u=*)
+		DB_USER="${1#*=}"
+		shift
+		;;
+	-c=*)
+		CONTAINER="${1#*=}"
+		shift
+		;;
+	-d=*)
+		BACKUP_DIR="${1#*=}"
+		shift
+		;;
+	-m=*)
+		MAX_BACKUPS=${1#*=}
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+notify() {
+	level="$3"
+	[ "$level" = "" ] && level="normal"
+	[ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+	echo "$(date +'%Y-%m-%d %H:%M:%S') - $1"
+}
+
+[ -z "$SSH_ADDRESS" ] && notify "-a (SSH_ADDRESS) is missing" critical && exit 1
+[ -z "$CONTAINER" ] && notify "-c (CONTAINER) is missing" critical && exit 1
+[ -z "$DB_USER" ] && notify "-u (DB_USER) is missing" critical && exit 1
+[ -z "$BACKUP_DIR" ] && notify "-u (BACKUP_DIR) is missing" critical && exit 1
+
+[ ! -d "$BACKUP_DIR" ] && mkdir -p "$BACKUP_DIR"
+
+# Create the backup file name
+TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+COUNTER=$(ls $BACKUP_DIR | grep ".tar.gz" | wc -l)
+COUNTER=$((COUNTER + 1))
+FILENAME="$COUNTER-PG_DUMPALL-${TIMESTAMP}"
+SQL_FILE="$FILENAME.sql"
+COMPRESSED_FILE="$FILENAME.tar.gz"
+
+cleanup_backups() {
+	cd "$BACKUP_DIR"
+	# List all backup files, sorted by name (oldest first)
+	backups=$(ls -t *.tar.gz)
+	count=$(echo "$backups" | wc -l)
+	# Check if the number of backups exceeds the limit
+	if [ $count -gt $MAX_BACKUPS ]; then
+		# Calculate how many backups to delete
+		delete_count=$((count - MAX_BACKUPS))
+		# Delete the oldest backups
+		echo "$backups" | tail -n $delete_count | xargs rm
+	fi
+}
+
+# NOTE: STEP 1: run pg_dumpall on server and backup postgres cluster to sql file
+if ssh $SSH_ADDRESS "docker exec $CONTAINER pg_dumpall -U $DB_USER -f /tmp/$SQL_FILE"; then
+	notify "successfully executed pg_dumpall on server"
+else
+	notify "failed to execute pg_dumpall on server" critical
+	exit 1
+fi
+
+# NOTE: STEP 2: copy backup sql file out of postgres docker container to server host
+if ssh $SSH_ADDRESS "docker cp $CONTAINER:/tmp/$SQL_FILE /tmp/$SQL_FILE"; then
+	notify "successfully copied sqlfile from docker to server host"
+else
+	notify "failed to copy sqlfile from docker to server host" critical
+	exit 1
+fi
+
+# NOTE: STEP 3: compress sql file and remove sql file
+if ssh $SSH_ADDRESS "cd /tmp && tar -czvf $COMPRESSED_FILE $SQL_FILE && rm -f /tmp/$SQL_FILE"; then
+	notify "successfully compressed sqlfile on server"
+else
+	notify "failed to compress sqlfile on server" critical
+	exit 1
+fi
+
+# NOTE: STEP 4: transfer compressed backup file to our backup directory
+if scp "$SSH_ADDRESS:/tmp/$COMPRESSED_FILE" "$BACKUP_DIR/"; then
+	notify "successfully transfered compressed file to backup directory"
+else
+	notify "failed to transfer compressed file from server" critical
+	exit 1
+fi
+
+# NOTE: STEP 5: remove /tmp leftover files from server
+if ssh $SSH_ADDRESS "rm -f /tmp/*.tar.gz /tmp/*.sql"; then
+	notify "successfully removed leftover files from server"
+else
+	notify "failed to remove leftover files from server" critical
+	exit 1
+fi
+
+# NOTE: STEP 6: keep only number of $MAX_BACKUPS in $BACKUP_DIR
+cleanup_backups

@@ -16,6 +16,7 @@ spec "dope.core.neotree"
 spec "dope.core.illuminate"
 spec "dope.core.telescope"
 spec "dope.core.tmuxnavigator"
+spec "dope.core.yazi"
 
 spec "dope.lsps.treesitter"
 spec "dope.lsps.mason"
