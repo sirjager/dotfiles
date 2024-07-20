@@ -1,0 +1,65 @@
+import = ["~/.config/alacritty/themes/catppuccin-macchiato.toml"]
+
+live_config_reload = true
+
+[bell]
+animation = "EaseOutExpo"
+color = "0xffffff"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 13
+
+[font.bold]
+family = "JetbrainsMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetbrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetbrainsMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetbrainsMono Nerd Font"
+style = "Regular"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+
+[shell]
+program = "/usr/bin/zsh"
+
+[window]
+decorations = "full"
+dynamic_padding = false
+opacity = 0.5
+startup_mode = "Maximized"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.dimensions]
+columns = 80
+lines = 22
+
+[window.padding]
+x = 20
+y = 20
+
+[cursor]
+style = "block" #  ▇ "block" | "beam" _ "underline"
+

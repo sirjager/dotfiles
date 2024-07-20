@@ -1,0 +1,552 @@
+#!/bin/bash
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+DIRECTORY="$HOME/.local/jager"
+GIT_REPO="https://github.com/sirjager/jager"
+BARE_GITREPO="$HOME/.local/share/jager"
+FILEPATH="$DIRECTORY/bookmarks"
+ROFI_THEME="$HOME/.config/rofi/themes/dmenu.rasi"
+
+EDITOR="alacritty -e nvim"
+BROWSER="brave"
+
+NOTIFY=""
+COPY=""
+TYPE=""
+VISIT=""
+OVERWRITE=""
+APPEND=""
+GITSYNC="true"
+
+notify(){
+    level="$3"
+    [ "$level" = "" ] && level="normal"
+    [ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+
+if [ ! -d "$DIRECTORY" ]; then 
+    notify "Directory does not exists" "$DIRECTORY" critical
+    exit 1
+fi
+
+use_git(){
+    # alias bkm='/usr/bin/git --git-dir="$HOME/.local/share/jager" --work-tree="$HOME/.local/jager"'
+    /usr/bin/git --git-dir="$BARE_GITREPO" --work-tree="$DIRECTORY" "$@"
+}
+
+
+is_valid_link(){
+    # url_pattern='^(http|https)://([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    url_pattern='^(https?://)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    if echo "$1" | grep -qE "$url_pattern"; then
+        return 0
+    fi
+    return 1
+}
+
+is_valid_email() {
+    email_pattern='^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+    if echo "$1" | grep -Eq "$email_pattern"; then
+        return 0
+    fi
+    return 1
+}
+
+link_exists(){
+    if grep -q "^$1$" "$FILEPATH"; then
+        return 0
+    fi
+    return 1
+}
+
+open_file_in_editor(){
+    [ "$1" != "" ] && EDITOR="$1"
+    $EDITOR "$FILEPATH"
+}
+
+encrypt_bookmarks(){
+    [ "$GITSYNC" != "true" ] && return 1
+    recipient="$(use_git config user.email)"
+    if ! is_valid_email "$recipient"; then 
+        notify "Failed to encrypt" "$recipient is not a valid recipient, should be a valid email" critical    
+        return 1
+    fi
+    /usr/bin/shred -u "$FILEPATH.gpg"
+    gpg -r "$recipient" -e "$FILEPATH" || return 1
+    use_git add "$DIRECTORY/.gitignore" || return 1
+    use_git add "$FILEPATH.gpg" || return 1
+}
+
+
+decrypt_file(){
+    gpg -d "$FILEPATH.gpg" >> "$FILEPATH"
+    total_bookmarks=$(cat "$FILEPATH" | wc -l)
+    if [ $? -eq 0 ]; then
+        notify "Successfully decrypted bookmarks" "🔖 $total_bookmarks bookmarks"
+        return 0
+    else
+        notify "🚨 Failed to decrypt bookmarks" "🔖 $total_bookmarks bookmarks" critical
+        return 1
+    fi
+}
+
+decrypt_bookmarks(){
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+            --overwrite)
+                OVERWRITE="true"
+                shift 
+                ;;
+            --append)
+                APPEND="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+
+    # 1. File exists
+    if [ -e "$FILEPATH" ]; then
+            #1.  file is already empty we will add it to file
+            if [ "$total_bookmarks" -eq 0 ]; then
+                rm -f "$FILEPATH"
+                decrypt_file
+            else 
+                #2. File is not empty
+                if [ "$OVERWRITE" = "true" ]; then
+                    mv "$FILEPATH" "$FILEPATH.bak"
+                    decrypt_file  && rm -f "$FILEPATH.bak"
+                elif [ "$APPEND" = "true" ]; then
+                    mv "$FILEPATH" "$FILEPATH.tmp1"
+                    decrypt_file 
+                    mv "$FILEPATH" "$FILEPATH.tmp2"
+                    cat "$FILEPATH.tmp1" > "$FILEPATH"
+                    cat "$FILEPATH.tmp2" >> "$FILEPATH"
+                    rm -f "$FILEPATH.tmp1" "$FILEPATH.tmp2"
+                else
+                    notify "File already exists" "pass: --overwrite or --append"
+                fi
+            fi
+    else 
+        # file does not exists
+        decrypt_file
+    fi        
+}
+
+sync_encrypted(){
+    [ "$GITSYNC" != "true" ] && return 0
+    if ! encrypt_bookmarks; then 
+        notify "Failed to encrypt" "$1" critical
+        return 1
+    fi
+
+    total_bookmarks=$(cat "$FILEPATH" | wc -l)
+    datetime="$(date +"%a %d %h %H:%M:%S")"
+    use_git commit -m "$total_bookmarks 🔖 added link at $datetime"
+    use_git push origin master
+    if [ $? -eq 0 ]; then
+        notify "🚀 Pushed to github" "$1"
+        exit 0
+    else
+        notify "🚨 Failed to push to github" "$1" critical
+        exit 1
+    fi
+}
+
+export_from_chrome(){
+    if [ $# -lt 2 ]; then
+        notify "Failed to export bookamarks" "Usage: $0 --export input output" critical
+        return 1
+    fi
+
+    input_file="$1"
+    output_file="$2"
+    shift 2
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+
+    if [ ! -f "$input_file" ]; then
+        notify "Unable to export links" "'$input_file' file does not exists" critical
+        return 1
+    fi
+
+    awk -F 'HREF="' '/HREF=/{print $2;}' "$input_file" | awk -F '"' '{print $1;}' >>"$output_file"
+    echo "Bookmarks exported to $output_file"
+    notify "Bookmarks exported" "saved in '$output_file'"
+}
+
+
+save_link(){
+    [ "$1" = "" ] && return 1
+    if ! is_valid_link "$1"; then
+        notify "Not a valid url" "$1" critical
+        return 1
+    fi
+
+    if link_exists "$1"; then 
+        notify "Link already exists" "$1" critical
+        return 1
+    fi
+
+    echo "$1" >>"$FILEPATH"
+    notify "Link added" "$1" critical
+
+    [ "$GITSYNC" != "true" ] && return 0
+
+    sync_encrypted "$1"
+}
+
+remove_link(){
+    [ "$1" = "" ] && return 1
+
+    if ! is_valid_link "$1"; then
+        notify "Not a valid url" "$1" critical
+        return 1
+    fi
+    if ! link_exists "$1"; then 
+        notify "Link does not exists" "$1" critical
+        return 1
+    fi
+
+    awk -v link="$1" '$0 != link' "$FILEPATH" > "$FILEPATH.tmp" && mv "$FILEPATH.tmp" "$FILEPATH"
+    notify "Bookmark deleted" "$1"
+
+    [ "$GITSYNC" != "true" ] && return 0
+
+    if ! encrypt_bookmarks; then 
+        notify "Failed to encrypt" "$1" critical
+        return 1
+    fi
+
+    total_bookmarks=$(cat "$FILEPATH" | wc -l)
+    datetime="$(date +"%a %d %h %H:%M:%S")"
+    use_git commit -m "$total_bookmarks 🔥 removed link at $datetime"
+
+    [ "$COPY" = "true" ] && echo "$1" | xclip -selection clipboard
+
+    use_git push origin master
+    if [ $? -eq 0 ]; then
+        notify "🚀 Pushed to github" "🔖: $1"
+        exit 0
+    else
+        notify "🚨 Failed to push to github" "🔖: $1" critical
+        exit 1
+    fi
+}
+
+# Usage: rofi_select_bookmark --notify --copy --type --visit  
+rofi_select_bookmark() {
+    local prompt_select="Select bookmark: "
+    selected_bookmark="$(cat "$FILEPATH" | rofi -dmenu -p "$prompt_select" -theme "$ROFI_THEME")"
+    [ "$selected_bookmark" = "" ] && return 1
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+            --type)
+                TYPE="true"
+                shift 
+                ;;
+            --visit)
+                VISIT="true"
+                TYPE="false"
+                shift 
+                ;;
+            --visit-in=*)
+               BROWSER="${1#*=}"
+                shift
+               ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+    
+    [ "$COPY" = "true" ] && echo "$selected_bookmark" | xclip -selection clipboard
+    [ "$TYPE" = "true" ] && xdotool type --clearmodifiers --delay 20 "  $selected_bookmark"
+    # [ "$VISIT" = "true" ] && xdg-open "$selected_bookmark" &
+    [ "$VISIT" = "true" ] && "$BROWSER" "$selected_bookmark" &
+}
+
+# Usage: insert_bookmark --notify --copy  
+insert_bookmark(){
+    [ "$1" = "" ] && return 1
+    new_link="$1"
+    shift
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+            --copy)
+                COPY="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+
+    [ "$COPY" = "true" ] && echo "$new_link" | xclip -selection clipboard
+    save_link "$new_link"
+}
+
+rofi_insert_bookmark(){
+    local prompt_insert="Insert bookmark: "
+    new_link=$(rofi -dmenu -p "$prompt_insert" -theme "$ROFI_THEME")
+    insert_bookmark "$new_link" "$@"
+}
+
+# Usage: rofi_remove_bookmark --notify --copy
+rofi_remove_bookmark(){
+    local prompt_delete="Delete bookmark: "
+    link_to_delete="$(cat "$FILEPATH" | rofi -dmenu -p "$prompt_delete" -theme "$ROFI_THEME")"
+    [ "$link_to_delete" = "" ] && return 1
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+            --copy)
+                COPY="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+
+    [ "$COPY" = "true" ] && echo "$link_to_delete" | xclip -selection clipboard
+    remove_link "$link_to_delete"
+}
+
+rofi_show_as_dmneu(){
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+            --copy)
+                COPY="true"
+                shift 
+                ;;
+            --visit)
+                VISIT="true"
+                TYPE="false"
+                shift 
+                ;;
+            --type)
+                TYPE="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+
+    # options
+    _visit="visit bookmark"
+    _select="select bookmark"
+    _insert="insert bookmark"
+    _remove="remove bookmark"
+    _sync="sync bookmarks"
+    _open="open bookmarks"
+
+    local prompt_show_as_dmenu="Bookmark Manager"
+    selected_option=$(echo -e "$_visit\n$_select\n$_insert\n$_remove\n$_sync\n$_open" | rofi -dmenu -p "$prompt_show_as_dmenu" -theme "$ROFI_THEME" )
+
+    case "$selected_option" in 
+        "$_visit")
+            rofi_select_bookmark --visit "$@"
+        ;;
+        "$_select")
+            rofi_select_bookmark "$@"
+        ;;
+        "$_insert")
+            rofi_insert_bookmark "$@"
+        ;;
+        "$_remove")
+            rofi_remove_bookmark "$@"
+        ;;
+        "$_sync")
+            sync_encrypted "$@"
+        ;;
+        "$_open")
+            open_file_in_editor "$@"
+        ;;
+    esac
+}
+
+
+
+
+init_repo(){
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+    if [ -d "$BARE_GITREPO" ];then
+        notify "Repository initialization failed" "Bare git repository already exits" critical
+        echo "Bare git repository already exits in $BARE_GITREPO"
+        exit 1
+    else
+        /usr/bin/git init --bare "$BARE_GITREPO"
+        use_git remote add origin "$GIT_REPO"
+        use_git config --local status.showUntrckedFiles no
+        printf "/**\n!.gitignore\n!bookmarks.gpg" >> "$DIRECTORY/.gitignore"
+        notify "Repository initialized" "$BARE_GITREPO"
+        exit 0
+    fi
+}
+
+restore_repo(){
+    while [[ $# -gt 0 ]]; do
+        case "$1" in 
+            --notify)
+                NOTIFY="true"
+                shift 
+                ;;
+             *)
+                shift
+                ;;
+        esac
+    done
+    
+    if [ -d "$GIT_REPO" ]; then 
+        notify "Repository already exists" "use or do something about it" critical
+        echo "Bare git repository already exits in $BARE_GITREPO"
+        exit 1
+    fi
+    
+    /usr/bin/git clone --bare "$BARE_GITREPO"
+    use_git checkout
+    if [ $? -eq 0 ]; then
+        use_git pull
+    else
+        notify "Fix git checkouts" "$BARE_GITREPO" critical
+        echo "Fix git checkouts $BARE_GITREPO"
+        exit 1
+    fi
+}
+
+show_usage(){
+    echo "Usage: $0 [options]"
+    echo ""
+    echo "Options:"
+    echo "  --select    : Select a bookmark and copy it to clipboard."
+    echo "  --visit     : Select a bookmark and open it in the default web browser."
+    echo "  --insert    : Manually insert a new bookmark."
+    echo "  --remove    : Delete a bookmark."
+    echo "  --dmenu     : Open the bookmark management menu using Rofi."
+    echo "  --sync      : Sync encrypted bookmarks to Git repository."
+    echo "  --open      : Open the bookmark file in a text editor."
+    echo "  --export-chrome input.html output : Export bookmarks from a Chrome HTML file."
+    echo ""
+    echo "Examples:"
+    echo "  $0 --select --visit"
+    echo "  $0 --select --type"
+    echo "  $0 --select --copy --notify"
+    echo "  $0 --insert"
+    echo "  $0 --insert --copy --notify"
+    echo "  $0 --remove"
+    echo "  $0 --remove --notify"
+    echo "  $0 --remove --copy --notify"
+    echo "  $0 --dmenu --type"
+    echo "  $0 --dmenu --visit"
+    echo "  $0 --dmenu --copy --type"
+    echo "  $0 --dmenu --copy --visit"
+    echo "  $0 --sync --notify"
+    echo "  $0 --open mousepad"
+    echo "  $0 --open 'alacritty -e nvim'"
+    echo "  $0 --export-chrome input.html output"
+    echo "  $0 --export-chrome input.html output --notify"
+    echo ""
+}
+
+case "$1" in 
+    --select)
+        # can be passed: --copy --notify --visit --type --visit-in=browsername
+        rofi_select_bookmark "$2" "$3" "$4" "$5" "$6"
+        ;;
+    --insert)
+        # can be passed: --copy --notify
+        highlighted_text="$(xclip -o)"
+        insert_bookmark "$highlighted_text" "$2" "$3"
+        ;;
+    --remove)
+        # can be passed: --copy --notify
+        rofi_remove_bookmark "$2" "$3"
+        ;;
+    --dmenu)
+        # can be passed: --copy --visit --type --notify
+        rofi_show_as_dmneu "$2" "$3" "$4" "$5"
+        ;;
+    --sync)
+        # can be passed: --notify
+        sync_encrypted "$3"
+        ;;
+    --open)
+        # can be passed any code editor or launch command:
+        # 'alacritty -e nvim' , code, mousepad
+        open_file_in_editor "$2"
+        ;;
+    --export-chrome)
+        # chrome-bookmarks.html "output" --notify
+        export_from_chrome "$2" "$3" "$4"
+        ;;
+    --decrypt)
+        # can be passed: --notify --overwrite --append
+        decrypt_bookmarks "$2" "$3" "$4"
+        ;;
+    --init-repo)
+        # not tested yet
+        # can be passed: --notify
+        init_repo "$2" 
+        ;;
+    --restore-repo)
+        # not tested yet
+        # can be passed: --notify 
+        restore_repo "$2"
+        ;;
+     *)
+        show_usage
+        exit 1
+        ;;
+esac

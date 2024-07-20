@@ -1,0 +1,182 @@
+#!/bin/sh
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+ROFI_THEME="$HOME/.config/rofi/themes/dmenu.rasi"
+
+# Default length,
+# can be changed through --length=50
+# keep it empty if you want rofi menu to ask while generation
+LENGTH=""
+
+PROMPT="🔑 Search passwords"
+PROMPT_REMOVE="➖ Delete password"
+
+PROMPT_GENERATE="Enter generation length"
+
+PROMPT_ADD_ENTRY_NAME="Create new credentials for"
+PROMPT_ADD_USERNAME="Enter username"
+PROMPT_ADD_LENGTH="Enter password length"
+
+NOTIFY="true"
+TYPE=""
+COPY=""
+TYPE_DELAY_IN_MS="20"
+
+# Keep these empty, if true, that method will be performed
+SELECT=""   # Get password and copy to clipboard | or type
+ADD=""      # Add new username and password to bitwarden
+REMOVE=""   # Remove/Delete saved creds from bitwarden
+GENERATE="" # Generate new password and copy to clipboard
+SYNCNOW=""  # To sync with bitwarden
+PHRASE=""   # Generate password only using words
+
+notify() {
+	level="$3"
+	[ "$level" = "" ] && level="normal"
+	[ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--notify)
+		NOTIFY="true"
+		shift
+		;;
+	--notify=*)
+		NOTIFY="${1#*=}"
+		shift
+		;;
+	--select)
+		SELECT="true"
+		shift
+		;;
+	--copy)
+		COPY="true"
+		shift
+		;;
+	--add)
+		ADD="true"
+		shift
+		;;
+	--generate)
+		GENERATE="true"
+		shift
+		;;
+	--phrase)
+		PHRASE="true"
+		shift
+		;;
+	--length=*)
+		LENGTH="${1#*=}"
+		shift
+		;;
+	--remove)
+		REMOVE="true"
+		shift
+		;;
+	--sync)
+		SYNCNOW="true"
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+sync_now() {
+	if [ "$SYNCNOW" = "true" ]; then
+		rbw sync
+		notify "Password Manager Synced"
+	fi
+}
+
+sync_now
+
+if [ "$GENERATE" = "true" ]; then
+	if [ -z "$LENGTH" ]; then
+		LENGTH="$(rofi -dmenu -p "$PROMPT_GENERATE" -theme "$ROFI_THEME")"
+		[ -z "$LENGTH" ] && exit 0
+		if ! [ "$LENGTH" -eq "$LENGTH" ] 2>/dev/null; then
+			notify "Generation failed" "$LENGTH is not a valid number" critical
+			exit 1
+		fi
+	fi
+	GENERATED="$(tr -dc 'a-zA-Z0-9_@&' </dev/urandom | head -c $LENGTH)"
+	if [ "$PHRASE" = "true" ]; then
+		GENERATED="$(rbw generate "$LENGTH" --diceware)"
+	fi
+	echo "$GENERATED" | xclip -selection clipboard
+	[ "$NOTIFY" = "true" ] && notify " 🔑 Password copied to clipboard" "$SELECTED"
+	exit 0
+fi
+
+if [ "$REMOVE" = "true" ]; then
+	rbw unlock
+	SELECTED_TO_REMOVE=$(rbw list | rofi -dmenu -p "$PROMPT_REMOVE" -theme "$ROFI_THEME")
+	[ -z "$SELECTED_TO_REMOVE" ] && exit 0
+	PROMPT_REMOVE_CONFIRM="❗ Delete '$SELECTED_TO_REMOVE' permanently from password database ?"
+	CONFIRM_REMOVE=$(printf "yes\nno" | rofi -dmenu -p "$PROMPT_REMOVE_CONFIRM" -theme "$ROFI_THEME")
+	[ "$CONFIRM_REMOVE" != "yes" ] && exit 0
+	PASSWORD="$(rbw get "$SELECTED_TO_REMOVE")"
+	rbw remove "$SELECTED_TO_REMOVE"
+	if [ $? -eq 0 ]; then
+		notify "✅ '$SELECTED_TO_REMOVE' permanently deleted from password database"
+		[ "$COPY" = "true" ] && echo "$PASSWORD" | xclip -selection clipboard
+		[ "$NOTIFY" = "true" ] && [ "$COPY" = "true" ] && notify " 🔑 Password copied to clipboard" "$SELECTED_TO_REMOVE"
+		exit 0
+	else
+		notify "🚨 Failed to delete credentials for $SELECTED_TO_REMOVE" " " critical
+		exit 1
+	fi
+fi
+
+if [ "$ADD" = "true" ]; then
+	ENTRY_NAME="$(rofi -dmenu -p "$PROMPT_ADD_ENTRY_NAME" -theme "$ROFI_THEME")"
+	[ -z "$ENTRY_NAME" ] && exit 0
+	USERNAME="$(rofi -dmenu -p "$PROMPT_ADD_USERNAME" -theme "$ROFI_THEME")"
+	[ -z "$USERNAME" ] && notify "Username name can not be empty" "$USERNAME" && exit 0
+	if [ -z "$LENGTH" ]; then
+		LENGTH="$(rofi -dmenu -p "$PROMPT_ADD_LENGTH" -theme "$ROFI_THEME")"
+		[ -z "$LENGTH" ] && notify "Length can not be empty" "$LENGTH" && exit 0
+		if ! [ "$LENGTH" -eq "$LENGTH" ] 2>/dev/null; then
+			notify "Password creation failed" "$LENGTH is not a valid number" critical
+			exit 1
+		fi
+	fi
+
+	PROMPT_ADD_CONFIRM="Is this correct? Entry: $ENTRY_NAME | Username: $USERNAME | Length: $LENGTH"
+	CONFIRM_ADD=$(printf "yes\nno" | rofi -dmenu -p "$PROMPT_ADD_CONFIRM" -theme "$ROFI_THEME")
+	[ "$CONFIRM_ADD" != "yes" ] && exit 0
+	rbw unlock
+	if [ "$PHRASE" = "true" ]; then
+		rbw generate "$LENGTH" "$ENTRY_NAME" "$USERNAME" --diceware
+	else
+		rbw generate "$LENGTH" "$ENTRY_NAME" "$USERNAME"
+	fi
+
+	PASSWORD="$(rbw get "$ENTRY_NAME")"
+
+	if [ $? -eq 0 ]; then
+		notify "✅ Add new credentials for $ENTRY_NAME" "Copied to clioboard"
+		PASSWORD="$(rbw get "$ENTRY_NAME")"
+		[ "$COPY" = "true" ] && echo "$PASSWORD" | xclip -selection clipboard
+		[ "$NOTIFY" = "true" ] && [ "$COPY" = "true" ] && notify " 🔑 Password copied to clipboard" "$ENTRY_NAME"
+		exit 0
+	else
+		notify "🚨 Failed to create credentials" " " critical
+		exit 1
+	fi
+fi
+
+if [ "$SELECT" = true ]; then
+	rbw unlock
+	SELECTED=$(rbw list | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME")
+	[ "$SELECTED" = "" ] && exit 0
+	PASSWORD="$(rbw get "$SELECTED")"
+	[ "$COPY" = "true" ] && echo "$PASSWORD" | xclip -selection clipboard
+	[ "$NOTIFY" = "true" ] && [ "$COPY" = "true" ] && notify " 🔑 Password copied to clipboard" "$SELECTED"
+	[ "$TYPE" = "true" ] && xdotool type --clearmodifiers --delay "$TYPE_DELAY_IN_MS" "$PASSWORD"
+	exit 0
+fi

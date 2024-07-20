@@ -1,0 +1,22 @@
+/**
+ *
+ * Author : Ankur Kumar (SirJager)
+ * Github : @SirJager
+ *
+ **/
+
+* {
+    font:               "JetBrainsMono Nerd Font 14px";
+    main-bg:            #1E1E2E;
+    main-fg:            #CDD6F4;
+    border-color:       #EBA0AC;
+    border-radius:      8px;
+
+    selected-bg:        #EBA0AC;
+    selected-fg:        #1E1E2E;
+
+    alt-bg:             #1E1E2E;
+    alt-fg:             #B4BEFE;
+
+    scrollbar-color:    #EBA0AC;
+}
