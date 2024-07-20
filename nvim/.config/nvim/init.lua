@@ -7,8 +7,8 @@ spec("dope.core.notify")
 
 spec "dope.theme"
 spec "dope.core.alpha"
-spec "dope.core.bufferline"
 spec "dope.core.windline"
+spec "dope.core.bufferline"
 spec "dope.core.whichkey"
 
 spec "dope.core.devicons"
@@ -16,7 +16,7 @@ spec "dope.core.neotree"
 spec "dope.core.illuminate"
 spec "dope.core.telescope"
 spec "dope.core.tmuxnavigator"
-spec "dope.core.yazi"
+-- spec "dope.core.yazi"
 
 spec "dope.lsps.treesitter"
 spec "dope.lsps.mason"
@@ -38,8 +38,12 @@ spec "dope.lsps.autotags"
 
 spec "dope.core.obsidian"
 
+spec "dope.xtra.harpoon"
 spec "dope.xtra.codeium"
+spec "dope.xtra.tabnine"
+spec "dope.xtra.modicator"
 spec "dope.xtra.hlchunk"
+spec "dope.xtra.indentline"
 spec "dope.xtra.wakatime"
 -- spec "dope.xtra.flash"
 -- spec "dope.xtra.zenmode"

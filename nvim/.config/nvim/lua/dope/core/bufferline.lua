@@ -1,8 +1,10 @@
 local M = {
   "akinsho/bufferline.nvim",
+  lazy=false,
 }
 
 function M.config()
+  vim.opt.termguicolors = true
   require("bufferline").setup {
     options = {
       separator_style = "thin", -- slant, padded_slant, slope, padded_slope, thick, thin

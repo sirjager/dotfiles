@@ -41,6 +41,10 @@ function M.config()
   require("luasnip/loaders/from_vscode").lazy_load()
   require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
 
+  vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+  vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
+  vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
+
   vim.opt.completeopt = "menu,menuone,noselect"
 
   cmp.setup {
@@ -114,6 +118,11 @@ function M.config()
             vim_item.kind_hl_group = "CmpItemKindCopilot"
           end
 
+          if entry.source.name == "cmp_tabnine" then
+            vim_item.kind = icons.misc.Robot
+            vim_item.kind_hl_group = "CmpItemKindTabnine"
+          end
+
           if entry.source.name == "copilot" then
             vim_item.kind = icons.mics.Copilot
             vim_item.kind_hl_group = "CmpItemKindCopilot"
@@ -159,8 +168,8 @@ function M.config()
         end,
       },
       { name = "luasnip" }, -- snippets completions
-      -- { name = "codeium" }, -- completions from codeium
-      -- { name = "cmp_tabnine" }, -- completions from tabnine ai
+      { name = "codeium" }, -- completions from codeium
+      { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions
       -- { name = "async_path" }, -- filesystem path completions

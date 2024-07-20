@@ -28,16 +28,20 @@ function M.config()
 
   telescope.setup {
     defaults = {
+      initial_mode = "insert",
+      selection_strategy = "reset",
+      path_display = { "smart" },
+      color_devicons = true,
       vimgrep_arguments = {
         "rg",
-        "--color=always",
+        "--color=never",
         "--no-heading",
         "--with-filename",
         "--line-number",
         "--column",
         "--smart-case",
-        -- "--no-ignore",
-        -- "--hidden",
+        "--hidden",
+        "--glob=!.git/",
       },
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
@@ -56,26 +60,67 @@ function M.config()
       oldfiles = {
         prompt_title = "Recent files",
         prompt_prefix = "   ",
+        theme = "dropdown",
       },
       find_files = {
         prompt_title = "Find files",
         prompt_prefix = "   ",
+        previewer = false,
+        theme = "dropdown",
       },
       live_grep = {
         prompt_title = "Live grep",
         prompt_prefix = "   ",
+        theme = "dropdown",
       },
       help_tags = {
         prompt_title = "Help tags",
         prompt_prefix = " 󰘥  ",
+        theme = "dropdown",
       },
       colorscheme = {
         prompt_title = "Color schemes",
         prompt_prefix = "   ",
+        theme = "dropdown",
+        enable_preview = true,
       },
       keymaps = {
         prompt_title = "Key bindings",
         prompt_prefix = " 󰌓  ",
+        theme = "dropdown",
+      },
+
+      buffers = {
+        theme = "dropdown",
+        previewer = false,
+        initial_mode = "normal",
+        mappings = {
+          i = {
+            ["<C-d>"] = actions.delete_buffer,
+          },
+          n = {
+            ["dd"] = actions.delete_buffer,
+          },
+        },
+      },
+
+      lsp_references = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+      lsp_definitions = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+
+      lsp_declarations = {
+        theme = "dropdown",
+        initial_mode = "normal",
+      },
+
+      lsp_implementations = {
+        theme = "dropdown",
+        initial_mode = "normal",
       },
     },
     mappings = {

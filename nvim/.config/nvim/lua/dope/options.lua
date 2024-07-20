@@ -56,7 +56,6 @@ local options = {
   writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
 
-
 -- prevents error when plugins in not installed
 for k, v in pairs(options) do
   local status, _ = pcall(function()
@@ -76,6 +75,8 @@ vim.opt.path:append { "**" } -- find files, search down into subfolders
 
 vim.opt.wildignore:append { "*/.git/*" }
 vim.opt.wildignore:append { "*/node_modules/*" }
+vim.opt.fillchars = vim.opt.fillchars + "eob: "
+vim.opt.fillchars:append { stl = " " }
 
 -- undercurl
 vim.cmd [[ let &t_Cs = "\e[4:3m]" ]]
@@ -84,8 +85,11 @@ vim.cmd [[ let &t_Ce = "\e[4:0m]" ]]
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 
-vim.g.loaded_netrwPlugin = 0
 vim.o.autoread = true
+vim.g.netrw_banner = 0
+vim.g.netrw_mouse = 2
+vim.g.loaded_netrwPlugin = 0
+
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
   pattern = { "*" },
