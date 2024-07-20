@@ -91,7 +91,7 @@ M.keymaps = {
     ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-y>"] = { ":lua Toggle_WrapLines()<CR>", "toggle wrap lines" },
-    ["<A-o>"] = { ":Neotree close<CR>:Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
+    ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
     ["<A-u>"] = { ":NvimTreeClose<CR> :DBUIToggle<CR>", "toggle database ui" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 10000})<CR>", "format without saving" },
@@ -150,126 +150,92 @@ M.keymaps = {
 }
 
 M.which_keymaps = {
-  -- e = { ":NvimTreeToggle<CR>", "toggle file explorer" },
-  e = { ":Neotree toggle<CR>", "toggle file explorer" },
-  r = { ":luafile %<CR>", "source current luafile" },
+  -- NOTE: File Explorer
+  { "<leader>e", ":Neotree toggle<CR>", mode = "n", desc = "toggle file explorer" },
 
-  o = {
-    name = "obsidian",
-    d = { "<CMD>ObsidianFollowLink<CR>", "follow link" },
-    t = { "<CMD>ObsidianTags<CR>", "list tags" },
-    o = { "<CMD>ObsidianQuickSwitch<CR>", "switch markdown" },
-    l = { "<CMD>ObsidianBackLink<CR>", "backlinks" },
-    s = { "<CMD>ObsidianSearch<CR>", "search markdowns" },
-    b = { ":lua require'obsidian'.util.toggle_checkbox()<CR>", "toggle checkbox" },
-    a = { ":lua require('obsidian').util.smart_action()<CR>", "smart actions" },
-  },
+  -- NOTE: Obsidian
+  { "<leader>o", group = "obsidian", desc = "obsidian" },
+  { "<leader>od", "<CMD>ObsidianFollowLink<CR>", desc = "follow link" },
+  { "<leader>ot", "<CMD>ObsidianTags<CR>", desc = "list tags" },
+  { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>", desc = "switch markdown" },
+  { "<leader>ol", "<CMD>ObsidianBackLink<CR>", desc = "list links" },
+  { "<leader>os", "<CMD>ObsidianSearch<CR>", desc = "search markdown" },
+  { "<leader>ob", ":lua require'obsidian'.util.toggle_checkbox()<CR>", desc = "toggle checkbox" },
+  { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", desc = "smart action" },
 
-  d = {
-    name = "debugging",
-    u = { "<CMD> DapUiToggle<CR>", "toggle dap ui" },
-    b = { "<cmd> DapToggleBreakpoint <CR>", "toggle breakpoint" },
-    c = { "<cmd> DapContinue <CR>", "debug continue" },
-    t = { "<cmd> DapTerminate <CR>", "debug terminate" },
-    l = { "<cmd> DapShowLog <CR>", "debug show log" },
-    i = { "<cmd> DapStepInto <CR>", "debug step into" },
-    j = { "<cmd> DapStepOver <CR>", "debug step over" },
-    o = { "<cmd> DapStepOut <CR>", "debug step out" },
-  },
+  -- NOTE: Debugging
+  { "<leader>d", group = "debugging", desc = "debugging" },
+  { "<leader>du", "<CMD>DapUiToggle<CR>", desc = "toggle dap ui" },
+  { "<leader>db", "<cmd>DapToggleBreakpoint<CR>", desc = "toggle breakpoint" },
+  { "<leader>dc", "<cmd>DapContinue<CR>", desc = "debug continue" },
+  { "<leader>dt", "<cmd>DapTerminate<CR>", desc = "debug terminate" },
+  { "<leader>dl", "<cmd>DapShowLog<CR>", desc = "debug show log" },
+  { "<leader>di", "<cmd>DapStepInto<CR>", desc = "debug step into" },
+  { "<leader>dj", "<cmd>DapStepOver<CR>", desc = "debug step over" },
+  { "<leader>do", "<cmd>DapStepOut<CR>", desc = "debug step out" },
 
-  g = {
-    name = "golang",
-    t = { ":GoAddTag<CR>", "add tags" },
-    j = { ":GoAddTag json<CR>", "add json tags" },
-    b = { ":GoAddTag bson<CR>", "add bson tags" },
-    y = { ":GoAddTag yaml<CR>", "add yaml tags" },
-    d = { ":GoAddTag bindings<CR>", "add bindings tags" },
-    x = { ":GoRmTag<CR>", "remove tags" },
-    e = { ":GoIfErr<CR>", "add error check" },
-    f = { ":GoFixPlurals<CR>", "fix func args" }, -- change func foo(b int, a int, r int) -> func foo(b, a, r int)
-    r = { ":GoRun ./cmd<CR>", "run code" },
-    s = { ":GoStop<CR>", "stop running code" },
-    g = { ":GoModTidy<CR>", "mod tidy" },
-    v = { ":GoModVendor<CR>", "mod vendor" },
-    i = { ":GoImpl<CR>", "implement struct" },
-  },
+  -- NOTE: Golang
+  { "<leader>g", group = "golang", desc = "golang" },
+  { "<leader>gt", ":GoAddTag<CR>", desc = "add tags" },
+  { "<leader>gj", ":GoAddTag json<CR>", desc = "add json tags" },
+  { "<leader>gb", ":GoAddTag bson<CR>", desc = "add bson tags" },
+  { "<leader>gy", ":GoAddTag yaml<CR>", desc = "add yaml tags" },
+  { "<leader>gd", ":GoAddTag bindings<CR>", desc = "add bindings tags" },
+  { "<leader>gx", ":GoRmTag<CR>", desc = "remove tags" },
+  { "<leader>ge", ":GoIfErr<CR>", desc = "add error check" },
+  { "<leader>gf", ":GoFixPlurals<CR>", desc = "fix func args" },
+  { "<leader>gr", ":GoRun ./cmd<CR>", desc = "run code" },
+  { "<leader>gs", ":GoStop<CR>", desc = "stop running code" },
+  { "<leader>gg", ":GoModTidy<CR>", desc = "mod tidy" },
+  { "<leader>gv", ":GoModVendor<CR>", desc = "mod vendor" },
+  { "<leader>gi", ":GoImpl<CR>", desc = "implement struct" },
 
-  t = {
-    name = "typescript",
-    o = { ":TSToolsOrganizeImports<CR>", "organize imports" },
-  },
+  -- NOTE: Tests
+  { "<leader>v", group = "tests", desc = "tests" },
+  { "<leader>vn", ':lua require("neotest").run.run()<CR>', desc = "test nearest" },
+  { "<leader>va", ':lua require("neotest").run.attach()<CR>', desc = "attach nearest" },
+  { "<leader>vs", ':lua require("neotest").run.stop()<CR>', desc = "stop nearest" },
+  { "<leader>vc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', desc = "test current file" },
+  { "<leader>vd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', desc = "test nearest with debugger" },
+  { "<leader>vg", group = "go test", desc = "go test" },
+  { "<leader>vgn", ':lua require("dap-go").debug_test()<CR>', desc = "test nearest" },
+  { "<leader>vgl", ':lua require("dap-go").debug_last()<CR>', desc = "test last" },
 
-  v = {
-    name = "tests",
-    n = { ':lua require("neotest").run.run()<CR>', "test nearest" },
-    a = { ':lua require("neotest").run.attach()<CR>', "attach nearest" },
-    s = { ':lua require("neotest").run.stop()<CR>', "stop nearest" },
-    c = { ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "test current file" },
-    d = { ':lua require("neotest").run.run({strategy = "dap"})<CR>', "test nearest with debugger" },
+  -- NOTE: Telescope
+  { "<leader>s", group = "telescope", desc = "search" },
+  { "<leader>ss", ":Telescope find_files hidden=true no_ignore=false color=always<CR>", desc = "find files" },
+  { "<leader>sb", ":Telescope buffers<CR>", desc = "opened buffers" },
+  { "<leader>se", ":Telescope emoji<CR>", desc = "find emoji" },
+  { "<leader>sW", ":Telescope live_grep<CR>", desc = "find in workspace" },
+  { "<leader>so", ":Telescope oldfiles<CR>", desc = "recent files" },
+  { "<leader>sp", ":Telescope project<CR>", desc = "open project" },
+  { "<leader>sr", ":Telescope resume<CR>", desc = "resume search" },
+  { "<leader>sw", ":Telescope current_buffer_fuzzy_find<CR>", desc = "find in buffer" },
+  { "<leader>sh", ":Telescope help_tags<CR>", desc = "help tags" },
+  { "<leader>sk", ":Telescope keymaps<CR>", desc = "key bindings" },
+  { "<leader>sc", ":Telescope colorscheme<CR>", desc = "color schemes" },
+  { "<leader>sa", ":Telescope autocommands<CR>", desc = "auto commands" },
+  { "<leader>sC", ":Telescope commands<CR>", desc = "list commands" },
 
-    g = {
-      name = "go test",
-      n = { ':lua require("dap-go").debug_test()<CR>', "test nearest" },
-      l = { ':lua require("dap-go").debug_last()<CR>', "test last" },
-    },
-  },
+  -- NOTE: LSP
+  { "<leader>l", group = "lsp", desc = "lsp" },
+  { "<leader>li", ":LspInfo<CR>", desc = "lsp info" },
+  { "<leader>lr", ":LspRestart<CR>", desc = "restart lsp" },
+  { "<leader>ld", group = "diagnostics", desc = "diagnostics" },
+  { "<leader>ldd", ":Lspsaga show_buf_diagnostics<CR>", desc = "buf diagnostics" },
+  { "<leader>ldw", ":Lspsaga show_workspace_diagnostics<CR>", desc = "workspace diagnostics" },
+  { "<leader>ldl", ":Lspsaga show_line_diagnostics<CR>", desc = "line diagnostics" },
+  { "<leader>ldj", ":Lspsaga diagnostic_jump_next<CR>", desc = "next diagnostic" },
+  { "<leader>ldk", ":Lspsaga diagnostic_jump_prev<CR>", desc = "prev diagnostic" },
+  { "<leader>ldc", ":Lspsaga show_cursor_diagnostics<CR>", desc = "cursor diagnostics" },
 
-  s = {
-    name = "search",
-    s = { ":Telescope find_files hidden=true no_ignore=false color=always<CR>", "find files" }, -- most used
-    b = { ":Telescope buffers <CR>", "opened buffers" },
-    e = { ":Telescope emoji <CR>", "find emoji" },
-    W = { ":Telescope live_grep <CR>", "find in workspace" },
-    o = { ":Telescope oldfiles <CR>", "recent files" },
-    p = { ":Telescope project <CR>", "open project" },
-    r = { ":Telescope resume <CR>", "resume search" },
-    w = { ":Telescope current_buffer_fuzzy_find <CR>", "find in buffer" },
-    h = { ":Telescope help_tags <CR>", "help tags" },
-    k = { ":Telescope keymaps <CR>", "key bindings" },
-    c = { ":Telescope colorscheme <CR>", "color schemes" },
-    a = { ":Telescope autocommands <CR>", "auto commands" },
-    C = { ":Telescope commands <CR>", "list commands" },
-  },
-
-  l = {
-    name = "lsp",
-    i = { ":LspInfo<CR>", "lsp info" },
-    h = { ":Lspsaga hover_doc <CR>", "hover doc" }, -- most used 1
-    a = { ":CodeActionMenu<CR>", "code action" }, -- most used 2
-    o = { ":Lspsaga outline <CR>", "outline" },
-    r = { ":LspRestart<CR>", "restart lsp" },
-
-    d = {
-      name = "diagnostics",
-      d = { ":Lspsaga show_buf_diagnostics <CR>", "buf diagnostics" }, -- most used
-      w = { ":Lspsaga show_workspace_diagnostics <CR>", "workspace diagnostics" },
-      l = { ":Lspsaga show_line_diagnostics <CR>", "line diagnostics" },
-      j = { ":Lspsaga diagnostic_jump_next <CR>", "next diagnostic" },
-      k = { ":Lspsaga diagnostic_jump_prev <CR>", "prev diagnostic" },
-      c = { ":Lspsaga show_cursor_diagnostics <CR>", "cursor diagnostics" },
-    },
-
-    s = {
-      name = "live server",
-      l = { ":LiveServer<CR>", "live server" },
-      i = { ":LiveServerInstall<CR>", "live server install" },
-      s = { ":LiveServerStart<CR>", "start live server" },
-      t = { ":LiveServerStop<CR>", "stop live server" },
-    },
-
-    l = {
-      name = "lab:code runner",
-      r = { ":Lab code run<CR>", "start code runner" },
-      s = { ":Lab code stop<CR>", "stop code runner" },
-      p = { ":Lab code panel<CR>", "code runner panel" },
-    },
-
-    c = {
-      name = "calls",
-      i = { ":Lspsaga incoming_calls <CR>", "incoming calls" },
-      o = { ":Lspsaga outgoing_calls <CR>", "outgoing calls" },
-    },
-  },
+  -- NOTE: Tools
+  { "<leader>t", group = "tools", desc = "xtra tools" },
+  { "<leader>to", ":TSToolsOrganizeImports<CR>", desc = "organize imports" },
+  { "<leader>tls", ":LiveServer<CR>", desc = "live server" },
+  { "<leader>tli", ":LiveServerInstall<CR>", desc = "live server install" },
+  { "<leader>tlr", ":LiveServerStart<CR>", desc = "run live server" },
+  { "<leader>tlp", ":LiveServerStop<CR>", desc = "stop live server" },
 }
 
 return M
