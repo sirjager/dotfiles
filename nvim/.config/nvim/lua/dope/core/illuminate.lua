@@ -2,7 +2,6 @@ local M = {
   "RRethy/vim-illuminate",
 }
 
-
 function M.config()
   require("illuminate").configure {
     -- providers: provider used to get references in the buffer, ordered by priority

@@ -41,9 +41,11 @@ function M.config()
   require("luasnip/loaders/from_vscode").lazy_load()
   require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
 
+  -- NOTE: Highlight Groups
   vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
   vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
   vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
+  vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#6CC644" })
 
   vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -194,14 +196,14 @@ function M.config()
         side_padding = 0,
         col_offset = 0,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
-        winhighlight = "Normal:VertSplit,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
+        -- winhighlight = "Normal:Search,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
       },
 
       documentation = cmp.config.window.bordered {
         side_padding = 0,
         col_offset = 0,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
-        winhighlight = "Normal:VisualNC,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
+        -- winhighlight = "Normal:VisualNC,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
       },
     },
     experimental = {

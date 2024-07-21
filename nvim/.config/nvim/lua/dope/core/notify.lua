@@ -24,15 +24,16 @@ function M.config()
     top_down = true,
   }
 
-  local banned_messages = { "No information available" }
-  vim.notify = function(msg, ...)
-    for _, banned in ipairs(banned_messages) do
-      if msg == banned then
-        return
-      end
-    end
-    return notify
-  end
+  -- local banned_messages = { "No information available" }
+  -- local _notify = function(msg, ...)
+  --   for _, banned in ipairs(banned_messages) do
+  --     if msg == banned then
+  --       return
+  --     end
+  --   end
+  --   return notify
+  -- end
+  vim.notify = notify
 end
 
 return M

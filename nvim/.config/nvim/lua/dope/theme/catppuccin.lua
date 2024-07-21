@@ -1,35 +1,11 @@
 local M = {
-  "navarasu/onedark.nvim",
+  "catppuccin/nvim",
+  name = "catppuccin",
   lazy = false,
   priority = 1000,
-  dependencies = {
-    { "catppuccin/nvim", name = "catppuccin" },
-  },
 }
 
-M.onedark = {
-  style = "cool", -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-  transparent = true,
-  term_colors = true,
-  ending_tildes = true,
-  cmp_itemkind_reverse = true,
-  toggle_style_key = nil,
-  code_style = {
-    comments = "italic",
-    keywords = "bold",
-    functions = "italic",
-    strings = "none",
-    variables = "bold",
-  },
-  lualine = { transparent = true },
-  diagnostics = {
-    darker = true,
-    undercurl = true,
-    background = false,
-  },
-}
-
-M.catppuccin = {
+M.opts = {
   flavour = "auto", -- latte, frappe, macchiato, mocha
   background = { -- :h background
     light = "latte",
@@ -80,10 +56,9 @@ M.catppuccin = {
 }
 
 function M.config()
-  local theme = "onedark"
-  require(theme).setup(M[theme])
-  vim.o.background = "dark"
-  vim.cmd("colorscheme " .. theme)
+  local catppuccin = require "catppuccin"
+  catppuccin.setup(M.opts)
+  vim.cmd "colorscheme catppuccin"
   vim.cmd "hi LineNr guibg=none guifg=#8294C4"
 end
 

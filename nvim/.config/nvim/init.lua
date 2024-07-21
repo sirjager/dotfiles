@@ -1,11 +1,12 @@
 -- require "user"
 
 require "dope.spec"
+spec "dope.core.notify"
 require "dope.options"
 require("dope.keymaps").setup()
-spec("dope.core.notify")
 
-spec "dope.theme"
+spec "dope.theme.onedark"
+
 spec "dope.core.alpha"
 spec "dope.core.windline"
 spec "dope.core.bufferline"
@@ -43,8 +44,12 @@ spec "dope.xtra.codeium"
 spec "dope.xtra.tabnine"
 spec "dope.xtra.modicator"
 spec "dope.xtra.hlchunk"
-spec "dope.xtra.indentline"
+-- spec "dope.xtra.indentline"
 spec "dope.xtra.wakatime"
+spec "dope.xtra.colorizer"
+spec "dope.xtra.mdpreview"
+spec "dope.xtra.maximizer"
+spec "dope.xtra.cellular-automaton"
 -- spec "dope.xtra.flash"
 -- spec "dope.xtra.zenmode"
 -- spec "dope.xtra.twilight"

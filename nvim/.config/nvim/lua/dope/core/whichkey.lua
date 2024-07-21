@@ -2,13 +2,14 @@ local M = {
   "folke/which-key.nvim",
   init = function()
     vim.o.timeout = true
-    vim.o.timeoutlen = 1000
+    vim.o.timeoutlen = 2000
   end,
 }
 
 M.opts = {
   spec = require("dope.keymaps").which_keymaps,
-  modes = { x = false },
+  show_help = true, -- show a help message in the command line for using WhichKey
+  show_keys = true, -- show the currently pressed key and its label as a message in the command line
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -17,25 +18,63 @@ M.opts = {
       suggestions = 20, -- how many suggestions should be shown in the list?
     },
     presets = {
-      operators = false, -- adds help for operators like d, y, ...
-      motions = false, -- adds help for motions
-      text_objects = false, -- help for text objects triggered after entering an operator
-      windows = false, -- default bindings on <c-w>
-      nav = false, -- misc bindings to work with windows
-      z = false, -- bindings for folds, spelling and others prefixed with z
-      g = false, -- bindings for prefixed with g
+      operators = true, -- adds help for operators like d, y, ...
+      motions = true, -- adds help for motions
+      text_objects = true, -- help for text objects triggered after entering an operator
+      windows = true, -- default bindings on <c-w>
+      nav = true, -- misc bindings to work with windows
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
     },
   },
-  icons = { breadcrumb = "»", separator = "➜", group = "+" },
+  icons = {
+    breadcrumb = "»",
+    separator = "➜",
+    group = "+",
+    ellipsis = "...",
+    keys = {
+      Up = " ",
+      Down = " ",
+      Left = " ",
+      Right = " ",
+      C = "󰘴 ",
+      M = "󰘵 ",
+      D = "󰘳 ",
+      S = "󰘶 ",
+      CR = "󱞦 ",
+      Esc = "󱊷 ",
+      ScrollWheelDown = "󱕐 ",
+      ScrollWheelUp = "󱕑 ",
+      NL = "󱞦 ",
+      BS = "󰁮 ",
+      Space = "󱁐 ",
+      Tab = "󰌒 ",
+      F1 = "󱊫 ",
+      F2 = "󱊬 ",
+      F3 = "󱊭 ",
+      F4 = "󱊮 ",
+      F5 = "󱊯 ",
+      F6 = "󱊰 ",
+      F7 = "󱊱 ",
+      F8 = "󱊲 ",
+      F9 = "󱊳 ",
+      F10 = "󱊴 ",
+      F11 = "󱊵 ",
+      F12 = "󱊶 ",
+    },
+  },
   layout = {
     height = { min = 4, max = 25 }, -- min and max height of the columns
     width = { min = 20, max = 50 }, -- min and max width of the columns
     spacing = 2, -- spacing between columns
-    align = "left", -- align columns left, center or right
+    align = "center", -- align columns left, center or right
   },
-  show_help = true, -- show a help message in the command line for using WhichKey
-  show_keys = true, -- show the currently pressed key and its label as a message in the command line
-  triggers = "auto", -- automatically setup triggers
+  win = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+    wo = {
+      winblend = 0,
+    },
+  },
 }
 
 function M.config()

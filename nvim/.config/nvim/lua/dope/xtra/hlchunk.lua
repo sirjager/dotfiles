@@ -7,7 +7,6 @@ function M.config()
   require("hlchunk").setup {
     chunk = { enable = true },
     -- duration = 100,
-    delay = 50,
   }
 end
 

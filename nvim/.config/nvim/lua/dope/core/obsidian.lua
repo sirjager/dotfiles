@@ -47,7 +47,7 @@ end
 M.new_note_name_func = function(title)
   local suffix = ""
   if title ~= nil then
-    suffix = M.slugify(title)
+   suffix = M.slugify(title)
   else
     for _ = 1, 4 do
       suffix = suffix .. string.char(math.random(65, 90))

@@ -19,8 +19,8 @@ require("lazy").setup {
   change_detection = { enabled = true, notify = false },
   opts = {
     news = {
-      lazyvim = true,
-      neovim = true,
+      lazyvim = false,
+      neovim = false,
     },
   },
   checker = { enabled = true },
