@@ -23,7 +23,7 @@ require("lazy").setup {
       neovim = false,
     },
   },
-  checker = { enabled = true },
+  checker = { enabled = false },
   performance = {
     cache = {
       enabled = true,

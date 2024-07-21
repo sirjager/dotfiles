@@ -2,8 +2,8 @@ local M = {
   "epwalsh/obsidian.nvim",
   ft = { "markdown" },
   version = "*",
+  lazy = true,
   dependencies = { "nvim-lua/plenary.nvim" },
-  lazy = true
 }
 
 M.slugify = function(title)
@@ -15,21 +15,20 @@ end
 
 M.get_filename_without_ext = function(path)
   -- Remove the directory part
-  local filename = path:match("^.+/(.+)$")
+  local filename = path:match "^.+/(.+)$"
   if filename == nil then
     filename = path -- If there's no directory in the path, use the entire path
   end
   -- Remove the extension part
-  local name_without_ext = filename:match("(.+)%..+$")
+  local name_without_ext = filename:match "(.+)%..+$"
   if name_without_ext == nil then
     name_without_ext = filename -- If there's no extension, use the filename as is
   end
   return name_without_ext
 end
 
-
 M.custom_link_func = function(prefix, opts)
-  local util = require "obsidian.util";
+  local util = require "obsidian.util"
   local anchor = ""
   local header = ""
   local path = M.get_filename_without_ext(opts.path)
@@ -47,7 +46,7 @@ end
 M.new_note_name_func = function(title)
   local suffix = ""
   if title ~= nil then
-   suffix = M.slugify(title)
+    suffix = M.slugify(title)
   else
     for _ = 1, 4 do
       suffix = suffix .. string.char(math.random(65, 90))
@@ -58,7 +57,7 @@ end
 
 M.note_path_func = function(spec)
   local path = spec.dir / tostring(spec.id)
-  return path:with_suffix(".md")
+  return path:with_suffix ".md"
 end
 
 M.note_frontmatter_func = function(note)
@@ -74,13 +73,12 @@ M.note_frontmatter_func = function(note)
       out[k] = v
     end
   end
-  out.modified = os.date("%Y-%m-%dT%H:%M:%S.000Z")
+  out.modified = os.date "%Y-%m-%dT%H:%M:%S.000Z"
   return out
 end
 
-
 function M.config()
-  local util = require "obsidian.util";
+  local util = require "obsidian.util"
   require("obsidian").setup {
     workspaces = {
       {
@@ -91,9 +89,9 @@ function M.config()
           new_notes_location = "notes",
           notes_subdir = "notes",
           templates = {
-            folder = "templates"
+            folder = "templates",
           },
-        }
+        },
       },
       {
         name = "ankur-kumar",
@@ -106,8 +104,7 @@ function M.config()
           markdown_link_func = function(opts)
             return M.custom_link_func("/blog/", opts)
           end,
-
-        }
+        },
       },
       {
         name = "no-vault",
@@ -140,7 +137,6 @@ function M.config()
       return M.new_note_name_func(title)
     end,
 
-
     wiki_link_func = function(opts)
       return util.wiki_link_id_prefix(opts)
     end,
@@ -162,15 +158,13 @@ function M.config()
       folder = "templates",
       date_format = "%Y-%m-%d",
       time_format = "%H:%M",
-      substitutions = {
-
-      },
+      substitutions = {},
     },
 
     follow_url_func = function(url)
       -- Open the URL in the default web browser.
       -- vim.fn.jobstart({ "open", url }) -- Mac OS
-      vim.fn.jobstart({ "xdg-open", url }) -- linux
+      vim.fn.jobstart { "xdg-open", url } -- linux
     end,
 
     use_advanced_uri = false,
@@ -198,7 +192,7 @@ function M.config()
     open_notes_in = "vsplit",
 
     ui = {
-      enable = true,         -- set to false to disable all additional syntax features
+      enable = true, -- set to false to disable all additional syntax features
       update_debounce = 200, -- update delay after a text change (in milliseconds)
       checkboxes = {
         -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
@@ -265,7 +259,6 @@ function M.config()
         return string.format("![%s](%s)", path.name, path)
       end,
     },
-
   }
 end
 
