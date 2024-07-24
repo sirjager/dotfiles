@@ -23,6 +23,7 @@ end
 function M.common_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
   return capabilities
 end
 
@@ -36,13 +37,21 @@ function M.config()
   local icons = require "dope.icons"
 
   local servers = {
-    "lua_ls",
-    "cssls",
-    "html",
-    "tsserver",
-    "astro",
-    "jsonls",
     "bashls",
+    "bashls",
+    "cssls",
+    "cssmodules_ls",
+    "html",
+    "emmet_ls",
+    "tsserver",
+    "bufls",
+    "astro",
+    "lua_ls",
+    "graphql",
+    "sqlls",
+    "dockerls",
+    "docker_compose_language_service",
+    "jsonls",
     "yamlls",
     "gopls",
     "marksman",

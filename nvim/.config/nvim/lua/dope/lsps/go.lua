@@ -16,16 +16,17 @@ local M = {
 
 function M.config()
   local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  require("gopher").setup {}
+  -- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+
+  -- require("gopher").setup {}
   require("go").setup {
     lsp_cfg = { capabilities = capabilities },
-    disable_defaults = false, -- true|false when true set false to all boolean settings and replace all table
-    -- settings with {}
+    disable_defaults = false,
     go = "go",
     goimports = "gopls",
     fillstruct = false,
     gofmt = "golines",
-    max_line_len = 200,
+    max_line_len = 300,
     tag_transform = "snakecase",
     tag_options = "json=omitempty", -- sets options sent to gomodifytags, i.e., json=omitempty
     gotests_template = "", -- sets gotests -template parameter (check gotests for details)

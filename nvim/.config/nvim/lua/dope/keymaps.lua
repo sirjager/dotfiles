@@ -64,7 +64,6 @@ M.keymaps = {
     ["<A-9>"] = { "<CMD>BufferLineGoToBuffer 9<CR>", "go to 9 buffer" },
     ["<A-0>"] = { "<CMD>BufferLineGoToBuffer 10<CR>", "go to 10 buffer" },
 
-    -- Toggle Maximize Current Buffer
     ["<A-a>"] = { ":MaximizerToggle<CR>", "maximize / restore window" },
     ["<A-z>"] = { ":ZenMode<CR>", "toggle zen mode" },
     ["<A-t>"] = { ":TroubleToggle<CR>", "toggle trouble" },
@@ -206,12 +205,18 @@ M.which_keymaps = {
 
   -- NOTE: Tools
   { "<leader>t", group = "[T]ools", icon = " " },
-  { "<leader>to", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[O]rganize Typescript Imports" },
+  { "<leader>tto", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
 
-  { "<leader>tl", group = "[L]iver Server", icon = " " },
-  { "<leader>tli", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
-  { "<leader>tlr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
-  { "<leader>tls", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
+  { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
+  { "<leader>tlr", ":Lab code run<CR>", icon = " ", desc = "[R]un Code" },
+  { "<leader>tls", ":Lab code stop<CR>", icon = " ", desc = "[S]top Code" },
+  { "<leader>tlp", ":Lab code panel<CR>", icon = "󱗄 ", desc = "[P]anel Show" },
+  { "<leader>tlc", ":Lab code config<CR>", icon = " ", desc = "[C]onfig Lab" },
+
+  { "<leader>ts", group = "[S]erver Live", icon = " " },
+  { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
+  { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
+  { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
   { "<leader>tc", group = "[C]ellular Automaton", icon = " " },
   { "<leader>tcr", "<CMD>CellularAutomaton make_it_rain<CR>", icon = " ", desc = "[R]ain" },

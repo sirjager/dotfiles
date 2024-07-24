@@ -171,7 +171,7 @@ function M.config()
       },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
-      { name = "cmp_tabnine" }, -- completions from tabnine ai
+      -- { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions
       -- { name = "async_path" }, -- filesystem path completions
@@ -186,7 +186,7 @@ function M.config()
           capture_history = false,
         },
       },
-      { name = "emoji", option = { trigger_characters = { ":" } } },
+      -- { name = "emoji", option = { trigger_characters = { ":" } } },
     },
 
     confirm_opts = { behavior = cmp.ConfirmBehavior.Replace, select = true },
@@ -196,14 +196,12 @@ function M.config()
         side_padding = 0,
         col_offset = 0,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
-        -- winhighlight = "Normal:Search,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
       },
 
       documentation = cmp.config.window.bordered {
         side_padding = 0,
         col_offset = 0,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
-        -- winhighlight = "Normal:VisualNC,FloatBorder:VertSplit,CursorLine:IncSearch,Search:None",
       },
     },
     experimental = {
@@ -211,7 +209,7 @@ function M.config()
     },
   }
 
-  require("cmp").config.formatting = { format = require("tailwindcss-colorizer-cmp").formatter }
+  -- require("cmp").config.formatting = { format = require("tailwindcss-colorizer-cmp").formatter }
 end
 
 return M
