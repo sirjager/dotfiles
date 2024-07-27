@@ -64,7 +64,7 @@ M.keymaps = {
     ["<A-9>"] = { "<CMD>BufferLineGoToBuffer 9<CR>", "go to 9 buffer" },
     ["<A-0>"] = { "<CMD>BufferLineGoToBuffer 10<CR>", "go to 10 buffer" },
 
-    ["<A-a>"] = { ":MaximizerToggle<CR>", "maximize / restore window" },
+    ["<A-a>"] = { ":Maximize<CR>", "maximize / restore window" },
     ["<A-z>"] = { ":ZenMode<CR>", "toggle zen mode" },
     ["<A-t>"] = { ":TroubleToggle<CR>", "toggle trouble" },
     ["<A-P>"] = { "<CMD>BufferLineTogglePin<CR>", "toggle pin current buffer" },
@@ -191,7 +191,7 @@ M.which_keymaps = {
   { "<leader>sC", ":Telescope commands<CR>", icon = "󰘳 ", desc = "[C]ommannds List" },
 
   -- NOTE: LSP
-  { "<leader>l", group = "[L]SP", icon = "  " },
+  { "<leader>l", group = "[L]SP", icon = " " },
   { "<leader>li", ":LspInfo<CR>", icon = " ", desc = "[I]nfo" },
   { "<leader>lr", ":LspRestart<CR>", icon = " ", desc = "[R]estart" },
 
@@ -222,6 +222,27 @@ M.which_keymaps = {
   { "<leader>tcr", "<CMD>CellularAutomaton make_it_rain<CR>", icon = " ", desc = "[R]ain" },
   { "<leader>tcl", "<CMD>CellularAutomaton game_of_life<CR>", icon = " ", desc = "[L]ife" },
   { "<leader>tcs", "<CMD>CellularAutomaton scramble<CR>", icon = " ", desc = "[S]cramble" },
+
+
+  -- NOTE: Flutter Tools : https://github.com/akinsho/flutter-tools.nvim
+  { "<leader>f", group = "[F]lutter", icon = " " },
+  { "<leader>fr", ":FlutterRun<CR>", icon = " ", desc = "[R]un Code" },
+  { "<leader>fd", ":FlutterDevices<CR>", icon = " ", desc = "[D]evices List" },
+  { "<leader>fe", ":FlutterEmulators<CR>", icon = " ", desc = "[E]mulators List" },
+  { "<leader>fr", ":FlutterReload<CR>", icon = " ", desc = "[R]eload App" },
+  { "<leader>ft", ":FlutterRestart<CR>", icon = " ", desc = "Re[S]tart App" },
+  { "<leader>fq", ":FlutterQuit<CR>", icon = " ", desc = "[Q]uit Running Session" },
+  { "<leader>fo", ":FlutterOutlineToggle<CR>", icon = " ", desc = "[O]utline Toggle" },
+  { "<leader>fl", ":FlutterLspRestart<CR>", icon = " ", desc = "[L]sp Restart" },
+  { "<leader>fn", ":FlutterRename<CR>", icon = " ", desc = "Re[N]ame And Update Imports" },
+  { "<leader>fy", ":FlutterReanalyze<CR>", icon = " ", desc = "ReAnal[Y]ze Code" },
+  { "<leader>fu", ":FlutterSupper<CR>", icon = " ", desc = "GoTo S[U]per Class" },
+
+  { "<leader>fp", group = "[F]lutter [P]ubspec", icon = " " },
+  { "<leader>fpa", ":PubspecAssistAddPackage<CR>", icon = " ", desc = "[A]dd Package" },
+  { "<leader>fpd", ":PubspecAssistAddDevPackage<CR>", icon = " ", desc = "Add [D]ev Package" },
+  { "<leader>fpp", ":PubspecAssistPickVersion<CR>", icon = " ", desc = "[P]ick Version" },
+
 }
 
 return M
