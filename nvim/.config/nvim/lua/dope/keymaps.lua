@@ -29,7 +29,7 @@ M.keymaps = {
     ["B"] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], "select words till start of line" },
 
     ["<C-a>"] = { "gg<S-v>G", "select all" }, -- select all text in current buffer
-    ["<C-s>"] = { ":w<CR>", "save buffer" }, -- save buffers
+    ["<C-s>"] = { "<ESC><ESC>:w<CR>", "save buffer" }, -- save buffers
     ["<C-w>"] = { ":bd<CR>", "close buffer" }, -- close buffers
     ["<C-n>"] = { "<CMD>enew<CR>", "new buffer" }, -- new buffer
 
@@ -97,7 +97,7 @@ M.keymaps = {
     ["<C-k>"] = { "<Up>", "Move up" },
     ["<C-l>"] = { "<Right>", "Move right" },
 
-    ["<C-s>"] = { "<ESC>:w<CR>i<Right>", "save buffer" }, -- save buffer
+    ["<C-s>"] = { "<ESC><ESC>:w<CR>i<Right>", "save buffer" }, -- save buffer
   },
 
   -- visual mode
@@ -223,7 +223,6 @@ M.which_keymaps = {
   { "<leader>tcl", "<CMD>CellularAutomaton game_of_life<CR>", icon = " ", desc = "[L]ife" },
   { "<leader>tcs", "<CMD>CellularAutomaton scramble<CR>", icon = " ", desc = "[S]cramble" },
 
-
   -- NOTE: Flutter Tools : https://github.com/akinsho/flutter-tools.nvim
   { "<leader>f", group = "[F]lutter", icon = " " },
   { "<leader>fr", ":FlutterRun<CR>", icon = " ", desc = "[R]un Code" },
@@ -237,12 +236,13 @@ M.which_keymaps = {
   { "<leader>fn", ":FlutterRename<CR>", icon = " ", desc = "Re[N]ame And Update Imports" },
   { "<leader>fy", ":FlutterReanalyze<CR>", icon = " ", desc = "ReAnal[Y]ze Code" },
   { "<leader>fu", ":FlutterSupper<CR>", icon = " ", desc = "GoTo S[U]per Class" },
+  { "<leader>fc", ":lua require('nvim-treesitter-dart-data-class').generate()<CR>", icon = " ", desc = "Data [C]lass Generator" },
+  { "<leader>fb", ":FlutterCreateBloc<CR>", icon = " ", desc = "Create [B]loc" },
 
   { "<leader>fp", group = "[F]lutter [P]ubspec", icon = " " },
   { "<leader>fpa", ":PubspecAssistAddPackage<CR>", icon = " ", desc = "[A]dd Package" },
   { "<leader>fpd", ":PubspecAssistAddDevPackage<CR>", icon = " ", desc = "Add [D]ev Package" },
   { "<leader>fpp", ":PubspecAssistPickVersion<CR>", icon = " ", desc = "[P]ick Version" },
-
 }
 
 return M

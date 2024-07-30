@@ -1,0 +1,45 @@
+[
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      // put key-bindings here if you want them to work in normal & visual mode,
+      "shift-i": "editor::Hover",
+      "alt-f": "editor::ToggleCodeActions",
+      "alt-p": "editor::Format",
+      "alt-r": "editor::Rename",
+      "alt-t": "diagnostics::Deploy",
+      "w": "editor::SelectRight",
+      "b": "editor::SelectLeft",
+      "tab": "tab_switcher::Toggle",
+      "space s s": "file_finder::Toggle",
+      "alt-o": "outline::Toggle",
+      "alt-s l": "pane::SplitRight",
+      "alt-s j": "pane::SplitDown",
+      "alt-c": "editor::ToggleComments",
+      "alt-d": "editor::GoToDefinition",
+      "space s W": "pane::DeploySearch"
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore", // remap jk in insert mode to escape.
+      "k j": "vim::NormalBefore" // remap jk in insert mode to escape.
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      "shift-k": "editor::MoveLineUp",
+      "shift-j": "editor::MoveLineDown"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // put key-bindings here (in addition to above) if you want them to
+      // work when no editor exists
+      // "space f": "file_finder::Toggle"
+    }
+  }
+]

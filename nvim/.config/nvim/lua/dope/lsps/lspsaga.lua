@@ -25,7 +25,7 @@ function M.config()
       -- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
     },
     symbol_in_winbar = {
-      enable = false,
+      enable = true,
     },
   }
 end

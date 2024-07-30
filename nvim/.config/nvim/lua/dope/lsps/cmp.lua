@@ -46,6 +46,7 @@ function M.config()
   vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
   vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
   vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#6CC644" })
+  vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#6CC644" })
 
   vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -120,6 +121,11 @@ function M.config()
             vim_item.kind_hl_group = "CmpItemKindCopilot"
           end
 
+          if entry.source.name == "supermaven" then
+            vim_item.kind = icons.misc.Supermaven
+            vim_item.kind_hl_group = "CmpItemKindSupermaven"
+          end
+
           if entry.source.name == "cmp_tabnine" then
             vim_item.kind = icons.misc.Robot
             vim_item.kind_hl_group = "CmpItemKindTabnine"
@@ -171,6 +177,7 @@ function M.config()
       },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
+      { name = "supermaven" }, -- another ai completions
       -- { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions

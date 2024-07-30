@@ -2,7 +2,6 @@ local M = {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "folke/neodev.nvim",
     "onsails/lspkind-nvim",
   },
 }
@@ -38,26 +37,25 @@ function M.config()
 
   local servers = {
     "bashls",
-    "bashls",
     "cssls",
     "cssmodules_ls",
     "html",
     "emmet_ls",
     "tsserver",
     "bufls",
-    "astro",
+    -- "astro",
     "lua_ls",
-    "graphql",
+    -- "graphql",
     "sqlls",
     "dockerls",
     "docker_compose_language_service",
-    "jsonls",
+    -- "jsonls",
     "yamlls",
     "gopls",
-    "marksman",
+    -- "marksman",
     "tailwindcss",
-    "phpactor",
-    "intelephense",
+    -- "phpactor",
+    -- "intelephense",
   }
 
   local default_diagonastic_config = {
@@ -100,9 +98,6 @@ function M.config()
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
 
-    if server == "lua_ls" then
-      require("neodev").setup {}
-    end
     lspconfig[server].setup(opts)
   end
 

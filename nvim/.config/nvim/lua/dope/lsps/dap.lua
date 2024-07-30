@@ -1,6 +1,7 @@
 local M = {
   "rcarriga/nvim-dap-ui",
   dependencies = {
+    "folke/neodev.nvim",
     "ray-x/guihua.lua",
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio",
@@ -11,8 +12,11 @@ local M = {
 
 function M.config()
   local dap = require "dap"
-  local dapui = require "dap-ui"
+  local dapui = require "dapui"
+  local neodev = require "neodev"
   dapui.setup()
+
+  neodev.setup { library = { plugins = { "nvim-dap-ui" }, types = true } }
 
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
@@ -26,8 +30,21 @@ function M.config()
     dapui.close()
   end
 
-  
-
+  dap.adapters.dart = {
+    type = "executable",
+    command = "flutter",
+    args = { "debug_adapter" },
+  }
+  dap.configurations.dart = {
+    {
+      type = "dart",
+      request = "launch",
+      name = "Launch Dart Program",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+      args = {},
+    },
+  }
 end
 
 return M

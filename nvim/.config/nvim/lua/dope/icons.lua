@@ -152,5 +152,6 @@ return {
     Package = "",
     CircuitBoard = "",
     Wand = "",
+    Supermaven = "",
   },
 }

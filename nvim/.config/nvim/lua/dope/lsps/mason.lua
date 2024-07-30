@@ -18,17 +18,17 @@ M.mason_servers = {
 }
 
 M.mason_lspconfig_servers = {
-  "astro",
+  -- "astro",
   "lua_ls",
   "bashls",
-  "clangd",
+  -- "clangd",
   "cssls",
   "emmet_ls",
   "gopls", -- go
   "golangci_lint_ls",
   "html", -- html
   "jsonls", -- json
-  "marksman", -- md
+  -- "marksman", -- md
   "tsserver", -- ts
   "tailwindcss",
   "cssmodules_ls",
@@ -38,8 +38,8 @@ M.mason_lspconfig_servers = {
   -- "pyright", -- py
   -- "prismals",
   -- "eslint", -- ts,js
-  "phpactor",
-  "intelephense",
+  -- "phpactor",
+  -- "intelephense",
 }
 
 M.mason_null_ls_servers = {
@@ -61,10 +61,10 @@ M.mason_null_ls_servers = {
   -- "rustywind",
   "shellharden", -- sh
   "shellcheck",
-  "jq",
+  -- "jq",
   "shfmt",
-  "sqlfmt",
-  "sql-formatter",
+  -- "sqlfmt",
+  -- "sql-formatter",
   "fixjson",
   "golangci-lint",
   "gospel",
@@ -73,8 +73,8 @@ M.mason_null_ls_servers = {
   -- "golines",                         -- go
   "lua-language-server", -- lua
   -- "svelte-language-server",          -- lua
-  "docker-compose-language-service", -- docker-compose.yaml
-  "dockerfile-language-server", -- Dockerfile
+  -- "docker-compose-language-service", -- docker-compose.yaml
+  -- "dockerfile-language-server", -- Dockerfile
   -- "markdownlint",                    -- md
   -- "mdx_analyzer",
   "prettierd", -- ts, js
@@ -83,9 +83,9 @@ M.mason_null_ls_servers = {
   "typescript-languange-server", -- ts,js
   "protolint",
   -- "yamlfix",                     -- yml
-  "phpcs",
-  "php-cbf",
-  "php-cs-fixer",
+  -- "phpcs",
+  -- "php-cbf",
+  -- "php-cs-fixer",
 }
 
 function M.config()

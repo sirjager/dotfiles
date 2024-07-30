@@ -12,16 +12,13 @@ local M = {
 
 function M.config()
   local telescope = require "telescope"
-  local ok, _ = pcall(require, "flutter-tools")
-  if ok then
-    telescope.load_extension "flutter"
-  end
 
   telescope.load_extension "project"
   telescope.load_extension "media_files"
   telescope.load_extension "emoji"
   telescope.load_extension "ui-select"
   telescope.load_extension "git_diffs"
+  telescope.load_extension "flutter"
 
   local actions = require "telescope.actions"
   local project_actions = require "telescope._extensions.project.actions"
@@ -59,10 +56,14 @@ function M.config()
       oldfiles = {
         prompt_title = "Recent files",
         prompt_prefix = "   ",
+        theme = "dropdown",
+        previewer = false,
       },
       find_files = {
         prompt_title = "Find files",
         prompt_prefix = "   ",
+        theme = "dropdown",
+        previewer = false,
       },
       live_grep = {
         prompt_title = "Live grep",
@@ -75,7 +76,6 @@ function M.config()
       colorscheme = {
         prompt_title = "Color schemes",
         prompt_prefix = "   ",
-        theme = "dropdown",
         enable_preview = true,
       },
       keymaps = {
@@ -88,12 +88,8 @@ function M.config()
         theme = "dropdown",
         initial_mode = "normal",
         mappings = {
-          i = {
-            ["<C-d>"] = actions.delete_buffer,
-          },
-          n = {
-            ["dd"] = actions.delete_buffer,
-          },
+          i = { ["<C-d>"] = actions.delete_buffer },
+          n = { ["dd"] = actions.delete_buffer },
         },
       },
       lsp_references = {
@@ -112,9 +108,7 @@ function M.config()
       },
     },
     mappings = {
-      i = {
-        ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
-      },
+      i = { ["<C-_>"] = actions.which_key },
       n = {
         ["q"] = actions.close,
         ["<esc>"] = actions.close,
