@@ -71,7 +71,7 @@ M.keymaps = {
     ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
-    ["<A-u>"] = { ":DBUIToggle<CR>", "toggle database ui" },
+    ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 3000})<CR>", "format without saving" },
 
@@ -190,18 +190,18 @@ M.which_keymaps = {
   { "<leader>sa", ":Telescope autocommands<CR>", icon = " ", desc = "[A]utocommands" },
   { "<leader>sC", ":Telescope commands<CR>", icon = "󰘳 ", desc = "[C]ommannds List" },
 
-  -- NOTE: LSP
-  { "<leader>l", group = "[L]SP", icon = " " },
-  { "<leader>li", ":LspInfo<CR>", icon = " ", desc = "[I]nfo" },
+  -- NOTE: LSP & Diagnostic
+  { "<leader>l", group = "[L]SP [D]iagnostic", icon = " " },
+  { "<leader>lv", ":LspInfo<CR>", icon = " ", desc = "[V]erbose" },
   { "<leader>lr", ":LspRestart<CR>", icon = " ", desc = "[R]estart" },
-
-  { "<leader>ld", group = "[D]iagnostic", icon = " " },
-  { "<leader>ldd", ":Lspsaga show_buf_diagnostics<CR>", icon = " ", desc = "[B]uf" },
-  { "<leader>ldw", ":Lspsaga show_workspace_diagnostics<CR>", icon = " ", desc = "[W]orkspace" },
-  { "<leader>ldl", ":Lspsaga show_line_diagnostics<CR>", icon = " ", desc = "[L]ine" },
-  { "<leader>ldj", ":Lspsaga diagnostic_jump_next<CR>", icon = " ", desc = "[J]ump" },
-  { "<leader>ldk", ":Lspsaga diagnostic_jump_prev<CR>", icon = " ", desc = "[K]Prev" },
-  { "<leader>ldc", ":Lspsaga show_cursor_diagnostics<CR>", icon = " ", desc = "[C]ursor" },
+  { "<leader>ld", ":Lspsaga show_workspace_diagnostics<CR>", icon = " ", desc = "[W]orkspace" },
+  { "<leader>ll", ":Lspsaga show_buf_diagnostics<CR>", icon = " ", desc = "[B]uf" },
+  { "<leader>lj", ":Lspsaga diagnostic_jump_next<CR>", icon = " ", desc = "[J]ump" },
+  { "<leader>lk", ":Lspsaga diagnostic_jump_prev<CR>", icon = " ", desc = "[K]Prev" },
+  { "<leader>lc", ":Lspsaga show_cursor_diagnostics<CR>", icon = " ", desc = "[C]ursor" },
+  { "<leader>lo", ":lua vim.diagnostic.enable(false)<CR>", icon = " ", desc = "[O]ff" },
+  { "<leader>ln", ":lua vim.diagnostic.enable(true)<CR>", icon = " ", desc = "O[N]" },
+  { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[V]erbose" },
 
   -- NOTE: Tools
   { "<leader>t", group = "[T]ools", icon = " " },

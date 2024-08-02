@@ -2,6 +2,7 @@
 
 require "dope.spec"
 require "dope.options"
+require "dope.autocmds"
 require("dope.keymaps").setup()
 
 spec "dope.core.notify"
@@ -32,7 +33,6 @@ spec "dope.lsps.flutter"
 spec "dope.lsps.surround"
 spec "dope.lsps.autopairs"
 spec "dope.lsps.autotags"
-
 
 spec "dope.xtra.wakatime"
 spec "dope.xtra.harpoon"

@@ -69,7 +69,7 @@ function M.config()
       },
     },
     underline = true,
-    virtual_text = true,
+    virtual_text = false,
     update_in_insert = false,
     severity_sort = true,
     float = {
@@ -101,7 +101,9 @@ function M.config()
     lspconfig[server].setup(opts)
   end
 
-  -- end m.config
+  -- This line disables diagnostic globally; if anyone needs it here it is
+  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+  -- end M.config
 end
 
 return M

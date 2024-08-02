@@ -1,30 +1,52 @@
 [
   {
-    "context": "VimControl && !menu",
+    //
+    "ctrl-a": "editor::SelectAll",
+    "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+    "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+    "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+    "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+  },
+
+  {
+    "context": "!menu",
     "bindings": {
       // put key-bindings here if you want them to work in normal & visual mode,
-      "shift-i": "editor::Hover",
+      "w": "editor::SelectToNextWordEnd",
+      "b": "editor::SelectToPreviousWordStart",
+      "tab": "tab_switcher::Toggle",
+      //
+      "ctrl-a": "editor::SelectAll",
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      //
+      "alt-i": "editor::Hover",
       "alt-f": "editor::ToggleCodeActions",
       "alt-p": "editor::Format",
       "alt-r": "editor::Rename",
       "alt-t": "diagnostics::Deploy",
-      "w": "editor::SelectRight",
-      "b": "editor::SelectLeft",
-      "tab": "tab_switcher::Toggle",
-      "space s s": "file_finder::Toggle",
       "alt-o": "outline::Toggle",
-      "alt-s l": "pane::SplitRight",
-      "alt-s j": "pane::SplitDown",
       "alt-c": "editor::ToggleComments",
       "alt-d": "editor::GoToDefinition",
-      "space s W": "pane::DeploySearch"
+      //
+      "alt-s l": "pane::SplitRight",
+      "alt-s j": "pane::SplitDown",
+      // Search
+      "space s W": "pane::DeploySearch",
+      "space s s": "file_finder::Toggle"
     }
   },
   {
-    "context": "vim_mode == insert",
+    "context": "Editor && vim_mode == insert",
     "bindings": {
-      "j k": "vim::NormalBefore", // remap jk in insert mode to escape.
-      "k j": "vim::NormalBefore" // remap jk in insert mode to escape.
+      "j k": "vim::NormalBefore",
+      "k j": "vim::NormalBefore",
+      "ctrl-l": "editor::MoveRight",
+      "ctrl-h": "editor::MoveLeft",
+      "ctrl-j": "editor::MoveDown",
+      "ctrl-k": "editor::MoveUp"
     }
   },
   {
@@ -40,6 +62,8 @@
       // put key-bindings here (in addition to above) if you want them to
       // work when no editor exists
       // "space f": "file_finder::Toggle"
+      "space s W": "pane::DeploySearch",
+      "space s s": "file_finder::Toggle"
     }
   }
 ]

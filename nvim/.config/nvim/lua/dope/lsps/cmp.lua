@@ -16,6 +16,7 @@ local M = {
     { "L3MON4D3/LuaSnip", event = "InsertEnter" },
     { "rafamadriz/friendly-snippets" },
     { "onsails/lspkind-nvim" },
+    { "hrsh7th/cmp-nvim-lua" },
     { "roobert/tailwindcss-colorizer-cmp.nvim" },
   },
 }
@@ -116,7 +117,7 @@ function M.config()
             vim_item.dup = 0
           end
 
-          if entry.source.name == "codeium" or entry.source.name == "Codeium" then
+          if entry.source.name == "codeium" then
             vim_item.kind = icons.misc.Copilot
             vim_item.kind_hl_group = "CmpItemKindCopilot"
           end
@@ -180,6 +181,7 @@ function M.config()
       { name = "supermaven" }, -- another ai completions
       -- { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
+      { name = "nvim_lua" },
       { name = "path" }, -- filesystem path completions
       -- { name = "async_path" }, -- filesystem path completions
       {
@@ -193,7 +195,7 @@ function M.config()
           capture_history = false,
         },
       },
-      -- { name = "emoji", option = { trigger_characters = { ":" } } },
+      { name = "emoji", option = { trigger_characters = { ":" } } },
     },
 
     confirm_opts = { behavior = cmp.ConfirmBehavior.Replace, select = true },

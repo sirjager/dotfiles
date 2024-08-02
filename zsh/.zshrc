@@ -97,6 +97,7 @@ alias docker-clean-buildx="docker buildx prune --all"
 alias docker-clean-builder="docker builder prune --all"
 alias docker-clean-image="docker image prune --all"
 
+
 # saving some misc commands
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 
@@ -137,3 +138,4 @@ alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
+
