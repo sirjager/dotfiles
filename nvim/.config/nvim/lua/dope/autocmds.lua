@@ -6,10 +6,9 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
   pattern = { "*" },
-callback = function()
+  callback = function()
     vim.cmd "checktime"
   end,
-
 })
 
 -- text highlight when yanking
@@ -26,3 +25,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt_local.spell = true
   end,
 })
+
+-- close Lazy and re-open when the dashboard is ready
+if vim.o.filetype == "lazy" then
+  vim.cmd.close()
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "DashboardLoaded",
+    callback = function()
+      require("lazy").show()
+    end,
+  })
+end

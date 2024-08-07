@@ -1,9 +1,9 @@
 local M = {
   "nvim-tree/nvim-web-devicons",
   event = "VeryLazy",
-  dependencies = {
-    { "echasnovski/mini.icons", version = false },
-  },
+  -- dependencies = {
+  -- { "echasnovski/mini.icons", version = false },
+  -- },
 }
 
 function M.config()

@@ -1,6 +1,7 @@
 local M = {
   "akinsho/bufferline.nvim",
-  lazy=false,
+  lazy = true,
+  event = "BufRead",
 }
 
 function M.config()

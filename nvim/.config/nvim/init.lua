@@ -9,7 +9,7 @@ spec "dope.core.notify"
 spec "dope.theme.onedark"
 
 spec "dope.core.whichkey"
-spec "dope.core.alpha"
+spec "dope.core.dashboard"
 spec "dope.core.windline"
 spec "dope.core.noice"
 spec "dope.core.devicons"
@@ -28,7 +28,7 @@ spec "dope.lsps.cmp"
 -- spec "dope.lsps.go"
 -- spec "dope.lsps.dap"
 
-spec "dope.lsps.flutter"
+-- spec "dope.lsps.flutter"
 
 spec "dope.lsps.surround"
 spec "dope.lsps.autopairs"

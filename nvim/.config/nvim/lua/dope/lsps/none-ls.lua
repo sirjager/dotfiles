@@ -1,5 +1,6 @@
 local M = {
   "nvimtools/none-ls.nvim",
+  lazy = true,
   dependencies = {
     "nvimtools/none-ls-extras.nvim",
     "gbprod/none-ls-shellcheck.nvim",

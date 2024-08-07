@@ -4,7 +4,7 @@ local M = {
   dependencies = {
     "MunifTanjim/nui.nvim",
     "s1n7ax/nvim-window-picker",
-    "3rd/image.nvim",
+    -- "3rd/image.nvim",
   },
 }
 

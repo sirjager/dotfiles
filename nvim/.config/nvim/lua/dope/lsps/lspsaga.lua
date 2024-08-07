@@ -2,6 +2,8 @@ local M = {
   "glepnir/lspsaga.nvim",
   branch = "main",
   after = "nvim-treesitter",
+  lazy = true,
+  event = "BufRead",
 }
 
 function M.config()
