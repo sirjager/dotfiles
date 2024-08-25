@@ -1,6 +1,7 @@
 local M = {
   "mawkler/modicator.nvim",
-  event = "BufEnter",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

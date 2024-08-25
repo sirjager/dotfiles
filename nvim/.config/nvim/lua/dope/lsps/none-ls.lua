@@ -1,9 +1,10 @@
 local M = {
   "nvimtools/none-ls.nvim",
   lazy = true,
+  event = "VeryLazy",
   dependencies = {
-    "nvimtools/none-ls-extras.nvim",
-    "gbprod/none-ls-shellcheck.nvim",
+    { "nvimtools/none-ls-extras.nvim", lazy = true, event = "BufRead" },
+    { "gbprod/none-ls-shellcheck.nvim", lazy = true, event = "BufRead" },
   },
 }
 
@@ -21,8 +22,8 @@ function M.config()
       null_ls.builtins.formatting.yamlfix,
       null_ls.builtins.formatting.sqlfmt,
 
-      null_ls.builtins.formatting.prettierd,
-      require "none-ls.diagnostics.eslint_d",
+      null_ls.builtins.formatting.prettierd, -- ts/js,json
+      -- require "none-ls.diagnostics.eslint_d",
       require "none-ls.formatting.eslint_d",
       require "none-ls.code_actions.eslint_d",
 

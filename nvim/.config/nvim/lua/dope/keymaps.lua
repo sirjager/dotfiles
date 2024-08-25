@@ -71,7 +71,8 @@ M.keymaps = {
     ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
-    ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
+    -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
+    ["<A-u>"] = { ":DBUIToggle<CR>", "DB UI Toggle" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 3000})<CR>", "format without saving" },
 
@@ -150,10 +151,10 @@ M.which_keymaps = {
   -- NOTE: Golang
   { "<leader>g", group = "[G]olang", icon = " " },
   { "<leader>gt", ":GoAddTag<CR>", icon = "󰜢 ", desc = "[T]ags Add" },
-  { "<leader>gj", ":GoAddTag json<CR>", icon = " ", desc = "[J]son Tags" },
-  { "<leader>gb", ":GoAddTag bson<CR>", icon = "󰨥 ", desc = "[B]son Tags" },
-  { "<leader>gy", ":GoAddTag yaml<CR>", icon = " ", desc = "[Y]aml Tags" },
-  { "<leader>gd", ":GoAddTag bindings<CR>", icon = " ", desc = "[D]ata Bindings" },
+  { "<leader>gj", ":GoAddTag json -transform camelcase<CR>", icon = " ", desc = "[J]son Tags" },
+  { "<leader>gb", ":GoAddTag bson -transform camelcase<CR>", icon = "󰨥 ", desc = "[B]son Tags" },
+  { "<leader>gy", ":GoAddTag yaml -transform camelcase<CR>", icon = " ", desc = "[Y]aml Tags" },
+  { "<leader>gd", ":GoAddTag validate<CR>", icon = " ", desc = "[D]ata Validate" },
   { "<leader>gx", ":GoRmTag<CR>", icon = "󱈠 ", desc = "[X]Remove Tags" },
   { "<leader>ge", ":GoIfErr<CR>", icon = " ", desc = "[E]rror Check" },
   { "<leader>gf", ":GoFixPlurals<CR>", icon = "󰁨 ", desc = "[F]ix Plurals" },
@@ -201,7 +202,7 @@ M.which_keymaps = {
   { "<leader>lc", ":Lspsaga show_cursor_diagnostics<CR>", icon = " ", desc = "[C]ursor" },
   { "<leader>lo", ":lua vim.diagnostic.enable(false)<CR>", icon = " ", desc = "[O]ff" },
   { "<leader>ln", ":lua vim.diagnostic.enable(true)<CR>", icon = " ", desc = "O[N]" },
-  { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[V]erbose" },
+  { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[I]ncoming calls" },
 
   -- NOTE: Tools
   { "<leader>t", group = "[T]ools", icon = " " },

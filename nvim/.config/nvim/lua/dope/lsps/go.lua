@@ -1,6 +1,7 @@
 local M = {
   "ray-x/go.nvim",
-  event = { "CmdlineEnter" },
+  lazy = true,
+  event = "VeryLazy",
   ft = { "go", "gomod" },
   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   dependencies = {
@@ -26,7 +27,7 @@ function M.config()
     goimports = "gopls",
     fillstruct = false,
     gofmt = "golines",
-    max_line_len = 300,
+    max_line_len = 800,
     tag_transform = "snakecase",
     tag_options = "json=omitempty", -- sets options sent to gomodifytags, i.e., json=omitempty
     gotests_template = "", -- sets gotests -template parameter (check gotests for details)

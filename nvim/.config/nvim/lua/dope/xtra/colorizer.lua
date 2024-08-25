@@ -1,5 +1,7 @@
 local M = {
   "NvChad/nvim-colorizer.lua",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

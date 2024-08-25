@@ -6,6 +6,31 @@ local M = {
   },
 }
 
+M.servers = {
+  "biome",
+  "bashls",
+  "cssls",
+  "cssmodules_ls",
+  "html",
+  "emmet_ls",
+  "eslint",
+  "tsserver",
+  "bufls",
+  -- "astro",
+  "lua_ls",
+  -- "graphql",
+  "sqlls",
+  "dockerls",
+  "docker_compose_language_service",
+  "jsonls",
+  "yamlls",
+  "gopls",
+  -- "marksman",
+  "tailwindcss",
+  -- "phpactor",
+  -- "intelephense",
+}
+
 local function lsp_keymaps(bufnr)
   local opts = { noremap = true, silent = true }
   local keymap = vim.api.nvim_buf_set_keymap
@@ -34,29 +59,6 @@ end
 function M.config()
   local lspconfig = require "lspconfig"
   local icons = require "dope.icons"
-
-  local servers = {
-    "bashls",
-    "cssls",
-    "cssmodules_ls",
-    "html",
-    "emmet_ls",
-    "tsserver",
-    "bufls",
-    -- "astro",
-    "lua_ls",
-    -- "graphql",
-    "sqlls",
-    "dockerls",
-    "docker_compose_language_service",
-    -- "jsonls",
-    "yamlls",
-    "gopls",
-    -- "marksman",
-    "tailwindcss",
-    -- "phpactor",
-    -- "intelephense",
-  }
 
   local default_diagonastic_config = {
     signs = {
@@ -91,7 +93,7 @@ function M.config()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
   require("lspconfig.ui.windows").default_options.border = "rounded"
 
-  for _, server in pairs(servers) do
+  for _, server in pairs(M.servers) do
     local opts = { on_attach = M.on_attach, capabilities = M.common_capabilities() }
     local okreq, settings = pcall(require, "dope.lsps.servers." .. server)
     if okreq then

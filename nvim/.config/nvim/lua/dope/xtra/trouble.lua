@@ -1,6 +1,8 @@
 local M = {
   "folke/trouble.nvim",
   cmd = "Trouble",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 M.opts = {}

@@ -1,6 +1,7 @@
 local M = {
   "shellRaining/hlchunk.nvim",
-  event = { "UIEnter" },
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

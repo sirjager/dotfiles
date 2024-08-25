@@ -25,7 +25,7 @@ M.opts = {
   diagnostics = {
     darker = true,
     undercurl = true,
-    background = false,
+    background = true,
   },
 }
 

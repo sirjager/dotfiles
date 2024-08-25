@@ -5,7 +5,7 @@ return {
   init_options = {
     perferences = {
       -- https://github.com/microsoft/TypeScript/blob/3b45f4db12bbae97d10f62ec0e2d94858252c5ab/src/server/protocol.ts#L3439
-      disableSuggestions = false,
+      disableSuggestions = true, -- false
       quotePreference = "double",
     },
   },
@@ -14,16 +14,16 @@ return {
       inlayHints = {
         includeInlayParameterNameHints = "literal",
         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
+        includeInlayFunctionParameterTypeHints = false,
         includeInlayVariableTypeHints = false,
         includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = false,
         includeInlayEnumMemberValueHints = true,
       },
     },
     javascript = {
       inlayHints = {
-        includeInlayParameterNameHints = "all",
+        -- includeInlayParameterNameHints = "all",
         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
         includeInlayFunctionParameterTypeHints = true,
         includeInlayVariableTypeHints = true,

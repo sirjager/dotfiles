@@ -34,7 +34,7 @@ local options = {
   shiftwidth = 2, -- the number of spaces inserted for each indentation
   showcmd = true,
   showmode = true, -- we don't need to see things like -- INSERT -- anymore
-  showtabline = 2, -- always show tabs
+  showtabline = 0, -- always show tabs, 0 = disable, 2 = always
   si = true, -- smart indent
   sidescrolloff = 8,
   signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time

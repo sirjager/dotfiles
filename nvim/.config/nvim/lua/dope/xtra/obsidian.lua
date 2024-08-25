@@ -2,8 +2,9 @@ local M = {
   "epwalsh/obsidian.nvim",
   ft = { "markdown" },
   version = "*",
-  lazy = true,
   dependencies = { "nvim-lua/plenary.nvim" },
+  lazy = true,
+  event = "VeryLazy",
 }
 
 M.slugify = function(title)

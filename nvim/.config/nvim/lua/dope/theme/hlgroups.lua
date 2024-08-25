@@ -1,6 +1,6 @@
 local M = {}
 
-local bg = "#1E1E2E"
+local bg = "#161622"
 local border = "#B4BEFE"
 local none = "None"
 

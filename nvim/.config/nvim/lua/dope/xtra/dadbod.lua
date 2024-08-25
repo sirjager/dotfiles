@@ -1,8 +1,10 @@
 local M = {
   "kristijanhusak/vim-dadbod-ui",
+  lazy = true,
+  event = "VeryLazy",
   dependencies = {
-    { "tpope/vim-dadbod", lazy = true },
-    { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    { "tpope/vim-dadbod", lazy = true, event = "VeryLazy" },
+    { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true, event = "VeryLazy" },
   },
   cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" },
   init = function()

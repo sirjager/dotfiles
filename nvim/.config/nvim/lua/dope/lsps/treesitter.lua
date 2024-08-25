@@ -1,6 +1,7 @@
 local M = {
   "nvim-treesitter/nvim-treesitter",
   dependencies = { "nvim-treesitter/nvim-treesitter-context" },
+  lazy = true,
   event = { "BufReadPost", "BufNewFile" },
   build = ":TSUpdate",
 }
@@ -23,9 +24,9 @@ M.servers = {
   "lua",
   "markdown",
   "markdown_inline",
-  "php",
-  "php_only",
-  "phpdoc",
+  -- "php",
+  -- "php_only",
+  -- "phpdoc",
   "proto",
   -- "python",
   -- "regex",
@@ -48,13 +49,13 @@ function M.config()
   vim.treesitter.language.register("markdown", "mdx")
   vim.filetype.add { extension = { astro = "astro" } }
   require("nvim-treesitter.configs").setup {
+    sync_install = false,
+    auto_install = false,
     ensure_installed = M.servers,
     matchup = {
       enable = true,
       disable = { "c", "ruby", "rust" },
     },
-    sync_install = true,
-    auto_install = true,
     playground = { enable = false },
     markid = { enable = true },
     indent = { enable = true, disable = { "yaml", "python", "yml" } },

@@ -1,7 +1,7 @@
 local M = {
   "hrsh7th/nvim-cmp",
   lazy = true,
-  event = "InsertEnter",
+  event = "VeryLazy",
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
@@ -165,18 +165,18 @@ function M.config()
         name = "nvim_lsp",
         trigger_characters = { "." },
         keyword_length = 0,
-        entry_filter = function(entry, _)
-          local kind = entry:get_kind()
-          local node = ts_utils.get_node_at_cursor():type()
-          if node == "arguments" then
-            if kind == 6 then
-              return true
-            else
-              return false
-            end
-          end
-          return true
-        end,
+        -- entry_filter = function(entry, _)
+        --   local kind = entry:get_kind()
+        --   local node = ts_utils.get_node_at_cursor():type()
+        --   if node == "arguments" then
+        --     if kind == 6 then
+        --       return true
+        --     else
+        --       return false
+        --     end
+        --   end
+        --   return true
+        -- end,
       },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
@@ -204,19 +204,19 @@ function M.config()
 
     window = {
       completion = cmp.config.window.bordered {
-        side_padding = 0,
+        side_padding = 1,
         col_offset = 0,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
       },
 
       documentation = cmp.config.window.bordered {
-        side_padding = 0,
-        col_offset = 0,
+        side_padding = 1,
+        col_offset = 1,
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
       },
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
     },
   }
 

@@ -3,7 +3,7 @@ local M = {
   branch = "main",
   after = "nvim-treesitter",
   lazy = true,
-  event = "BufRead",
+  event = "VeryLazy",
 }
 
 function M.config()

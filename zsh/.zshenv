@@ -45,6 +45,7 @@ export PNPM_HOME="$mystorage/programs/pnpm"
 export CARGO_HOME="$mystorage/programs/cargo"
 export RUSTUP_HOME="$mystorage/programs/rustup"
 export YAZI_CONFIG_HOME="$XDG_CONFIG_HOME/yazi"
+export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/vim.toml"
 
 # export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"

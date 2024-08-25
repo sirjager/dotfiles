@@ -1,5 +1,7 @@
 local M = {
   "folke/zen-mode.nvim",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

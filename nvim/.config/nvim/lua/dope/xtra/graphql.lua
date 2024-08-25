@@ -1,4 +1,8 @@
-local M = {}
+local M = {
+  "phenax/cmp-graphql",
+  lazy = true,
+  event = "VeryLazy",
+}
 
 function M.config()
   require("cmp-graphql").setup {

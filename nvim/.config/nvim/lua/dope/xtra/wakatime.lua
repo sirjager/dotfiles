@@ -1,6 +1,7 @@
 local M = {
   "wakatime/vim-wakatime",
-  lazy = false,
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config() end

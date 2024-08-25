@@ -1,5 +1,7 @@
 local M = {
   "folke/flash.nvim",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

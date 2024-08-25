@@ -5,13 +5,11 @@ local M = {
 
 -- https://github.com/nvimdev/dashboard-nvim
 
-local logo = require("dope.core.banners").jagervim
+local logo = require("dope.core.banners").sharp
 
 M.shortcuts = {
-  { action = "Telescope find_files hidden=true no_ignore=false color=always<CR>", desc = " Find File", icon = " ", key = "f" },
-  { action = "ene | startinsert", desc = " New File", icon = " ", key = "n" },
-  { action = "Telescope oldfiles", desc = " Recent Files", icon = " ", key = "r" },
-  { action = "Telescope live_grep", desc = " Find Text", icon = " ", key = "g" },
+  { action = "cd ~/dotfiles/nvim/.config/nvim | e ~/dotfiles/nvim/.config/nvim/init.lua | Neotree reveal_force_cwd", desc = " Config", icon = " ", key = "c" },
+  { action = "cd ~/dotfiles | e ~/dotfiles/tmux/.config/tmux/tmux.conf", desc = " Tmux", icon = " ", key = "t" },
   { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
   { action = "qa", desc = " Quit", icon = " ", key = "q" },
 }
@@ -48,11 +46,9 @@ M.hyper = {
   },
   config = {
     header = logo,
-    week_header = {
-      enable = false,
-    },
+    week_header = { enable = false },
     shortcut = M.shortcuts,
-    mru = { limit = 10, cwd_only = false },
+    mru = { enable = false, limit = 10, cwd_only = true },
     project = { enable = false, limit = 8, label = "Projects", action = "Telescope find_files cwd=/mnt/storage/workspace" },
     packages = { enable = true },
   },
@@ -60,7 +56,7 @@ M.hyper = {
 }
 
 function M.config()
-  require("dashboard").setup(M.hyper)
+  require("dashboard").setup(M.doom)
 end
 
 return M

@@ -1,5 +1,6 @@
 local M = {
   "mikavilpas/yazi.nvim",
+  lazy = true,
   event = "VeryLazy",
 }
 

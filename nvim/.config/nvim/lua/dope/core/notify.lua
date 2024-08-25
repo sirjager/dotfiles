@@ -24,16 +24,18 @@ function M.config()
     top_down = true,
   }
 
-  -- local banned_messages = { "No information available" }
-  -- local _notify = function(msg, ...)
-  --   for _, banned in ipairs(banned_messages) do
-  --     if msg == banned then
-  --       return
-  --     end
-  --   end
-  --   return notify
+  local banned_messages = { "No information available" }
+  ---@diagnostic disable-next-line: duplicate-set-field
+  vim.notify = function(msg, ...)
+    for _, banned in ipairs(banned_messages) do
+      if msg == banned then
+        return
+      end
+    end
+    return require "notify"(msg, ...)
+  end
+
   -- end
-  vim.notify = notify
 end
 
 return M

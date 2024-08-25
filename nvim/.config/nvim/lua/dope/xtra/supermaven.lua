@@ -1,5 +1,7 @@
 local M = {
   "supermaven-inc/supermaven-nvim",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 M.opts = {

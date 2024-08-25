@@ -1,7 +1,7 @@
 local M = {
   "windwp/nvim-ts-autotag",
   lazy = true,
-  event = "BufRead",
+  event = "VeryLazy",
 }
 
 M.filetypes = {

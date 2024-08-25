@@ -1,7 +1,8 @@
 local M = {
-    "tzachar/cmp-tabnine",
-    event = "InsertEnter",
-    build = "./install.sh",
+  "tzachar/cmp-tabnine",
+  build = "./install.sh",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config() end

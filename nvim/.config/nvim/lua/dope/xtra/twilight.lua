@@ -1,5 +1,7 @@
 local M = {
   "folke/twilight.nvim",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()

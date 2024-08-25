@@ -104,7 +104,7 @@ function M.config()
     commands = {},
     window = {
       position = "left",
-      width = 35,
+      width = 40, -- default 35
       mapping_options = {
         noremap = true,
         nowait = true,

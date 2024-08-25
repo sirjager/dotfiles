@@ -27,9 +27,9 @@ zinit snippet OMZP::sudo
 zinit snippet OMZP::tmux
 zinit snippet OMZP::archlinux
 # zinit snippet OMZP::dotenv  ## instead use "direnv"
-zinit snippet OMZP::golang
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
+# zinit snippet OMZP::golang
+# zinit snippet OMZP::kubectl
+# zinit snippet OMZP::kubectx
 # zinit snippet OMZP::docker
 zinit snippet OMZP::docker-compose
 zinit snippet OMZP::command-not-found
@@ -76,6 +76,7 @@ eval "$(direnv hook zsh)"
 eval "$(atuin init zsh)"
 
 [ -f "$HOME/.atuin/_atuin" ] && . "$HOME/.atuin/_atuin"
+[ -f "$HOME/.local/share/taskfile/zsh_completions" ] && . "$HOME/.local/share/taskfile/zsh_completions"
 
 # INFO: ================================[ custom aliases  ]================================
 #
@@ -138,4 +139,3 @@ alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
-

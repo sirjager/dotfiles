@@ -33,6 +33,7 @@ if vim.o.filetype == "lazy" then
     pattern = "DashboardLoaded",
     callback = function()
       require("lazy").show()
+      vim.opt.showtabline = 2
     end,
   })
 end

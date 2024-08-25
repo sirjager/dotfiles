@@ -1,6 +1,7 @@
 local M = {
   "akinsho/flutter-tools.nvim",
   lazy = true,
+  event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "stevearc/dressing.nvim",

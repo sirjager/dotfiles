@@ -1,6 +1,7 @@
 local M = {
   "kawre/neotab.nvim",
-  event = "InsertEnter",
+  lazy = true,
+  event = "VeryLazy",
 }
 
 function M.config()
