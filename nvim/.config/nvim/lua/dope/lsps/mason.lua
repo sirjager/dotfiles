@@ -31,9 +31,3 @@ function M.config()
 end
 
 return M
-
--- NOTE: astro-ls stopped working, neovim gets crashed
--- This is temporary fix, clone the following repo somewhere and install parser
--- https://github.com/virchau13/tree-sitter-astro
--- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
--- parser_config.astro.install_info.url = "~/.local/share/nvim/mason/packages/tree-sitter-astro"

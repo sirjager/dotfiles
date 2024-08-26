@@ -1,7 +1,7 @@
 local M = {
   "kylechui/nvim-surround",
   lazy = true,
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 
 -- https://github.com/kylechui/nvim-surround/blob/main/doc/nvim-surround.txt

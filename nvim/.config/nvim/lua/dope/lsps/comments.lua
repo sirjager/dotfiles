@@ -1,10 +1,10 @@
 local M = {
   "numToStr/Comment.nvim",
   lazy = true,
-  event = "VeryLazy",
+  event = "BufReadPost",
   dependencies = {
-    { "folke/todo-comments.nvim", lazy = true, event = "VeryLazy" },
-    { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true, event = "VeryLazy" },
+    { "folke/todo-comments.nvim", lazy = true, event = "BufReadPost" },
+    { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true, event = "BufReadPost" },
   },
 }
 

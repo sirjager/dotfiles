@@ -1,7 +1,7 @@
 local M = {
   "windwp/nvim-autopairs",
   lazy = true,
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 
 function M.config()

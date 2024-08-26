@@ -1,7 +1,7 @@
 local M = {
   "hrsh7th/nvim-cmp",
   lazy = true,
-  event = "VeryLazy",
+  event = "BufReadPost",
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
@@ -216,7 +216,7 @@ function M.config()
       },
     },
     experimental = {
-      ghost_text = false,
+      ghost_text = true,
     },
   }
 

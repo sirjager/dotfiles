@@ -1,10 +1,7 @@
 local M = {
   "Exafunction/codeium.nvim",
   lazy = true,
-  event = "VeryLazy",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-  },
+  event = "BufReadPost",
 }
 
 function M.config()

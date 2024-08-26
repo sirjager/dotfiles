@@ -1,8 +1,8 @@
 local M = {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    { "sindrets/diffview.nvim", lazy = true, event = "BufRead" },
-    { "paopaol/telescope-git-diffs.nvim", lazy = true, event = "BufRead" },
+    -- { "sindrets/diffview.nvim", lazy = true, event = "BufRead" },
+    -- { "paopaol/telescope-git-diffs.nvim", lazy = true, event = "BufRead" },
     { "nvim-telescope/telescope-project.nvim", lazy = true },
     { "nvim-telescope/telescope-media-files.nvim", lazy = true },
     { "xiyaowong/telescope-emoji.nvim", lazy = true },
@@ -17,7 +17,7 @@ function M.config()
   telescope.load_extension "media_files"
   telescope.load_extension "emoji"
   telescope.load_extension "ui-select"
-  telescope.load_extension "git_diffs"
+  -- telescope.load_extension "git_diffs"
 
   local flutterInstalled, _ = pcall(require, "flutter")
   if flutterInstalled then
