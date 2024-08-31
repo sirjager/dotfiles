@@ -3,13 +3,10 @@ local M = {
   lazy = true,
   event = "VeryLazy",
   dependencies = {
-    { "nvim-neotest/neotest", lazy = true, event = "VeryLazy" },
     { "folke/neodev.nvim", lazy = true, event = "VeryLazy" },
     { "ray-x/guihua.lua", lazy = true, event = "VeryLazy" },
     { "mfussenegger/nvim-dap", lazy = true, event = "VeryLazy" },
-    { "nvim-neotest/nvim-nio", lazy = true, event = "VeryLazy" },
     { "theHamsta/nvim-dap-virtual-text", lazy = true, event = "VeryLazy" },
-    { "leoluz/nvim-dap-go", lazy = true, event = "VeryLazy" },
   },
 }
 

@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   spec = LAZY_PLUGIN_SPEC,
-  ui = { border = "rounded" },
+  ui = { border = "rounded", backdrop = 100 },
   install = { colorscheme = { "onedark" } },
   change_detection = { enabled = true, notify = false },
   opts = {
@@ -23,11 +23,9 @@ require("lazy").setup {
       neovim = false,
     },
   },
-  checker = { enabled = false },
+  checker = { enabled = true,notify = false },
   performance = {
-    cache = {
-      enabled = true,
-    },
+    cache = { enabled = false },
     rtp = {
       disabled_plugins = {
         "gzip",

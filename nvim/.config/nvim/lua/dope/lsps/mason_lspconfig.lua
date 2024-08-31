@@ -3,7 +3,7 @@ local M = {
 }
 
 M.servers = {
-  -- "astro",
+  "astro",
   "lua_ls",
   "bashls",
   -- "clangd",

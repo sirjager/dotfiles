@@ -5,30 +5,22 @@ local M = {
   ft = { "go", "gomod" },
   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   dependencies = {
-    {
-      "olexsmir/gopher.nvim",
-      ft = "go",
-      build = function()
-        vim.cmd [[silent! GoInstallDeps]]
-      end,
-    },
+    { "leoluz/nvim-dap-go", lazy = true, event = "VeryLazy" },
   },
 }
 
 function M.config()
+  require("dap-go").setup {}
   local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-
-  -- require("gopher").setup {}
   require("go").setup {
     lsp_cfg = { capabilities = capabilities },
     disable_defaults = false,
     go = "go",
-    goimports = "gopls",
+    goimports = "goimports_reviser", -- gopls
     fillstruct = false,
-    gofmt = "golines",
-    max_line_len = 800,
-    tag_transform = "snakecase",
+    gofmt = "golines", -- golines (for max line length)
+    max_line_len = 1000,
+    tag_transform = "camelcase", -- snakecase
     tag_options = "json=omitempty", -- sets options sent to gomodifytags, i.e., json=omitempty
     gotests_template = "", -- sets gotests -template parameter (check gotests for details)
     gotests_template_dir = "", -- sets gotests -template_dir parameter (check gotests for details)
@@ -49,7 +41,7 @@ function M.config()
     -- end
     -- to setup a table of codelens
     diagnostic = { -- set diagnostic to false to disable vim.diagnostic setup
-      hdlr = false, -- hook lsp diag handler and send diag to quickfix
+      hdlr = true, -- hook lsp diag handler and send diag to quickfix
       underline = true,
       -- virtual text setup
       virtual_text = { spacing = 0, prefix = "■" },
@@ -58,16 +50,15 @@ function M.config()
     },
     lsp_document_formatting = true,
     lsp_inlay_hints = {
-      enable = false,
       -- Only show inlay hints for the current line
-      only_current_line = false,
+      only_current_line = true,
       only_current_line_autocmd = "CursorHold",
       -- whether to show variable name before type hints with the inlay hints or not
       -- default: false
-      show_variable_name = true,
+      show_variable_name = false,
       -- prefix for parameter hints
       parameter_hints_prefix = "󰊕 ",
-      show_parameter_hints = true,
+      show_parameter_hints = false,
       -- prefix for all the other hints (type, chaining)
       other_hints_prefix = "=> ",
       -- whether to align to the lenght of the longest line in the file
@@ -77,7 +68,7 @@ function M.config()
       -- whether to align to the extreme right or not
       right_align = false,
       -- padding from the right if right_align is true
-      right_align_padding = 6,
+      right_align_padding = 1,
       -- The color of the hints
       highlight = "Comment",
     },
@@ -92,12 +83,12 @@ function M.config()
     dap_debug_gui = {}, -- bool|table put your dap-ui setup here set to false to disable
     dap_debug_vt = { enabled_commands = true, all_frames = true }, -- bool|table put your dap-virtual-text setup here set to false to disable
     dap_port = 38697, -- can be set to a number, if set to -1 go.nvim will pick up a random port
-    dap_timeout = 15, --  see dap option initialize_timeout_sec = 15,
-    dap_retries = 5, -- see dap option max_retries
+    dap_timeout = 10, --  see dap option initialize_timeout_sec = 15,
+    dap_retries = 2, -- see dap option max_retries
     build_tags = "tag1,tag2", -- set default build tags
     textobjects = true, -- enable default text jobects through treesittter-text-objects
     test_runner = "go", -- one of {`go`, `richgo`, `dlv`, `ginkgo`, `gotestsum`}
-    verbose_tests = true, -- set to add verbose flag to tests deprecated, see '-v' option
+    verbose_tests = false, -- set to add verbose flag to tests deprecated, see '-v' option
     run_in_floaterm = false, -- set to true to run in a float window. :GoTermClose closes the floatterm
     -- float term recommend if you use richgo/ginkgo with terminal color
     floaterm = { -- position

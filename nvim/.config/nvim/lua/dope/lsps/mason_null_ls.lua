@@ -1,30 +1,32 @@
 local M = {
   "jayp0521/mason-null-ls.nvim",
+  dependencies = {
+    "nvimtools/none-ls.nvim",
+  },
 }
 
 M.servers = {
-  -- "astro-language-server", -- astro
+  "astro-language-server", -- astro
   "buf",
   "buf-language-server",
   "eslint_d",
-  "gofumpt", -- go
   -- "shellharden", -- sh
   -- "shellcheck",
   -- "jq",
-  -- "shfmt",
+  "shfmt",
   -- "sqlfmt",
   -- "sql-formatter",
   "fixjson",
   "golangci-lint",
-  "gospel",
   "prettierd",
+  "gospel",
   "gofumpt",
+  "golines",
   "goimports_reviser", -- go
-  -- "golines",                         -- go
   "lua-language-server", -- lua
   "stylua", -- lua
   "typescript-languange-server", -- ts,js
-  -- "protolint",
+  "protolint",
 }
 
 function M.config()

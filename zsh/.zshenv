@@ -40,12 +40,13 @@ export KODI_DATA="$XDG_DATA_HOME/kodi"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export W3M_DIR="$XDG_STATE_HOME/w3m"
 export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml" # default ~/.config/starship.toml
-export BUN_INSTALL="$XDG_DATA_HOME/bun"
+export BUN_INSTALL="$mystorage/programs/bun"
 export PNPM_HOME="$mystorage/programs/pnpm"
 export CARGO_HOME="$mystorage/programs/cargo"
 export RUSTUP_HOME="$mystorage/programs/rustup"
 export YAZI_CONFIG_HOME="$XDG_CONFIG_HOME/yazi"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/vim.toml"
+export NVM_DIR="$mystorage/programs/nvm"
 
 # export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -100,8 +101,6 @@ export PATH="$PATH":"$XDG_DATA_HOME/nvim/mason/bin"
 export PATH="$PATH":"$mystorage/programs/protoc/bin"
 export PATH="$PATH":"$mystorage/programs/appdev/android-studio/bin"
 export PATH="$PATH":"$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
-# export PATH="$PATH":"$mystorage/programs/appdev/android-studio-sdk/platform-tools"
-# export PATH="$PATH":"$mystorage/programs/appdev/android-studio-sdk/cmdline-tools/latest/bin"
 
 
 [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 

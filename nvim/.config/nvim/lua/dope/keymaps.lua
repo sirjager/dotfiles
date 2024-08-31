@@ -163,17 +163,19 @@ M.which_keymaps = {
   { "<leader>gg", ":GoModTidy<CR>", icon = "󰿞 ", desc = "[G]o Mod Tidy" },
   { "<leader>gv", ":GoModVendor<CR>", icon = "󰕳 ", desc = "[V]endor Mod" },
   { "<leader>gi", ":GoImpl<CR>", icon = "󰰃 ", desc = "[I]plement Interface" },
+  { "<leader>gl", ":GoToggleInlay<CR>", icon = "󰰃 ", desc = "In[L]ay Toggle" },
 
-  -- NOTE: Tests
-  { "<leader>v", group = "[V] Tests", icon = "󰙨" },
-  { "<leader>vn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
-  { "<leader>va", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
-  { "<leader>vs", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[S]top Test" },
-  { "<leader>vc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', icon = "󰢪 ", desc = "[C]urrent File Test" },
-  { "<leader>vd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
-  { "<leader>vg", group = "go test", icon = " " },
-  { "<leader>vgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
-  { "<leader>vgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
+  -- NOTE: Neo Tests
+  { "<leader>n", group = "[N]eo Tests", icon = "󰙨" },
+  { "<leader>np", ':Neotest summary<CR>', icon = "󰊹 ", desc = "[P]anel Summary" },
+  { "<leader>nn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
+  { "<leader>na", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
+  { "<leader>nx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[X]top Test" },
+  { "<leader>nc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', icon = "󰢪 ", desc = "[C]urrent File Test" },
+  { "<leader>nd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
+  { "<leader>ng", group = "[G]o Tests", icon = " " },
+  { "<leader>ngn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
+  { "<leader>ngl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
 
   -- NOTE: Telescope Search
   { "<leader>s", group = "[S]earch", icon = " " },

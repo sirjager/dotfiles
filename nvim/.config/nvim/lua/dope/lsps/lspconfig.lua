@@ -27,8 +27,6 @@ M.servers = {
   "gopls",
   -- "marksman",
   "tailwindcss",
-  -- "phpactor",
-  -- "intelephense",
 }
 
 local function lsp_keymaps(bufnr)
@@ -99,6 +97,10 @@ function M.config()
     if okreq then
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
+
+    -- if server == "gopls" then
+    --   printTable(opts.settings or {})
+    -- end
 
     lspconfig[server].setup(opts)
   end

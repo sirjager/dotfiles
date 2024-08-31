@@ -27,10 +27,10 @@ function M.config()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
   local lspkind = require "lspkind"
-  local ts_utils = require "nvim-treesitter.ts_utils"
   local icons = require "dope.icons"
-  -- local defaults = require "cmp.config.default"()
 
+  require("luasnip/loaders/from_vscode").lazy_load()
+  require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
   require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
 
   local check_backspace = function()
@@ -39,10 +39,6 @@ function M.config()
   end
 
   vim.filetype.add { extension = { astro = "astro" } }
-  luasnip.filetype_extend("dart", { "flutter" })
-
-  require("luasnip/loaders/from_vscode").lazy_load()
-  require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
 
   -- NOTE: Highlight Groups
   vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
@@ -96,8 +92,6 @@ function M.config()
         end
       end, { "i", "s" }),
     },
-
-    preselect = true and cmp.PreselectMode.Item or cmp.PreselectMode.None,
 
     formatting = {
       expandable_indicator = true,
@@ -165,18 +159,6 @@ function M.config()
         name = "nvim_lsp",
         trigger_characters = { "." },
         keyword_length = 0,
-        -- entry_filter = function(entry, _)
-        --   local kind = entry:get_kind()
-        --   local node = ts_utils.get_node_at_cursor():type()
-        --   if node == "arguments" then
-        --     if kind == 6 then
-        --       return true
-        --     else
-        --       return false
-        --     end
-        --   end
-        --   return true
-        -- end,
       },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
@@ -199,24 +181,47 @@ function M.config()
       },
       { name = "emoji", option = { trigger_characters = { ":" } } },
     },
-
+    completion = {
+      keyword_length = 1,
+      completeopt = "menu,menuone,noinsert,noselect",
+    },
     confirm_opts = { behavior = cmp.ConfirmBehavior.Replace, select = true },
-
+    preselect = true and cmp.PreselectMode.Item or cmp.PreselectMode.None,
     window = {
       completion = cmp.config.window.bordered {
         side_padding = 1,
         col_offset = 0,
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+        -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+        border = {
+          { "󱐋", "WarningMsg" },
+          { "─", "Comment" },
+          { "╮", "Comment" },
+          { "│", "Comment" },
+          { "╯", "Comment" },
+          { "─", "Comment" },
+          { "╰", "Comment" },
+          { "│", "Comment" },
+        },
       },
 
       documentation = cmp.config.window.bordered {
         side_padding = 1,
         col_offset = 1,
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+        -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+        border = {
+          { "", "DiagnosticHint" },
+          { "─", "Comment" },
+          { "╮", "Comment" },
+          { "│", "Comment" },
+          { "╯", "Comment" },
+          { "─", "Comment" },
+          { "╰", "Comment" },
+          { "│", "Comment" },
+        },
       },
     },
     experimental = {
-      ghost_text = true,
+      ghost_text = false,
     },
   }
 

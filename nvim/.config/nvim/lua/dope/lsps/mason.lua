@@ -5,12 +5,21 @@ local M = {
 
 M.servers = {
   "luacheck",
+  "stylua",
   "shellcheck",
   "shfmt",
+  -- frontend
+  "html-lsp",
+  "css-lsp",
   "eslint-lsp",
+  "prettierd",
   "typescript-language-server",
   "tailwindcss-language-server",
-  "css-lsp",
+  -- markdown
+  "markdownlint",
+  "marksman",
+  -- docker
+  "hadolint",
 }
 
 function M.config()

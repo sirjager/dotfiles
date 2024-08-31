@@ -7,41 +7,12 @@ local M = {
 }
 
 M.servers = {
-  "astro",
   "bash",
-  "css",
-  -- "dart",
-  -- "dockerfile",
-  "go",
-  -- "gomod",
-  -- "gosum",
-  "html",
-  -- "htmldjango",
-  -- "ini",
   "jq",
-  -- "json",
-  -- "json5",
   "lua",
+  "html",
   "markdown",
   "markdown_inline",
-  -- "php",
-  -- "php_only",
-  -- "phpdoc",
-  "proto",
-  -- "python",
-  -- "regex",
-  -- "sql",
-  -- "ssh_config",
-  -- "svelte",
-  -- "toml",
-  -- "tmux",
-  "tsx",
-  "typescript",
-  -- "vim",
-  -- "vimdoc",
-  -- "vue",
-  "yaml",
-  -- "zig",
 }
 
 function M.config()
@@ -49,16 +20,16 @@ function M.config()
   vim.treesitter.language.register("markdown", "mdx")
   vim.filetype.add { extension = { astro = "astro" } }
   require("nvim-treesitter.configs").setup {
-    sync_install = false,
-    auto_install = false,
+
     ensure_installed = M.servers,
-    matchup = {
-      enable = true,
-      disable = { "c", "ruby", "rust" },
-    },
-    playground = { enable = false },
+    sync_install = false,
+    auto_install = true,
+
     markid = { enable = true },
+    playground = { enable = false },
+    matchup = { enable = true, disable = { "c", "ruby", "rust" } },
     indent = { enable = true, disable = { "yaml", "python", "yml" } },
+
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = true,
@@ -70,6 +41,7 @@ function M.config()
         return status_ok and big_file_detected
       end,
     },
+
     refactor = {
       highlight_current_scope = {
         enable = true,
@@ -80,9 +52,9 @@ function M.config()
       },
       smart_rename = { enable = true },
       navigation = { enable = true },
-
       indent = { enable = true, disable = { "yaml", "yml", "python" } },
     },
+
     textobjects = {
       select = { enable = true, lookahead = true },
     },
