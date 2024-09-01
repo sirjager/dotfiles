@@ -50,6 +50,7 @@ function M.config()
     },
     lsp_document_formatting = true,
     lsp_inlay_hints = {
+      enable = false,
       -- Only show inlay hints for the current line
       only_current_line = true,
       only_current_line_autocmd = "CursorHold",
@@ -103,7 +104,7 @@ function M.config()
     test_efm = false, -- errorfomat for quickfix, default mix mode, set to true will be efm only
     luasnip = true, -- enable included luasnip snippets. you can also disable while add lua/snips folder to luasnip load
     --  Do not enable this if you already added the path, that will duplicate the entries
-    iferr_vertical_shift = 4, -- defines where the cursor will end up vertically from the begining of if err statement
+    iferr_vertical_shift = 2, -- defines where the cursor will end up vertically from the begining of if err statement
   }
 end
 

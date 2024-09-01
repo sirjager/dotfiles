@@ -34,7 +34,7 @@ function M.config()
   require(theme).setup(M.opts)
   vim.o.background = "dark"
   vim.cmd("colorscheme " .. theme)
-  vim.cmd "hi LineNr guibg=none guifg=#8294C4"
+  vim.cmd "hi LineNr guibg=none guifg=#525280"
 end
 
 return M

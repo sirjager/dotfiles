@@ -1,8 +1,5 @@
 {
-    "diagnostics.disable": [
-        "incomplete-signature-doc",
-        "trailing-space",
-        "no-unknown",
-        "undefined-field"
-    ]
+  "diagnostics.disable": [
+    "trailing-space"
+  ]
 }

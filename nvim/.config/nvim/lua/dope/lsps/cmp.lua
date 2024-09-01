@@ -155,26 +155,20 @@ function M.config()
     -- sources for autocompletion, priorties from top to bottom order
     -- tutorial: https://www.youtube.com/watch?v=yTk3C3JMKzQ&list=PLOe6AggsTaVuIXZU4gxWJpIQNHMrDknfN&index=40
     sources = cmp.config.sources {
-      {
-        name = "nvim_lsp",
-        trigger_characters = { "." },
-        keyword_length = 0,
-      },
+      { name = "nvim_lsp", priority = 1000 },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
       { name = "supermaven" }, -- another ai completions
-      -- { name = "cmp_tabnine" }, -- completions from tabnine ai
+      { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
       { name = "nvim_lua" },
       { name = "path" }, -- filesystem path completions
-      -- { name = "async_path" }, -- filesystem path completions
+      { name = "async_path" }, -- filesystem path completions
       {
         name = "tmux", -- completions from tmux sessions
         option = {
           all_panes = true,
           label = "[TMUX]",
-          trigger_characters = { "?" },
-          trigger_characters_ft = {},
           keyword_pattern = [[\w\+]],
           capture_history = false,
         },

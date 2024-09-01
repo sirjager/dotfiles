@@ -24,7 +24,10 @@ function M.config()
     top_down = true,
   }
 
-  local banned_messages = { "No information available" }
+  local banned_messages = {
+    "No information available",
+    "LSP[gopls] Invalid settings: setting option hints: invalid type []interface {} (want JSON object)", -- comes when disabling lsp_inlay_hints. go.lsp_inlay_hints.enable = false
+  }
   ---@diagnostic disable-next-line: duplicate-set-field
   vim.notify = function(msg, ...)
     for _, banned in ipairs(banned_messages) do
@@ -34,8 +37,6 @@ function M.config()
     end
     return require "notify"(msg, ...)
   end
-
-  -- end
 end
 
 return M

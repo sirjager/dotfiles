@@ -1,5 +1,4 @@
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
-export PATH="$PATH:$mystorage/programs/pnpm"
 
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
   rm -rf "${ZINIT_HOME}"
@@ -65,9 +64,11 @@ setopt hist_find_no_dups
 # make suggestion case insensitive
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
+zstyle ':completion:*' menu yes
+
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
+
 
 # shell integrations; ctrl + r
 eval "$(fzf --zsh)"
@@ -92,7 +93,6 @@ alias net-start-virt='sudo virsh net-start default'
 
 # Tmux
 alias tk='tmux kill-session'
-alias tko='tmux kill-session -a'
 alias tmux-delete-sessions="rm -rf ~/.local/share/tmux/resurrect/*"
 
 alias docker-clean-buildx="docker buildx prune --all"
@@ -105,18 +105,25 @@ alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 
 # exa: ls commands with style
 alias l='exa -h --long --all --sort=name --icons'
-alias la='exa -h --long --all --sort=name --icons'
 alias ls="exa -h --long --sort=name --icons --classify"
-alias ll="exa -h --long --sort=name --icons --classify"
+
+function loadEnv() {
+  local envfile="$1"
+  if [ -f "$envfile" ]; then
+    export $(grep -v '^#' "$envfile" | xargs)
+  fi
+}
+
+function pkill() {
+  ps aux | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
+}
+
 
 # general aliases
 alias c='clear'
 alias rbf='fc-cache -fv'
-alias slv="sudo -E -s ~/.local/bin/lvim"
-alias k='killall -q'
-alias knode='sudo pkill -f nodejs && sudo pkill -f node'
 
-alias s=". ~/.zshenv ~/.zshrc;"
+alias s=". ~/.zshrc;"
 
 # Yay Package Manager / Aur Helper
 alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
@@ -144,3 +151,6 @@ alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speak
 export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+
