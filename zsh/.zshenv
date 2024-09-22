@@ -10,13 +10,13 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # NOTE: https://wiki.archlinux.org/title/XDG_user_directories
 export XDG_DESKTOP_DIR="$HOME/Desktop"
-export XDG_DOCUMENTS_DIR="$HOME/Documents"
-export XDG_DOWNLOAD_DIR="$mystorage/downloads"
-export XDG_MUSIC_DIR="$HOME/Music"
-export XDG_PICTURES_DIR="$HOME/Pictures"
-export XDG_PUBLICSHARE_DIR="$HOME/Public"
-export XDG_TEMPLATES_DIR="$HOME/Templates"
-export XDG_VIDEOS_DIR="$HOME/Videos"
+export XDG_DOCUMENTS_DIR="$XDG_DESKTOP_DIR/Documents"
+export XDG_DOWNLOAD_DIR="$XDG_DESKTOP_DIR/Downloads"
+export XDG_MUSIC_DIR="$XDG_DESKTOP_DIR/Music"
+export XDG_PICTURES_DIR="$XDG_DESKTOP_DIR/Pictures"
+export XDG_PUBLICSHARE_DIR="$XDG_DESKTOP_DIR/Public"
+export XDG_TEMPLATES_DIR="$XDG_DESKTOP_DIR/Templates"
+export XDG_VIDEOS_DIR="$XDG_DESKTOP_DIR/Videos"
 
 # NOTE: https://wiki.archlinux.org/title/XDG_Base_Directory
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
@@ -56,8 +56,7 @@ export NVM_DIR="$mystorage/programs/nvm"
 export GPG_TTY="$(tty)"
 export EDITOR="nvim"
 export DIRENV_LOG_FORMAT=""
-export ALTERNATE_EDITOR="lvim"
-export TERMINAL="kitty sh -c 'tmux attach || tmux new'"
+export TERMINAL="kitty"
 export BROWSER="chromium"
 export LSCOLORS="0xGxBxDxCxEgEdxbxgxcxd	"    # terminal colors releated
 export PG_COLOR="always"                     # postgres
@@ -105,4 +104,3 @@ export PATH="$PATH":"$mystorage/programs/node/pnpm/global/5/node_modules/grpc-to
 
 [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 [ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"
-[ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"

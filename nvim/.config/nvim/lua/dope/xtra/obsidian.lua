@@ -66,7 +66,7 @@ M.note_frontmatter_func = function(note)
     note:add_alias(note.title)
   end
   local out = {
-    tags = note.tags,
+    tags = note.tags or "[]",
     categories = "[]",
   }
   if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
@@ -74,7 +74,7 @@ M.note_frontmatter_func = function(note)
       out[k] = v
     end
   end
-  out.modified = os.date "%Y-%m-%dT%H:%M:%S.000Z"
+  out.updated = os.date "%Y-%m-%dT%H:%M:%S"
   return out
 end
 

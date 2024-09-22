@@ -74,7 +74,7 @@ M.keymaps = {
     -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
     ["<A-u>"] = { ":DBUIToggle<CR>", "DB UI Toggle" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
-    ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 3000})<CR>", "format without saving" },
+    ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 5000})<CR>", "format without saving" },
 
     ["<A-v>"] = { ":lua require'ufo'.openAllFolds()<CR>", "open all folds" },
     ["<A-b>"] = { ":lua require'ufo'.closeAllFolds()<CR>", "close all folds" },
@@ -124,6 +124,7 @@ M.keymaps = {
 M.which_keymaps = {
   -- NOTE: File Explorer
   { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
+  { "<leader>v", "<CMD>PasteImage<CR>", icon=" ",desc = "[V]Paste Image" },
 
   -- NOTE: Obsidian
   { "<leader>o", group = "[O]bsidian", icon = "󰮋 " },
@@ -136,6 +137,12 @@ M.which_keymaps = {
   { "<leader>oc", ":lua require'obsidian'.util.toggle_checkbox()<CR>", icon = " ", desc = "[C]heck Box" },
   { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
   { "<leader>ov", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
+
+
+  -- NOTE: Git Neogit 
+  { "<leader>i", group = "Neo G[I]t", icon = " " },
+  { "<leader>id", "<CMD>Neogit diff<CR>", icon = " ", desc = "[D]iff View" },
+
 
   -- NOTE: Debugging
   { "<leader>d", group = "[D]ebugging", icon = " " },

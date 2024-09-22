@@ -8,17 +8,13 @@ M.servers = {
   "stylua",
   "shellcheck",
   "shfmt",
-  -- frontend
   "html-lsp",
-  "css-lsp",
-  "eslint-lsp",
   "prettierd",
+  "css-lsp",
   "typescript-language-server",
   "tailwindcss-language-server",
-  -- markdown
   "markdownlint",
   "marksman",
-  -- docker
   "hadolint",
 }
 

@@ -19,7 +19,6 @@ M.servers = {
   "cssmodules_ls",
   "yamlls", -- yml
   -- "sqlls",
-  -- "prismals",
 }
 
 function M.config()

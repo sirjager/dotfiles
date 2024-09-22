@@ -1,5 +1,7 @@
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
 
+[ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
+
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
   rm -rf "${ZINIT_HOME}"
   mkdir -p "$(dirname "${ZINIT_HOME}")"
@@ -24,15 +26,15 @@ zinit light atuinsh/atuin
 #  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::tmux
-zinit snippet OMZP::archlinux
+# zinit snippet OMZP::tmux
+# zinit snippet OMZP::archlinux
 # zinit snippet OMZP::dotenv  ## instead use "direnv"
 # zinit snippet OMZP::golang
 # zinit snippet OMZP::kubectl
 # zinit snippet OMZP::kubectx
 # zinit snippet OMZP::docker
-zinit snippet OMZP::docker-compose
-zinit snippet OMZP::command-not-found
+# zinit snippet OMZP::docker-compose
+# zinit snippet OMZP::command-not-found
 
 autoload -U compinit && compinit
 zinit cdreplay -q
@@ -50,7 +52,7 @@ bindkey '^n' history-search-forward
 
 
 # History 
-HISTSIZE=999999999
+HISTSIZE=9999999
 SAVEHIST=$HISTSIZE
 HISTFILE="$HISTFILE"
 HISTDUP=erase
@@ -115,7 +117,7 @@ function loadEnv() {
 }
 
 function pkill() {
-  ps aux | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
+  ps aux --sort=-%cpu | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
 }
 
 

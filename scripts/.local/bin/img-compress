@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+## Description : A simple script to compress images in batch
+
+# Check if gum is installed. A tool for glamorous shell scripts.
+if ! command -v gum >/dev/null 2>&1; then
+	gum log --level error "Gum is not installed. Please install it first."
+	exit 1
+fi
+
+# Check if ImageMagick (convert) is installed
+if ! command -v magick >/dev/null 2>&1; then
+	if gum confirm "Image magick not found! Install it now ?"; then
+		gum log --level info "Installing ImageMagick..."
+		sudo pacman -S --needed --noconfirm imagemagick
+	else
+		gum log --level error "ImageMagick not found. Exiting..."
+		exit 1
+	fi
+fi
+
+# Source image directory
+gum log --message.foreground='#000' --message.background='#ACE1AF' " Select image directory to compress " && echo
+IMAGES_DIRECTORY="$(gum file --all --directory --height=10)"
+if [ ! -d "$IMAGES_DIRECTORY" ]; then
+	gum log --level error "Source Directory does not exist." && echo
+	exit 1
+fi
+
+gum log --message.foreground='#000' --message.background='#ACE1AF' " Select compressed image format " && echo
+OUTPUT_FORMAT="$(select-from 'jpg' 'png' 'webp' --default 'avif' --limit 1)"
+
+gum log --message.foreground='#000' --message.background='#ACE1AF' " Select output images quality " && echo
+OUTPUT_QUALITY=$(select-from {1..100} --default '80' --limit 1)
+
+if [ -z $OUTPUT_QUALITY ];then 
+  gum log --level error "Output quality not selected."
+  exit 1
+fi
+
+gum log --level info "Images directory: $IMAGES_DIRECTORY"
+gum log --level info "Output Format   : $OUTPUT_FORMAT"
+gum log --level info "Output Quality  : $OUTPUT_QUALITY"
+echo
+
+OUTPUT_DIRECTORY="$IMAGES_DIRECTORY-compressed"
+if [ ! -d "$OUTPUT_DIRECTORY" ]; then
+	mkdir -p "$OUTPUT_DIRECTORY"
+fi
+
+if ! gum confirm "Proceed with the above settings ?"; then
+	exit 1
+fi
+
+# Function to compress images using ImageMagick
+compress_command_imagemagick() {
+	local input_file="$1"
+	local output_file="$2"
+	if [[ "$input_file" =~ \.png$ ]]; then
+		magick "$input_file" -strip -define png:compression-level=9 "$output_file" # Max compression level
+	else
+		magick "$input_file" -strip -quality "$OUTPUT_QUALITY" "$output_file" # Lower quality for JPEG
+	fi
+}
+
+# Function to process images in the directory
+start_image_compression() {
+	PROCESS_IMAGE_EXTENSIONS=("jpg" "jpeg" "png" "avif" "webp")
+	for ext in "${PROCESS_IMAGE_EXTENSIONS[@]}"; do
+		find "$IMAGES_DIRECTORY" -type f -iname "*.$ext" | while read -r file; do
+			# Create corresponding directories in the compressed output directory
+			local relative_path="${file#$IMAGES_DIRECTORY/}"
+			local output_dir="$OUTPUT_DIRECTORY/$(dirname "$relative_path")"
+			local output_file="$output_dir/$(basename "$file" | sed 's/\.[^.]*$//').$OUTPUT_FORMAT"
+			mkdir -p "$output_dir"
+			compress_command_imagemagick "$file" "$output_file"
+      gum log --level info "󰄳 compressed $file"
+		done
+	done
+}
+
+start_image_compression

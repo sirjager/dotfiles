@@ -14,8 +14,8 @@ function M.config()
     },
     code_action = {
       num_shortcut = true,
-      show_server_name = true, -- default false
-      extend_gitsigns = true, -- default false
+      -- show_server_name = true, -- default false
+      -- extend_gitsigns = true, -- default false
     },
     ui = {
       title = true,

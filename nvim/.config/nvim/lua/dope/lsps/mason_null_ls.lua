@@ -9,16 +9,15 @@ M.servers = {
   "astro-language-server", -- astro
   "buf",
   "buf-language-server",
-  "eslint_d",
   -- "shellharden", -- sh
   -- "shellcheck",
   -- "jq",
+  "prettierd",
   "shfmt",
   -- "sqlfmt",
   -- "sql-formatter",
   "fixjson",
   "golangci-lint",
-  "prettierd",
   "gospel",
   "gofumpt",
   "golines",

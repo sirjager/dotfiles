@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+## Description : A simple helper to select from a list of options
+## Dependencies : pacman -S gum ## gum  https://github.com/charmbracelet/gum
+
+## Examples: https://github.com/charmbracelet/gum
+# 1. select-from one two three
+# 2. select-from "option 1" "option 2" "option 3" "option 4" "option 5" "option 6"
+# 3. select-from "option 1" "option 2" "option 3" --limit 1
+# 5. select-from "option 1" "option 2" --no-limit --header "Select One Option"
+
+selection_choices=()
+default_selections=()
+limit_option="--no-limit"
+height_option="--height 10"
+
+header="  Choose  "
+header_background="#B3A398"
+header_foreground="#000"
+
+cursor_icon=" "
+cursor_background=""
+cursor_foreground="#8A8A8A"
+
+unselected_prefix=" "
+unselected_background=""
+unselected_foreground="#545454"
+
+selected_prefix="󰄳 "
+selected_background=""
+selected_foreground="#ACE1AF"
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	--default)
+		shift
+		while [[ $# -gt 0 && $1 != --* ]]; do
+			default_selections+=("$1")
+			shift
+		done
+		;;
+	--height)
+		shift
+		if [[ $# -gt 0 && $1 =~ ^[0-9]+$ ]]; then
+			height_option="--height $1"
+			shift
+		fi
+		;;
+	--limit)
+		shift
+		if [[ $# -gt 0 && $1 =~ ^[0-9]+$ ]]; then
+			limit_option="--limit $1"
+			shift
+		fi
+		;;
+	*)
+		selection_choices+=("$1")
+		shift
+		;;
+	esac
+done
+
+# Merge defaults with choices if not already present
+for default in "${default_selections[@]}"; do
+	if [[ ! " ${selection_choices[@]} " =~ " ${default} " ]]; then
+		selection_choices+=("$default")
+	fi
+done
+
+# Convert the default array to comma-separated string for the --selected option
+default_selected_options=$(printf '%s\n' "$(
+	IFS=,
+	printf '%s' "${default_selections[*]}"
+)")
+
+# Use gum to select with multiple defaults
+gum choose $limit_option $height_option \
+	--header="$header" \
+	--header.foreground="$header_foreground" \
+	--header.background="$header_background" \
+	--cursor="$cursor_icon" \
+	--cursor.foreground="$cursor_foreground" \
+	--cursor.background="$cursor_background" \
+	--selected-prefix="$selected_prefix" \
+	--selected.foreground="$selected_foreground" \
+	--selected.background="$selected_background" \
+	--unselected-prefix="$unselected_prefix" \
+	--item.foreground="$unselected_foreground" \
+	--item.background="$unselected_background" \
+	--selected=${default_selected_options} "${selection_choices[@]}"

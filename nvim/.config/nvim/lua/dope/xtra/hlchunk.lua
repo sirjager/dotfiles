@@ -7,7 +7,7 @@ local M = {
 function M.config()
   require("hlchunk").setup {
     chunk = {
-      enable = true,
+      enable = false,
       style = "#FFBE98",
       exclude_filetypes = {
         aerial = true,

@@ -25,10 +25,10 @@ return {
       inlayHints = {
         -- includeInlayParameterNameHints = "all",
         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
+        includeInlayFunctionParameterTypeHints = false,
+        includeInlayVariableTypeHints = false,
         includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = false,
         includeInlayEnumMemberValueHints = true,
       },
     },

@@ -11,7 +11,7 @@ local M = {
 function M.config()
   local null_ls = require "null-ls"
   null_ls.setup {
-    debug = true,
+    debug = false,
     sources = {
       null_ls.builtins.formatting.stylua, -- lua
       null_ls.builtins.formatting.shfmt, -- sh/bash
@@ -21,12 +21,9 @@ function M.config()
 
       null_ls.builtins.formatting.yamlfix,
       null_ls.builtins.formatting.sqlfmt,
-      null_ls.builtins.formatting.biome,
 
       null_ls.builtins.formatting.prettierd, -- ts/js,json
-      require "none-ls.diagnostics.eslint_d",
-      require "none-ls.formatting.eslint_d",
-      require "none-ls.code_actions.eslint_d",
+      null_ls.builtins.formatting.biome.with { extra_filtypes = { "astro", "svelte", "vue" } },
 
       null_ls.builtins.diagnostics.golangci_lint, -- go
       null_ls.builtins.formatting.gofumpt, -- go
