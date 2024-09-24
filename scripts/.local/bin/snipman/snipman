@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+## Description : A simple script to manage snippets.
+
+# Check if gum is installed. A tool for glamorous shell scripts.
+if ! command -v gum >/dev/null 2>&1; then
+  echo "Gum is not installed. Please install it first from: https://github.com/charmbracelet/gum" >&2
+  exit 1
+fi
+
+# Variables
+SNIPMAN_DIRECTORY="${SNIPMAN_DIRECTORY:-$HOME/.local/share/snipman}"
+
+if [ -z "$SNIPMAN_DIRECTORY" ]; then
+  echo "Snippet directory not specified" >&2
+  echo "Either set env var SNIPMAN_DIRECTORY" >&2
+  echo "Or pass --snipdir '~/home/snipdir'" >&2
+  exit 1
+fi
+
+# create snip directory if not exists
+[ ! -d "$SNIPMAN_DIRECTORY" ] && mkdir -p "$SNIPMAN_DIRECTORY"
+
+case "$1" in
+create | add | new | --create | --add | --new)
+  shift
+  sh ~/.local/bin/snipman/snipman_create.sh "$@"
+  ;;
+update | modify | edit | --update | --modify | --edit)
+  shift
+  sh ~/.local/bin/snipman/snipman_update.sh "$@"
+  ;;
+delete)
+  shift
+  sh ~/.local/bin/snipman/snipman_delete.sh "$@"
+  ;;
+rename)
+  shift
+  sh ~/.local/bin/snipman/snipman_rename.sh "$@"
+  ;;
+list)
+  shift
+  sh ~/.local/bin/snipman/snipman_list.sh "$@"
+  ;;
+*)
+  sh ~/.local/bin/snipman/snipman_read.sh "$@"
+  ;;
+esac

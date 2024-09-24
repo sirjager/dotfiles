@@ -101,6 +101,8 @@ export PATH="$PATH":"$mystorage/programs/protoc/bin"
 export PATH="$PATH":"$mystorage/programs/appdev/android-studio/bin"
 export PATH="$PATH":"$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
+# scripts
+export PATH="$PATH:$HOME/.local/bin/snipman"
 
 [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 [ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"
