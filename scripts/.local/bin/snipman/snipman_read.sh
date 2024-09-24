@@ -82,24 +82,31 @@ content=$(<"$filepath")
 echo "$content" >"$tmpfile"
 
 if [ "$SKIP_INPUTS" != "true" ]; then
+	declare -A var_values
 	vars=($(grep -o '\$[0-9]\+\|\${[0-9]\+}' "$tmpfile" | sort -u))
 	for var in "${vars[@]}"; do
-		line_info=$(grep -n -F "$var" "$tmpfile")
-		lineno=$(echo "$line_info" | cut -d: -f1)
-		line=$(echo "$line_info" | cut -d: -f2-)
+		if [ -z "${var_values[$var]}" ]; then
+			line_info=$(grep -n -F "$var" "$tmpfile" | head -n 1) # Get only the first match
+			lineno=$(echo "$line_info" | cut -d: -f1)
+			line=$(echo "$line_info" | cut -d: -f2-)
 
-		# Calculate the line range for bat (two lines before and two lines after)
-		start=$((lineno - lines_before))
-		[ $start -lt 1 ] && start=1 # Ensure start is at least line 1
-		range="${start}:+$((lines_before + lines_after))"
+			# Calculate the correct line range (start:stop)
+			start=$((lineno - LINES_BEFORE))
+			[ $start -lt 1 ] && start=1 # Ensure start is at least line 1
+			stop=$((lineno + LINES_AFTER))
+			range="${start}:${stop}"
 
-		# Previewing variable line where var needs to be filled
-		preview_file "$tmpfile" --file-name "$filepath" --line-range "$range"
+			# Previewing variable line where var needs to be filled
+			preview_file "$tmpfile" --file-name "$filepath" --line-range "$range"
 
-		user_input="$(gum input --header " Enter placeholder value for $var " --placeholder "$var" --header.foreground="$header_foreground" --header.background="$header_background")"
+			user_input="$(gum input --header " Enter placeholder value for $var " --placeholder "$var" --header.foreground="$header_foreground" --header.background="$header_background")"
 
-		# Updating variable with absolute value
-		content=${content//$var/$user_input}
+			# Store input value
+			var_values["$var"]="$user_input"
+		fi
+
+		# Updating variable with stored value
+		content=${content//$var/${var_values[$var]}}
 
 		# Every time variable is updated we will write to tempfile
 		echo "$content" >"$tmpfile"
