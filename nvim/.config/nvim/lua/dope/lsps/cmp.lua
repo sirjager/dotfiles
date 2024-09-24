@@ -5,7 +5,7 @@ local M = {
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
-    -- { "FelipeLema/cmp-async-path", event = "InsertEnter" },
+    { "FelipeLema/cmp-async-path", event = "InsertEnter" },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-nvim-lua", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-cmdline", event = "CmdlineEnter", lazy = true },
@@ -13,10 +13,6 @@ local M = {
     { "saadparwaiz1/cmp_luasnip", event = "InsertEnter", lazy = true },
     { "andersevenrud/cmp-tmux", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-emoji", event = "InsertEnter", lazy = true },
-    { "hrsh7th/vim-vsnip", event = "InsertEnter", lazy = true },
-    { "hrsh7th/vim-vsnip-integ", event = "InsertEnter", lazy = true },
-    { "L3MON4D3/LuaSnip", event = "InsertEnter", lazy = true },
-    { "rafamadriz/friendly-snippets", lazy = true },
     { "onsails/lspkind-nvim", lazy = true },
     { "hrsh7th/cmp-nvim-lua", lazy = true },
     { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
@@ -28,10 +24,6 @@ function M.config()
   local luasnip = require "luasnip"
   local lspkind = require "lspkind"
   local icons = require "dope.icons"
-
-  require("luasnip/loaders/from_vscode").lazy_load()
-  require("luasnip/loaders/from_vscode").lazy_load { paths = "~/.local/share/nvim/vim-snippets/snippets" }
-  require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
 
   local check_backspace = function()
     local col = vim.fn.col "." - 1
@@ -219,7 +211,6 @@ function M.config()
     },
   }
 
-  -- require("cmp").config.formatting = { format = require("tailwindcss-colorizer-cmp").formatter }
 end
 
 return M

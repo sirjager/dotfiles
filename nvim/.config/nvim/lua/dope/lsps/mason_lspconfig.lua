@@ -14,7 +14,7 @@ M.servers = {
   "html", -- html
   "jsonls", -- json
   -- "marksman", -- md
-  "tsserver", -- ts
+  "ts_ls", -- ts
   "tailwindcss",
   "cssmodules_ls",
   "yamlls", -- yml

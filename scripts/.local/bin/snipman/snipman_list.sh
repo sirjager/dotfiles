@@ -32,7 +32,7 @@ done < <(find "$SNIPMAN_DIRECTORY" -type f -print0)
 for filepath in "${snippet_files[@]}"; do
 
 	# Initialize variables for meta tags
-	filename="$(basename "$filepath")"
+	filename="${filepath/#$SNIPMAN_DIRECTORY\//}"
 	name="<empty>"
 	desc="<empty>"
 	author="<empty>"

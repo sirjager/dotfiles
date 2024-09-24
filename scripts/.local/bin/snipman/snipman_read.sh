@@ -8,6 +8,7 @@ source ~/.local/bin/snipman/snipman_utils.sh
 
 SNIP_NAME=""        ## name of the snippet to read
 SKIP_INPUTS="false" ## skip updating numbered variables when using snip
+COPY_TO_CLIPBOARD="true"
 
 # number of lines to show of snippet files
 LINES_BEFORE=2
@@ -18,6 +19,10 @@ while [[ $# -gt 0 ]]; do
 	case $1 in
 	--clip | --copy | --clipboard | --yank)
 		COPY_TO_CLIPBOARD="true"
+		shift
+		;;
+	--no-clip | --no-copy | --no-clipboard | --no-yank)
+		COPY_TO_CLIPBOARD="false"
 		shift
 		;;
 	--silent)
@@ -77,6 +82,9 @@ tmpfile="/tmp/$filename"
 
 # Original snippet file content
 content=$(<"$filepath")
+
+# removing snippet meta from tmpfile
+content=$(echo "$content" | sed '/#Name: /d; /#Desc: /d; /#Author: /d')
 
 # Copy original snippet content to temporary file
 echo "$content" >"$tmpfile"

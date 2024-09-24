@@ -13,10 +13,10 @@ M.servers = {
   "cssmodules_ls",
   "html",
   "emmet_ls",
-  "tsserver",
   "bufls",
   "astro",
   "lua_ls",
+  "ts_ls",
   "graphql",
   "sqlls",
   "dockerls",
@@ -96,10 +96,6 @@ function M.config()
     if okreq then
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
-
-    -- if server == "gopls" then
-    --   printTable(opts.settings or {})
-    -- end
 
     lspconfig[server].setup(opts)
   end

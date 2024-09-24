@@ -2,52 +2,64 @@
 
 SNIPMAN_DIRECTORY="${SNIPMAN_DIRECTORY:-$HOME/.local/share/snipman}"
 
+# Define colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+show_colored_commands() {
+	echo -e "${GREEN}create${NC} ${YELLOW}delete${NC} ${BLUE}update${NC} ${GREEN}rename${NC} ${YELLOW}list${NC}"
+}
+
 # Function to get snippets
 get_snippets() {
-  sh ~/.local/bin/snipman/snipman_findfiles.sh --dir "$SNIPMAN_DIRECTORY" --basename --recursive
+	sh ~/.local/bin/snipman/snipman_findfiles.sh --dir "$SNIPMAN_DIRECTORY" --recursive
 }
 
 # _snipman_completion: Bash completion for the snipman script.
 _snipman_completion() {
-  local command="${COMP_WORDS[1]}"
-  local snippets=$(get_snippets)
+	local command="${COMP_WORDS[1]}"
+	local snippets=$(get_snippets)
+	snippets=$(echo "$snippets" | sed "s|^$SNIPMAN_DIRECTORY/||") ## remove base dir from path
 
-  case "$command" in
-  create)
-    local create_flags=('--name' '--editor')
-    if [[ -z "${COMP_WORDS[4]}" ]]; then
-      COMPREPLY=($(compgen -W "${create_flags[*]}" -- "${COMP_WORDS[4]}"))
-    fi
-    ;;
-  delete)
-    # Show all available snippets names for first argument
-    COMPREPLY=($(compgen -W "$snippets" -- "${COMP_WORDS[2]}"))
-    ;;
-  update)
-    local update_flags=('--name' '--editor')
-    COMPREPLY=($(compgen -W "${update_flags[*]} $snippets" -- "${COMP_WORDS[2]}"))
-    ;;
-  rename)
-    # Show all available snippets names for first argument
-    COMPREPLY=($(compgen -W "$snippets" -- "${COMP_WORDS[2]}"))
-    ;;
-  list)
-    # Show all flags for the list option
-    local list_flags=('--clipboard' '--plain' '--silent' '--skip-inputs' '--height' '--lines-after' '--lines-before')
-    COMPREPLY=($(compgen -W "${list_flags[*]}" -- "${COMP_WORDS[2]}"))
-    ;;
-  *)
-    # Show commands and snippets for the first argument
-    local commands="create delete update rename list"
-    if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
-      COMPREPLY=($(compgen -W "$commands $snippets" -- "${COMP_WORDS[1]}"))
-    else
-      # Assuming the third word is where flags are expected
-      local read_flags=('--clipboard' '--plain' '--silent' '--skip-inputs' '--height' '--lines-after' '--lines-before')
-      COMPREPLY=($(compgen -W "${read_flags[*]}" -- "${COMP_WORDS[2]}"))
-    fi
-    ;;
-  esac
+	case "$command" in
+	create)
+		local create_flags=('--name' '--editor')
+		if [[ -z "${COMP_WORDS[4]}" ]]; then
+			COMPREPLY=($(compgen -W "${create_flags[*]}" -- "${COMP_WORDS[4]}"))
+		fi
+		;;
+	delete)
+		# Show all available snippets names for first argument
+		COMPREPLY=($(compgen -W "$snippets" -- "${COMP_WORDS[2]}"))
+		;;
+	update)
+		local update_flags=('--name' '--editor')
+		COMPREPLY=($(compgen -W "${update_flags[*]} $snippets" -- "${COMP_WORDS[2]}"))
+		;;
+	rename)
+		# Show all available snippets names for first argument
+		COMPREPLY=($(compgen -W "$snippets" -- "${COMP_WORDS[2]}"))
+		;;
+	list)
+		# Show all flags for the list option
+		local list_flags=('--clipboard' '--plain' '--silent' '--skip-inputs' '--height' '--lines-after' '--lines-before')
+		COMPREPLY=($(compgen -W "${list_flags[*]}" -- "${COMP_WORDS[2]}"))
+		;;
+	*)
+		# Show commands and snippets for the first argument
+		local commands="create delete update rename list"
+		if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
+			COMPREPLY=($(compgen -W "$commands $snippets" -- "${COMP_WORDS[1]}"))
+		else
+			# Assuming the third word is where flags are expected
+			local read_flags=('--clipboard' '--plain' '--silent' '--skip-inputs' '--height' '--lines-after' '--lines-before')
+			COMPREPLY=($(compgen -W "${read_flags[*]}" -- "${COMP_WORDS[2]}"))
+		fi
+		;;
+	esac
 }
 
 complete -F _snipman_completion snipman
