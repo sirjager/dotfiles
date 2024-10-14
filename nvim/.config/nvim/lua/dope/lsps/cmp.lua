@@ -1,11 +1,10 @@
 local M = {
   "hrsh7th/nvim-cmp",
   lazy = true,
-  event = "BufReadPost",
+  event = "InsertEnter",
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
-    { "FelipeLema/cmp-async-path", event = "InsertEnter" },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-nvim-lua", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-cmdline", event = "CmdlineEnter", lazy = true },
@@ -13,11 +12,21 @@ local M = {
     { "saadparwaiz1/cmp_luasnip", event = "InsertEnter", lazy = true },
     { "andersevenrud/cmp-tmux", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-emoji", event = "InsertEnter", lazy = true },
+    { "L3MON4D3/LuaSnip", event = "InsertEnter", lazy = true },
+    { "rafamadriz/friendly-snippets", lazy = true },
     { "onsails/lspkind-nvim", lazy = true },
     { "hrsh7th/cmp-nvim-lua", lazy = true },
     { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
   },
 }
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  callback = function()
+    if require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()] and not require("luasnip").session.jump_active then
+      require("luasnip").unlink_current()
+    end
+  end,
+})
 
 function M.config()
   local cmp = require "cmp"
@@ -25,19 +34,14 @@ function M.config()
   local lspkind = require "lspkind"
   local icons = require "dope.icons"
 
+  vim.filetype.add { extension = { astro = "astro" } }
+  require("luasnip.loaders.from_vscode").lazy_load()
+  require("luasnip.loaders.from_lua").load()
+
   local check_backspace = function()
     local col = vim.fn.col "." - 1
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
   end
-
-  vim.filetype.add { extension = { astro = "astro" } }
-
-  -- NOTE: Highlight Groups
-  vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-  vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
-  vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-  vim.api.nvim_set_hl(0, "CmpItemKindTabNine", { fg = "#6CC644" })
-  vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#6CC644" })
 
   vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -110,26 +114,6 @@ function M.config()
             vim_item.kind_hl_group = "CmpItemKindCopilot"
           end
 
-          if entry.source.name == "supermaven" then
-            vim_item.kind = icons.misc.Supermaven
-            vim_item.kind_hl_group = "CmpItemKindSupermaven"
-          end
-
-          if entry.source.name == "cmp_tabnine" then
-            vim_item.kind = icons.misc.Robot
-            vim_item.kind_hl_group = "CmpItemKindTabnine"
-          end
-
-          if entry.source.name == "copilot" then
-            vim_item.kind = icons.mics.Copilot
-            vim_item.kind_hl_group = "CmpItemKindCopilot"
-          end
-
-          if source == "cmp_tabnine" then
-            vim_item.dup = 0
-            vim_item.kind = icons.misc.Robot
-          end
-
           if entry.source.name == "lab.quick_data" then
             vim_item.kind = icons.misc.CircuitBoard
             vim_item.kind_hl_group = "CmpItemKindConstant"
@@ -147,24 +131,13 @@ function M.config()
     -- sources for autocompletion, priorties from top to bottom order
     -- tutorial: https://www.youtube.com/watch?v=yTk3C3JMKzQ&list=PLOe6AggsTaVuIXZU4gxWJpIQNHMrDknfN&index=40
     sources = cmp.config.sources {
-      { name = "nvim_lsp", priority = 1000 },
       { name = "luasnip" }, -- snippets completions
+      { name = "nvim_lsp" },
       { name = "codeium" }, -- completions from codeium
-      { name = "supermaven" }, -- another ai completions
-      { name = "cmp_tabnine" }, -- completions from tabnine ai
       { name = "buffer" }, -- completions from opened buffers
-      { name = "nvim_lua" },
+      { name = "nvim_lua" }, -- lua completions
       { name = "path" }, -- filesystem path completions
-      { name = "async_path" }, -- filesystem path completions
-      {
-        name = "tmux", -- completions from tmux sessions
-        option = {
-          all_panes = true,
-          label = "[TMUX]",
-          keyword_pattern = [[\w\+]],
-          capture_history = false,
-        },
-      },
+      { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
       { name = "emoji", option = { trigger_characters = { ":" } } },
     },
     completion = {
@@ -177,7 +150,6 @@ function M.config()
       completion = cmp.config.window.bordered {
         side_padding = 1,
         col_offset = 0,
-        -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
         border = {
           { "󱐋", "WarningMsg" },
           { "─", "Comment" },
@@ -193,7 +165,6 @@ function M.config()
       documentation = cmp.config.window.bordered {
         side_padding = 1,
         col_offset = 1,
-        -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
         border = {
           { "", "DiagnosticHint" },
           { "─", "Comment" },
@@ -210,7 +181,6 @@ function M.config()
       ghost_text = false,
     },
   }
-
 end
 
 return M

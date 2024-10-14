@@ -23,8 +23,8 @@ M.servers = {
   "docker_compose_language_service",
   "jsonls",
   "yamlls",
+  "prismals",
   "gopls",
-  -- "marksman",
   "tailwindcss",
 }
 
@@ -42,6 +42,7 @@ M.on_attach = function(client, bufnr)
 end
 
 function M.common_capabilities()
+  -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
@@ -74,7 +75,17 @@ function M.config()
     float = {
       focusable = true,
       style = "minimal",
-      border = "rounded",
+      -- border = "rounded",
+      border = {
+        { "󱐋", "WarningMsg" },
+        { "─", "Comment" },
+        { "╮", "Comment" },
+        { "│", "Comment" },
+        { "╯", "Comment" },
+        { "─", "Comment" },
+        { "╰", "Comment" },
+        { "│", "Comment" },
+      },
       source = "always",
       header = "",
       prefix = "",
@@ -99,10 +110,6 @@ function M.config()
 
     lspconfig[server].setup(opts)
   end
-
-  -- This line disables diagnostic globally; if anyone needs it here it is
-  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
-  -- end M.config
 end
 
 return M

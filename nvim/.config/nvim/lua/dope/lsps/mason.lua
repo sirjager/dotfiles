@@ -6,6 +6,7 @@ local M = {
 M.servers = {
   "luacheck",
   "stylua",
+  "prismals",
   "shellcheck",
   "shfmt",
   "html-lsp",

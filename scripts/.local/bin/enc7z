@@ -1,0 +1,64 @@
+#!/bin/sh
+
+REMOVE_IF_EXISTS="false"
+GEN_RANDOM_NAME="false"
+output=""
+
+# Applying all flags and values
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --random | --uuid)
+    GEN_RANDOM_NAME="true"
+    shift
+    ;;
+  --remove | -r | --rem)
+    REMOVE_IF_EXISTS="true"
+    shift
+    ;;
+  *)
+    # If the argument is not a flag, store it for processing later
+    if [ -z "$input" ]; then
+      input="$1"
+    else
+      output="$1"
+    fi
+    shift
+    ;;
+  esac
+done
+
+# Check if at least one argument is provided
+if [ -z "$input" ]; then
+  echo "Usage: $0 <file_or_directory> [<compressed_file_name>]"
+  exit 1
+fi
+
+# If no output name is provided and random name is not requested
+if [ -z "$output" ]; then
+  output="${input}.7z"
+fi
+
+# Check if input is a file or directory
+if [ ! -e "$input" ]; then
+  echo "Error: '$input' does not exist."
+  exit 1
+fi
+
+# Generate a random output name if the flag is set
+if [ "$GEN_RANDOM_NAME" = "true" ]; then
+  output="$(uuidgen).7z"
+fi
+
+# Check if the output file already exists
+if [ -e "$output" ]; then
+  if [ "$REMOVE_IF_EXISTS" = "true" ]; then
+    echo "Removing existing output file '$output'."
+    rm "$output"
+  else
+    echo "Error: Output file '$output' already exists."
+    exit 1
+  fi
+fi
+
+# Compress and encrypt the input file/directory
+7z a -t7z -mhe=on -p "$output" "$input"

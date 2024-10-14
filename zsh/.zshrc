@@ -1,4 +1,5 @@
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
+export PATH="$PATH":"$HOME/.local/bin"
 
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
 

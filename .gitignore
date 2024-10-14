@@ -1,0 +1,4 @@
+# Encrypted files only
+enc/*
+enc/**/*
+!enc/*.7z

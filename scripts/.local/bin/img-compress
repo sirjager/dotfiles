@@ -67,7 +67,7 @@ compress_command_imagemagick() {
 
 # Function to process images in the directory
 start_image_compression() {
-	PROCESS_IMAGE_EXTENSIONS=("jpg" "jpeg" "png" "avif" "webp")
+	PROCESS_IMAGE_EXTENSIONS=("jpg" "jpeg" "png" "avif" "webp", "heic")
 	for ext in "${PROCESS_IMAGE_EXTENSIONS[@]}"; do
 		find "$IMAGES_DIRECTORY" -type f -iname "*.$ext" | while read -r file; do
 			# Create corresponding directories in the compressed output directory
