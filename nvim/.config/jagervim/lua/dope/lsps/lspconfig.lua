@@ -7,14 +7,14 @@ local M = {
 }
 
 M.servers = {
-  "biome",
+  -- "biome",
+  "astro",
   "bashls",
   "cssls",
   "cssmodules_ls",
   "html",
   "emmet_ls",
   "bufls",
-  "astro",
   "lua_ls",
   "ts_ls",
   "graphql",

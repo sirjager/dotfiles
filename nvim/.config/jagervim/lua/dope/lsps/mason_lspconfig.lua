@@ -6,7 +6,7 @@ M.servers = {
   "astro",
   "lua_ls",
   "bashls",
-  -- "clangd",
+  "clangd",
   "cssls",
   "emmet_ls",
   "gopls", -- go

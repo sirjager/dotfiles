@@ -134,11 +134,11 @@ function M.config()
       { name = "luasnip" }, -- snippets completions
       { name = "nvim_lsp" },
       { name = "codeium" }, -- completions from codeium
-      { name = "buffer" }, -- completions from opened buffers
+      -- { name = "buffer" }, -- completions from opened buffers
       { name = "nvim_lua" }, -- lua completions
       { name = "path" }, -- filesystem path completions
       { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
-      { name = "emoji", option = { trigger_characters = { ":" } } },
+      -- { name = "emoji", option = { trigger_characters = { ":" } } },
     },
     completion = {
       keyword_length = 1,

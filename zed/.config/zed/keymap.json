@@ -1,69 +1,118 @@
 [
   {
-    //
-    "ctrl-a": "editor::SelectAll",
-    "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-    "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-    "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-    "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
-  },
-
-  {
-    "context": "!menu",
-    "bindings": {
-      // put key-bindings here if you want them to work in normal & visual mode,
-      "w": "editor::SelectToNextWordEnd",
-      "b": "editor::SelectToPreviousWordStart",
-      "tab": "tab_switcher::Toggle",
-      //
-      "ctrl-a": "editor::SelectAll",
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      //
-      "alt-i": "editor::Hover",
-      "alt-f": "editor::ToggleCodeActions",
-      "alt-p": "editor::Format",
-      "alt-r": "editor::Rename",
-      "alt-t": "diagnostics::Deploy",
-      "alt-o": "outline::Toggle",
-      "alt-c": "editor::ToggleComments",
-      "alt-d": "editor::GoToDefinition",
-      //
-      "alt-s l": "pane::SplitRight",
-      "alt-s j": "pane::SplitDown",
-      // Search
-      "space s W": "pane::DeploySearch",
-      "space s s": "file_finder::Toggle"
-    }
-  },
-  {
-    "context": "Editor && vim_mode == insert",
+    "context": "Editor && vim_mode == insert && !menu",
     "bindings": {
       "j k": "vim::NormalBefore",
       "k j": "vim::NormalBefore",
-      "ctrl-l": "editor::MoveRight",
       "ctrl-h": "editor::MoveLeft",
       "ctrl-j": "editor::MoveDown",
-      "ctrl-k": "editor::MoveUp"
+      "ctrl-k": "editor::MoveUp",
+      "ctrl-l": "editor::MoveRight"
     }
   },
   {
-    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
     "bindings": {
+      // Movement
+      "q": "vim::NormalBefore", // Back to normal Mode
+
+      "e": "vim::NextWordEnd", // Hope till end of next word
+      "shift-e": "vim::PreviousWordEnd", // Hope till end of previous word
+      "w": "editor::SelectToNextWordEnd", // Select till end of next word
+      "shift-w": "editor::SelectToPreviousWordStart", // Select till end of previous word
+
+      "shift-l": "editor::Indent",
+      "shift-h": "editor::Outdent",
+      "shift-j": "editor::MoveLineDown",
       "shift-k": "editor::MoveLineUp",
-      "shift-j": "editor::MoveLineDown"
+
+      "ctrl-j": "editor::MoveDown",
+      "ctrl-k": "editor::MoveUp",
+      "ctrl-l": "workspace::ToggleLeftDock",
+      "ctrl-h": "workspace::ToggleLeftDock",
+
+      "space e": "pane::RevealInProjectPanel", // Drawer | Files Explorer
+
+      // Panes And Buffers
+      "alt-w": "pane::CloseInactiveItems", // Close All Other Buffers
+      "alt-s l": "pane::SplitRight", // Split Pane Right
+      "alt-s j": "pane::SplitDown", // Split Pane Down
+      "ctrl-w": "pane::CloseActiveItem", // Close Active Buffer
+      "alt-shift-p": "pane::TogglePinTab", // Pin Current Tab
+
+      // Quick Search
+      "space s s": "file_finder::Toggle", // File Finder
+      "space s o": "projects::OpenRecent", // Open Recent Project
+
+      // Text Editing
+      "alt-b": "editor::FoldAll", // fold code blocks
+      "alt-r": "editor::Rename", // smart rename
+      "alt-f": "editor::ToggleCodeActions", // code actions
+      "alt-i": "editor::Hover", // neovim: Lspsaga hover_doc
+      "alt-d": "editor::GoToDefinition", // neovim: Lspsaga goto_definitation
+      "alt-e": "editor::GoToDefinitionSplit", // neovim: Lspsaga peek_definitation
+      "alt-shift-r": "editor::FindAllReferences", // find all references
+      "alt-shift-b": "editor::UnfoldAll",
+      "alt-c": "vim::ToggleComments",
+      "alt-p": "editor::Format", // Format
+      "alt-o": "outline_panel::ToggleFocus",
+      "tab": "editor::ToggleFoldRecursive"
+      // "ctrl-s": "workspace::SaveWithoutFormat" // Save Without Format Default
     }
   },
   {
-    "context": "EmptyPane || SharedScreen",
+    // Separate block with same context so these display in context menus
+    "context": "ProjectPanel && vim_mode != insert",
     "bindings": {
-      // put key-bindings here (in addition to above) if you want them to
-      // work when no editor exists
-      // "space f": "file_finder::Toggle"
-      "space s W": "pane::DeploySearch",
-      "space s s": "file_finder::Toggle"
+      "space e": "workspace::ToggleLeftDock",
+      "ctrl-h": "workspace::ToggleLeftDock",
+      "ctrl-a": "project_panel::NewFile",
+      "ctrl-r": "project_panel::Rename",
+      "ctrl-y": "project_panel::Copy",
+      "ctrl-x": "project_panel::Cut",
+      "ctrl-p": "project_panel::Paste",
+      "shift-d": "project_panel::Delete",
+      "shift-x": ["project_panel::Trash", { "skip_prompt": false }],
+
+      "l": null,
+      "h": null,
+      "right": "vim::NormalBefore",
+      "tab": "project_panel::ExpandSelectedEntry",
+      "ctrl-n": "project_panel::NewFile"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      // Prev
+      "up": "editor::ContextMenuPrev",
+      "ctrl-k": "editor::ContextMenuPrev",
+      "pageup": "editor::ContextMenuFirst",
+      // Next
+      "down": "editor::ContextMenuNext",
+      "ctrl-j": "editor::ContextMenuNext",
+      "pagedown": "editor::ContextMenuLast"
+    }
+  },
+  {
+    "context": "Editor && inline_completion && !showing_completions",
+    "bindings": {
+      "enter": "editor::AcceptInlineCompletion",
+      "tab": "editor::NextInlineCompletion",
+      "ctrl-k": "editor::ContextMenuPrev",
+      "ctrl-j": "editor::ContextMenuNext"
+    }
+  },
+  {
+    "context": "!Terminal",
+    "bindings": {
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-`": "workspace::ToggleBottomDock"
     }
   }
 ]

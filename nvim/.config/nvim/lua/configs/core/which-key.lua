@@ -1,130 +1,7 @@
-local M = {}
-
--- nothing to do here
--- call setup from where keymaps.lua is being loaded
-M.setup = function()
-  vim.g.mapleader = " "
-  vim.g.maplocalleader = " "
-  for mode, mappings in pairs(M.keymaps) do
-    for key, mapping in pairs(mappings) do
-      local cmd = mapping[1]
-      local desc = mapping[2]
-      vim.api.nvim_set_keymap(mode, key, cmd, { silent = true, noremap = true, desc = desc })
-    end
-  end
-  -- these two were not working with noremap = true
-  -- if noremap = true, set then movenment in editing mode dosen't work, specifically right side
-  vim.api.nvim_set_keymap("n", "<A-c>", "gcc", { silent = true, noremap = false })
-  vim.api.nvim_set_keymap("v", "<A-c>", "gcc", { silent = true, noremap = false })
-end
-
-M.keymaps = {
-  n = {
-    ["<Esc>"] = { ":noh <CR>", "clear highlights" },
-    ["q"] = { "<ESC><ESC>:noh<CR>", "clear highlights" }, -- disabling maro recording
-    ["w"] = { "<ESC>ve", "select word to right" },
-    ["b"] = { "<ESC>vb", "select word to left" },
-
-    ["W"] = { [[<ESC>:execute "normal! v" .. (col('$') - col('.')) .. 'l'<CR>]], "select words till end of line" },
-    ["B"] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], "select words till start of line" },
-
-    ["<C-a>"] = { "gg<S-v>G", "select all" }, -- select all text in current buffer
-    ["<C-s>"] = { "<ESC><ESC>:w<CR>", "save buffer" }, -- save buffers
-    ["<C-w>"] = { ":bd<CR>", "close buffer" }, -- close buffers
-    ["<C-n>"] = { "<CMD>enew<CR>", "new buffer" }, -- new buffer
-
-    ["<C-Up>"] = { ":resize +2<CR>", "increase window height" },
-    ["<C-Down>"] = { ":resize -2<CR>", "decrease window height" },
-    ["<C-Left>"] = { ":vertical resize -2<CR>", "decrease window width" },
-    ["<C-Right>"] = { ":vertical resize +2<CR>", "increase window width" },
-
-    ["<S-h>"] = { ":vertical resize -2<CR>", "decrease window width" },
-    ["<S-l>"] = { ":vertical resize +2<CR>", "increase window width" },
-    ["<S-k>"] = { ":resize -2<CR>", "decrease window height" },
-    ["<S-j>"] = { ":resize +2<CR>", "increase window height" },
-
-    -- INFO:  =================================================================
-    -- All Most Used toggleable options using Alt key
-    -- DO NOT USE Alt+q Prefix;  Alt+q is use by tmux
-    -- ========================================================================
-
-    -- split windows horizontally and vertically
-    ["<A-s>l"] = { ":vsplit<CR>", "split window right" },
-    ["<A-s>j"] = { ":split<CR>", "split window down" },
-
-    -- fast swtich tabs
-    ["<A-1>"] = { "<CMD>BufferLineGoToBuffer 1<CR>", "go to 1 buffer" },
-    ["<A-2>"] = { "<CMD>BufferLineGoToBuffer 2<CR>", "go to 2 buffer" },
-    ["<A-3>"] = { "<CMD>BufferLineGoToBuffer 3<CR>", "go to 3 buffer" },
-    ["<A-4>"] = { "<CMD>BufferLineGoToBuffer 4<CR>", "go to 4 buffer" },
-    ["<A-5>"] = { "<CMD>BufferLineGoToBuffer 5<CR>", "go to 5 buffer" },
-    ["<A-6>"] = { "<CMD>BufferLineGoToBuffer 6<CR>", "go to 6 buffer" },
-    ["<A-7>"] = { "<CMD>BufferLineGoToBuffer 7<CR>", "go to 7 buffer" },
-    ["<A-8>"] = { "<CMD>BufferLineGoToBuffer 8<CR>", "go to 8 buffer" },
-    ["<A-9>"] = { "<CMD>BufferLineGoToBuffer 9<CR>", "go to 9 buffer" },
-    ["<A-0>"] = { "<CMD>BufferLineGoToBuffer 10<CR>", "go to 10 buffer" },
-
-    ["<A-a>"] = { ":Maximize<CR>", "maximize / restore window" },
-    ["<A-z>"] = { ":ZenMode<CR>", "toggle zen mode" },
-    ["<A-t>"] = { ":TroubleToggle<CR>", "toggle trouble" },
-    ["<A-P>"] = { "<CMD>BufferLineTogglePin<CR>", "toggle pin current buffer" },
-    ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
-    ["<A-c>"] = { "gcc", "toggle comment" },
-    ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
-    -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
-    ["<A-u>"] = { ":DBUIToggle<CR>", "DB UI Toggle" },
-    ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
-    ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 5000})<CR>", "format without saving" },
-
-    ["<A-v>"] = { ":lua require'ufo'.openAllFolds()<CR>", "open all folds" },
-    ["<A-b>"] = { ":lua require'ufo'.closeAllFolds()<CR>", "close all folds" },
-
-    ["<A-r>"] = { ":Lspsaga rename<CR>", "smart rename" },
-    ["<A-i>"] = { ":Lspsaga hover_doc<CR>", "documentation" },
-    ["<A-e>"] = { ":Lspsaga peek_definition<CR>", "peek definition" },
-    ["<A-d>"] = { ":Lspsaga goto_definition<CR>", "goto definition" },
-    ["<A-f>"] = { ":Lspsaga code_action<CR>", "code action" },
-  },
-
-  -- insert mode
-  i = {
-    -- faster escape insert mode with: jk/kj
-    ["jk"] = { "<ESC>", "escape insert mode" },
-    ["kj"] = { "<ESC>", "escape insert mode" },
-
-    -- navigate within insert mode
-    ["<C-h>"] = { "<Left>", "Move left" },
-    ["<C-j>"] = { "<Down>", "Move down" },
-    ["<C-k>"] = { "<Up>", "Move up" },
-    ["<C-l>"] = { "<Right>", "Move right" },
-
-    ["<C-s>"] = { "<ESC><ESC>:w<CR>i<Right>", "save buffer" }, -- save buffer
-  },
-
-  -- visual mode
-  v = {
-    ["p"] = { '"_dp', "paste last copied" }, -- keep last copied in clipboard
-    ["q"] = { "<ESC><ESC> :noh <CR>", "escape visual mode" },
-    ["w"] = { "e", "select word to right" },
-
-    -- move selection left, right, top, bottom
-    ["H"] = { "<gv", "indent left" },
-    ["L"] = { ">gv", "indent right" },
-    ["J"] = { ":move '>+1<CR>gv-gv", "move selection down" },
-    ["K"] = { ":move '<-2<CR>gv-gv", "move selection up" },
-
-    ["<A-c>"] = { "gcc", "toggle comment" }, -- Toggle Comment: Also in normal mode
-    ["<A-r>"] = { "y:%s/<MiddleMouse>//g<Left><Left>", "replace highlighted in buffer" }, -- replace highlighted in buffer
-  },
-
-  -- terminal
-  t = {},
-}
-
-M.which_keymaps = {
+local which_keymaps = {
   -- NOTE: File Explorer
-  { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
-  { "<leader>v", "<CMD>PasteImage<CR>", icon=" ",desc = "[V]Paste Image" },
+  { "<leader>e", ":NvimTreeToggle<CR>", icon = "  ", desc = "[F]ile" },
+  { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
   -- NOTE: Obsidian
   { "<leader>o", group = "[O]bsidian", icon = "󰮋 " },
@@ -138,11 +15,9 @@ M.which_keymaps = {
   { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
   { "<leader>ov", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
 
-
-  -- NOTE: Git Neogit 
+  -- NOTE: Git Neogit
   { "<leader>i", group = "Neo G[I]t", icon = " " },
   { "<leader>id", "<CMD>Neogit diff<CR>", icon = " ", desc = "[D]iff View" },
-
 
   -- NOTE: Debugging
   { "<leader>d", group = "[D]ebugging", icon = " " },
@@ -174,11 +49,16 @@ M.which_keymaps = {
 
   -- NOTE: Neo Tests
   { "<leader>n", group = "[N]eo Tests", icon = "󰙨" },
-  { "<leader>np", ':Neotest summary<CR>', icon = "󰊹 ", desc = "[P]anel Summary" },
+  { "<leader>np", ":Neotest summary<CR>", icon = "󰊹 ", desc = "[P]anel Summary" },
   { "<leader>nn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
   { "<leader>na", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
   { "<leader>nx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[X]top Test" },
-  { "<leader>nc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', icon = "󰢪 ", desc = "[C]urrent File Test" },
+  {
+    "<leader>nc",
+    ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',
+    icon = "󰢪 ",
+    desc = "[C]urrent File Test",
+  },
   { "<leader>nd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
   { "<leader>ng", group = "[G]o Tests", icon = " " },
   { "<leader>ngn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
@@ -186,7 +66,12 @@ M.which_keymaps = {
 
   -- NOTE: Telescope Search
   { "<leader>s", group = "[S]earch", icon = " " },
-  { "<leader>ss", ":Telescope find_files hidden=true no_ignore=false color=always<CR>", icon = "󰥨 ", desc = "[S]earch Files" },
+  {
+    "<leader>ss",
+    ":Telescope find_files hidden=true no_ignore=false color=always<CR>",
+    icon = "󰥨 ",
+    desc = "[S]earch Files",
+  },
   { "<leader>sb", ":Telescope buffers<CR>", icon = "󱎸 ", desc = "In [B]uffer" },
   { "<leader>se", ":Telescope emoji<CR>", icon = "󱊒 ", desc = "[E]moji" },
   { "<leader>sW", ":Telescope live_grep<CR>", icon = "󰨭 ", desc = "[W]orkspace" },
@@ -246,7 +131,12 @@ M.which_keymaps = {
   { "<leader>fn", ":FlutterRename<CR>", icon = " ", desc = "Re[N]ame And Update Imports" },
   { "<leader>fy", ":FlutterReanalyze<CR>", icon = " ", desc = "ReAnal[Y]ze Code" },
   { "<leader>fu", ":FlutterSupper<CR>", icon = " ", desc = "GoTo S[U]per Class" },
-  { "<leader>fc", ":lua require('nvim-treesitter-dart-data-class').generate()<CR>", icon = " ", desc = "Data [C]lass Generator" },
+  {
+    "<leader>fc",
+    ":lua require('nvim-treesitter-dart-data-class').generate()<CR>",
+    icon = " ",
+    desc = "Data [C]lass Generator",
+  },
   { "<leader>fb", ":FlutterCreateBloc<CR>", icon = " ", desc = "Create [B]loc" },
 
   { "<leader>fp", group = "[F]lutter [P]ubspec", icon = " " },
@@ -255,4 +145,73 @@ M.which_keymaps = {
   { "<leader>fpp", ":PubspecAssistPickVersion<CR>", icon = " ", desc = "[P]ick Version" },
 }
 
-return M
+return {
+  spec = which_keymaps,
+  show_help = true, -- show a help message in the command line for using WhichKey
+  show_keys = true, -- show the currently pressed key and its label as a message in the command line
+  plugins = {
+    marks = true, -- shows a list of your marks on ' and `
+    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    spelling = {
+      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      suggestions = 20, -- how many suggestions should be shown in the list?
+    },
+    presets = {
+      operators = true, -- adds help for operators like d, y, ...
+      motions = true, -- adds help for motions
+      text_objects = true, -- help for text objects triggered after entering an operator
+      windows = true, -- default bindings on <c-w>
+      nav = true, -- misc bindings to work with windows
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
+    },
+  },
+  icons = {
+    breadcrumb = "»",
+    separator = "➜",
+    group = " ",
+    ellipsis = "...",
+    keys = {
+      Up = " ",
+      Down = " ",
+      Left = " ",
+      Right = " ",
+      C = "󰘴 ",
+      M = "󰘵 ",
+      D = "󰘳 ",
+      S = "󰘶 ",
+      CR = "󱞦 ",
+      Esc = "󱊷 ",
+      ScrollWheelDown = "󱕐 ",
+      ScrollWheelUp = "󱕑 ",
+      NL = "󱞦 ",
+      BS = "󰁮 ",
+      Space = "󱁐 ",
+      Tab = "󰌒 ",
+      F1 = "󱊫 ",
+      F2 = "󱊬 ",
+      F3 = "󱊭 ",
+      F4 = "󱊮 ",
+      F5 = "󱊯 ",
+      F6 = "󱊰 ",
+      F7 = "󱊱 ",
+      F8 = "󱊲 ",
+      F9 = "󱊳 ",
+      F10 = "󱊴 ",
+      F11 = "󱊵 ",
+      F12 = "󱊶 ",
+    },
+  },
+  layout = {
+    height = { min = 4, max = 25 }, -- min and max height of the columns
+    width = { min = 20, max = 50 }, -- min and max width of the columns
+    spacing = 2, -- spacing between columns
+    align = "center", -- align columns left, center or right
+  },
+  win = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
+    wo = {
+      winblend = 0,
+    },
+  },
+}

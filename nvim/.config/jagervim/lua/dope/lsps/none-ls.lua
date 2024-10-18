@@ -23,6 +23,9 @@ function M.config()
       null_ls.builtins.formatting.sqlfmt,
 
       null_ls.builtins.formatting.prettierd, -- ts/js,json
+      -- require "none-ls.diagnostics.eslint_d",
+      -- require "none-ls.formatting.eslint_d",
+      -- require "none-ls.code_actions.eslint_d",
       null_ls.builtins.formatting.biome.with { extra_filtypes = { "astro", "svelte", "vue" } },
 
       null_ls.builtins.diagnostics.golangci_lint, -- go
