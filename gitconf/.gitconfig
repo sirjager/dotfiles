@@ -1,7 +1,19 @@
 [safe]
   directory = *
 
-[include]
-  path = /mnt/storage/global/git.conf
+[user]
+  name = Ankur Kumar
+  email = 18713058+sirjager@users.noreply.github.com
 
+# Enforce SSH
+[url "ssh://git@github.com/sirjager"]
+  insteadOf = https://github.com/sirjager
+[url "ssh://git@gitlab.com/sirjager"]
+  insteadOf = https://gitlab.com/sirjager
+[url "ssh://git@bitbucket.org/sirjager"]
+  insteadOf = https://bitbucket.org/sirjager
+
+;;; if want to include some sensitive configs
+; [include]
+;  path = /mnt/storage/global/git.conf
 

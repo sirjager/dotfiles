@@ -1,15 +1,4 @@
-local M = {
-  "akinsho/flutter-tools.nvim",
-  lazy = true,
-  event = "VeryLazy",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "stevearc/dressing.nvim",
-    "akinsho/pubspec-assist.nvim",
-  },
-}
-
-M.opts = {
+return {
   ui = {
     border = "rounded",
     notification_style = "plugin", -- "native" | "plugin",
@@ -44,10 +33,3 @@ M.opts = {
     },
   },
 }
-
-function M.config()
-  require("flutter-tools").setup(M.opts)
-  require("pubspec-assist").setup {}
-end
-
-return M

@@ -1,14 +1,7 @@
--- https://github.com/HakonHarnes/img-clip.nvim
-local M = {
-  "HakonHarnes/img-clip.nvim",
-  event = "VeryLazy",
-}
-
-
 -- suggested keymap
 -- { "<leader>v", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
 
-M.opts = {
+return {
   -- add options here
   -- or leave it empty to use the default settings
   default = {
@@ -100,5 +93,3 @@ M.opts = {
   },
 }
 
-
-return M

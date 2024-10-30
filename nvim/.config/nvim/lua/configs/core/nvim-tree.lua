@@ -1,4 +1,20 @@
 return {
+  hijack_cursor = false,
+  auto_reload_on_write = true,
+  disable_netrw = false,
+  hijack_netrw = true,
+  hijack_unnamed_buffer_when_opening = false,
+  root_dirs = {},
+  prefer_startup_root = false,
+  sync_root_with_cwd = false,
+  reload_on_bufenter = false,
+  respect_buf_cwd = false,
+  select_prompts = false,
+  sort = {
+    sorter = "name",
+    folders_first = true,
+    files_first = false,
+  },
   view = {
     centralize_selection = true,
     cursorline = true,
@@ -23,7 +39,26 @@ return {
     },
   },
   renderer = {
+    add_trailing = false,
+    group_empty = false,
+    full_name = false,
+    root_folder_label = ":~:s?$?/..?",
     indent_width = 2,
+    special_files = {
+      "Cargo.toml",
+      "Makefile",
+      "README.md",
+      "readme.md",
+    },
+    hidden_display = "none",
+    symlink_destination = true,
+    highlight_git = true,
+    highlight_diagnostics = "none",
+    highlight_opened_files = "none",
+    highlight_modified = "none",
+    highlight_hidden = "none",
+    highlight_bookmarks = "none",
+    highlight_clipboard = "name",
     indent_markers = {
       enable = true,
       inline_arrows = true,
@@ -46,8 +81,8 @@ return {
           color = true,
         },
       },
-      git_placement = "before",
-      modified_placement = "before",
+      git_placement = "signcolumn",
+      modified_placement = "signcolumn",
       show = {
         file = true,
         folder = true,
@@ -63,11 +98,31 @@ return {
     enable = true,
     auto_open = true,
   },
-  diagnostics = {
+  update_focused_file = {
+    enable = true,
+    update_root = {
+      enable = false,
+      ignore_list = {},
+    },
+    exclude = false,
+  },
+  system_open = {
+    cmd = "",
+    args = {},
+  },
+  git = {
     enable = true,
     show_on_dirs = true,
     show_on_open_dirs = true,
-    debounce_delay = 50,
+    disable_for_dirs = {},
+    timeout = 400,
+    cygwin_support = false,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = false,
+    show_on_open_dirs = true,
+    debounce_delay = 100,
     severity = {
       min = vim.diagnostic.severity.HINT,
       max = vim.diagnostic.severity.ERROR,
@@ -79,6 +134,11 @@ return {
       error = "",
     },
   },
+  modified = {
+    enable = false,
+    show_on_dirs = true,
+    show_on_open_dirs = true,
+  },
   filters = {
     enable = true,
     git_ignored = true,
@@ -88,7 +148,11 @@ return {
     no_bookmark = false,
     custom = {},
     exclude = {
+      ".git",
       "node_modules",
+      ".cache",
+      ".next",
+      ".astro",
     },
   },
   live_filter = {
@@ -126,6 +190,20 @@ return {
         style = "minimal",
       },
     },
+    open_file = {
+      quit_on_open = false,
+      eject = true,
+      resize_window = true,
+      window_picker = {
+        enable = true,
+        picker = "default",
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        exclude = {
+          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+          buftype = { "nofile", "terminal", "help" },
+        },
+      },
+    },
     remove_file = {
       close_window = true,
     },
@@ -140,11 +218,39 @@ return {
       ignore = {},
     },
   },
+  notify = {
+    threshold = vim.log.levels.INFO,
+    absolute_path = true,
+  },
+  help = {
+    sort_by = "key",
+  },
   ui = {
     confirm = {
       remove = true,
       trash = true,
       default_yes = false,
+    },
+  },
+  experimental = {
+    actions = {
+      open_file = {
+        relative_path = false,
+      },
+    },
+  },
+  log = {
+    enable = false,
+    truncate = false,
+    types = {
+      all = false,
+      config = false,
+      copy_paste = false,
+      dev = false,
+      diagnostics = false,
+      git = false,
+      profile = false,
+      watcher = false,
     },
   },
 }

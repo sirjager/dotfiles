@@ -1,4 +1,4 @@
-local options = {
+return {
   ensure_installed = {
     "astro",
     "vim",
@@ -17,5 +17,3 @@ local options = {
     "typescript",
   },
 }
-
-return options

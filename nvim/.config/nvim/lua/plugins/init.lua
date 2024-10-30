@@ -1,5 +1,12 @@
 return {
   {
+    "vhyrro/luarocks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = { rocks = { "magick" } },
+    config = true,
+  },
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.lsp.conform",
@@ -47,13 +54,6 @@ return {
     opts = require "configs.lsp.mason-lspconfig",
   },
   {
-    "karb94/neoscroll.nvim",
-    keys = { "<C-d>", "<C-u>" },
-    config = function()
-      require("neoscroll").setup()
-    end,
-  },
-  {
     "folke/zen-mode.nvim",
     cmd = "ZenMode",
     opts = require "configs.xtra.zenmode",
@@ -96,6 +96,8 @@ return {
   },
   {
     "folke/which-key.nvim",
+    lazy = false,
+    priority = 999,
     init = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 2000
@@ -104,15 +106,20 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
+    event = "UIEnter",
     dependencies = {
-      "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-media-files.nvim",
       "xiyaowong/telescope-emoji.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
     },
-    opts = {
-      extensions_list = { "themes", "terms", "zoxide", "project", "emoji", "ui-select", "media_files" },
-    },
+    opts = require "configs.core.telescope",
+    config = function(_, opts)
+      local telescope = require "telescope"
+      telescope.load_extension "media_files"
+      telescope.load_extension "emoji"
+      telescope.load_extension "ui-select"
+      require("telescope").setup(opts)
+    end
   },
   {
     "kevinhwang91/nvim-ufo",
@@ -127,12 +134,14 @@ return {
   {
     "wakatime/vim-wakatime",
     event = "VeryLazy",
+    lazy = false,
   },
   {
     "glepnir/lspsaga.nvim",
     branch = "main",
+    lazy = false,
+    priority = 999,
     opts = require "configs.lsp.lspsaga",
-    event = "VeryLazy",
     config = function(_, opts)
       require("lspsaga").setup(opts)
     end
@@ -141,6 +150,10 @@ return {
     "epwalsh/obsidian.nvim",
     ft = { "markdown" },
     version = "*",
+    opts = require "configs.xtra.obsidian",
+    config = function(_, opts)
+      require("obsidian").setup(opts)
+    end
   },
   {
     "shellRaining/hlchunk.nvim",
@@ -149,5 +162,68 @@ return {
     config = function(_, opts)
       require "hlchunk".setup(opts)
     end
-  }
+  },
+  {
+    "numToStr/Comment.nvim",
+    dependencies = {
+      { "folke/todo-comments.nvim" },
+      { "JoosepAlviste/nvim-ts-context-commentstring" },
+    },
+    config = function()
+      vim.g.skip_ts_context_commentstring_module = true
+      local comments = require "configs.lsp.comments"
+      require("ts_context_commentstring").setup(comments.comment_string_opts)
+      require("todo-comments").setup(comments.todo_comments_opts)
+      local hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+      require("Comment").setup(comments.comment_opts(hook))
+    end
+  },
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     local opts = require "configs.core.noice"
+  --     require "noice".setup(opts)
+  --   end
+  -- },
+  {
+    "karb94/neoscroll.nvim",
+    opts = require "configs.xtra.neoscroll",
+    config = function(_, opts)
+      require "neoscroll".setup(opts)
+    end
+  },
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    lazy = false,
+    event = "VeryLazy",
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim',
+      "akinsho/pubspec-assist.nvim",
+    },
+    opts = require "configs.lsp.flutter",
+    config = function(_, opts)
+      require("flutter-tools").setup(opts)
+      require("pubspec-assist").setup({})
+    end
+  },
+  {
+    "HakonHarnes/img-clip.nvim",
+    lazy = false,
+    event = "VeryLazy",
+    opts = require 'configs.xtra.img-clip',
+    config = function(_, opts)
+      require 'img-clip'.setup(opts)
+    end
+  },
+  {
+    "3rd/image.nvim",
+    lazy = false,
+    event = "VeryLazy",
+    opts = require "configs.xtra.image",
+    config = function(_, opts)
+      require('image').setup(opts)
+    end
+  },
 }

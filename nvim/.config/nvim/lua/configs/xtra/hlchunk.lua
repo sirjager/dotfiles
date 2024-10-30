@@ -1,6 +1,6 @@
 return {
   chunk = {
-    enable = true,
+    enable = false,
     style = "#FFBE98",
     exclude_filetypes = {
       aerial = true,
@@ -8,7 +8,7 @@ return {
     },
   },
   indent = {
-    enable = true,
+    enable = false,
     style = "#30304A",
     exclude_filetypes = {
       aerial = true,

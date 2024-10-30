@@ -1,12 +1,5 @@
-local M = {
-  "numToStr/Comment.nvim",
-  lazy = true,
-  event = "BufReadPost",
-  dependencies = {
-    { "folke/todo-comments.nvim", lazy = true, event = "BufReadPost" },
-    { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true, event = "BufReadPost" },
-  },
-}
+local M = {}
+
 
 M.comment_string_opts = {
   enable_autocmd = false,
@@ -34,7 +27,7 @@ M.comment_opts = function(hook)
 end
 
 M.todo_comments_opts = {
-  signs = true, -- show icons in the signs column
+  signs = true,      -- show icons in the signs column
   sign_priority = 8, -- sign priority
   keywords = {
     TODO = { icon = " ", color = "todo" },
@@ -48,8 +41,8 @@ M.todo_comments_opts = {
     FIX = { icon = " ", color = "fix", alt = { "FIXME", "FIXIT", "ISSUE", "ERROR", "BROKEN" } },
   },
   gui_style = {
-    fg = "NONE", -- The gui style to use for the fg highlight group.
-    bg = "BOLD", -- The gui style to use for the bg highlight group.
+    fg = "NONE",         -- The gui style to use for the fg highlight group.
+    bg = "BOLD",         -- The gui style to use for the bg highlight group.
   },
   merge_keywords = true, -- when true, custom keywords will be merged with the defaults
   -- highlighting of the line containing the todo comment
@@ -57,16 +50,16 @@ M.todo_comments_opts = {
   -- * keyword: highlights of the keyword
   -- * after: highlights after the keyword (todo text)
   highlight = {
-    multiline = true, -- enable multine todo comments
-    multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
-    multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
-    before = "", -- "fg" or "bg" or empty
-    keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
-    after = "fg", -- "fg" or "bg" or empty
+    multiline = true,                -- enable multine todo comments
+    multiline_pattern = "^.",        -- lua pattern to match the next multiline from the start of the matched keyword
+    multiline_context = 10,          -- extra lines that will be re-evaluated when changing a line
+    before = "",                     -- "fg" or "bg" or empty
+    keyword = "wide",                -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+    after = "fg",                    -- "fg" or "bg" or empty
     pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
-    comments_only = true, -- uses treesitter to match keywords in comments only
-    max_line_len = 400, -- ignore lines longer than this
-    exclude = {}, -- list of file types to exclude highlighting
+    comments_only = true,            -- uses treesitter to match keywords in comments only
+    max_line_len = 400,              -- ignore lines longer than this
+    exclude = {},                    -- list of file types to exclude highlighting
   },
   colors = {
     todo = { "IdentifierTodo", "#F9E2AF" },
@@ -95,14 +88,5 @@ M.todo_comments_opts = {
     -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
   },
 }
-
-function M.config()
-  vim.g.skip_ts_context_commentstring_module = true
-  require("ts_context_commentstring").setup(M.comment_string_opts)
-  require("todo-comments").setup(M.todo_comments_opts)
-
-  local hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-  require("Comment").setup(M.comment_opts(hook))
-end
 
 return M

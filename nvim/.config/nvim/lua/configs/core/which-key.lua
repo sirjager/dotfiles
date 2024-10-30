@@ -90,11 +90,10 @@ local which_keymaps = {
   { "<leader>lv", ":LspInfo<CR>", icon = " ", desc = "[V]erbose" },
   { "<leader>lr", ":LspRestart<CR>", icon = " ", desc = "[R]estart" },
   { "<leader>ld", ":Lspsaga show_workspace_diagnostics<CR>", icon = " ", desc = "[W]orkspace" },
-  { "<leader>ll", ":Lspsaga show_buf_diagnostics<CR>", icon = " ", desc = "[B]uf" },
   { "<leader>lj", ":Lspsaga diagnostic_jump_next<CR>", icon = " ", desc = "[J]ump" },
   { "<leader>lk", ":Lspsaga diagnostic_jump_prev<CR>", icon = " ", desc = "[K]Prev" },
   { "<leader>lc", ":Lspsaga show_cursor_diagnostics<CR>", icon = " ", desc = "[C]ursor" },
-  { "<leader>lo", ":lua vim.diagnostic.enable(false)<CR>", icon = " ", desc = "[O]ff" },
+  { "<leader>ll", ":lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>", icon = " ", desc = "Togg[L]e" },
   { "<leader>ln", ":lua vim.diagnostic.enable(true)<CR>", icon = " ", desc = "O[N]" },
   { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[I]ncoming calls" },
 
@@ -147,23 +146,23 @@ local which_keymaps = {
 
 return {
   spec = which_keymaps,
-  show_help = true, -- show a help message in the command line for using WhichKey
-  show_keys = true, -- show the currently pressed key and its label as a message in the command line
+  show_help = true,     -- show a help message in the command line for using WhichKey
+  show_keys = true,     -- show the currently pressed key and its label as a message in the command line
   plugins = {
-    marks = true, -- shows a list of your marks on ' and `
-    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    marks = true,       -- shows a list of your marks on ' and `
+    registers = true,   -- shows your registers on " in NORMAL or <C-r> in INSERT mode
     spelling = {
-      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
       suggestions = 20, -- how many suggestions should be shown in the list?
     },
     presets = {
-      operators = true, -- adds help for operators like d, y, ...
-      motions = true, -- adds help for motions
+      operators = true,    -- adds help for operators like d, y, ...
+      motions = true,      -- adds help for motions
       text_objects = true, -- help for text objects triggered after entering an operator
-      windows = true, -- default bindings on <c-w>
-      nav = true, -- misc bindings to work with windows
-      z = true, -- bindings for folds, spelling and others prefixed with z
-      g = true, -- bindings for prefixed with g
+      windows = true,      -- default bindings on <c-w>
+      nav = true,          -- misc bindings to work with windows
+      z = true,            -- bindings for folds, spelling and others prefixed with z
+      g = true,            -- bindings for prefixed with g
     },
   },
   icons = {
@@ -205,8 +204,8 @@ return {
   layout = {
     height = { min = 4, max = 25 }, -- min and max height of the columns
     width = { min = 20, max = 50 }, -- min and max width of the columns
-    spacing = 2, -- spacing between columns
-    align = "center", -- align columns left, center or right
+    spacing = 2,                    -- spacing between columns
+    align = "center",               -- align columns left, center or right
   },
   win = {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.

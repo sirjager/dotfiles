@@ -54,7 +54,6 @@ M.keymaps = {
     ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
-    -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
     ["<A-u>"] = { ":DBUIToggle<CR>", "DB UI Toggle" },
     ["<A-w>"] = { ":lua require('nvchad.tabufline').closeAllBufs(false)<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 10000})<CR>", "format without saving" },
