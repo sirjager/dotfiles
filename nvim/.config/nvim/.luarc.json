@@ -1,5 +1,7 @@
 {
-    "diagnostics.disable": [
-        "different-requires"
-    ]
+  "diagnostics.disable": [
+    "trailing-space",
+        "no-unknown",
+        "undefined-field"
+  ]
 }

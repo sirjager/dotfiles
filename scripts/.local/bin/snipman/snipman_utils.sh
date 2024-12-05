@@ -23,17 +23,31 @@ create_file_if_not_exists() {
   fi
 }
 
+# copy_to_clipboard() {
+#   if [ "$OSTYPE" == "darwin"* ]; then
+#     echo "$1" | pbcopy
+#   elif command -v xclip >/dev/null 2>&1; then
+#     echo " I AM IN LINUX"
+#     echo "$1" | xclip -selection clipboard
+#   else
+#     echo "Clipboard tool not available. Please install xclip (Linux) or use macOS" >&2
+#     exit 1
+#   fi
+#   echo "copied to clipboard" >&2
+# }
+
 copy_to_clipboard() {
-  local content="$1"
-  if [ "$OSTYPE" == "darwin"* ]; then
-    echo "$content" | pbcopy
+  if command -v pbcopy >/dev/null 2>&1; then
+    echo "$1" | pbcopy
   elif command -v xclip >/dev/null 2>&1; then
-    echo "$content" | xclip -selection clipboard
+    echo "$1" | xclip -selection clipboard
+  elif command -v xsel >/dev/null 2>&1; then
+    echo "$1" | xsel --clipboard --input
   else
-    echo "Clipboard tool not available. Please install xclip (Linux) or use macOS" >&2
+    echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
     exit 1
   fi
-  echo "copied to clipboard" >&2
+  echo "Copied to clipboard" >&2
 }
 
 get_file_creation_date() {

@@ -1,20 +1,11 @@
-ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
-export PATH="$PATH":"$HOME/.local/bin"
-
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
 
+ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
   rm -rf "${ZINIT_HOME}"
   mkdir -p "$(dirname "${ZINIT_HOME}")"
   git clone https://github.com/zdharma-continuum/zinit.git "${ZINIT_HOME}"
 fi
-
-# setup tmux plugin manager 
-if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then 
-  mkdir -p ~/.config/tmux/plugins
-  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-fi
-
 source "${ZINIT_HOME}/zinit.zsh"
 
 zinit light zsh-users/zsh-syntax-highlighting
@@ -91,6 +82,7 @@ alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias ssh-newkey="ssh-keygen -t ed25519 -C"
 alias ssh-eval='eval "$(ssh-agent -s)"'
 alias ssh-test='ssh -T git@github.com'
+alias ssh-termux='ssh u0_760@192.168.0.101 -p 8022'
 
 alias net-start-virt='sudo virsh net-start default'
 
@@ -129,6 +121,7 @@ alias rbf='fc-cache -fv'
 alias s=". ~/.zshrc;"
 
 # Yay Package Manager / Aur Helper
+
 alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
 alias .r="yay --noconfirm -Rns"        # To remove the package, avoid orphaned dependencies and erase its global configuration (which in most cases is the proper command to remove software.)
 alias .u="yay --noconfirm -Syu"        # To update the system && Update the database

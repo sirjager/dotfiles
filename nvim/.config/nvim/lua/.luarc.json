@@ -1,0 +1,8 @@
+{
+    "workspace.checkThirdParty": false,
+    "diagnostics.disable": [
+        "missing-fields",
+        "no-unknown",
+        "undefined-field"
+    ]
+}

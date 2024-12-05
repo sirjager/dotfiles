@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Setting up zsh plugins
+ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
+if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
+  rm -rf "${ZINIT_HOME}"
+  mkdir -p "$(dirname "${ZINIT_HOME}")"
+  git clone https://github.com/zdharma-continuum/zinit.git "${ZINIT_HOME}"
+fi
+
+# Tmux plugin manager
+TMUX_PLUGINS="$HOME/.local/share/tmux/plugins"
+if [ ! -d "$TMUX_PLUGINS/tpm" ]; then 
+  rm -rf "$TMUX_PLUGINS" && mkdir -p "$TMUX_PLUGINS"
+  git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGINS/tpm"
+fi
+

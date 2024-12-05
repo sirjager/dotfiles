@@ -90,6 +90,7 @@ export PATH="$PATH":"$BUN_INSTALL/bin"
 export PATH="$PATH":"$HOME/.local/bin"
 export PATH="$PATH":"$FLUTTER_ROOT/bin"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="$PATH:$HOME/.local/bin/snipman"
 export PATH="$PATH:$WAKATIME_HOME/.wakatime"
 export PATH="$PATH":"$XDG_CONFIG_HOME/emacs/bin"
 export PATH="$PATH":"$mystorage/programs/Postman"
@@ -100,9 +101,6 @@ export PATH="$PATH":"$XDG_DATA_HOME/nvim/mason/bin"
 export PATH="$PATH":"$mystorage/programs/protoc/bin"
 export PATH="$PATH":"$mystorage/programs/appdev/android-studio/bin"
 export PATH="$PATH":"$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
-
-# scripts
-export PATH="$PATH:$HOME/.local/bin/snipman"
 
 [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 [ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"

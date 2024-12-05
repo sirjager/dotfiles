@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+ROFI_THEME="$HOME/.local/bin/rofi-dmenu/horizontal.rasi"
+
+NOTIFY="false"
+MEDIA_PLAYER="mpv"
+
+DOWNLOAD_URL=""
+DOWNLOAD_PLAYLIST="false"
+NUMBER_OF_RETRIES="1"
+PLAY_AFTER_DOWNLOAD="false"
+SHOW_AFTER_DOWNLOAD="false"
+
+DOWNLOAD_DIR="/mnt/storage/downloads/videos"
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-n)
+		NOTIFY="true"
+		shift
+		;;
+	-p)
+		DOWNLOAD_PLAYLIST="true"
+		shift
+		;;
+	-r=*)
+		NUMBER_OF_RETRIES="${1#*=}"
+		shift
+		;;
+	-u=*)
+		DOWNLOAD_URL="${1#*=}"
+		shift
+		;;
+	-d=*)
+		DOWNLOAD_DIR="${1#*=}"
+		shift
+		;;
+	-play)
+		PLAY_AFTER_DOWNLOAD="true"
+		shift
+		;;
+	-show)
+		SHOW_AFTER_DOWNLOAD="true"
+		shift
+		;;
+	-player=*)
+		MEDIA_PLAYER="${1#*=}"
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+# INFO: NOTIFICATION
+notify() {
+	level="$3"
+	[ "$level" = "" ] && level="normal"
+	[ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+# INFO: YOUTUBE LINK VALIDATATION (OPTIONAL)
+is_valid_link() {
+	# youtube_pattern='^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[a-zA-Z0-9_-]+$'
+	youtube_pattern='^https?://www\.youtube\.com/'
+	if echo "$1" | grep -qE "$youtube_pattern"; then
+		return 0
+	fi
+	return 1
+}
+
+# INFO: SHOW INSERT LINK PROMPT USING ROFI
+show_link_prompt() {
+	prompt_insert="Enter youtube video link: "
+	new_link=$(rofi -dmenu -p "$prompt_insert" -theme "$ROFI_THEME")
+	if [ -z "$new_link" ]; then
+		exit 1
+	fi
+	if ! is_valid_link "$new_link"; then
+		notify "Not a youtube video link" "$new_link" critical
+		exit 1
+	fi
+	DOWNLOAD_URL="$new_link"
+}
+
+# INFO: DOWNLOAD COMMAND BUILDER: adds optional params
+download_command() {
+	[ -z "$DOWNLOAD_URL" ] && exit 1
+	full_command="yt-dlp"
+	full_command="$full_command -f \"bestvideo[height<=1080]+bestaudio/best[height<=1080]/best\""
+	if [ "$DOWNLOAD_PLAYLIST" = "true" ]; then
+		full_command="$full_command --yes-playlist"
+	fi
+	full_command="$full_command -o \"$DOWNLOAD_DIR/%(title)s.%(ext)s \""
+	full_command="$full_command -R $NUMBER_OF_RETRIES"
+	full_command="$full_command \"$DOWNLOAD_URL\""
+	echo "$full_command"
+}
+
+play_video() {
+	[ -z "$1" ] && return 1
+
+	"$MEDIA_PLAYER" "$1" &
+}
+
+show_in_directory() {
+	[ -z "$1" ] && return 1
+	xdg-open "$1" &
+}
+
+# PERF: START OF EXECUTION
+
+# INFO: CREATING DOWNLOAD_DIR IF DOESNT EXISTS
+if [ ! -d "$DOWNLOAD_DIR" ]; then
+	mkdir -p "$DOWNLOAD_DIR"
+fi
+
+# INFO: GET DOWNLOAD_URL FROM CURSOR SELECTED/HIGHLIGHTED TEXT
+DOWNLOAD_URL="$(xclip -o)"
+if ! is_valid_link "$DOWNLOAD_URL"; then
+	DOWNLOAD_URL=""
+fi
+
+# INFO: IF DOWNLOAD_URL IS NOT PASSED ie. EMPTY THEN SHOW PROMPT TO GET LINK
+if [ -z "$DOWNLOAD_URL" ]; then
+	show_link_prompt
+fi
+
+# INFO: READY COMMAND
+execute_command=$(download_command)
+
+# PERF: EXECUTE COMMAND
+
+notify "Video download started" "$DOWNLOAD_URL"
+result=$(eval "$execute_command")
+
+# INFO: AFTER COMMAND EXECUTION
+if [ $? -eq 0 ]; then
+	# INFO: IF SUCCESSFULL
+	FILE_NAME=$(echo "$result" | grep "$DOWNLOAD_DIR" | awk -F "$DOWNLOAD_DIR/" '{gsub(" has already been downloaded", ""); print $2}')
+	FILE_PATH="$DOWNLOAD_DIR/$FILE_NAME"
+
+	notify "$FILE_NAME" "stored in $DOWNLOAD_DIR"
+
+	[ "$PLAY_AFTER_DOWNLOAD" = "true" ] && play_video "$FILE_PATH"
+	[ "$SHOW_AFTER_DOWNLOAD" = "true" ] && show_in_directory "$DOWNLOAD_DIR"
+
+else
+	# ERROR: IF FAILED
+	notify "Failed to download video" "$result"
+fi
+
+#
