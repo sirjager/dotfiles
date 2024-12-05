@@ -60,8 +60,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu yes
 
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --icons'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -h --long --all --sort=name --icons'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -h --long --all --sort=name --icons'
 
 
 # shell integrations; ctrl + r
@@ -99,20 +99,8 @@ alias docker-clean-image="docker image prune --all"
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 
 # exa: ls commands with style
-alias l='exa -h --long --all --sort=name --icons'
-alias ls="exa -h --long --sort=name --icons --classify"
-
-function loadEnv() {
-  local envfile="$1"
-  if [ -f "$envfile" ]; then
-    export $(grep -v '^#' "$envfile" | xargs)
-  fi
-}
-
-function pkill() {
-  ps aux --sort=-%cpu | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
-}
-
+alias l='eza -h --long --all --sort=name --icons'
+alias ls="eza -h --long --sort=name --icons --classify"
 
 # general aliases
 alias c='clear'
@@ -120,32 +108,11 @@ alias rbf='fc-cache -fv'
 
 alias s=". ~/.zshrc;"
 
-# Yay Package Manager / Aur Helper
-
-alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
-alias .r="yay --noconfirm -Rns"        # To remove the package, avoid orphaned dependencies and erase its global configuration (which in most cases is the proper command to remove software.)
-alias .u="yay --noconfirm -Syu"        # To update the system && Update the database
-alias .rank-mirrors="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50"
-
-alias install-widevine="yay --noconfirm --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
-
-# usage > install-go go1.20.4
-alias install-go='function _pkg-install-go(){ GOVER=$1 && echo "$GOVER.linux-amd64.tar.gz"; mkdir -p /mnt/storage/programs/go && rm -f /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz ; rm -rf /mnt/storage/programs/go/sdk ; wget -O /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz https://golang.org/dl/$GOVER.linux-amd64.tar.gz && tar -C /mnt/storage/programs/go -xzf /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz && mv /mnt/storage/programs/go/go /mnt/storage/programs/go/sdk && clear && /mnt/storage/programs/go/sdk/bin/go version && rm -f /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz ; unset -f _pkg-install-go; };_pkg-install-go'
-
-alias fl="flutter"
-alias pn='pnpm'
-alias np='npm run'
-
 alias n="nvim"
 alias nv='nvim $(fzf -m --preview="bat --color=always {}")'
-alias snv="sudo -E -s nvim"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
-alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
-alias kubectl="minikube kubectl"
-alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 
-export NVM_DIR="/mnt/storage/programs/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-source "$HOME/.local/bin/snipman/snipman_completions"
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux attach-session -t default || tmux new-session -s default
+fi

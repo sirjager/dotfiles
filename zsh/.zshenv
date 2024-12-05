@@ -1,6 +1,6 @@
 # .zshenv or .zprofile |  .bash_profile | .profile
 
-export mystorage="/mnt/storage"
+export mystorage="$HOME/work"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
 
@@ -101,6 +101,4 @@ export PATH="$PATH":"$XDG_DATA_HOME/nvim/mason/bin"
 export PATH="$PATH":"$mystorage/programs/protoc/bin"
 export PATH="$PATH":"$mystorage/programs/appdev/android-studio/bin"
 export PATH="$PATH":"$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
-
-[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 [ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"
