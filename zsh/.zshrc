@@ -149,3 +149,6 @@ export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 source "$HOME/.local/bin/snipman/snipman_completions"
+
+export JAVA_HOME="$mystorage/programs/appdev/android-studio/jbr"
+export PATH="$PATH:$mystorage/programs/appdev/android-studio/jbr/bin"
