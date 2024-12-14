@@ -7,12 +7,14 @@ require "dope.options"
 require "dope.autocmds"
 require("dope.keymaps").setup()
 
-spec "dope.theme.onedark"
 spec "dope.core.notify"
+spec "dope.theme.onedark"
 -- spec "dope.theme.catppuccin"
 
+-- spec "dope.core.snacks"
+spec "dope.core.dashboard" 
+
 spec "dope.core.whichkey"
-spec "dope.core.dashboard"
 spec "dope.core.windline"
 spec "dope.core.noice"
 spec "dope.core.devicons"

@@ -24,7 +24,7 @@ function M.config()
       -- require "none-ls.diagnostics.eslint_d",
       -- require "none-ls.formatting.eslint_d",
       -- require "none-ls.code_actions.eslint_d",
-      null_ls.builtins.formatting.biome.with { extra_filtypes = { "astro", "svelte", "vue" } },
+      -- null_ls.builtins.formatting.biome.with { extra_filtypes = { "astro", "svelte", "vue" } },
 
       null_ls.builtins.diagnostics.golangci_lint, -- go
       null_ls.builtins.formatting.gofumpt, -- go
