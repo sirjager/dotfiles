@@ -144,7 +144,7 @@ super + Print
 
 # Applications Launcher, Start Applicaiton
 alt + @space
-    rofi -show drun -theme ~/.config/rofi/themes/dmenu.rasi &
+    rofi -show drun -theme ~/.config/sxhkd/rofi/horizontal.rasi &
 
 # Browsers: Cromium | Quick App Launch
 super + b
