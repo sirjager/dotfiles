@@ -2,11 +2,11 @@
 
 # Reload sxhkd
 ctrl + shift + Escape
-   pkill -usr1 -x sxhkd &
+  pkill -usr1 -x sxhkd &
 
 # Reload bspwm
 super + shift + r
-    chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r & ~/.config/polybar/launch.sh &
+  chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r & ~/.config/polybar/launch.sh &
 
 # Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
 super + q; k
@@ -14,11 +14,11 @@ super + q; k
 
 # Logout, quit bspwm
 super + alt + q
-    bspc quit &
+  bspc quit &
 
 # Power menu
 super + ctrl + p
-    ~/.config/rofi/powermenu/type-4/powermenu.sh &
+  ~/.config/rofi/powermenu/type-4/powermenu.sh &
 
 # Lockscreen: Locks screen
 super + shift + l
@@ -26,31 +26,31 @@ super + shift + l
 
 # Focus next window, Select next window
 alt + Tab
-    bspc node -f next.local.window &
+  bspc node -f next.local.window &
 
 # Close Active Window, Close All Window in current Desktop
 super + {_,shift + }w
-    bspc node -{c,k} &
+  bspc node -{c,k} &
 
 # Set window private
 super + ctrl + z
-    bspc node -g private
+  bspc node -g private
 
 # Vertical View / Windows arranged vertically
 super + {_,shift + }KP_Multiply
-    bspc node @parent -R 90 &
+  bspc node @parent -R 90 &
 
 # Window state Fullscreen
 super + shift + Num_Lock
-    bspc node -t fullscreen &
+  bspc node -t fullscreen &
 
 # Window state Tile
 super + shift + KP_Divide
-    bspc node -t tiled &
+  bspc node -t tiled &
 
 # Window state Floating
 super + shift + KP_Subtract
-    bspc node -t floating &
+  bspc node -t floating &
 
 # Window state Toggle Floating / Tile
 super + f
@@ -58,11 +58,11 @@ super + f
 
 # change workspace, send window to workspace 1-9
 super + {_,shift} {1-9,0}
-    bspc {desktop -f, node -d} '^{1-9,10}' &
+  bspc {desktop -f, node -d} '^{1-9,10}' &
 
 # Windo swap position among other windows in same workspace
 super + shift + Tab
-    bspc node @/ -C {forward,backward} &
+  bspc node @/ -C {forward,backward} &
 
 # move floating window 
 super + ctrl + {KP_8,KP_4,KP_5,KP_6}
@@ -75,60 +75,60 @@ super + shift  + {KP_8,KP_4,KP_5,KP_6}
 
 # Disable touchpad
 super + shift + braceleft
-    xinput --disable 'ELAN1200:00 04F3:30BA Touchpad' &
+  xinput --disable 'ELAN1200:00 04F3:30BA Touchpad' &
 
 # Enable touchpad
 super + shift + braceright
-    xinput --enable 'ELAN1200:00 04F3:30BA Touchpad' &
+  xinput --enable 'ELAN1200:00 04F3:30BA Touchpad' &
 
 # Increase brightness
 XF86MonBrightnessUp
-    light -A 5 && light -O &
+  light -A 5 && light -O &
 
 # Increase brightness
 super + KP_Add
-    light -A 5 && light -O &
+  light -A 5 && light -O &
 
 # Decrease brightness, Lower brightness
 XF86MonBrightnessDown
-    light -U 5 && light -O &
+  light -U 5 && light -O &
 
 # Decrease brightness, Lower brightness
 super + KP_Subtract
-    light -U 5 && light -O &
+  light -U 5 && light -O &
 
 # Mute mic, Toggle Mute Mic
 XF86AudioMicMute
-    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+  pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Mute volume
 XF86AudioMute
-    pactl -- set-sink-mute 0 toggle &
+  pactl -- set-sink-mute 0 toggle &
 
 # Raise volume, Increase Volume
 XF86AudioRaiseVolume
-    pactl -- set-sink-volume 0 +1% &
+  pactl -- set-sink-volume 0 +1% &
 
 # Raise volume, Increase Volume
 alt + KP_Add
-    pactl -- set-sink-volume 0 +1% &
+  pactl -- set-sink-volume 0 +1% &
 
 # Lower volume, Decrease volume
 XF86AudioLowerVolume
-    pactl -- set-sink-volume 0 -1% &
+  pactl -- set-sink-volume 0 -1% &
 
 # Lower volume, Decrease volume
 alt + KP_Subtract
-    pactl -- set-sink-volume 0 -1% &
+  pactl -- set-sink-volume 0 -1% &
 
 
 # Copy Window Class To Clipboard
 super + shift + i
-    xprop | grep WM_CLASS | cut -d'"' -f2 | head -n1 | xclip -selection clipboard &
+  xprop | grep WM_CLASS | cut -d'"' -f2 | head -n1 | xclip -selection clipboard &
 
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f
-    ~/.config/sxhkd/scripts/toggle-polybar &
+  ~/.config/sxhkd/scripts/toggle-polybar &
 
 # Terminal: Kitty Tmux New Session | Kitty Without Tmux
 super + {_,shift + } Return
@@ -144,7 +144,7 @@ super + Print
 
 # Applications Launcher, Start Applicaiton
 alt + @space
-    rofi -show drun -theme ~/.config/sxhkd/rofi/horizontal.rasi &
+  rofi -show drun -theme ~/.config/sxhkd/rofi/horizontal.rasi &
 
 # Browsers: Cromium | Quick App Launch
 super + b
@@ -152,7 +152,7 @@ super + b
 
 # File Explorer, File Manager, Nautilus
 super + e
-    nautilus --new-window &
+  nautilus --new-window &
 
 # Apps: Obsidian, Vscode, OBS | Quick App Launch
 super + a; {n, v, o}
@@ -160,11 +160,11 @@ super + a; {n, v, o}
 
 # Emoji selector
 super + q; e
-    rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
+  rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
 
 # Smart calculator
 super + q; c
-    rofi -show calc -no-show-match -no-sort -theme ~/.config/rofi/launchers/type-7/style-7.rasi &
+  rofi -show calc -no-show-match -no-sort -theme ~/.config/rofi/launchers/type-7/style-7.rasi &
 
 # Wallpapers: Random, Nature, Heaven, DeviantArt, Japan
 super + r; {r, n, w, d, j, g, o, a, s}
