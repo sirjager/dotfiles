@@ -1,0 +1,61 @@
+#!/bin/sh
+pgrep -x sxhkd >/dev/null || sxhkd &
+
+bspc monitor -d ⼀ ⼆ 三 四 五 六 七 ⼋ ⼏ ⼗
+# bspc monitor -d 1 2 3 4 5 6 7 8 9 0
+
+xset r rate 200 50
+xsetroot -cursor_name left_ptr
+
+bspc config automatic_scheme alternate &
+bspc config initial_polarity second_child &
+bspc config focus_follows_pointer false &
+
+[ -f ~/.config/sxhkd/scripts/wallpaper ] && ~/.config/sxhkd/scripts/wallpaper -dunst -polybar -wall="/mnt/storage/wallpaper/hyprland/mushrooms_2.jpg" &
+
+bspc config normal_border_color "#00000000"
+bspc config focused_border_color "#00000000"
+
+# windows:padding
+bspc config window_gap 20 &
+bspc config top_padding 36 &
+bspc config bottom_padding 20 &
+bspc config left_padding 20 &
+bspc config right_padding 20 &
+bspc config border_width 0 &
+
+bspc config split_ratio 0.58 &
+bspc config click_to_focus true &
+bspc config borderless_monocle true &
+bspc config gapless_monocle true &
+
+bspc rule -a mpv state=fullscreen focus=on border=off &
+bspc rule -a Yad state=floating &
+bspc rule -a kitty state=floating focus=on &
+bspc rule -a scrcpy state=floating &
+bspc rule -a polkit-gnome-authentication-agent-1 border=off state=floating &
+bspc rule -a fcitx-config-gtk3 border=off state=floating &
+bspc rule -a kdeconnect-indicator border=off state=floating &
+bspc rule -a FLTK border=off state=floating & # weylus
+
+# append this to /etc/sudoers: jager ALL=NOPASSWD:/usr/bin/chmod
+# sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
+
+# Picom: sudo pacman -S picom
+command -v picom >/dev/null 2>&1 && picom & || notify-send "picom not found." "Install it using: sudo pacman -S picom" >&2
+
+# Authentication: Polkit Gnone : sudo pacman -S polkit-gnome
+[ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & || notify-send "Polkit GNOME authentication agent not found" "Install using: pacman -S polkit-gnome" >&2 &
+
+# Dunst: sudo pacman -S dunst
+command -v dunst &> /dev/null && dunst & || notify-send "dunst not found. " "Install it using: sudo pacman -S dunst" >&2 &
+
+# Polybar: sudo pacman -S polybar
+[ -f ~/.config/polybar/launch.sh ] && ~/.config/polybar/launch.sh & || notify-send "Polybar launch script not found" >&2 &
+
+# Network Manager Applet: sudo pacman -S nm-applet
+command -v nm-applet &> /dev/null && nm-applet --indicator & || notify-send "nm-applet not found." "Install it using: pacman -S nm-applet" >&2 &
+
+# Low Batter Script:
+[ -f ~/.config/sxhkd/scripts/lowbattery ] && ~/.config/sxhkd/scripts/lowbattery & || notify-send "Low battery script does not exist" >&2 &
+

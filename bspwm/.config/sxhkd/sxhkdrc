@@ -1,0 +1,173 @@
+#!/bin/sh
+
+# Reload sxhkd
+ctrl + shift + Escape
+   pkill -usr1 -x sxhkd &
+
+# Reload bspwm
+super + shift + r
+    chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r & ~/.config/polybar/launch.sh &
+
+# Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
+super + q; k
+  ~/.config/sxhkd/scripts/keybinds &
+
+# Logout, quit bspwm
+super + alt + q
+    bspc quit &
+
+# Power menu
+super + ctrl + p
+    ~/.config/rofi/powermenu/type-4/powermenu.sh &
+
+# Lockscreen: Locks screen
+super + shift + l
+  ~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh &
+
+# Focus next window, Select next window
+alt + Tab
+    bspc node -f next.local.window &
+
+# Close Active Window, Close All Window in current Desktop
+super + {_,shift + }w
+    bspc node -{c,k} &
+
+# Set window private
+super + ctrl + z
+    bspc node -g private
+
+# Vertical View / Windows arranged vertically
+super + {_,shift + }KP_Multiply
+    bspc node @parent -R 90 &
+
+# Window state Fullscreen
+super + shift + Num_Lock
+    bspc node -t fullscreen &
+
+# Window state Tile
+super + shift + KP_Divide
+    bspc node -t tiled &
+
+# Window state Floating
+super + shift + KP_Subtract
+    bspc node -t floating &
+
+# Window state Toggle Floating / Tile
+super + f
+  if [ -n "$(bspc query -N -n focused.floating)" ];then bspc node -t tiled &; else bspc node -t floating &; fi
+
+# change workspace, send window to workspace 1-9
+super + {_,shift} {1-9,0}
+    bspc {desktop -f, node -d} '^{1-9,10}' &
+
+# Windo swap position among other windows in same workspace
+super + shift + Tab
+    bspc node @/ -C {forward,backward} &
+
+# move floating window 
+super + ctrl + {KP_8,KP_4,KP_5,KP_6}
+  bspc node -v {0 -30,-30 0,0 30,30 0} &
+
+# Numpad: 4(inc width), 6(dec width), 8(inc height), 5(dec height)
+# Controls the size of only the 2nd Window in current workspace
+super + shift  + {KP_8,KP_4,KP_5,KP_6}
+    bspc node -z {top 0 -30,left -30 0,top 0 30,left 30 0} &
+
+# Disable touchpad
+super + shift + braceleft
+    xinput --disable 'ELAN1200:00 04F3:30BA Touchpad' &
+
+# Enable touchpad
+super + shift + braceright
+    xinput --enable 'ELAN1200:00 04F3:30BA Touchpad' &
+
+# Increase brightness
+XF86MonBrightnessUp
+    light -A 5 && light -O &
+
+# Increase brightness
+super + KP_Add
+    light -A 5 && light -O &
+
+# Decrease brightness, Lower brightness
+XF86MonBrightnessDown
+    light -U 5 && light -O &
+
+# Decrease brightness, Lower brightness
+super + KP_Subtract
+    light -U 5 && light -O &
+
+# Mute mic, Toggle Mute Mic
+XF86AudioMicMute
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Mute volume
+XF86AudioMute
+    pactl -- set-sink-mute 0 toggle &
+
+# Raise volume, Increase Volume
+XF86AudioRaiseVolume
+    pactl -- set-sink-volume 0 +1% &
+
+# Raise volume, Increase Volume
+alt + KP_Add
+    pactl -- set-sink-volume 0 +1% &
+
+# Lower volume, Decrease volume
+XF86AudioLowerVolume
+    pactl -- set-sink-volume 0 -1% &
+
+# Lower volume, Decrease volume
+alt + KP_Subtract
+    pactl -- set-sink-volume 0 -1% &
+
+
+# Copy Window Class To Clipboard
+super + shift + i
+    xprop | grep WM_CLASS | cut -d'"' -f2 | head -n1 | xclip -selection clipboard &
+
+# Toggle Polybar: Show or Hide Polybar
+super + shift + f
+    ~/.config/sxhkd/scripts/toggle-polybar &
+
+# Terminal: Kitty Tmux New Session | Kitty Without Tmux
+super + {_,shift + } Return
+  { kitty sh -c tmux new, kitty } &
+
+# Kitty Terminal with last tmux session
+alt + {_,shift + } Return
+  kitty sh -c { "tmux attach", "tmux new" } &
+
+# Screenshot
+super + Print
+  ~/.config/sxhkd/scripts/screenshot &
+
+# Applications Launcher, Start Applicaiton
+alt + @space
+    rofi -show drun -theme ~/.config/rofi/themes/dmenu.rasi &
+
+# Browsers: Cromium | Quick App Launch
+super + b
+  chromium &
+
+# File Explorer, File Manager, Nautilus
+super + e
+    nautilus --new-window &
+
+# Apps: Obsidian, Vscode, OBS | Quick App Launch
+super + a; {n, v, o}
+  {obsidian, code --password-store="gnome", obs} &
+
+# Emoji selector
+super + q; e
+    rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
+
+# Smart calculator
+super + q; c
+    rofi -show calc -no-show-match -no-sort -theme ~/.config/rofi/launchers/type-7/style-7.rasi &
+
+# Wallpapers: Random, Nature, Heaven, DeviantArt, Japan
+super + r; {r, n, w, d, j, g, o, a, s}
+  ~/.config/sxhkd/scripts/wallpaper -bspwm -dunst -polybar \
+    -wall=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
+

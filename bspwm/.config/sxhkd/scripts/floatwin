@@ -1,0 +1,7 @@
+#!/bin/sh
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+#? OPEN A COMMAND IN FLOAT MODE
+bspc rule -a \* -o state=floating && $@

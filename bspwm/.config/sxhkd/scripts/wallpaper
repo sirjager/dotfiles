@@ -1,0 +1,170 @@
+#!/bin/sh
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+MYWALLPAPERS="$mystorage/wallpaper"
+PYWAL_COLORS="$HOME/.cache/wal/colors"
+DUNST_RC_CONFIG="$HOME/.config/dunst/dunstrc"
+POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
+
+BSPWM="" # "true" to enable setting colors to bspwm 
+DUNST="" # "true" to enable dumping colors to dunstrc
+POLYBAR="" # "true" to enable dumping colors to polybar
+NOTIFY="" # "true" to enable notifitions confirmation, messages and errors
+ECHO="true" # echos wallpaper
+
+# Wallpaper default set to wallpaper dir
+WALLPAPER="$MYWALLPAPERS" # Path to wallpaper (image.* to ignore extension) or wallpaper directory
+
+notify(){
+    level="$3"
+    [ "$level" = "" ] && level="normal"
+    [ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+while [ $# -gt 0 ]; do
+    case "$1" in 
+        -echo)
+          ECHO="true"
+          shift
+          ;;
+        -notify)
+            NOTIFY="true"
+            shift
+            ;;
+        -wall=*)
+            WALLPAPER="${1#*=}"
+            shift
+            ;;
+        -polybar)
+            POLYBAR="true"
+            shift
+            ;;
+        -dunst)
+            DUNST="true"
+            shift
+            ;;
+        -bspwm)
+            BSPWM="true"
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
+
+generate_pywal_colors(){
+    [ ! -f "$1" ] && notify "Could not generate pywal colors" "$1 is not a valid image" critical && exit 1
+    # Generate colors using pywal -t (skip tty)  -s(skip terminals) -n(skip setting wallpaper)
+    wal -i "$1" -q -t -s -n
+}
+
+set_desktop_wallpaper(){
+    [ -z "$1" ] && return 1
+    feh --no-fehbg --bg-fill "$1" &
+    [ "$ECHO" = "true" ] && echo "$1"
+    # swaybg -i "$1" &
+}
+
+set_polybar_colors(){
+    killall -q polybar
+    echo "[color]" >"$POLYBAR_COLORS"
+    echo "#" >>"$POLYBAR_COLORS"
+    echo "# Indicating Colors" >>"$POLYBAR_COLORS"
+    echo 'transparent = #00ffffff' >>"$POLYBAR_COLORS"
+    echo 'disabled = #9E9E9E' >>"$POLYBAR_COLORS"
+    echo 'danger = #ff0000' >>"$POLYBAR_COLORS"
+    echo 'warning = #ffa500' >>"$POLYBAR_COLORS"
+    echo 'success = #00ff00' >>"$POLYBAR_COLORS"
+    echo "#" >>"$POLYBAR_COLORS"
+    echo "# Material Colors " >>"$POLYBAR_COLORS"
+    echo "#" >>"$POLYBAR_COLORS"
+    echo 'info = #00BCD4' >>"$POLYBAR_COLORS"
+    echo 'red = #F44336' >>"$POLYBAR_COLORS"
+    echo 'pink = #E91E63' >>"$POLYBAR_COLORS"
+    echo 'green = #4CAF50' >>"$POLYBAR_COLORS"
+    echo 'blue = #2196F3' >>"$POLYBAR_COLORS"
+    echo 'orange = #FF9800' >>"$POLYBAR_COLORS"
+    echo 'yellow = #FFEB3B' >>"$POLYBAR_COLORS"
+    echo 'teal = #009688' >>"$POLYBAR_COLORS"
+    echo 'cyan = #00BCD4' >>"$POLYBAR_COLORS"
+    echo 'gray = #9E9E9E' >>"$POLYBAR_COLORS"
+    echo 'brown = #795548' >>"$POLYBAR_COLORS"
+    echo 'black = #000000' >>"$POLYBAR_COLORS"
+    echo 'white = #FFFFFF' >>"$POLYBAR_COLORS"
+    echo "#" >>"$POLYBAR_COLORS"
+    echo "# Shades From Pywal" >>"$POLYBAR_COLORS"
+
+    number=0
+    while IFS= read -r i; do
+        echo "shade$number = $i" >> "$POLYBAR_COLORS"
+        number=$((number + 1))
+    done < "$PYWAL_COLORS"
+    polybar top -c ~/.config/polybar/config.ini &
+}
+
+set_dunst_colors(){
+    . "$PYWAL_COLORS.sh"
+    echo "[global]" > "$DUNST_RC_CONFIG"
+    echo "frame_color = \"$color15\"" >> "$DUNST_RC_CONFIG"
+    echo "separator_color = \"$color10\"" >> "$DUNST_RC_CONFIG"
+    echo " " >> "$DUNST_RC_CONFIG"
+    echo "[urgency_low]" >> "$DUNST_RC_CONFIG"
+    echo "background = \"#282828\" " >> "$DUNST_RC_CONFIG"
+    echo "foreground = \"$color15\" " >> "$DUNST_RC_CONFIG"
+    echo " " >> "$DUNST_RC_CONFIG"
+    echo "[urgency_normal]" >> "$DUNST_RC_CONFIG"
+    echo "background = \"#282828\" " >> "$DUNST_RC_CONFIG"
+    echo "foreground = \"$color15\" " >> "$DUNST_RC_CONFIG"
+    echo " " >> "$DUNST_RC_CONFIG"
+    echo "[urgency_critical]" >> "$DUNST_RC_CONFIG"
+    echo "background = \"#282828\" " >> "$DUNST_RC_CONFIG"
+    echo "foreground = \"#E5515B\" " >> "$DUNST_RC_CONFIG"
+}
+
+set_bspwm_colors(){
+    . "$PYWAL_COLORS.sh"
+    bspc config normal_border_color "#000000"
+    bspc config focused_border_color "$color10"
+}
+
+set_wallpaper(){
+    [ -z "$1" ] && return 1
+    
+    generate_pywal_colors "$1"
+    
+    set_desktop_wallpaper "$1"
+    notify "Wallpaper applied" "$1"
+    
+    if [ "$POLYBAR" = "true" ]; then 
+        set_polybar_colors
+        notify "Updated polybar colors" "wallpaper: $1\npolybar: $POLYBAR_COLORS"
+    fi
+    
+    if [ "$BSPWM" = "true" ]; then 
+        set_bspwm_colors
+    fi  
+
+    if [ "$DUNST" = "true" ]; then 
+        set_dunst_colors
+    fi
+}
+
+set_random_wallpaper(){
+    [ -z "$1" ] && return 1
+    random="$(find "$1" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" -o -name "*.webp" -o -name "*.avif" \) -print | shuf -n 1)"
+    [ ! -f "$random" ] && notify "Wallpaper could not be set" "$random is not a valid image file" critical && return 1 
+    set_wallpaper "$random"
+}
+
+if [ -f "$WALLPAPER" ]; then 
+    set_wallpaper "$WALLPAPER"
+    exit 0
+elif [ -d "$WALLPAPER" ]; then 
+    set_random_wallpaper "$WALLPAPER"
+    exit 0
+fi
+
+exit 0

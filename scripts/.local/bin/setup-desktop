@@ -87,50 +87,17 @@ mount_ntfs_storage() {
 }
 
 install_core_pkgs() {
-	_log blue "Installing packages for window manager"
 	yay --needed --noconfirm -S \
-		base-devel dash os-prober meson ninja uthash \
+		base-devel os-prober meson ninja uthash \
 		pass archlinux-xdg-menu network-manager-applet \
 		htop wget curl git gtk3 gtk4 libconfig pkgconfig \
 		gvfs direnv jq gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
 		grub-btrfs xorg-server xorg-xinit xorg-xsetroot xorg-xbacklight \
 		xorg-xinput xorg-xprop xorg-xkill xorg-xwininfo xorg-xrandr \
-		xfce4-terminal xclip xsel xdotool playerctl pamixer polkit-gnome \
-		dunst feh light fzf ripgrep fd marked shellcheck emacs neovim tmux gufw gtk-engine-murrine \
+		xclip xsel xdotool playerctl pamixer polkit-gnome \
+		dunst feh light fzf ripgrep fd marked shellcheck neovim tmux gufw gtk-engine-murrine \
 		xdg-user-dirs-gtk xed i3lock exa imagemagick scrot gnome-keyring python-pywal \
-		rofi-emoji rofi-calc youtube-dl-git
-	_log green "Successfully installed required packages for window managers"
-}
-
-setup_tmux() {
-	_log cyan "Installing Tmux"
-	yay --needed --noconfirm -S tmux
-	if [ $? -eq 0 ]; then
-		_log green "Successfully installed tmux"
-	else
-		_log red "Failed to install tmux"
-		return 1
-	fi
-
-	_log purple "Setting up Tmuxifier..."
-	rm -rf ~/.local/share/tmuxifier
-	git clone https://github.com/jimeh/tmuxifier.git ~/.local/share/tmuxifier
-
-	# Tmux Plugin Manager
-	_log purple "Setting up TPM (Tmux Plugin Manager)"
-	rm -rf ~/.local/share/tmux/plugins/tpm
-	git clone https://github.com/tmux-plugins/tpm ~/.local/share/tmux/plugins/tpm
-	_log green "Tmux successfully installed and configured"
-}
-
-setup_firewall() {
-	_log yellow "Removing other firewalls"
-	yay --noconfirm -Rns firewalld
-	_log blue "Installing Graphical Firewall (gufw)"
-	yay --noconfirm --needed -S gufw
-	_log yellow "Enabling Firewall"
-	sudo systemctl enable --now ufw
-	_log green "Firewall is now active"
+		rofi-emoji rofi-calc 
 }
 
 install_and_setup_sddm() {
@@ -166,45 +133,12 @@ install_and_setup_sddm() {
 	_log green "Successfully installed and configured SDDM Lock screen manager"
 }
 
-uninstall_virt_manager() {
-	_log blue "Uninstalling Virt-Manager"
-	echo
-	yay --noconfirm -Rns virt-manager virt-viewer bridge-utils \
-		vde2 libguestfs dnsmasq openbsd-netcat qemu-system-x86 qemu-base
-	sudo rm -rf /etc/libvirt
-	_log green "successfully uninstalled Virt-Manager"
-}
-
-install_virt_manager() {
-	_log cyan "Installing and setting up KVM Virt-Manager"
-	yay --needed --noconfirm -S \
-		qemu virt-manager virt-viewer bridge-utils vde2 libguestfs dnsmasq openbsd-netcat
-	sudo mv /etc/libvirt/libvirtd.conf /etc/libvirt/libvirtd.conf.bak
-	printf '\nunix_sock_group = "libvirt"' >~/libvirtd.conf
-	printf '\nunix_sock_ro_perms = "0777"' >>~/libvirtd.conf
-	printf '\nunix_sock_rw_perms = "0770"' >>~/libvirtd.conf
-	sudo mv ~/libvirtd.conf /etc/libvirt/libvirtd.conf
-	sudo systemctl enable --now libvirtd.service
-	sudo usermod -a -G libvirt "$(whoami)"
-	sudo systemctl restart libvirtd.service
-	sudo virsh net-start default
-	_log green "Virt-Manager installation complete"
-}
-
 install_bspwm() {
 	install_core_pkgs
 	_log blue "Installing BSPWM ..."
 	yay --needed --noconfirm -S \
-		bspwm polybar feh mpv sxhkd rofi alacritty xfce4-terminal
-	_log green "Bspwm Installed"
-	_log blue "Installing Jonaburg's Picom fork"
-	rm -rf ~/Downloads/picom
-	git clone https://github.com/jonaburg/picom ~/Downloads/picom
-	cd ~/Downloads/picom
-	meson --buildtype=release . build
-	ninja -C build
-	sudo ninja -C build install
-	_log green "Installed Picom"
+		bspwm polybar feh mpv sxhkd rofi picom \
+    xorg-xsetroot lxappearance
 }
 
 discover_other_os_on_grub() {
@@ -219,33 +153,6 @@ discover_other_os_on_grub() {
 	sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
 
-setup_dotfiles_repo() {
-	GITHUB_BARE_REPO="https://github.com/sirjager/dotfiles"
-	_log cyan "Setting up dotfiles bare repository"
-	[ -d ~/.local/share/dotfiles ] && rm -rf ~/.local/share/dotfiles
-	_log purple "Cloning github repository $GITHUB_BARE_REPO ..."
-	git clone --bare $GITHUB_BARE_REPO ~/.local/share/dotfiles
-	/usr/bin/git --git-dir="$HOME/.local/share/dotfiles" --work-tree="$HOME" checkout
-	/usr/bin/git --git-dir="$HOME/.local/share/dotfiles" --work-tree="$HOME" config --local status.showUntrackedFiles no
-	if [ $? -eq 0 ]; then
-		_log green "Successfully configured dotfiles\n"
-	else
-		_log red "Failed to configure dotfiles"
-		_log purple "NOTE: if any of the files already exists, try deleting them first and try again"
-		return 1
-	fi
-	printf "\n\n[ ! -f ~/.config/shell.sh ] || . ~/.config/shell.sh;\n\n" >>~/.bashrc
-	. ~/.bashrc
-}
-
-install_user_pkgs() {
-	_log blue "Installing user packages"
-	yay --noconfirm --needed -S \
-		brave-bin neovim tmux alacritty \
-		nemo visual-studio-code-bin \
-		ungoogled-chromium-bin qutebrowser
-}
-
 install_rog_control_center() {
 	_log blue "Installing Rog Control center"
 	yay --needed --noconfirm -S asusctl supergfxctl rog-control-center
@@ -254,35 +161,10 @@ install_rog_control_center() {
 }
 
 install_docker() {
-	_log blue "Installing Docker"
 	yay --needed --noconfirm -S docker docker-compose
 	sudo usermod -aG docker "$(whoami)"
 	sudo systemctl enable --now docker
 	sudo systemctl restart docker
-	_log green "Docker has been installed successfully."
-}
-
-run_portainer() {
-	_log blue "Running portainer."
-	if ! [ -x "$(command -v docker)" ]; then
-		_log red "Docker not installed"
-		install_docker
-		install_portainer
-		return 0
-	fi
-	# Start Portainer container
-	docker run -d \
-		-p 9444:8000 -p 9443:9443 \
-		--name portainer \
-		--restart=always \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v portainer_data:/data portainer/portainer-ce:latest
-	if [ $? -eq 0 ]; then
-		_log green "Portainer is running on port: 9443"
-	else
-		_log red "Failed to run portainer"
-		return 1
-	fi
 }
 
 create_smb_conf() {

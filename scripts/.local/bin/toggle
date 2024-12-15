@@ -1,0 +1,33 @@
+#!/bin/sh
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+# Check if ID is passed as a parameter
+if [ -z "$1" ]; then
+  echo "Usage: $0 <ID>"
+  exit 1
+fi
+
+ID=$1
+
+FILE="$HOME/.cache/zzz_$ID.toggle"
+
+# Check if --state argument is passed
+if [ "$2" = "--state" ]; then
+  if [ -f "$FILE" ]; then
+    echo "true"
+    exit 0
+  else
+    echo "false"
+    exit 1
+  fi
+fi
+
+# Check if the toggle file exists
+if [ -f "$FILE" ]; then
+  rm -f "$FILE"
+  exit 1
+else
+  touch "$FILE"
+  exit 0
+fi

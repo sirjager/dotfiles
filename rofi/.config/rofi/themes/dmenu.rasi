@@ -1,0 +1,63 @@
+/**
+ *
+ * Author : Ankur Kumar (SirJager)
+ * Github : @SirJager
+ * 
+ *
+ **/
+ 
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+* {
+    background-color:      transparent;
+    text-color:            white ;
+    font:                  "JetBrainsMono Nerd Font 14px";
+}
+ 
+#window {
+    anchor:     north;
+    location:   north;
+    width:      100%;
+    padding:    2px;
+    transparency: "real";
+    children:   [ horibox ];
+    x-offset:                    0px;
+    y-offset:                    0px;
+}
+ 
+#horibox {
+    orientation: horizontal;
+    children:   [ prompt, entry, listview ];
+}
+
+ 
+
+prompt {
+    enabled: true;
+    padding: 2px 10px;
+}
+
+#listview {
+    enabled:                     true;
+    spacing:                     2px;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      horizontal;
+    background-color:            transparent;
+}
+
+#entry {
+    expand:     false;
+    width:      10em;
+}
+
+
+#element {
+    padding: 4px 8px;
+}
+
+#element selected {
+    border:                       0px solid;
+    border-radius:                8px;
+}
