@@ -3,6 +3,7 @@
 export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
+export mydownloads="$mystorage/downloads"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -10,13 +11,13 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # NOTE: https://wiki.archlinux.org/title/XDG_user_directories
 export XDG_DESKTOP_DIR="$HOME/Desktop"
-export XDG_DOCUMENTS_DIR="$XDG_DESKTOP_DIR/Documents"
-export XDG_DOWNLOAD_DIR="$XDG_DESKTOP_DIR/Downloads"
-export XDG_MUSIC_DIR="$XDG_DESKTOP_DIR/Music"
-export XDG_PICTURES_DIR="$XDG_DESKTOP_DIR/Pictures"
-export XDG_PUBLICSHARE_DIR="$XDG_DESKTOP_DIR/Public"
-export XDG_TEMPLATES_DIR="$XDG_DESKTOP_DIR/Templates"
-export XDG_VIDEOS_DIR="$XDG_DESKTOP_DIR/Videos"
+export XDG_DOCUMENTS_DIR="$mydownloads/Documents"
+export XDG_DOWNLOAD_DIR="$mydownloads"
+export XDG_MUSIC_DIR="$mydownloads/Music"
+export XDG_PICTURES_DIR="$mydownloads/Pictures"
+export XDG_PUBLICSHARE_DIR="$mydownloads/Public"
+export XDG_TEMPLATES_DIR="$mydownloads/Templates"
+export XDG_VIDEOS_DIR="$mydownloads/Videos"
 
 # NOTE: https://wiki.archlinux.org/title/XDG_Base_Directory
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"

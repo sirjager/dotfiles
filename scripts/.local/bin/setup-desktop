@@ -97,7 +97,7 @@ install_core_pkgs() {
 		xclip xsel xdotool playerctl pamixer polkit-gnome \
 		dunst feh light fzf ripgrep fd marked shellcheck neovim tmux gufw gtk-engine-murrine \
 		xdg-user-dirs-gtk xed i3lock exa imagemagick scrot gnome-keyring python-pywal \
-		rofi-emoji rofi-calc 
+		rofi-emoji rofi-calc trash-cli
 }
 
 install_and_setup_sddm() {
@@ -138,7 +138,7 @@ install_bspwm() {
 	_log blue "Installing BSPWM ..."
 	yay --needed --noconfirm -S \
 		bspwm polybar feh mpv sxhkd rofi picom \
-    xorg-xsetroot lxappearance
+    xorg-xsetroot lxappearance trash-cli
 }
 
 discover_other_os_on_grub() {

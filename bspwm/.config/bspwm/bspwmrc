@@ -36,26 +36,30 @@ bspc rule -a scrcpy state=floating &
 bspc rule -a polkit-gnome-authentication-agent-1 border=off state=floating &
 bspc rule -a fcitx-config-gtk3 border=off state=floating &
 bspc rule -a kdeconnect-indicator border=off state=floating &
-bspc rule -a FLTK border=off state=floating & # weylus
+bspc rule -a FLTK border=off state=floating &            # weylus
+bspc rule -a blueman-manager border=off state=floating & # blueman
+bspc rule -a blueman-applet border=off state=floating &  # blueman
 
 # append this to /etc/sudoers: jager ALL=NOPASSWD:/usr/bin/chmod
-# sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
+sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
 
 # Picom: sudo pacman -S picom
-command -v picom >/dev/null 2>&1 && picom & || notify-send "picom not found." "Install it using: sudo pacman -S picom" >&2
+command -v picom >/dev/null 2>&1 && picom &
 
 # Authentication: Polkit Gnone : sudo pacman -S polkit-gnome
-[ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & || notify-send "Polkit GNOME authentication agent not found" "Install using: pacman -S polkit-gnome" >&2 &
+[ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Dunst: sudo pacman -S dunst
-command -v dunst &> /dev/null && dunst & || notify-send "dunst not found. " "Install it using: sudo pacman -S dunst" >&2 &
+command -v dunst >/dev/null 2>&1 && dunst &
 
 # Polybar: sudo pacman -S polybar
-[ -f ~/.config/polybar/launch.sh ] && ~/.config/polybar/launch.sh & || notify-send "Polybar launch script not found" >&2 &
+[ -f ~/.config/polybar/launch.sh ] && ~/.config/polybar/launch.sh &
 
 # Network Manager Applet: sudo pacman -S nm-applet
-command -v nm-applet &> /dev/null && nm-applet --indicator & || notify-send "nm-applet not found." "Install it using: pacman -S nm-applet" >&2 &
+command -v nm-applet >/dev/null 2>&1 && nm-applet --indicator &
+
+# Bluetooth Manager Applet: sudo pacman -S blueman bluez bluez-utils
+command -v blueman-applet >/dev/null 2>&1 && blueman-applet &
 
 # Low Batter Script:
-[ -f ~/.config/sxhkd/scripts/lowbattery ] && ~/.config/sxhkd/scripts/lowbattery & || notify-send "Low battery script does not exist" >&2 &
-
+[ -f ~/.config/sxhkd/scripts/lowbattery ] && ~/.config/sxhkd/scripts/lowbattery &
