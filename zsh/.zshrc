@@ -144,6 +144,8 @@ alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 
+alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
+
 export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

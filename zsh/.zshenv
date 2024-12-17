@@ -1,5 +1,7 @@
 # .zshenv or .zprofile |  .bash_profile | .profile
 
+export DISPLAY=:0
+
 export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"

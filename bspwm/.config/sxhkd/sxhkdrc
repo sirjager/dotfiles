@@ -6,7 +6,7 @@ ctrl + shift + Escape
 
 # Reload bspwm
 super + shift + r
-  chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r & ~/.config/polybar/launch.sh &
+  chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r &
 
 # Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
 super + q; k
@@ -18,7 +18,7 @@ super + alt + q
 
 # Power menu
 super + ctrl + p
-  ~/.config/rofi/powermenu/type-4/powermenu.sh &
+  ~/.config/rofi/applets/bin/powermenu.sh &
 
 # Lockscreen: Locks screen
 super + shift + l
@@ -144,7 +144,7 @@ super + Print
 
 # Applications Launcher, Start Applicaiton
 alt + @space
-  rofi -show drun -theme ~/.config/sxhkd/rofi/horizontal.rasi &
+  rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-4.rasi &
 
 # Browsers: Cromium | Quick App Launch
 super + b
@@ -157,6 +157,12 @@ super + e
 # Apps: Obsidian, Vscode, OBS | Quick App Launch
 super + a; {n, v, o}
   {obsidian, code --password-store="gnome", obs} &
+
+
+# Emoji selector
+super + q; l
+  ~/.config/rofi/applets/bin/quicklinks.sh &
+
 
 # Emoji selector
 super + q; e

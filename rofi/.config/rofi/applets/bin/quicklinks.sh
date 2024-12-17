@@ -71,7 +71,7 @@ run_cmd() {
 	elif [[ "$1" == '--opt3' ]]; then
 		xdg-open 'https://www.youtube.com/'
 	elif [[ "$1" == '--opt4' ]]; then
-		xdg-open 'https://www.github.com/'
+		xdg-open 'https://github.com/sirjager?tab=repositories'
 	elif [[ "$1" == '--opt5' ]]; then
 		xdg-open 'https://www.reddit.com/'
 	elif [[ "$1" == '--opt6' ]]; then

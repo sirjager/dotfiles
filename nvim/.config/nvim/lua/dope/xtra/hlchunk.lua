@@ -14,7 +14,8 @@ function M.config()
     },
     indent = {
       enable = true,
-      style = "#30304A",
+      -- style = "#30304A",
+      style = "#423c46",
       exclude_filetypes = {
         aerial = true,
         dashboard = true,

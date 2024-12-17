@@ -39,6 +39,9 @@ bspc rule -a kdeconnect-indicator border=off state=floating &
 bspc rule -a FLTK border=off state=floating &            # weylus
 bspc rule -a blueman-manager border=off state=floating & # blueman
 bspc rule -a blueman-applet border=off state=floating &  # blueman
+bspc rule -a lutris desktop='^10' focus=on &
+bspc rule -a heroic desktop='^10' focus=on &
+bspc rule -a steam desktop='^10' focus=on &
 
 # append this to /etc/sudoers: jager ALL=NOPASSWD:/usr/bin/chmod
 sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
