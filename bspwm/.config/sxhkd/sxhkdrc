@@ -107,19 +107,19 @@ XF86AudioMute
 
 # Raise volume, Increase Volume
 XF86AudioRaiseVolume
-  pactl -- set-sink-volume 0 +1% &
+  pactl -- set-sink-volume 0 +5% &
 
 # Raise volume, Increase Volume
 alt + KP_Add
-  pactl -- set-sink-volume 0 +1% &
+  pactl -- set-sink-volume 0 +5% &
 
 # Lower volume, Decrease volume
 XF86AudioLowerVolume
-  pactl -- set-sink-volume 0 -1% &
+  pactl -- set-sink-volume 0 -5% &
 
 # Lower volume, Decrease volume
 alt + KP_Subtract
-  pactl -- set-sink-volume 0 -1% &
+  pactl -- set-sink-volume 0 -5% &
 
 
 # Copy Window Class To Clipboard
@@ -144,7 +144,7 @@ super + Print
 
 # Applications Launcher, Start Applicaiton
 alt + @space
-  rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-4.rasi &
+  rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi &
 
 # Browsers: Cromium | Quick App Launch
 super + b
@@ -159,10 +159,14 @@ super + a; {n, v, o}
   {obsidian, code --password-store="gnome", obs} &
 
 
-# Emoji selector
+# Wallpapers: Random, Nature, Heaven, DeviantArt, Japan
+super + r; {r, n, w, d, j, g, o, a, s}
+  ~/.config/sxhkd/scripts/wallpaper -bspwm -dunst -polybar \
+    -wall=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
+
+# Quicklinks 
 super + q; l
   ~/.config/rofi/applets/bin/quicklinks.sh &
-
 
 # Emoji selector
 super + q; e
@@ -172,8 +176,11 @@ super + q; e
 super + q; c
   rofi -show calc -no-show-match -no-sort -theme ~/.config/rofi/launchers/type-7/style-7.rasi &
 
-# Wallpapers: Random, Nature, Heaven, DeviantArt, Japan
-super + r; {r, n, w, d, j, g, o, a, s}
-  ~/.config/sxhkd/scripts/wallpaper -bspwm -dunst -polybar \
-    -wall=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
+# Browser History Browser
+super + q; h; {h, t, c}
+  brohistory --brave --chromium --firefox {--visit, --type, --copy} &
+
+# Browser Bookmarks
+super + q; b; {b, t, c}
+  bookman --brave --chromium --firefox {--visit, --type, --copy} &
 

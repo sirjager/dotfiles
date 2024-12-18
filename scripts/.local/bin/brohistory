@@ -5,7 +5,7 @@
 
 BROHISTORY_DIR="$HOME/.cache/brohistory"
 BROHISTORY_FILE="$BROHISTORY_DIR/browsers.brohistory"
-ROFI_THEME="$HOME/.local/bin/rofi-dmenu/vertical.rasi"
+ROFI_THEME="$HOME/.config/sxhkd/rofi/vertical.rasi"
 
 [ ! -d "$BROHISTORY_DIR" ] && mkdir -p "$BROHISTORY_DIR"
 echo "" >"$BROHISTORY_FILE"    # clean file
@@ -13,7 +13,7 @@ sed -i '1d' "$BROHISTORY_FILE" # 1st line
 
 PROMPT="HISTORY"
 
-SHOW_AS_DMENU="false"
+SHOW_AS_DMENU="true"
 SHOW_IN_TERMINAL="false"
 
 NOTIFY="false"
@@ -21,7 +21,7 @@ COPY="false"
 VISIT="false"
 VISIT_IN_BROWSER="$BROWSER"
 TYPE="false"
-TYPE_DELAY_IN_MS="20"
+TYPE_DELAY_IN_MS="30"
 
 SEARCH_BOOKMARKS="false"
 BRAVE_HISTORY="false"
@@ -85,7 +85,7 @@ append_browser_history() {
 
 get_firefox_history() {
 	clone_database firefox "$FIREFOX_HISTORY_FILE"
-	sql_query=" SELECT COALESCE(title, ' title: Missing ') AS title,' url: ' || url FROM moz_places ORDER by last_visit_date DESC LIMIT $FIREFOX_HISTORY_LIMIT;"
+	sql_query="SELECT COALESCE(title, ' title: Missing ') AS title,' url: ' || url FROM moz_places ORDER by last_visit_date DESC LIMIT $FIREFOX_HISTORY_LIMIT;"
 	results=$(query_database "$BROHISTORY_DIR/firefox.history" "$sql_query")
 	echo "$results"
 }
