@@ -18,15 +18,6 @@ zinit light atuinsh/atuin
 #  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-# zinit snippet OMZP::tmux
-# zinit snippet OMZP::archlinux
-# zinit snippet OMZP::dotenv  ## instead use "direnv"
-# zinit snippet OMZP::golang
-# zinit snippet OMZP::kubectl
-# zinit snippet OMZP::kubectx
-# zinit snippet OMZP::docker
-# zinit snippet OMZP::docker-compose
-# zinit snippet OMZP::command-not-found
 
 autoload -U compinit && compinit
 zinit cdreplay -q
@@ -64,13 +55,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --i
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 
 
-# shell integrations; ctrl + r
-eval "$(fzf --zsh)"
-eval "$(starship init zsh)"
-eval "$(zoxide init --cmd cd zsh)"
-eval "$(direnv hook zsh)"
-eval "$(atuin init zsh)"
-
 [ -f "$HOME/.atuin/_atuin" ] && . "$HOME/.atuin/_atuin"
 [ -f "$HOME/.local/share/taskfile/zsh_completions" ] && . "$HOME/.local/share/taskfile/zsh_completions"
 
@@ -94,20 +78,12 @@ alias docker-clean-buildx="docker buildx prune --all"
 alias docker-clean-builder="docker builder prune --all"
 alias docker-clean-image="docker image prune --all"
 
-
 # saving some misc commands
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 
-# exa: ls commands with style
-alias l='exa -h --long --all --sort=name --icons'
-alias ls="exa -h --long --sort=name --icons --classify"
-
-function loadEnv() {
-  local envfile="$1"
-  if [ -f "$envfile" ]; then
-    export $(grep -v '^#' "$envfile" | xargs)
-  fi
-}
+# Eza
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
 
 function pkill() {
   ps aux --sort=-%cpu | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
@@ -117,8 +93,17 @@ function pkill() {
 # general aliases
 alias c='clear'
 alias rbf='fc-cache -fv'
-
 alias s=". ~/.zshrc;"
+
+alias la=tree
+alias cat=bat
+
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 
 # Yay Package Manager / Aur Helper
 
@@ -149,16 +134,12 @@ alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
 export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 [ -f "$HOME/.local/bin/snipman/snipman_completions" ] && source "$HOME/.local/bin/snipman/snipman_completions"
 
-export JAVA_HOME="$mystorage/programs/appdev/android-studio/jbr"
-export PATH="$PATH:$mystorage/programs/appdev/android-studio/jbr/bin"
+# shell integrations; ctrl + r
+eval "$(fzf --zsh)"
+eval "$(starship init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(direnv hook zsh)"
+eval "$(atuin init zsh)"
 
-# pnpm
-export PNPM_HOME="/mnt/storage/programs/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

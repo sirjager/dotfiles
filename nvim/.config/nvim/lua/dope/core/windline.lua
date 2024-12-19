@@ -247,8 +247,10 @@ function M.config()
       colors.blue = "#87B0F9"
       colors.purple = "#bd93f9"
       colors.yellow = "#F9E2AF"
-      colors.black = "#1E1E2E"
-      colors.NormalBg = "#1E1E2E"
+      colors.black = "none"
+      colors.NormalBg = "none"
+      colors.ActiveBg = "none"
+      colors.InactiveBg = "none"
       return colors
     end,
   }

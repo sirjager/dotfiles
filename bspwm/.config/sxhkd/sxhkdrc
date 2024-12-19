@@ -83,43 +83,43 @@ super + shift + braceright
 
 # Increase brightness
 XF86MonBrightnessUp
-  light -A 5 && light -O &
+  ~/.local/bin/brightness up &
 
 # Increase brightness
 super + KP_Add
-  light -A 5 && light -O &
+  ~/.local/bin/brightness up &
 
 # Decrease brightness, Lower brightness
 XF86MonBrightnessDown
-  light -U 5 && light -O &
+  ~/.local/bin/brightness down &
 
 # Decrease brightness, Lower brightness
 super + KP_Subtract
-  light -U 5 && light -O &
+  ~/.local/bin/brightness down &
 
 # Mute mic, Toggle Mute Mic
 XF86AudioMicMute
-  pactl set-source-mute @DEFAULT_SOURCE@ toggle
+  ~/.local/bin/volume mic &
 
 # Mute volume
 XF86AudioMute
-  pactl -- set-sink-mute 0 toggle &
+  ~/.local/bin/volume toggle &
 
 # Raise volume, Increase Volume
 XF86AudioRaiseVolume
-  pactl -- set-sink-volume 0 +5% &
+  ~/.local/bin/volume up &
 
 # Raise volume, Increase Volume
 alt + KP_Add
-  pactl -- set-sink-volume 0 +5% &
+  ~/.local/bin/volume up &
 
 # Lower volume, Decrease volume
 XF86AudioLowerVolume
-  pactl -- set-sink-volume 0 -5% &
+  ~/.local/bin/volume down &
 
 # Lower volume, Decrease volume
 alt + KP_Subtract
-  pactl -- set-sink-volume 0 -5% &
+  ~/.local/bin/volume down &
 
 
 # Copy Window Class To Clipboard
@@ -159,10 +159,10 @@ super + a; {n, v, o}
   {obsidian, code --password-store="gnome", obs} &
 
 
-# Wallpapers: Random, Nature, Heaven, DeviantArt, Japan
+# Wallpapers: Random, Nature, WallHeaven, DeviantArt, Japan, Gruvbox, Nordic, Anime, OSMWall
 super + r; {r, n, w, d, j, g, o, a, s}
-  ~/.config/sxhkd/scripts/wallpaper -bspwm -dunst -polybar \
-    -wall=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
+  ~/.local/bin/wallpaper -tmux -bspwm -polybar -dunst \
+    -path=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
 
 # Quicklinks 
 super + q; l
@@ -178,9 +178,9 @@ super + q; c
 
 # Browser History Browser
 super + q; h; {h, t, c}
-  brohistory --brave --chromium --firefox {--visit, --type, --copy} &
+  brohistory --chromium {--visit, --type, --copy} &
 
 # Browser Bookmarks
 super + q; b; {b, t, c}
-  bookman --brave --chromium --firefox {--visit, --type, --copy} &
+  bookman --chromium {--visit, --type, --copy} &
 

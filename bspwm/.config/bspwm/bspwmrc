@@ -11,10 +11,17 @@ bspc config automatic_scheme alternate &
 bspc config initial_polarity second_child &
 bspc config focus_follows_pointer false &
 
-[ -f ~/.config/sxhkd/scripts/wallpaper ] && ~/.config/sxhkd/scripts/wallpaper -dunst -polybar -wall="/mnt/storage/wallpaper/nature/venom-moonlight.jpg" &
-
 bspc config normal_border_color "#00000000"
 bspc config focused_border_color "#00000000"
+
+WALLPAPER_PATH="/mnt/storage/wallpaper/gruvbox/wolf.jpg"
+if [ -f ~/.cache/current_wallpaper ]; then
+  LAST_WALLPAPER=$(cat ~/.cache/current_wallpaper) # Get the last/current wallpaper path
+  if [ -f "$LAST_WALLPAPER" ]; then                # Check if the current wallpaper exists
+    WALLPAPER_PATH="$LAST_WALLPAPER"
+  fi
+fi
+[ -f ~/.local/bin/wallpaper ] && ~/.local/bin/wallpaper -tmux -dunst -bspwm -polybar -path="$WALLPAPER_PATH" &
 
 # windows:padding
 bspc config window_gap 20 &

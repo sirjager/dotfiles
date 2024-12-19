@@ -1,0 +1,36 @@
+#!/bin/bash
+
+msgId="98989"
+arg=$1
+
+get_brightness() {
+  echo "$(light -G)"
+}
+
+get_icon() {
+  if [[ "$1" == "up" ]]; then
+    icon="/usr/share/icons/Qogir-dark/32/status/weather-clear.svg"
+  else
+    icon="/usr/share/icons/Qogir-dark/32/status/weather-clear-night.svg"
+  fi
+  echo $icon
+}
+
+send_notification() {
+  dunstify -i "$1" -a "Brightness" -r "$msgId" -h int:value:"$(get_brightness)" "$(get_brightness)"
+}
+
+case $arg in
+up)
+  light -A 5
+  ;;
+down)
+  light -U 5
+  ;;
+*)
+  echo "Usage: brightness [up|down]"
+  exit 0
+  ;;
+esac
+
+send_notification "$(get_icon "$arg")"

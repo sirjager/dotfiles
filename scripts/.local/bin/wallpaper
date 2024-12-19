@@ -1,0 +1,177 @@
+#!/bin/sh
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+PYWAL_COLORS="$HOME/.cache/wal/colors"
+DUNST_RC_CONFIG="$HOME/.config/dunst/dunstrc"
+POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
+DEFAULT_WALLPAPER_DIRECTORY="/mnt/storage/wallpaper"
+
+ECHO=""    # echos wallpaper
+BSPWM=""   # "true" to enable setting colors to bspwm
+DUNST=""   # "true" to enable dumping colors to dunstrc
+POLYBAR="" # "true" to enable dumping colors to polybar
+NOTIFY=""  # "true" to enable notifitions confirmation, messages and errors
+TMUX=""    # echos wallpaper
+
+WALLPAPER="$DEFAULT_WALLPAPER_DIRECTORY" # Path to wallpaper (image.* to ignore extension) or wallpaper directory
+
+# To send notification to window managers
+notify() {
+  level="$3"
+  [ "$level" = "" ] && level="normal"
+  [ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --path=* | -path=* | path=*)
+    WALLPAPER="${1#*=}"
+    shift
+    ;;
+  --echo | -echo | echo)
+    ECHO="true"
+    shift
+    ;;
+  --notify | -notify | notify)
+    NOTIFY="true"
+    shift
+    ;;
+  --bspwm | -bspwm | bspwm)
+    NOTIFY="true"
+    shift
+    ;;
+  --polybar | -polybar | polybar)
+    POLYBAR="true"
+    shift
+    ;;
+  --dunst | -dunst | dunst)
+    DUNST="true"
+    shift
+    ;;
+  --tmux | -tmux | tmux)
+    TMUX="true"
+    shift
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
+
+set_polybar_colors() {
+  killall -q polybar
+  {
+    echo "[color]"
+    echo 'transparent = #00ffffff'
+    echo 'disabled = #9E9E9E'
+    echo 'danger = #ff0000'
+    echo 'warning = #ffa500'
+    echo 'success = #00ff00'
+    echo " "
+    echo "# Material Colors "
+    echo 'info = #00BCD4'
+    echo 'red = #F44336'
+    echo 'pink = #E91E63'
+    echo 'green = #4CAF50'
+    echo 'blue = #2196F3'
+    echo 'orange = #FF9800'
+    echo 'yellow = #FFEB3B'
+    echo 'teal = #009688'
+    echo 'cyan = #00BCD4'
+    echo 'gray = #9E9E9E'
+    echo 'brown = #795548'
+    echo 'black = #000000'
+    echo 'white = #FFFFFF'
+    echo " "
+    echo "# color palette from wallpaper"
+  } >"$POLYBAR_COLORS"
+
+  number=0
+  while IFS= read -r i; do
+    echo "shade$number = $i" >>"$POLYBAR_COLORS"
+    number=$((number + 1))
+  done <"$PYWAL_COLORS"
+  polybar top -c ~/.config/polybar/config.ini &
+}
+
+# shellcheck disable=all
+set_dunst_colors() {
+  . "$PYWAL_COLORS.sh"
+  {
+    echo "[global]"
+    echo "frame_color = \"$color15\""
+    echo "separator_color = \"$color10\""
+    echo " "
+    echo "[urgency_low]"
+    echo "background = \"#282828\" "
+    echo "foreground = \"$color15\" "
+    echo " "
+    echo "[urgency_normal]"
+    echo "background = \"#282828\" "
+    echo "foreground = \"$color15\" "
+    echo " "
+    echo "[urgency_critical]"
+    echo "background = \"#282828\" "
+    echo "foreground = \"#E5515B\" "
+    echo " "
+  } >"$DUNST_RC_CONFIG"
+  cat ~/.config/dunst/config >> "$DUNST_RC_CONFIG"
+  killall -q dunst
+}
+
+# shellcheck disable=all
+set_bspwm_colors() {
+  . "$PYWAL_COLORS.sh"
+  bspc config normal_border_color "#000000" &
+  bspc config focused_border_color "$color10" &
+}
+
+# shellcheck disable=all
+set_tmux_colors() {
+  . "$PYWAL_COLORS.sh"
+  tmux setw -g pane-active-border-style "bg=default,fg=$color10" &
+}
+
+set_desktop_wallpaper() {
+  [ -z "$1" ] && return 1
+  feh --no-fehbg --bg-fill "$1" &
+  [ "$ECHO" = "true" ] && echo "$1"
+  echo "$1" >"$HOME/.cache/current_wallpaper"
+}
+
+generate_pywal_colors() {
+  [ ! -f "$1" ] && notify "Could not generate pywal colors" "$1 is not a valid image" critical && exit 1
+  # Generate colors using pywal
+  # -t (skip tty)  -s(skip terminals) -n(skip setting wallpaper)
+  wal -i "$1" -q -t -s -n >/dev/null 2>&1
+  if [ ! -f "$PYWAL_COLORS.sh" ]; then
+    notify "Pywal colors file not found" "$PYWAL_COLORS.sh not found" critical
+    exit 1
+  fi
+}
+
+set_random_wallpaper() {
+  [ -z "$1" ] && return 1
+  random="$(find "$1" -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" -o -name "*.webp" -o -name "*.avif" \) -print | shuf -n 1)"
+  [ ! -f "$random" ] && notify "Wallpaper could not be set" "$random is not a valid image file" critical && return 1
+  set_wallpaper "$random"
+}
+
+set_wallpaper() {
+  [ -z "$1" ] && return 1
+  generate_pywal_colors "$1"
+  set_desktop_wallpaper "$1"
+  [ "$BSPWM" = "true" ] && set_bspwm_colors &
+  [ "$POLYBAR" = "true" ] && set_polybar_colors &
+  [ "$DUNST" = "true" ] && set_dunst_colors &
+  [ "$TMUX" = "true" ] && set_tmux_colors &
+  exit 0 # script end
+}
+
+if [ -f "$WALLPAPER" ]; then
+  set_wallpaper "$WALLPAPER"
+elif [ -d "$WALLPAPER" ]; then
+  set_random_wallpaper "$WALLPAPER"
+fi
