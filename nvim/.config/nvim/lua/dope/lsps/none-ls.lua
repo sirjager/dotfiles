@@ -1,8 +1,8 @@
 local M = {
   "nvimtools/none-ls.nvim",
   dependencies = {
-    { "nvimtools/none-ls-extras.nvim"},
-    { "gbprod/none-ls-shellcheck.nvim"},
+    { "nvimtools/none-ls-extras.nvim" },
+    { "gbprod/none-ls-shellcheck.nvim" },
   },
 }
 
@@ -20,15 +20,22 @@ function M.config()
       null_ls.builtins.formatting.yamlfix,
       null_ls.builtins.formatting.sqlfmt,
 
+      -- ts/js
       null_ls.builtins.formatting.prettierd, -- ts/js,json
       -- require "none-ls.diagnostics.eslint_d",
       -- require "none-ls.formatting.eslint_d",
       -- require "none-ls.code_actions.eslint_d",
       -- null_ls.builtins.formatting.biome.with { extra_filtypes = { "astro", "svelte", "vue" } },
 
+      -- go
       null_ls.builtins.diagnostics.golangci_lint, -- go
       null_ls.builtins.formatting.gofumpt, -- go
       null_ls.builtins.formatting.goimports_reviser, -- go imports
+
+      -- python
+      null_ls.builtins.formatting.black,
+      null_ls.builtins.diagnostics.mypy,
+      -- null_ls.builtins.diagnostics.ruff,
     },
   }
 end

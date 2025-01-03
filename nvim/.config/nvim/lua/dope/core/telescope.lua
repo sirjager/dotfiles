@@ -42,11 +42,11 @@ function M.config()
         "--column",
         "--smart-case",
         "--hidden",
-        "--glob=!.git/",
+        "--glob='!.git/**'",
       },
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = { "^./.git/", "^node_modules/", "^vendor/", "^.venv/" },
+    file_ignore_patterns = { "^.git/", ".git/", "^.git/**", "**/.git/**", "^node_modules/", "^vendor/", "^.venv/" },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     winblend = 0,
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
@@ -157,7 +157,7 @@ function M.config()
           "jpg",
           "jpeg",
         },
-        find_cmd = "rg", -- find command (defaults to `fd`)
+        find_cmd = "rg --color=never --no-heading --with-filename --line-number --column --smart-case --hidden --glob='!.git/**'", -- find command (defaults to `fd`)
       },
     },
   }

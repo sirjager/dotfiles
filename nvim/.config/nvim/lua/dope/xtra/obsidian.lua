@@ -1,6 +1,6 @@
 local M = {
   "epwalsh/obsidian.nvim",
-  ft = { "markdown" },
+  ft = { "markdown", "mdx", "mdoc" },
   version = "*",
   dependencies = { "nvim-lua/plenary.nvim" },
 }
@@ -26,7 +26,7 @@ M.get_filename_without_ext = function(path)
   return name_without_ext
 end
 
-M.custom_link_func = function(prefix, opts)
+M.custom_link_func = function(prefix, opts, type)
   local util = require "obsidian.util"
   local anchor = ""
   local header = ""
@@ -39,7 +39,24 @@ M.custom_link_func = function(prefix, opts)
     header = "#" .. opts.block.id
   end
   path = util.urlencode(path, { keep_path_sep = true })
-  return string.format("[%s%s](%s%s%s)", opts.label, header, prefix, path, anchor)
+
+  local fileLink = string.format("%s%s%s", prefix, path, anchor)
+  local title = string.format("%s%s", opts.label, header)
+
+  local wikilink = string.format("[[%s|%s]]", fileLink, title)
+  local obsidianLink = string.format("[%s](%s)", title, fileLink)
+  local weblink = string.format("<a href='%s'>%s</a>", title, fileLink)
+  local component = string.format('<Link href="%s">%s</Link>', fileLink, title)
+
+  if type == "obsidian" then
+    return obsidianLink
+  elseif type == "web" then
+    return weblink
+  elseif type == "component" then
+    return component
+  else
+    return wikilink
+  end
 end
 
 M.new_note_name_func = function(title)
@@ -72,11 +89,14 @@ M.note_frontmatter_func = function(note)
       out[k] = v
     end
   end
-  out.updated = os.date "%Y-%m-%dT%H:%M:%S"
+  out.updated = os.date "%Y-%m-%dT%H:%M:%S.00Z"
   return out
 end
 
 function M.config()
+  vim.filetype.add { extension = { mdx = "mdx" } }
+  vim.treesitter.language.register("markdown", "mdx")
+
   local util = require "obsidian.util"
   require("obsidian").setup {
     workspaces = {
@@ -101,7 +121,11 @@ function M.config()
           new_notes_location = "src/content/blog",
           preferred_link_style = "markdown",
           markdown_link_func = function(opts)
-            return M.custom_link_func("/blog/", opts)
+            print(opts)
+            return M.custom_link_func("/blog/", opts, "component")
+          end,
+          wiki_link_func = function(opts)
+            return M.custom_link_func("/blog/", opts, "component")
           end,
         },
       },
@@ -126,7 +150,7 @@ function M.config()
     daily_notes = nil,
     completion = {
       nvim_cmp = true,
-      min_chars = 2,
+      min_chars = 1,
     },
 
     mappings = {},

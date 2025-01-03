@@ -17,6 +17,7 @@ local M = {
     { "onsails/lspkind-nvim", lazy = true },
     { "hrsh7th/cmp-nvim-lua", lazy = true },
     { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
+    { "mlaursen/vim-react-snippets", lazy = true },
   },
 }
 
@@ -37,6 +38,7 @@ function M.config()
   vim.filetype.add { extension = { astro = "astro" } }
   require("luasnip.loaders.from_vscode").lazy_load()
   require("luasnip.loaders.from_lua").load()
+  require("vim-react-snippets").lazy_load()
 
   local check_backspace = function()
     local col = vim.fn.col "." - 1

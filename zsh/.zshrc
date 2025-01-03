@@ -61,7 +61,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=
 # INFO: ================================[ custom aliases  ]================================
 #
 alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
-alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
 
 alias ssh-newkey="ssh-keygen -t ed25519 -C"
 alias ssh-eval='eval "$(ssh-agent -s)"'
@@ -130,6 +130,7 @@ alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
+alias scrcpy-connect="scrcpy --no-audio --tcpip=$(adb devices | grep '192.168.0.101:' | awk '{print $1}')"
 
 export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

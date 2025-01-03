@@ -61,7 +61,7 @@ progress_bar = true
 
 # Set the progress bar height. This includes the frame, so make sure
 # it's at least twice as big as the frame width.
-progress_bar_height = 10
+progress_bar_height = 30
 
 # Set the frame width of the progress bar
 progress_bar_frame_width = 1
@@ -73,7 +73,7 @@ progress_bar_min_width = 150
 progress_bar_max_width = 300
 
 # Corner radius for the progress bar. 0 disables rounded corners.
-progress_bar_corner_radius = 0
+progress_bar_corner_radius = 40
 
 # Define which corners to round when drawing the progress bar. If progress_bar_corner_radius
 # is set to 0 this option will be ignored.
@@ -108,7 +108,7 @@ padding = 8
 horizontal_padding = 8
 
 # Padding between text and icon.
-text_icon_padding = 0
+text_icon_padding = 4
 
 # Defines width in pixels of frame around the notification window.
 # Set to 0 to disable.
@@ -148,7 +148,7 @@ sort = yes
 
 ### Text ###
 
-font = "JetbrainsMono Nerd Font" 8
+font = "JetbrainsMono Nerd Font" 12
 
 # The spacing between lines.  If the height is smaller than the
 # font height, it will get raised to the font height.

@@ -1,0 +1,32 @@
+#!/bin/sh
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+show_interactive_calendar() {
+  yad --calendar --undecorated --no-buttons \
+    --posx=$(($(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d'x' -f1) / 2 - 180)) \
+    --posy=30
+}
+
+show_rofi_calendar() {
+  cal -y | rofi -dmenu -p "Yearly Calendar" -theme ~/.config/sxhkd/rofi/vertical.rasi -theme-str 'window {width: 42%; height: 50%; location: center; anchor: center;}'
+}
+
+show_in_terminal() {
+  cal -y 
+}
+
+case $1 in
+yad | interactive)
+  show_interactive_calendar
+  ;;
+rofi)
+  show_rofi_calendar
+  ;;
+echo)
+  show_in_terminal
+  ;;
+*)
+  echo "Usage: calendar [interactive|yad|rofi|echo]"
+  ;;
+esac

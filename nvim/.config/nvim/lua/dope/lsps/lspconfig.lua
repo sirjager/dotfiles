@@ -26,6 +26,8 @@ M.servers = {
   "prismals",
   "gopls",
   "tailwindcss",
+  "pyright",
+  "ruff"
 }
 
 local function lsp_keymaps(bufnr)
