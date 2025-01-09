@@ -42,7 +42,7 @@ function M.config()
         "--column",
         "--smart-case",
         "--hidden",
-        "--glob='!.git/**'",
+        -- "--glob='!.git/**'",
       },
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,

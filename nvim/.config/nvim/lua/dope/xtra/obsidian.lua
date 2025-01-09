@@ -1,5 +1,5 @@
 local M = {
-  "epwalsh/obsidian.nvim",
+  "sirjager/obsidian.nvim",
   ft = { "markdown", "mdx", "mdoc" },
   version = "*",
   dependencies = { "nvim-lua/plenary.nvim" },
@@ -122,10 +122,10 @@ function M.config()
           preferred_link_style = "markdown",
           markdown_link_func = function(opts)
             print(opts)
-            return M.custom_link_func("/blog/", opts, "component")
+            return M.custom_link_func("/blog/", opts, "web")
           end,
           wiki_link_func = function(opts)
-            return M.custom_link_func("/blog/", opts, "component")
+            return M.custom_link_func("/blog/", opts, "web")
           end,
         },
       },

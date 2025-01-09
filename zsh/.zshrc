@@ -128,6 +128,7 @@ alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
+alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
 
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
 alias scrcpy-connect="scrcpy --no-audio --tcpip=$(adb devices | grep '192.168.0.101:' | awk '{print $1}')"
