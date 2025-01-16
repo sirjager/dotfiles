@@ -3,7 +3,7 @@ local M = {
   ft = { "go", "gomod" },
   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   dependencies = {
-    { "leoluz/nvim-dap-go", lazy = true, event = "VeryLazy" },
+    { "leoluz/nvim-dap-go", lazy = true },
   },
 }
 

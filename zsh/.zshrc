@@ -1,3 +1,7 @@
+# Custom Scripts
+export PATH="$PATH:$HOME/.local/bin/snipman"
+
+# Private Aliases
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
 
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
@@ -137,6 +141,7 @@ export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 [ -f "$HOME/.local/bin/snipman/snipman_completions" ] && source "$HOME/.local/bin/snipman/snipman_completions"
+[ -f "$HOME/.local/bin/myledger/myledger_completions" ] && source "$HOME/.local/bin/myledger/myledger_completions"
 
 # shell integrations; ctrl + r
 eval "$(fzf --zsh)"
@@ -144,4 +149,5 @@ eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(direnv hook zsh)"
 eval "$(atuin init zsh)"
+
 

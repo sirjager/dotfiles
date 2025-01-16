@@ -3,22 +3,24 @@ local M = {
 }
 
 M.servers = {
-  "astro",
   "lua_ls",
   "bashls",
-  "clangd",
-  "cssls",
-  "emmet_ls",
-  "gopls", -- go
-  "golangci_lint_ls",
-  "html", -- html
   "jsonls", -- json
+  "yamlls", -- yml
+  "clangd",
+  -- "sqlls",
   -- "marksman", -- md
-  "ts_ls", -- ts
+  ----------------------- html,css, javascript, typescript
+  "emmet_ls",
+  "cssls",
+  "html",
+  "astro",
+  "ts_ls",
   "tailwindcss",
   "cssmodules_ls",
-  "yamlls", -- yml
-  -- "sqlls",
+  ------------------------go
+  "gopls",
+  "golangci_lint_ls",
 }
 
 function M.config()

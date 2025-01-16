@@ -72,7 +72,7 @@ export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
 export CHROME_EXECUTABLE='/usr/bin/chromium' # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"
 
-# programming language
+# golang
 export GO111MODULE="on"
 export GOPRIVATE="$mygithub/*"
 export GOROOT="$mystorage/programs/go/sdk"
@@ -80,6 +80,8 @@ export GOPATH="$mystorage/workspace/goenv"
 export GOMODCACHE="$mystorage/programs/go/mod"
 export GOBIN="$mystorage/workspace/goenv/bin"
 export GOCACHE="$mystorage/workspace/goenv/cache"
+
+# android
 export FLUTTER_ROOT="$mystorage/programs/appdev/flutter"
 export ANDROID_AVD_HOME="$mystorage/programs/appdev/android-avd"
 export JAVA_HOME="$mystorage/programs/appdev/android-studio/jbr"
@@ -94,7 +96,6 @@ export PATH="$PATH":"$BUN_INSTALL/bin"
 export PATH="$PATH":"$HOME/.local/bin"
 export PATH="$PATH":"$FLUTTER_ROOT/bin"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
-export PATH="$PATH:$HOME/.local/bin/snipman"
 export PATH="$PATH:$WAKATIME_HOME/.wakatime"
 export PATH="$PATH":"$XDG_CONFIG_HOME/emacs/bin"
 export PATH="$PATH":"$mystorage/programs/Postman"

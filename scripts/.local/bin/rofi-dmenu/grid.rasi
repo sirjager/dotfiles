@@ -1,0 +1,68 @@
+/**
+ * User: Ankur Kumar
+ */
+
+
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+* {
+    text-color:            @foreground;
+    font:                        "JetBrainsMono Nerd Font 14px";
+}
+
+/**
+ * Entry box on top. 
+ */
+entry {
+    border: 2px 2px;
+    font: inherit;
+    cursor: text;
+    placeholder:       "Type to filter";
+}
+
+inputbar {
+    spacing: 0;
+    border: 0;
+    children: [entry];
+}
+
+entry {
+  padding: 0.8em;
+}
+
+window {
+    anchor: center;
+    location: center;
+    width:            44%;
+    height:           44%;
+}
+
+mainbox { 
+    spacing: 1em;
+}
+
+listview {
+    flow: vertical;
+    lines: 4;
+    columns: 4;
+    spacing: 0.5em;
+    border: 0;
+    fixed-columns: true;
+    fixed-height: true;
+}
+
+element {
+    orientation:      vertical;
+    border:           2px;
+    padding:          4px;
+    border-radius:    4px ;
+}
+
+element-icon {
+    size: 128px;
+    cursor: inherit;
+}
+
+element-text {
+    cursor: inherit;
+    horizontal-align: 0.5;
+}

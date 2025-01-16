@@ -22,7 +22,7 @@ M.servers = {
   "ruff-lsp",
   "mypy",
   "black",
-  --
+  -- astro
   -- "astro-language-server@2.10.0" -- working fine
 }
 

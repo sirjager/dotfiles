@@ -18,15 +18,18 @@ M.servers = {
   "sqlfmt",
   "sql-formatter",
   "fixjson",
+  -- go
+  "protolint",
   "golangci-lint",
   "gospel",
   "gofumpt",
   "golines",
-  "goimports_reviser", -- go
+  "goimports_reviser",
+  -- lua
   "lua-language-server", -- lua
   "stylua", -- lua
+  -- ts/js
   "typescript-languange-server", -- ts,js
-  "protolint",
 }
 
 function M.config()

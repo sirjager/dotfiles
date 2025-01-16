@@ -9,13 +9,19 @@ M.servers = {
   "jq",
   "lua",
   "html",
+  "html",
   "markdown",
   "markdown_inline",
 }
 
 function M.config()
+
+  vim.filetype.add { extension = { rasi = "rasi" } }
+  vim.treesitter.language.register("css", "rasi")
+
   vim.filetype.add { extension = { mdx = "mdx" } }
   vim.treesitter.language.register("markdown", "mdx")
+
   vim.filetype.add { extension = { astro = "astro" } }
   require("nvim-treesitter.configs").setup {
 

@@ -4,6 +4,7 @@ local M = {
   event = "InsertEnter",
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
+    { "FelipeLema/cmp-async-path", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-nvim-lua", event = "InsertEnter", lazy = true },
@@ -16,8 +17,8 @@ local M = {
     { "rafamadriz/friendly-snippets", lazy = true },
     { "onsails/lspkind-nvim", lazy = true },
     { "hrsh7th/cmp-nvim-lua", lazy = true },
-    { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
     { "mlaursen/vim-react-snippets", lazy = true },
+    { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
   },
 }
 
@@ -39,6 +40,8 @@ function M.config()
   require("luasnip.loaders.from_vscode").lazy_load()
   require("luasnip.loaders.from_lua").load()
   require("vim-react-snippets").lazy_load()
+  require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
+  -- require("luasnip.loaders.from_vscode").lazy_load { paths = { "./snippets" } }
 
   local check_backspace = function()
     local col = vim.fn.col "." - 1
@@ -136,9 +139,10 @@ function M.config()
       { name = "nvim_lsp", priority = 1000 },
       { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
-      -- { name = "buffer" }, -- completions from opened buffers
+      { name = "buffer" }, -- completions from opened buffers
       { name = "nvim_lua" }, -- lua completions
       { name = "path" }, -- filesystem path completions
+      { name = "async_path" }, -- filesystem path completions
       { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
       -- { name = "emoji", option = { trigger_characters = { ":" } } },
     },

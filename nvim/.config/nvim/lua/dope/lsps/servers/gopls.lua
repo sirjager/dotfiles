@@ -16,7 +16,6 @@ return {
         deepequalerrors = true,
         embed = true,
         errorsas = true,
-        fieldalignment = true,
         httpresponse = true,
         ifaceassert = true,
         loopclosure = true,

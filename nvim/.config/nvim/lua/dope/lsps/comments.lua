@@ -16,6 +16,7 @@ M.comment_string_opts = {
     svelte = "<!-- %s -->",
     vue = "<!-- %s -->",
     json = "// %s",
+    ledger = "; %s",
   },
 }
 
@@ -37,13 +38,14 @@ M.todo_comments_opts = {
   keywords = {
     TODO = { icon = " ", color = "todo" },
     INFO = { icon = " ", color = "info" },
-    HINT = { icon = " ", color = "hint" },
+    HINT = { icon = " ", color = "hint", alt = { "TIP" } },
     NOTE = { icon = "󱜾 ", color = "note" },
     HACK = { icon = " ", color = "hack", alt = { "TRICK" } },
     WARN = { icon = " ", color = "warn", alt = { "WARNING", "XXX" } },
     PERF = { icon = " ", color = "perf", alt = { "PERFORMANCE", "OPTIMIZE" } },
     TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
     FIX = { icon = " ", color = "fix", alt = { "FIXME", "FIXIT", "ISSUE", "ERROR", "BROKEN" } },
+    IMP = { icon = "", color = "fix", alt = { "IMPORTANT", "MAIN", "CORE" } },
   },
   gui_style = {
     fg = "NONE", -- The gui style to use for the fg highlight group.
@@ -76,6 +78,7 @@ M.todo_comments_opts = {
     perf = { "DiagnosticPerf", "#FFBCBC" },
     test = { "DiagnosticTest", "#5AB2FF" },
     fix = { "DiagnosticError", "ErrorMsg", "#FF6969" },
+    imp = { "DiagnosticError", "ErrorMsg", "#8E1616" },
     default = { "Identifier", "#9CB4CC" },
   },
   search = {
