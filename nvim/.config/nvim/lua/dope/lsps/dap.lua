@@ -1,14 +1,16 @@
 local M = {
   "rcarriga/nvim-dap-ui",
   dependencies = {
-    { "folke/neodev.nvim"},
-    { "ray-x/guihua.lua"},
-    { "mfussenegger/nvim-dap"},
-    { "theHamsta/nvim-dap-virtual-text"},
+    { "folke/neodev.nvim" },
+    { "ray-x/guihua.lua" },
+    { "mfussenegger/nvim-dap" },
+    { "theHamsta/nvim-dap-virtual-text" },
+    { "leoluz/nvim-dap-go", lazy = true },
   },
 }
 
 function M.config()
+  -- require("dap-go").setup {}
   local dap = require "dap"
   local dapui = require "dapui"
   local neodev = require "neodev"

@@ -5,20 +5,24 @@ local M = {
   dependencies = {
     { "hrsh7th/cmp-path", event = "InsertEnter", lazy = true },
     { "FelipeLema/cmp-async-path", event = "InsertEnter", lazy = true },
+    --
     { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
-    { "hrsh7th/cmp-buffer", event = "InsertEnter", lazy = true },
-    { "hrsh7th/cmp-nvim-lua", event = "InsertEnter", lazy = true },
     { "hrsh7th/cmp-cmdline", event = "CmdlineEnter", lazy = true },
-    { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter", lazy = true },
-    { "saadparwaiz1/cmp_luasnip", event = "InsertEnter", lazy = true },
     { "andersevenrud/cmp-tmux", event = "InsertEnter", lazy = true },
-    { "hrsh7th/cmp-emoji", event = "InsertEnter", lazy = true },
-    { "L3MON4D3/LuaSnip", event = "InsertEnter", lazy = true },
-    { "rafamadriz/friendly-snippets", lazy = true },
+    --
+    { "hrsh7th/cmp-nvim-lua", event = "InsertEnter", lazy = true },
+    { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter", lazy = true },
+    --
     { "onsails/lspkind-nvim", lazy = true },
-    { "hrsh7th/cmp-nvim-lua", lazy = true },
-    { "mlaursen/vim-react-snippets", lazy = true },
+    { "hrsh7th/cmp-emoji", event = "InsertEnter", lazy = true },
     { "roobert/tailwindcss-colorizer-cmp.nvim", lazy = true },
+    --
+    { "L3MON4D3/LuaSnip", event = "InsertEnter", lazy = true },
+    { "mlaursen/vim-react-snippets", lazy = true },
+    { "rafamadriz/friendly-snippets", lazy = true },
+    { "hrsh7th/vim-vsnip", event = "InsertEnter", lazy = true },
+    { "hrsh7th/vim-vsnip-integ", event = "InsertEnter", lazy = true },
+    { "saadparwaiz1/cmp_luasnip", event = "InsertEnter", lazy = true },
   },
 }
 
@@ -36,11 +40,13 @@ function M.config()
   local lspkind = require "lspkind"
   local icons = require "dope.icons"
 
-  vim.filetype.add { extension = { astro = "astro" } }
-  require("luasnip.loaders.from_vscode").lazy_load()
-  require("luasnip.loaders.from_lua").load()
   require("vim-react-snippets").lazy_load()
+  require("luasnip.loaders.from_lua").load()
+  require("luasnip/loaders/from_vscode").lazy_load()
   require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
+  require("luasnip").config.set_config { history = true, enable_autosnippets = true }
+
+  -- luasnip.filetype_extend("dart", { "flutter" })
   -- require("luasnip.loaders.from_vscode").lazy_load { paths = { "./snippets" } }
 
   local check_backspace = function()
@@ -144,10 +150,11 @@ function M.config()
       { name = "path" }, -- filesystem path completions
       { name = "async_path" }, -- filesystem path completions
       { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
+      { name = "hledger" },
       -- { name = "emoji", option = { trigger_characters = { ":" } } },
     },
     completion = {
-      keyword_length = 1,
+      -- keyword_length = 1,
       completeopt = "menu,menuone,noinsert,noselect",
     },
     confirm_opts = { behavior = cmp.ConfirmBehavior.Replace, select = true },
@@ -184,7 +191,7 @@ function M.config()
       },
     },
     experimental = {
-      ghost_text = false,
+      ghost_text = true,
     },
   }
 end

@@ -27,7 +27,7 @@ M.servers = {
   "gopls",
   "tailwindcss",
   "pyright",
-  "ruff"
+  "ruff",
 }
 
 local function lsp_keymaps(bufnr)
@@ -44,8 +44,13 @@ M.on_attach = function(client, bufnr)
 end
 
 function M.common_capabilities()
-  -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  -- local capabilities = require("cmp_nvim_lsp").default_capabilities() -- works with go
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities() -- not works with go
+
+  -- combined both
   local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
   return capabilities
