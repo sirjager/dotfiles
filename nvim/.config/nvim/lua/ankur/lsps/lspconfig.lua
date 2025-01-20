@@ -63,7 +63,7 @@ end
 
 function M.config()
   local lspconfig = require "lspconfig"
-  local icons = require "dope.icons"
+  local icons = require "ankur.icons"
 
   local default_diagonastic_config = {
     signs = {
@@ -110,13 +110,16 @@ function M.config()
 
   for _, server in pairs(M.servers) do
     local opts = { on_attach = M.on_attach, capabilities = M.common_capabilities() }
-    local okreq, settings = pcall(require, "dope.lsps.servers." .. server)
+    local okreq, settings = pcall(require, "ankur.lsps.servers." .. server)
     if okreq then
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
 
     lspconfig[server].setup(opts)
   end
+
+  -- This line disables diagnostic globally; if anyone needs it here it is
+  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 end
 
 return M

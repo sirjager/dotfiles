@@ -12,7 +12,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local lazy_configs = require "dope.core.lazy"
+local lazy_configs = require "ankur.core.lazy"
 
 require("lazy").setup({
   spec = LAZY_PLUGIN_SPEC,

@@ -69,7 +69,16 @@ M.keymaps = {
     ["<A-z>"] = { ":ZenMode<CR>", "toggle zen mode" },
     ["<A-t>"] = { ":TroubleToggle<CR>", "toggle trouble" },
     ["<A-P>"] = { "<CMD>BufferLineTogglePin<CR>", "toggle pin current buffer" },
-    ["<A-m>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
+
+    -- Markdown Preview
+    ["<A-M>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
+
+    -- Harpoon
+    ["<TAB>"] = { ":lua require('ankur.xtra.harpoon').toggle_menu()<CR>", "harpoon toogle menu" },
+    ["<A-m>"] = { ":lua require('ankur.xtra.harpoon').mark_file()<CR>", "harpoon mark file" },
+    ["<A-j>"] = { ":lua require('ankur.xtra.harpoon').next_file()<CR>", "harpoon next marked file" },
+    ["<A-k>"] = { ":lua require('ankur.xtra.harpoon').prev_file()<CR>", "harpoon prev marked file" },
+
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
     -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },

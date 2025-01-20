@@ -1,0 +1,256 @@
+#!/usr/bin/env bash
+
+OPEN_PATH=""
+
+SESSION=""
+CLASS=""
+TITLE=""
+TMUX=""
+
+FONT_SIZE=8
+
+WIDTH_PERCENT=30  # Width in percentage
+HEIGHT_PERCENT=40 # Height in percentage
+
+OFFSET_X=10 # Gap away from left and right of the screen
+OFFSET_Y=40 # Gap away from top and bottom of the screen
+
+# available: north | northeast | east | southeast | south | southwest | west | northwest
+LOCATION="northeast"
+POS_X=0
+POS_Y=0
+
+SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f1)
+SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f2)
+
+WIDTH=$((SCREEN_WIDTH * WIDTH_PERCENT / 100))    # Width of the floating window with offset
+HEIGHT=$((SCREEN_HEIGHT * HEIGHT_PERCENT / 100)) # Height of the floating window with offset
+
+# Function to display help
+show_help() {
+  echo "Usage: $0 [options]"
+  echo
+  echo "Options:"
+  echo "  --title=<title>       Set the title"
+  echo "  --path=<file_path>    Set the file path"
+  echo "  --tmux                Open in tmux session"
+  echo "  --session=<name>      Set the tmux session name"
+  echo "  --class=<class>       Set the class"
+  echo "  --fontsize=<number>   Set the kitty font size"
+  echo "  --height=<percent>    Set the height percentage"
+  echo "  --width=<percent>     Set the width percentage"
+  echo "  --offset=<x,y>        Set the offset in x and y directions"
+  echo "  --offset-x=<x>        Set the x-offset"
+  echo "  --offset-y=<y>        Set the y-offset"
+  echo "  --location=<location> Set the position (north, south, etc.)"
+  echo "  --north                Position at the top center"
+  echo "  --south                Position at the bottom center"
+  echo "  --east                 Position at the right center"
+  echo "  --west                 Position at the left center"
+  echo "  --northeast            Position at the top-right corner"
+  echo "  --northwest            Position at the top-left corner"
+  echo "  --southeast            Position at the bottom-right corner"
+  echo "  --southwest            Position at the bottom-left corner"
+  echo
+  exit 0
+}
+
+# Check if help is requested or no arguments are passed
+if [ $# -eq 0 ]; then
+  show_help
+fi
+
+# Function to slugify a string
+slugify() {
+  echo "$1" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '-'
+}
+
+# Function to calculate position based on location
+get_position() {
+  local location=$1
+  case $location in
+  north)
+    POS_X=$(((SCREEN_WIDTH - WIDTH) / 2))
+    POS_Y=$OFFSET_Y
+    ;;
+  south)
+    POS_X=$(((SCREEN_WIDTH - WIDTH) / 2))
+    POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y)) # Corrected to subtract height
+    ;;
+  east)
+    POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+    POS_Y=$(((SCREEN_HEIGHT - HEIGHT) / 2))
+    ;;
+  west)
+    POS_X=$OFFSET_X
+    POS_Y=$(((SCREEN_HEIGHT - HEIGHT) / 2))
+    ;;
+  northwest)
+    POS_X=$OFFSET_X
+    POS_Y=$OFFSET_Y
+    ;;
+  northeast)
+    POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+    POS_Y=$OFFSET_Y
+    ;;
+  southwest)
+    POS_X=$OFFSET_X
+    POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y))
+    ;;
+  southeast)
+    POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+    POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y))
+    ;;
+  *)
+    # Default to north-east
+    POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+    POS_Y=$OFFSET_Y
+    ;;
+  esac
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --tmux)
+    TMUX="true"
+    shift
+    ;;
+  --session=* | -s=*)
+    SESSION="${1#*=}"
+    shift
+    ;;
+  --title=* | -t=*)
+    TITLE="${1#*=}"
+    shift
+    ;;
+  --path=* | -p=*)
+    OPEN_PATH="${1#*=}"
+    shift
+    ;;
+  --class=* | -c=*)
+    CLASS="${1#*=}"
+    shift
+    ;;
+  --fontsize=* | -f=*)
+    FONT_SIZE="${1#*=}"
+    shift
+    ;;
+  --height=* | -h=*)
+    HEIGHT_PERCENT="${1#*=}"
+    shift
+    ;;
+  --width=* | -w=*)
+    WIDTH_PERCENT="${1#*=}"
+    shift
+    ;;
+  --offset=* | -o=*)
+    OFFSET_X="${1#*=}"
+    OFFSET_Y="${1#*=}"
+    shift
+    ;;
+  --offset-y=* | -oy=*)
+    OFFSET_Y="${1#*=}"
+    shift
+    ;;
+  --offset-x=* | -ox=*)
+    OFFSET_X="${1#*=}"
+    shift
+    ;;
+  --location=* | -l=*)
+    LOCATION="${1#*=}"
+    shift
+    ;;
+  --north)
+    LOCATION="north"
+    shift
+    ;;
+  --northeast)
+    LOCATION="northeast"
+    shift
+    ;;
+  --northwest)
+    LOCATION="northwest"
+    shift
+    ;;
+  --south)
+    LOCATION="south"
+    shift
+    ;;
+  --southeast)
+    LOCATION="southeast"
+    shift
+    ;;
+  --southwest)
+    LOCATION="southwest"
+    shift
+    ;;
+  --west)
+    LOCATION="west"
+    shift
+    ;;
+  --east)
+    LOCATION="east"
+    shift
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
+
+# check if path is provided
+if [ -z "$OPEN_PATH" ]; then
+  echo "Error: Path is required."
+  exit 1
+fi
+
+## [ Adjust Variables ] ============================
+
+get_position "$LOCATION"
+OPEN_PATH=$(echo "$OPEN_PATH" | sed "s|^~|$HOME|")
+
+# add class if not provided
+if [ -z "$CLASS" ]; then
+  CLASS=$(slugify "$OPEN_PATH")
+fi
+
+# If SESSION is empty,
+# set it to TITLE if TITLE is provided, else slugify OPEN_PATH
+if [ -z "$SESSION" ]; then
+  if [ -n "$TITLE" ]; then
+    SESSION="$TITLE"
+  else
+    SESSION=$(slugify "$OPEN_PATH")
+  fi
+fi
+
+# If no title then set basename of filepath
+# this will look nicer in tmux
+if [ -z "$TITLE" ]; then
+  TITLE=$(basename "$OPEN_PATH")
+fi
+
+# [Execution] =================================================
+
+if [ "$TMUX" == "true" ]; then
+  if command -v tmux >/dev/null 2>&1; then
+    kitty --class "$CLASS" --title "$TITLE" \
+      -o font_size="$FONT_SIZE" \
+      -o window_padding_width=4 \
+      sh -c "tmux has-session -t $SESSION 2>/dev/null || tmux new-session -d -s $SESSION nvim $OPEN_PATH; tmux attach -t $SESSION" &
+  else
+    echo "Error: tmux is not installed"
+    exit 1
+  fi
+else
+  kitty --class "$CLASS" --title "$TITLE" \
+    -o font_size="$FONT_SIZE" \
+    -o window_padding_width=4 \
+    nvim "$OPEN_PATH" &
+fi
+
+bspc rule -a "$SESSION" \
+  state=floating \
+  sticky=on \
+  rectangle=${WIDTH}x${HEIGHT}+${POS_X}+${POS_Y} \
+  layer=above &

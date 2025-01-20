@@ -7,7 +7,7 @@ local M = {
 }
 
 M.opts = {
-  spec = require("dope.keymaps").which_keymaps,
+  spec = require("ankur.keymaps").which_keymaps,
   show_help = true, -- show a help message in the command line for using WhichKey
   show_keys = true, -- show the currently pressed key and its label as a message in the command line
   plugins = {

@@ -43,6 +43,7 @@ HISTSIZE=9999999
 SAVEHIST=$HISTSIZE
 HISTFILE="$HISTFILE"
 HISTDUP=erase
+
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
@@ -137,6 +138,7 @@ alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
 alias scrcpy-connect="scrcpy --no-audio --tcpip=$(adb devices | grep '192.168.0.101:' | awk '{print $1}')"
 
+
 export NVM_DIR="/mnt/storage/programs/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -149,5 +151,4 @@ eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(direnv hook zsh)"
 eval "$(atuin init zsh)"
-
 

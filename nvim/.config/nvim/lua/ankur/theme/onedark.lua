@@ -14,7 +14,7 @@ M.opts = {
   cmp_itemkind_reverse = true,
   toggle_style_key = nil,
   lualine = { transparent = true },
-  highlights = require "dope.theme.hlgroups",
+  highlights = require "ankur.theme.hlgroups",
   code_style = {
     comments = "italic",
     keywords = "bold",

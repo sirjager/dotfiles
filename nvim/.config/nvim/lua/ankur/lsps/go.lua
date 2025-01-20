@@ -99,6 +99,7 @@ function M.config()
     luasnip = true, -- enable included luasnip snippets. you can also disable while add lua/snips folder to luasnip load
     --  Do not enable this if you already added the path, that will duplicate the entries
     iferr_vertical_shift = 2, -- defines where the cursor will end up vertically from the begining of if err statement
+    settings = require("ankur.lsps.servers.gopls").settings,
   }
 end
 

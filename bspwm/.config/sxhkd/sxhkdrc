@@ -121,10 +121,13 @@ XF86AudioLowerVolume
 alt + KP_Subtract
   ~/.local/bin/volume down &
 
-
 # Copy Window Class To Clipboard
-super + shift + i
+super + shift + z
   xprop | grep WM_CLASS | cut -d'"' -f2 | head -n1 | xclip -selection clipboard &
+
+# Floating Editing Mode | Kitty Neovim Floating Editing
+super + shift + i
+  ~/.config/sxhkd/scripts/floedit --tmux --title="Idealogs" --path="$mystorage/personal/idealogs" &
 
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f

@@ -38,7 +38,7 @@ function M.config()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
   local lspkind = require "lspkind"
-  local icons = require "dope.icons"
+  local icons = require "ankur.icons"
 
   require("vim-react-snippets").lazy_load()
   require("luasnip.loaders.from_lua").load()

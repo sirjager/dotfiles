@@ -5,7 +5,7 @@ local M = {
 
 -- https://github.com/nvimdev/dashboard-nvim
 
-local logo = require("dope.core.banners").sharp
+local logo = require("ankur.core.banners").sharp
 
 M.shortcuts = {
   { action = "cd ~/dotfiles/nvim/.config/nvim | e ~/dotfiles/nvim/.config/nvim/init.lua | Neotree reveal_force_cwd", desc = " Config", icon = " ", key = "c" },
