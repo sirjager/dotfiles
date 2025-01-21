@@ -2,14 +2,7 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
 * {
-
-    spacing: 2;
-    screen-margin:               4px 4px;
-    box-spacing:                 0px;
-    list-padding:                8px;
-    element-padding:             15px;
-    element-radius:              8px;
-    element-spacing:             15px;
+  font:                        "JetBrainsMono Nerd Font 14px";
 }
 
 element {
@@ -56,13 +49,12 @@ window {
     height:                      25%;
     x-offset:                    0px;
     y-offset:                    0px;
-    background-color:            var(background);
+    transparency:                "real";
 }
 
 mainbox {
     padding: 0;
     border: 0;
-    background-color:            transparent;
 }
 
 message {

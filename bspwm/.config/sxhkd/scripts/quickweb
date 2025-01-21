@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+SEARCH_QUERY=""
+SEARCH_PROMPT="Opening on $BROWSER:"
+ROFI_THEME="$HOME/.config/sxhkd/rofi/dmenu.rasi"
+
+ENGINE=""
+
+declare -A SE
+
+SE_GOOGLE="https://www.google.com/search?q="
+SE["google"]=$SE_GOOGLE
+SE["gg"]=$SE_GOOGLE
+SE["g"]=$SE_GOOGLE
+
+SE_YOUTUBE="https://www.youtube.com/results?search_query="
+SE["youtube"]=$SE_YOUTUBE
+SE["yt"]=$SE_YOUTUBE
+SE["y"]=$SE_YOUTUBE
+
+SE_BING="https://www.bing.com/search?q="
+SE["bing"]=$SE_BING
+SE["b"]=$SE_BING
+
+SE_DUCKDUCKGO="https://duckduckgo.com/?q="
+SE["duckduckgo"]=$SE_DUCKDUCKGO
+SE["dd"]=$SE_DUCKDUCKGO
+SE["d"]=$SE_DUCKDUCKGO
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--engine=* | -e=*)
+		ENGINE="${1#*=}"
+		shift
+		;;
+	--search=* | -s=* | --query=* | -q=*)
+		SEARCH_QUERY="${1#*=}"
+		shift
+		;;
+	--prompt=* | -p=*)
+		SEARCH_PROMPT="${1#*=}"
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+if [ -z "$SEARCH_QUERY" ]; then
+	SEARCH_QUERY=$(rofi -dmenu -p "$SEARCH_PROMPT" -theme "$ROFI_THEME")
+fi
+
+# Split the search query by space
+IFS=' ' read -r FIRST_WORD REST_SENTANCE <<<"$SEARCH_QUERY"
+
+# Check if the first word is a valid engine
+if [ -z "${SE[$FIRST_WORD]}" ]; then
+	ENGINE="duckduckgo" # Set default engine if not valid
+	SEARCH_QUERY="$FIRST_WORD $REST_SENTANCE"
+else
+	ENGINE=$FIRST_WORD # Use the first word as the engine
+	SEARCH_QUERY=$REST_SENTANCE
+fi
+
+# Trim leading and trailing spaces from SEARCH_QUERY
+SEARCH_QUERY=$(echo "$SEARCH_QUERY" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+[ -z "$SEARCH_QUERY" ] && exit 0
+
+# Check if the engine exists in the associative array and open the search in the default browser
+if [ -n "${SE[$ENGINE]}" ]; then
+	xdg-open "${SE[$ENGINE]}$SEARCH_QUERY"
+else
+	echo "Search engine \"$ENGINE\" not defined"
+	notify-send --urgency=critical "Search engine \"$ENGINE\" not defined"
+fi

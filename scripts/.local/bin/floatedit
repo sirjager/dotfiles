@@ -1,0 +1,260 @@
+#!/bin/sh
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+## Description: Opens up floating editor for from anywhere to quickly edit files
+
+OPEN_PATH=""
+
+SESSION=""
+CLASS=""
+TITLE=""
+TMUX=""
+PROMPT="Recntly Edited Files: "
+
+ZOXIDE=""
+FONT_SIZE=8
+REMOVE=""
+
+WIDTH_PERCENT=30  # Width in percentage
+HEIGHT_PERCENT=40 # Height in percentage
+
+OFFSET_X=10 # Gap away from left and right of the screen
+OFFSET_Y=40 # Gap away from top and bottom of the screen
+
+# available: north | northeast | east | southeast | south | southwest | west | northwest
+LOCATION="northeast"
+POS_X=0
+POS_Y=0
+
+SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f1)
+SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions:/ {print $2}' | cut -d 'x' -f2)
+
+WIDTH=$((SCREEN_WIDTH * WIDTH_PERCENT / 100))    # Width of the floating window with offset
+HEIGHT=$((SCREEN_HEIGHT * HEIGHT_PERCENT / 100)) # Height of the floating window with offset
+
+ROFI_THEME="$HOME/.config/sxhkd/rofi/horizontal.rasi"
+
+# Function to display help
+show_help() {
+	echo "Usage: $0 [options]"
+	echo
+	echo "Options:"
+	echo "  --title=<title>       Set the title"
+	echo "  --path=<file_path>    Set the file path"
+	echo "  --zoxide              Smartly figure out relevat path"
+	echo "  --tmux                Open in tmux session"
+	echo "  --remove              remove entry from recent list"
+	echo "  --session=<name>      Set the tmux session name"
+	echo "  --class=<class>       Set the class"
+	echo "  --fontsize=<number>   Set the kitty font size"
+	echo "  --height=<percent>    Set the height percentage"
+	echo "  --width=<percent>     Set the width percentage"
+	echo "  --offset=<x,y>        Set the offset in x and y directions"
+	echo "  --offset-x=<x>        Set the x-offset"
+	echo "  --offset-y=<y>        Set the y-offset"
+	echo "  --location=<location> Set the position (north, south, etc.)"
+	echo "  --north                Position at the top center"
+	echo "  --south                Position at the bottom center"
+	echo "  --east                 Position at the right center"
+	echo "  --west                 Position at the left center"
+	echo "  --northeast            Position at the top-right corner"
+	echo "  --northwest            Position at the top-left corner"
+	echo "  --southeast            Position at the bottom-right corner"
+	echo "  --southwest            Position at the bottom-left corner"
+	echo
+	exit 0
+}
+
+# Function to slugify a string
+slugify() {
+	echo "$1" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '-'
+}
+
+# Function to calculate position based on location
+get_position() {
+	location=$1
+	case $location in
+	north)
+		POS_X=$(((SCREEN_WIDTH - WIDTH) / 2))
+		POS_Y=$OFFSET_Y
+		;;
+	south)
+		POS_X=$(((SCREEN_WIDTH - WIDTH) / 2))
+		POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y)) # Corrected to subtract height
+		;;
+	east)
+		POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+		POS_Y=$(((SCREEN_HEIGHT - HEIGHT) / 2))
+		;;
+	west)
+		POS_X=$OFFSET_X
+		POS_Y=$(((SCREEN_HEIGHT - HEIGHT) / 2))
+		;;
+	northwest)
+		POS_X=$OFFSET_X
+		POS_Y=$OFFSET_Y
+		;;
+	northeast)
+		POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+		POS_Y=$OFFSET_Y
+		;;
+	southwest)
+		POS_X=$OFFSET_X
+		POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y))
+		;;
+	southeast)
+		POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+		POS_Y=$((SCREEN_HEIGHT - HEIGHT - OFFSET_Y))
+		;;
+	*)
+		# Default to north-east
+		POS_X=$((SCREEN_WIDTH - WIDTH - OFFSET_X))
+		POS_Y=$OFFSET_Y
+		;;
+	esac
+}
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--tmux)
+		TMUX="true"
+		shift
+		;;
+	--zoxide | -z)
+		ZOXIDE="true"
+		shift
+		;;
+	--session | -s)
+		SESSION="$2"
+		shift 2
+		;;
+	--title | -t)
+		TITLE="$2"
+		shift 2
+		;;
+	--path | -p)
+		OPEN_PATH="$2"
+		shift 2
+		;;
+	--class | -c)
+		CLASS="$2"
+		shift 2
+		;;
+	--fontsize | -f)
+		FONT_SIZE="$2"
+		shift 2
+		;;
+	--height | -h)
+		HEIGHT_PERCENT="$2"
+		shift 2
+		;;
+	--width | -w)
+		WIDTH_PERCENT="$2"
+		shift 2
+		;;
+	--offset)
+		OFFSET_X="$2"
+		OFFSET_Y="$2"
+		shift 2
+		;;
+	--offset-y)
+		OFFSET_Y="$2"
+		shift 2
+		;;
+	--offset-x)
+		OFFSET_X="$2"
+		shift 2
+		;;
+	--location | -l)
+		LOCATION="$2"
+		shift 2
+		;;
+	--help)
+		show_help
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+# If path is not provided then
+# we use rofi to take path dynamically and open it
+if [ -z "$OPEN_PATH" ]; then
+	RECENT_FILES=$(command tac $myrecentedits | awk '{print $NF}')
+	selected_line=$(echo "$RECENT_FILES" | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME")
+	if [ -n "$selected_line" ]; then
+		OPEN_PATH=$selected_line
+		if [ -z "$TITLE" ]; then
+			TITLE=$(basename "$OPEN_PATH")
+		fi
+	fi
+fi
+
+# check if path is provided
+if [ -z "$OPEN_PATH" ]; then
+	echo "Error: Path is required."
+	exit 1
+fi
+
+if [ "$ZOXIDE" = "true" ]; then
+	if command -v tmux >/dev/null 2>&1; then
+		OPEN_PATH=$(zoxide query "$OPEN_PATH")
+	else
+		echo "Error: zoxide is not installed"
+		exit 1
+	fi
+fi
+
+## [ Adjust Variables ] ============================
+get_position "$LOCATION"
+OPEN_PATH=$(echo "$OPEN_PATH" | sed "s|^~|$HOME|")
+
+# add class if not provided
+if [ -z "$CLASS" ]; then
+	slugified=$(slugify "$OPEN_PATH")
+	CLASS="$slugified"
+fi
+
+# If SESSION is empty,
+# set it to TITLE if TITLE is provided, else slugify OPEN_PATH
+if [ -z "$SESSION" ]; then
+	if [ -n "$TITLE" ]; then
+		SESSION="$TITLE"
+	else
+		SESSION=$(slugify "$OPEN_PATH")
+	fi
+fi
+
+# If no title then set basename of filepath
+# this will look nicer in tmux
+if [ -z "$TITLE" ]; then
+	TITLE=$(basename "$OPEN_PATH")
+fi
+
+WORKING_DIR="$OPEN_PATH"
+if [ ! -d "$OPEN_PATH" ]; then
+	WORKING_DIR="$(dirname "$OPEN_PATH")"
+fi
+
+# [Execution] =================================================
+if [ "$TMUX" = "true" ]; then
+	if command -v tmux >/dev/null 2>&1; then
+		kitty --class "$CLASS" --title "$TITLE" \
+			-o font_size="$FONT_SIZE" \
+			-o window_padding_width=4 \
+			sh -c "cd $WORKING_DIR && tmux has-session -t $SESSION 2>/dev/null || tmux new-session -d -s $SESSION nvim_track $OPEN_PATH --clean; tmux attach -t $SESSION" &
+	else
+		echo "Error: tmux is not installed"
+		exit 1
+	fi
+else
+	kitty --class "$CLASS" --title "$TITLE" \
+		-o font_size="$FONT_SIZE" \
+		-o window_padding_width=4 \
+		sh -c "cd $WORKING_DIR && nvim_track $OPEN_PATH --clean" &
+fi
+
+bspc rule -a "$CLASS" state=floating sticky=on layer=above \
+	rectangle=${WIDTH}x${HEIGHT}+${POS_X}+${POS_Y}

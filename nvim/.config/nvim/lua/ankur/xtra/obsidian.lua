@@ -2,7 +2,9 @@ local M = {
   "sirjager/obsidian.nvim",
   ft = { "markdown", "mdx", "mdoc" },
   version = "*",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
 }
 
 M.slugify = function(title)

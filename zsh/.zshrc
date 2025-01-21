@@ -1,9 +1,6 @@
-# Custom Scripts
-export PATH="$PATH:$HOME/.local/bin/snipman"
+# ~/.zshrc
 
-# Private Aliases
-[ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
-
+# [ Zinit Setup and Plugins ] ============================================
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
   rm -rf "${ZINIT_HOME}"
@@ -16,17 +13,17 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-completions
-zinit light atuinsh/atuin
 
-# Add snippets
-#  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
+# Add snippets: 
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 
+# [functions autoload] =====================================
 autoload -U compinit && compinit
 zinit cdreplay -q
 
-# emacs mode for zsh
+# [Emacs keybindings for zsh] =======================================
 # ctrl+e -> to move curosr to end; 
 # ctrl+a -> to move cursor to beginning
 # ctrl+f -> to move cursor to right; or accect autosuggestions
@@ -38,7 +35,7 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 
 
-# History 
+# [ History Management ] ================================================
 HISTSIZE=9999999
 SAVEHIST=$HISTSIZE
 HISTFILE="$HISTFILE"
@@ -51,7 +48,8 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
-# make suggestion case insensitive
+
+# [ Completion Settings ] =============================================
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu yes
@@ -60,95 +58,82 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --i
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 
 
-[ -f "$HOME/.atuin/_atuin" ] && . "$HOME/.atuin/_atuin"
-[ -f "$HOME/.local/share/taskfile/zsh_completions" ] && . "$HOME/.local/share/taskfile/zsh_completions"
-
-# INFO: ================================[ custom aliases  ]================================
-#
+# [ Custom Aliases  ]================================
 alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
 
+# SSH
 alias ssh-newkey="ssh-keygen -t ed25519 -C"
 alias ssh-eval='eval "$(ssh-agent -s)"'
 alias ssh-test='ssh -T git@github.com'
 alias ssh-termux='ssh u0_760@192.168.0.101 -p 8022'
 
-alias net-start-virt='sudo virsh net-start default'
-
 # Tmux
 alias tk='tmux kill-session'
 alias tmux-delete-sessions="rm -rf ~/.local/share/tmux/resurrect/*"
 
+# Docker
 alias docker-clean-buildx="docker buildx prune --all"
 alias docker-clean-builder="docker builder prune --all"
 alias docker-clean-image="docker image prune --all"
 
-# saving some misc commands
+# System Info: Battery
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
 
-# Eza
-alias l="eza -l --icons --git -a"
-alias lt="eza --tree --level=2 --long --icons --git"
-
+# [Miscellaneous Functions] ========================================
 function pkill() {
   ps aux --sort=-%cpu | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
 }
 
 
-# general aliases
-alias c='clear'
+# General Aliases ================================================
+alias s="source ~/.zshenv; source ~/.zshrc;"
 alias rbf='fc-cache -fv'
-alias s=". ~/.zshrc;"
 
+# LS ============================================
 alias la=tree
-alias cat=bat
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
 
-# Dirs
+# Directory Navigation ============================================
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-# Yay Package Manager / Aur Helper
-
+# Yay Package Manager / Aur Helper ===============================
 alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
 alias .r="yay --noconfirm -Rns"        # To remove the package, avoid orphaned dependencies and erase its global configuration (which in most cases is the proper command to remove software.)
 alias .u="yay --noconfirm -Syu"        # To update the system && Update the database
 alias .rank-mirrors="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50"
-
 alias install-widevine="yay --noconfirm --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
 
-# usage > install-go go1.20.4
-alias install-go='function _pkg-install-go(){ GOVER=$1 && echo "$GOVER.linux-amd64.tar.gz"; mkdir -p /mnt/storage/programs/go && rm -f /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz ; rm -rf /mnt/storage/programs/go/sdk ; wget -O /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz https://golang.org/dl/$GOVER.linux-amd64.tar.gz && tar -C /mnt/storage/programs/go -xzf /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz && mv /mnt/storage/programs/go/go /mnt/storage/programs/go/sdk && clear && /mnt/storage/programs/go/sdk/bin/go version && rm -f /mnt/storage/programs/go/$GOVER.linux-amd64.tar.gz ; unset -f _pkg-install-go; };_pkg-install-go'
 
+# Application-Specific Aliases =====================================
 alias fl="flutter"
 alias pn='pnpm'
 alias np='npm run'
-
-alias n="nvim"
-alias nv='nvim $(fzf -m --preview="bat --color=always {}")'
-alias snv="sudo -E -s nvim"
+alias nvim="nvim_track --clean"
+alias n="nvim_track --clean"
+alias snv="sudo -E -s nvim_track --clean --skip"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
-alias kubectl="minikube kubectl"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
-
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
-alias scrcpy-connect="scrcpy --no-audio --tcpip=$(adb devices | grep '192.168.0.101:' | awk '{print $1}')"
 
+# [ Private Aliases  ]================================
+[ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
 
-export NVM_DIR="/mnt/storage/programs/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-[ -f "$HOME/.local/bin/snipman/snipman_completions" ] && source "$HOME/.local/bin/snipman/snipman_completions"
-[ -f "$HOME/.local/bin/myledger/myledger_completions" ] && source "$HOME/.local/bin/myledger/myledger_completions"
-
-# shell integrations; ctrl + r
-eval "$(fzf --zsh)"
+# Shell Integrations =============================================
+eval "$(fzf --zsh)" # ctrl + r
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(direnv hook zsh)"
-eval "$(atuin init zsh)"
+
+[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
+[ -f "$HOME/.local/share/taskfile/zsh_completions" ] && . "$HOME/.local/share/taskfile/zsh_completions"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

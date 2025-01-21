@@ -125,10 +125,6 @@ alt + KP_Subtract
 super + shift + z
   xprop | grep WM_CLASS | cut -d'"' -f2 | head -n1 | xclip -selection clipboard &
 
-# Floating Editing Mode | Kitty Neovim Floating Editing
-super + shift + i
-  ~/.config/sxhkd/scripts/floedit --tmux --title="Idealogs" --path="$mystorage/personal/idealogs" &
-
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f
   ~/.config/sxhkd/scripts/toggle-polybar &
@@ -167,12 +163,8 @@ super + r; {r, n, w, d, j, g, o, a, s}
   ~/.local/bin/wallpaper -tmux -bspwm -polybar -dunst \
     -path=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
 
-# Quicklinks 
-super + q; l
-  ~/.config/rofi/applets/bin/quicklinks.sh &
-
 # Emoji selector
-super + q; e
+super + q; q
   rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
 
 # Smart calculator
@@ -187,3 +179,11 @@ super + q; h; {h, t, c}
 super + q; b; {b, t, c}
   bookman --chromium {--visit, --type, --copy} &
 
+# Quick search | Quick web | search engine | youtube | duckduckgo | google 
+super + q; p
+  ~/.config/sxhkd/scripts/quickweb &
+
+# Floating Idealogs | Quick Notes | Floating Notes
+super + q; {i, d, e}
+  ~/.local/bin/floatedit --tmux --zoxide \
+    { --title Idealogs --path "personal/idealogs", --title dotfiles --path "$HOME/dotfiles", ""} &
