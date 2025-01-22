@@ -1,7 +1,7 @@
 ---@diagnostic disable: no-unknown
 local M = {
   "OXY2DEV/markview.nvim",
-  ft = "markdown"
+  ft = "markdown",
 }
 
 function M.config()

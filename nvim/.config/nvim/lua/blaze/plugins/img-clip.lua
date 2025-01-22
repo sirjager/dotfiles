@@ -3,7 +3,6 @@ local M = {
   "HakonHarnes/img-clip.nvim",
 }
 
-
 -- suggested keymap
 -- { "<leader>v", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
 
@@ -98,6 +97,5 @@ M.opts = {
     },
   },
 }
-
 
 return M

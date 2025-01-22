@@ -1,5 +1,6 @@
 local M = {
   "numToStr/Comment.nvim",
+  event = "BufReadPost",
   dependencies = {
     { "folke/todo-comments.nvim" },
     { "JoosepAlviste/nvim-ts-context-commentstring" },

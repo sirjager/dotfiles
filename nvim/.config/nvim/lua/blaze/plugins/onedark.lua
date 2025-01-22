@@ -14,7 +14,7 @@ M.opts = {
   cmp_itemkind_reverse = true,
   toggle_style_key = nil,
   lualine = { transparent = true },
-  highlights = require("blaze.colors"),
+  highlights = require "blaze.colors",
   code_style = {
     comments = "italic",
     keywords = "bold",

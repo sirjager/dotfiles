@@ -1,7 +1,5 @@
 local M = {
   "folke/snacks.nvim",
-  priority = 1000,
-  lazy = false,
 }
 
 M.opts = {
@@ -19,9 +17,14 @@ M.opts.dashboard = {
   enabled = true,
   width = 30,
   preset = {
-    header = require("blaze.banners").neovim_filled,
+    header = nil,
     keys = {
-      { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+      {
+        icon = " ",
+        key = "c",
+        desc = "Config",
+        action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+      },
       { icon = " ", key = "s", desc = "Restore Session", section = "session" },
       { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
       { icon = " ", key = "q", desc = "Quit", action = ":qa" },
@@ -64,7 +67,9 @@ M.init = function()
       Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map "<leader>uL"
       Snacks.toggle.diagnostics():map "<leader>ud"
       Snacks.toggle.line_number():map "<leader>ul"
-      Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map "<leader>uc"
+      Snacks.toggle
+        .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+        :map "<leader>uc"
       Snacks.toggle.treesitter():map "<leader>uT"
       Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map "<leader>ub"
       Snacks.toggle.inlay_hints():map "<leader>uh"

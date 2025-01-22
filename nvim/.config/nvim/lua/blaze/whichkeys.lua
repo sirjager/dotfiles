@@ -53,7 +53,12 @@ return {
   { "<leader>nn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
   { "<leader>na", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
   { "<leader>nx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[X]top Test" },
-  { "<leader>nc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', icon = "󰢪 ", desc = "[C]urrent File Test" },
+  {
+    "<leader>nc",
+    ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',
+    icon = "󰢪 ",
+    desc = "[C]urrent File Test",
+  },
   { "<leader>nd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
   { "<leader>ng", group = "[G]o Tests", icon = " " },
   { "<leader>ngn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
@@ -61,7 +66,12 @@ return {
 
   -- NOTE: Telescope Search
   { "<leader>s", group = "[S]earch", icon = " " },
-  { "<leader>ss", ":Telescope find_files hidden=true no_ignore=false color=always<CR>", icon = "󰥨 ", desc = "[S]earch Files" },
+  {
+    "<leader>ss",
+    ":Telescope find_files hidden=true no_ignore=false color=always<CR>",
+    icon = "󰥨 ",
+    desc = "[S]earch Files",
+  },
   { "<leader>sb", ":Telescope buffers<CR>", icon = "󱎸 ", desc = "In [B]uffer" },
   { "<leader>se", ":Telescope emoji<CR>", icon = "󱊒 ", desc = "[E]moji" },
   { "<leader>sW", ":Telescope live_grep<CR>", icon = "󰨭 ", desc = "[W]orkspace" },
@@ -104,7 +114,43 @@ return {
   { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
   { "<leader>f", group = "[F]lash", icon = " " },
-  { "<leader>fj", function () require("flash").jump() end, icon = " ", desc = "[J]ump To" },
-  { "<leader>ft", function () require("flash").treesitter() end, icon = " ", desc = "[T]reesitter" },
-  { "<leader>fs", function () require("flash").treesitter_search() end, icon = " ", desc = "[S]earch Treesitter" },
+  {
+    "<leader>fj",
+    function()
+      require("flash").jump()
+    end,
+    icon = " ",
+    desc = "[J]ump To",
+  },
+  {
+    "<leader>ft",
+    function()
+      require("flash").treesitter()
+    end,
+    icon = " ",
+    desc = "[T]reesitter",
+  },
+  {
+    "<leader>fs",
+    function()
+      require("flash").treesitter_search()
+    end,
+    icon = " ",
+    desc = "[S]earch Treesitter",
+  },
+
+  -- Misc
+  { "<leader>p", group = "Misc Shortcuts", icon = "暈" },
+  {
+    "<leader>ps",
+    function()
+      vim.opt.spell = not vim.opt.spell:get()
+      local status = vim.opt.spell:get() and "enabled" or "disabled"
+      vim.notify("Spell Checker " .. status, vim.log.levels.INFO)
+    end,
+    icon = "暈",
+    desc = function()
+      return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")
+    end,
+  },
 }

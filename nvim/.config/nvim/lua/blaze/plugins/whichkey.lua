@@ -1,14 +1,14 @@
 local M = {
   "folke/which-key.nvim",
+  event = "VeryLazy",
   init = function()
     vim.o.timeout = true
     vim.o.timeoutlen = 2000
   end,
-  event = "VeryLazy",
 }
 
 M.opts = {
-  spec = require("blaze.whichkeys"),
+  spec = require "blaze.whichkeys",
   show_help = true, -- show a help message in the command line for using WhichKey
   show_keys = true, -- show the currently pressed key and its label as a message in the command line
   plugins = {
@@ -79,8 +79,7 @@ M.opts = {
 }
 
 function M.config()
-  local wk = require "which-key"
-  wk.setup(M.opts)
+  require("which-key").setup(M.opts)
 end
 
 return M

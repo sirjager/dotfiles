@@ -46,7 +46,6 @@ M.sharp = {
   [[                                                                       ]],
 }
 
-
 M.random = function(inputTable)
   local tableToUse = inputTable or M -- Use the provided table, or default to M if none is provided
   local keys = {}

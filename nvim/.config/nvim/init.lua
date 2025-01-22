@@ -1,6 +1,4 @@
 ---
-
-require "blaze.keymaps"
 require "blaze.options"
 require "blaze.autocmds"
 
@@ -9,8 +7,9 @@ require "blaze.plugins.plenary"
 require "blaze.plugins.dressing"
 require "blaze.plugins.noice"
 
-require "blaze.plugins.snacks"
+require "blaze.plugins.dashboard"
 require "blaze.plugins.devicons"
+
 require "blaze.plugins.neotree"
 require "blaze.plugins.telescope"
 require "blaze.plugins.whichkey"
@@ -40,3 +39,6 @@ require "blaze.plugins.hlchunk"
 require "blaze.plugins.ledger"
 -- require "blaze.plugins.illuminate"
 require "blaze.plugins.flash"
+
+-- keymaps are last because they override all other keymaps set by other plugin
+require "blaze.keymaps"

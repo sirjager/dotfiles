@@ -15,7 +15,6 @@ M.servers = {
 }
 
 function M.config()
-
   vim.filetype.add { extension = { rasi = "rasi" } }
   vim.treesitter.language.register("css", "rasi")
 

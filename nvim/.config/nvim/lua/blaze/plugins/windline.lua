@@ -1,6 +1,6 @@
 local M = {
   "windwp/windline.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 
 function M.config()

@@ -4,10 +4,7 @@ local keymaps = {
     ["q"] = { "<ESC><ESC>:noh<CR>", "clear highlights" }, -- disabling macro recording
     ["w"] = { "<ESC>ve", "select word to right" },
     ["b"] = { "<ESC>vb", "select word to left" },
-
     ["f"] = { ":lua require('flash').jump()<CR>", "flash jump" },
-    ["t"] = { ":lua require('flash').treesitter()<CR>", "flash treesitter" },
-    ["s"] = { ":lua require('flash').treesitter()<CR>", "flash treesitter" },
 
     ["W"] = { [[<ESC>:execute "normal! v" .. (col('$') - col('.')) .. 'l'<CR>]], "select words till end of line" },
     ["B"] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], "select words till start of line" },

@@ -1,7 +1,7 @@
 local M = {
   "nvim-neotest/neotest",
   dependencies = {
-    { "nvim-neotest/nvim-nio"},
+    { "nvim-neotest/nvim-nio" },
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -22,7 +22,7 @@ function M.config()
       concurrent = 1,
     },
     running = {
-      concurrent = true,  -- Run tests concurrently when an adapter provides multiple commands to run.
+      concurrent = true, -- Run tests concurrently when an adapter provides multiple commands to run.
     },
     summary = {
       animated = true,
@@ -31,7 +31,15 @@ function M.config()
     adapters = {
       require "neotest-go" {
         -- recursive_run = true, -- By default go test runs for currecnt package only. Set recursive_run to true to run for all packages
-        args = { "-v", "-cover", "-short", "-race", "-count=1", "-timeout=60s", "-coverprofile=" .. vim.fn.getcwd() .. "/cover.out" },
+        args = {
+          "-v",
+          "-cover",
+          "-short",
+          "-race",
+          "-count=1",
+          "-timeout=60s",
+          "-coverprofile=" .. vim.fn.getcwd() .. "/cover.out",
+        },
       },
     },
   }

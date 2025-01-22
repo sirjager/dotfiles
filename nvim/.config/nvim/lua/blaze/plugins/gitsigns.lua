@@ -4,7 +4,7 @@ local M = {
 }
 
 function M.config()
-  require("gitsigns").setup({})
+  require("gitsigns").setup {}
 end
 
 return M

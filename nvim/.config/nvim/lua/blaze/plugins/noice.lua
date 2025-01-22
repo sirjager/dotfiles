@@ -1,6 +1,6 @@
 local M = {
   "folke/noice.nvim",
-  event = "VeryLazy",
+  event = "CmdlineEnter",
 }
 
 function M.config()

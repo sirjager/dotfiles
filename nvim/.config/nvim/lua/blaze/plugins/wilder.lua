@@ -3,7 +3,7 @@ local M = {
   dependencies = {
     "romgrk/fzy-lua-native",
   },
-  event = { "VeryLazy" },
+  event = { "CmdLineEnter" },
 }
 
 M.config = function()
