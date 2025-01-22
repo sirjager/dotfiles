@@ -26,29 +26,35 @@ is_encrypted() {
   return 1 # File doesn't exist or isn't encrypted
 }
 
+encrypt_if_not_encrypted() {
+  file="$1"
+
+  if ! is_encrypted "$file"; then
+    # If the file is not encrypted, decrypt and re-encrypt it
+    echo "Decrypting and re-encrypting $file..."
+
+    # Decrypt the file into a temporary directory
+    7z x "$file.7z" -o"$temp_dir" -p"$ENC_PASS"
+
+    # Re-encrypt the decrypted file
+    7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$temp_dir/$file"
+
+    # Clean up the decrypted temporary files
+    rm -rf "${temp_dir:?}/$file"
+  else
+    # Encrypt the file if not already encrypted
+    echo "Encrypting $file..."
+    7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$file"
+  fi
+}
+
 # Temporary directory for decryption
 temp_dir=$(mktemp -d)
 
 # Encrypt or re-encrypt files
 for file in *; do
   if [ -f "$file" ] && ! is_ignored "$file"; then
-    if ! is_encrypted "$file"; then
-      # If the file is not encrypted, decrypt and re-encrypt it
-      echo "Decrypting and re-encrypting $file..."
-
-      # Decrypt the file into a temporary directory
-      7z x "$file.7z" -o"$temp_dir" -p"$ENC_PASS"
-
-      # Re-encrypt the decrypted file
-      7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$temp_dir/$file"
-
-      # Clean up the decrypted temporary files
-      rm -rf "${temp_dir:?}/$file"
-    else
-      # Encrypt the file if not already encrypted
-      echo "Encrypting $file..."
-      7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$file"
-    fi
+    encrypt_if_not_encrypted "$file"
   fi
 done
 
