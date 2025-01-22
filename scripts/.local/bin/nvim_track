@@ -6,12 +6,6 @@ ACTION_RESET=""
 ACTION_REMOVE=""
 ACTION_SKIP=""
 
-# By default if no path is provided, the current directory is used
-FILE_PATH="$(pwd)"
-if [ -n "$1" ]; then
-  FILE_PATH=$(realpath "$1")
-fi
-
 while [ $# -gt 0 ]; do
   case "$1" in
   --skip)
@@ -44,6 +38,11 @@ while [ $# -gt 0 ]; do
 done
 
 # ===========================================================
+# By default if no path is provided, the current directory is used
+FILE_PATH="$(pwd)"
+if [ -n "$1" ]; then
+  FILE_PATH=$(realpath "$1")
+fi
 
 mkdir -p "$(dirname "$TRACK_FILE")"
 touch "$TRACK_FILE"

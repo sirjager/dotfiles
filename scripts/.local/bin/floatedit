@@ -7,9 +7,11 @@
 OPEN_PATH=""
 
 SESSION=""
-CLASS=""
 TITLE=""
 TMUX=""
+CLASS=""
+CLASS_PREFIX="floatedit-"
+
 PROMPT="Recntly Edited Files: "
 
 ZOXIDE=""
@@ -19,11 +21,11 @@ REMOVE=""
 WIDTH_PERCENT=30  # Width in percentage
 HEIGHT_PERCENT=40 # Height in percentage
 
-OFFSET_X=10 # Gap away from left and right of the screen
-OFFSET_Y=40 # Gap away from top and bottom of the screen
+OFFSET_X=8 # Gap away from left and right of the screen
+OFFSET_Y=10 # Gap away from top and bottom of the screen
 
 # available: north | northeast | east | southeast | south | southwest | west | northwest
-LOCATION="northeast"
+LOCATION="southeast"
 POS_X=0
 POS_Y=0
 
@@ -239,6 +241,7 @@ if [ ! -d "$OPEN_PATH" ]; then
 fi
 
 # [Execution] =================================================
+CLASS="$CLASS_PREFIX$CLASS"
 if [ "$TMUX" = "true" ]; then
 	if command -v tmux >/dev/null 2>&1; then
 		kitty --class "$CLASS" --title "$TITLE" \
