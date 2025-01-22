@@ -26,6 +26,7 @@ is_encrypted() {
   return 1 # File doesn't exist or isn't encrypted
 }
 
+# Function to encrypt a file if it is not already encrypted
 encrypt_if_not_encrypted() {
   file="$1"
 
@@ -33,14 +34,19 @@ encrypt_if_not_encrypted() {
     # If the file is not encrypted, decrypt and re-encrypt it
     echo "Decrypting and re-encrypting $file..."
 
-    # Decrypt the file into a temporary directory
-    7z x "$file.7z" -o"$temp_dir" -p"$ENC_PASS"
+    # Temporary directory for decryption
+    temp_dir=$(mktemp -d)
 
-    # Re-encrypt the decrypted file
-    7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$temp_dir/$file"
+    # Ensure the file exists and decrypt it into the temp directory
+    if 7z x "$file.7z" -o"$temp_dir" -p"$ENC_PASS" >/dev/null 2>&1; then
+      # Re-encrypt the decrypted file
+      7z a -t7z -mhe=on -p"$ENC_PASS" "$file.7z" "$temp_dir/$file"
 
-    # Clean up the decrypted temporary files
-    rm -rf "${temp_dir:?}/$file"
+      # Clean up the decrypted temporary files
+      rm -rf "${temp_dir:?}/$file"
+    else
+      echo "Error: Decryption failed for $file"
+    fi
   else
     # Encrypt the file if not already encrypted
     echo "Encrypting $file..."
@@ -48,15 +54,9 @@ encrypt_if_not_encrypted() {
   fi
 }
 
-# Temporary directory for decryption
-temp_dir=$(mktemp -d)
-
-# Encrypt or re-encrypt files
+# Iterate over files and call the encryption function
 for file in *; do
   if [ -f "$file" ] && ! is_ignored "$file"; then
     encrypt_if_not_encrypted "$file"
   fi
 done
-
-# Clean up the decrypted temporary files safely
-rm -rf "${temp_dir:?}"
