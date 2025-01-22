@@ -28,7 +28,7 @@ $ git clone git@github.com/sirjager/dotfiles.git
 $ cd dotfiles
 ```
 
-then use GNU stow to create symlinks.
+then use GNU stow to create symlinks
 
 ```
 $ stow .
