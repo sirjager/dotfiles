@@ -29,5 +29,5 @@ _darcs
 .*\.env
 .*\.envrc
 
-\enc
-\enc\*
+\encrypted
+\encrypted\*

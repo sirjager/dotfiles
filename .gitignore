@@ -1,6 +1,6 @@
 # Encrypted files only
-enc/*
-enc/**/*
-!enc/*.7z
-!enc/encrypt.sh
-!enc/decrypt.sh
+encrypted/*
+encrypted/**/*
+!encrypted/*.7z
+!encrypted/encrypt.sh
+!encrypted/decrypt.sh
