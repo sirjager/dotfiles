@@ -2,3 +2,5 @@
 enc/*
 enc/**/*
 !enc/*.7z
+!enc/encrypt.sh
+!enc/decrypt.sh

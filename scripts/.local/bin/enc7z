@@ -1,66 +1,105 @@
 #!/bin/sh
 
+output=""
+password=""
+
+ENV_FILE=""
 REMOVE_IF_EXISTS="false"
 GEN_RANDOM_NAME="false"
-output=""
+ALL_FILES_IN_DIR="false"
 
 command -v 7z >/dev/null 2>&1 || sudo pacman -S --needed p7zip
 
 # Applying all flags and values
 while [ $# -gt 0 ]; do
-	case "$1" in
-	--random | --uuid)
-		GEN_RANDOM_NAME="true"
-		shift
-		;;
-	--remove | -r | --rem)
-		REMOVE_IF_EXISTS="true"
-		shift
-		;;
-	*)
-		# If the argument is not a flag, store it for processing later
-		if [ -z "$input" ]; then
-			input="$1"
-		else
-			output="$1"
-		fi
-		shift
-		;;
-	esac
+  case "$1" in
+  --random | --uuid)
+    GEN_RANDOM_NAME="true"
+    shift
+    ;;
+  --remove | -r | --rem | --del)
+    REMOVE_IF_EXISTS="true"
+    shift
+    ;;
+  --env | -e)
+    ENV_FILE="$2"
+    shift 2
+    ;;
+  --all | -a)
+    ALL_FILES_IN_DIR="true"
+    shift
+    ;;
+  *)
+    # If the argument is not a flag, store it for processing later
+    if [ -z "$input" ]; then
+      input="$1"
+    else
+      output="$1"
+    fi
+    shift
+    ;;
+  esac
 done
 
 # Check if at least one argument is provided
 if [ -z "$input" ]; then
-	echo "Usage: $0 <file_or_directory> [<compressed_file_name>]"
-	exit 1
+  echo "Usage: $0 <file_or_directory> [<compressed_file_name>]"
+  exit 1
 fi
 
 # If no output name is provided and random name is not requested
 if [ -z "$output" ]; then
-	output="${input}.7z"
+  output="${input}.7z"
 fi
 
 # Check if input is a file or directory
 if [ ! -e "$input" ]; then
-	echo "Error: '$input' does not exist."
-	exit 1
+  echo "Error: '$input' does not exist."
+  exit 1
 fi
 
 # Generate a random output name if the flag is set
 if [ "$GEN_RANDOM_NAME" = "true" ]; then
-	output="$(uuidgen).7z"
+  output="$(uuidgen).7z"
 fi
 
 # Check if the output file already exists
 if [ -e "$output" ]; then
-	if [ "$REMOVE_IF_EXISTS" = "true" ]; then
-		echo "Removing existing output file '$output'."
-		rm "$output"
-	else
-		echo "Error: Output file '$output' already exists."
-		exit 1
-	fi
+  if [ "$REMOVE_IF_EXISTS" = "true" ]; then
+    echo "Removing existing output file '$output'."
+    rm "$output"
+  else
+    echo "Error: Output file '$output' already exists."
+    exit 1
+  fi
 fi
 
-# Compress and encrypt the input file/directory
-7z a -t7z -mhe=on -p "$output" "$input"
+# Source environment file if provided
+if [ -e "$ENV_FILE" ]; then
+  . "$ENV_FILE"
+fi
+
+# If password is not set in the environment file, ask for it
+if [ -z "$ENC_PASS" ]; then
+  echo "Enter password for encryption:"
+  read -r password
+else
+  password="$ENC_PASS"
+fi
+
+# If --all flag is set, encrypt all files in the current directory
+if [ "$ALL_FILES_IN_DIR" = "true" ]; then
+  for file in *; do
+    if [ -f "$file" ] && [ "${file##*.}" != "7z" ]; then
+      7z a -t7z -mhe=on -p"$password" "$file.7z" "$file"
+    fi
+  done
+else
+  # Compress and encrypt the input file/directory if it's not already a .7z file
+  if [ "${input##*.}" != "7z" ]; then
+    7z a -t7z -mhe=on -p"$password" "$output" "$input"
+  else
+    echo "Error: Input file '$input' is already a .7z file."
+    exit 1
+  fi
+fi
