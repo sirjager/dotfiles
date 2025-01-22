@@ -1,6 +1,6 @@
 # My Dotfiles
 
-This directory contains my personal dotfiles, which I use on a daily basis.
+This directory contains my personal dotfiles, which I use on a daily basis
 
 ---
 
