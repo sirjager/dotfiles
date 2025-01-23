@@ -2,12 +2,8 @@
 
 TIMER_FILE="$HOME/.local/state/capturecli"
 
-# OBS Profile name; should exists
+# Default OBS Profile name; should exists
 PROFILE="recording"
-OBS_ICON="com.obsproject.Studio"
-
-SCREENSHOT_DIR="$mystorage/downloads/Screenshots"
-RECORDINGS_DIR="$mystorage/downloads/Recordings"
 
 # set using --<params>
 ACTION=""
@@ -15,10 +11,22 @@ ACTION=""
 # Delay in seconds for screen recording and screenshot
 DELAY="0"
 
-NOTIFY_ID="92832"
-IDLE_MESSAGE="Record"
+# set using --<params>
+ACTION=""
 
-# Rofi theme
+# Delay in seconds for screen recording and screenshot
+DELAY="0"
+
+# OBS Icon
+OBS_ICON="com.obsproject.Studio"
+
+# Default directories
+SCREENSHOT_DIR="$mystorage/downloads/Screenshots"
+RECORDINGS_DIR="$mystorage/downloads/Recordings"
+
+NOTIFY_ID="92832" # id to keep replace old notifications
+
+# Rofi theme like dmneu
 ROFI_THEME="$HOME/.config/sxhkd/rofi/horizontal.rasi"
 
 while [ $# -gt 0 ]; do
@@ -134,8 +142,6 @@ get_timer() {
     MESSAGE="$MINUTES mins $SECONDS sec"
     echo "$MESSAGE"
     is_notify_on && dunstify -i "$OBS_ICON" -a "OBS" -r "$NOTIFY_ID" "Elapsed: $MESSAGE"
-  else
-    echo "$IDLE_MESSAGE"
   fi
 
   if is_notify_on; then
