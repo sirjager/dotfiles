@@ -1,25 +1,31 @@
 #!/bin/bash
 
-TIMER_FILE="/tmp/obs-recording"
-PROFILE="recording"
+TIMER_FILE="$HOME/.local/state/capturecli"
 
+# OBS Profile name; should exists
+PROFILE="recording"
 OBS_ICON="com.obsproject.Studio"
 
-ACTION=""
-DELAY="0"
-STICKY=""
+SCREENSHOT_DIR="$mystorage/downloads/Screenshots"
+RECORDINGS_DIR="$mystorage/downloads/Recordings"
 
-NOTIFY="true"
+# set using --<params>
+ACTION=""
+
+# Delay in seconds for screen recording and screenshot
+DELAY="0"
+
 NOTIFY_ID="92832"
 IDLE_MESSAGE="Record"
 
-OUTPUT_DIR="$mystorage/downloads/capture"
+# Rofi theme
 ROFI_THEME="$HOME/.config/sxhkd/rofi/horizontal.rasi"
 
 while [ $# -gt 0 ]; do
   case "$1" in
   --output | output | -o)
-    OUTPUT_DIR="$2"
+    SCREENSHOT_DIR="$2"
+    RECORDINGS_DIR="$2"
     shift 2
     ;;
   --profile | profile | -p)
@@ -38,10 +44,6 @@ while [ $# -gt 0 ]; do
     ACTION="timer"
     shift
     ;;
-  --sticky | --loop)
-    STICKY="true"
-    shift
-    ;;
   --window | window | -w)
     ACTION="window"
     shift
@@ -54,24 +56,12 @@ while [ $# -gt 0 ]; do
     ACTION="selection"
     shift
     ;;
-  --recorder | recorder)
-    ACTION="recorder"
-    shift
-    ;;
-  --screenshot | screenshot | --capture | capture)
-    ACTION="capture"
-    shift
-    ;;
-  --menu | menu)
-    ACTION="menu"
-    shift
-    ;;
   --delay | delay)
     DELAY="$2"
     shift 2
     ;;
-  --notify | notify | -n)
-    NOTIFY="true"
+  --notify | notify | --notification | notification | -n)
+    ACTION="notification"
     shift
     ;;
   --help | help | -h)
@@ -84,7 +74,11 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-[ ! -d "$OUTPUT_DIR" ] && mkdir -p "$OUTPUT_DIR"
+# create screenshot dir if does not exiss
+[ ! -d "$SCREENSHOT_DIR" ] && mkdir -p "$SCREENSHOT_DIR"
+
+# create recordings dir if does not exiss
+[ ! -d "$RECORDINGS_DIR" ] && mkdir -p "$RECORDINGS_DIR"
 
 show_help() {
   echo "Usage: $0 [OPTIONS]"
@@ -99,6 +93,37 @@ show_help() {
   echo "  $0 --timer"
 }
 
+is_notify_on() {
+  if [ -f "$TIMER_FILE.notify" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+toggle_notify() {
+  if [ -z "$1" ]; then
+    if is_notify_on; then
+      rm -f "$TIMER_FILE.notify"
+      dunstify --close="$NOTIFY_ID"
+    else
+      touch "$TIMER_FILE.notify"
+    fi
+  elif [ "$1" = "on" ]; then
+    [ ! -f "$TIMER_FILE.notify" ] && touch "$TIMER_FILE.notify"
+  else
+    [ -f "$TIMER_FILE.notify" ] && rm -f "$TIMER_FILE.notify"
+    dunstify --close="$NOTIFY_ID"
+  fi
+}
+
+# Delays if Delay is set
+delay() {
+  if [[ "$DELAY" =~ ^[0-9]+$ ]]; then
+    sleep "$DELAY"
+  fi
+}
+
 get_timer() {
   if [ -f "$TIMER_FILE" ]; then
     START_TIME=$(cat "$TIMER_FILE")
@@ -108,12 +133,12 @@ get_timer() {
     SECONDS=$(($DURATION % 60))
     MESSAGE="$MINUTES mins $SECONDS sec"
     echo "$MESSAGE"
-    [ "$NOTIFY" = "true" ] && notify-send -i "$OBS_ICON" -a "OBS" -r "$NOTIFY_ID" "Elapsed: $MESSAGE"
+    is_notify_on && dunstify -i "$OBS_ICON" -a "OBS" -r "$NOTIFY_ID" "Elapsed: $MESSAGE"
   else
     echo "$IDLE_MESSAGE"
   fi
 
-  if [ "$STICKY" = "true" ]; then
+  if is_notify_on; then
     get_timer >/dev/null 2>&1 &
   fi
 }
@@ -127,19 +152,30 @@ function cleanup() {
 }
 
 function stop_recording() {
+  delay
   command pkill obs >/dev/null 2>&1 &
   [ -f "$TIMER_FILE" ] && rm -f "$TIMER_FILE" >/dev/null 2>&1
-  [ "$NOTIFY" = "true" ] && notify-send --close="$NOTIFY_ID" >/dev/null 2>&1 &
+  dunstify --close="$NOTIFY_ID"
+}
+
+is_recording() {
+  if [ -f "$TIMER_FILE" ]; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 function start_recording() {
-  if [ -f "$TIMER_FILE" ]; then
+  if is_recording; then
     message="Already recording"
-    [ "$NOTIFY" = "true" ] && notify-send -u critical -i "$OBS_ICON" -a "OSB" "$message"
+    is_notify_on && dunstify -u critical -i "$OBS_ICON" -a "OSB" "$message"
     exit 0
   fi
-  cleanup
-  date +%s >"$TIMER_FILE"
+
+  delay                   # if delay is passed
+  cleanup                 # cleanup logs of obs
+  date +%s >"$TIMER_FILE" # create new timer file
   DRI_PRIME=1 obs \
     --profile "$PROFILE" \
     --minimize-to-tray \
@@ -147,91 +183,101 @@ function start_recording() {
 }
 
 capture_selection() {
+  delay # if delay is passed
   FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
-  gnome-screenshot --area --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
-    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
+  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
+  gnome-screenshot --area --file="$FILEPATH" >/dev/null 2>&1 &&
+    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
 }
 
 capture_window() {
+  delay # if delay is passed
   FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
-  gnome-screenshot --window --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
-    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
+  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
+  gnome-screenshot --window --file="$FILEPATH" >/dev/null 2>&1 &&
+    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
 }
 
 capture_screen() {
+  delay # if delay is passed
   FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
-  gnome-screenshot --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
-    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot Captured" "$FILEPATH"
+  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
+  gnome-screenshot --file="$FILEPATH" >/dev/null 2>&1 &&
+    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot Captured" "$FILEPATH"
 }
 
-recording_menu() {
-  OPTS=("start" "stop" "timer")
-  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
-  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Screenshot: ")
-  [ -z "$SELECTION" ] && return
-  ACTION=$SELECTION
-  perform_action
+open_directory() {
+  if command -v xdg-open &>/dev/null; then
+    xdg-open "$1" # Linux
+  elif command -v open &>/dev/null; then
+    open "$1" # macOS
+  else
+    echo "No supported file explorer found."
+  fi
 }
 
-screenshot_menu() {
-  OPTS=("screen" "window" "selection")
-  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
-  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Screenshot: ")
-  [ -z "$SELECTION" ] && return
-  ACTION=$SELECTION
-  perform_action
-}
+# screenshot options
+OPTS=("screen capture" "window capture" "selection capture")
 
-combined_menu() {
-  OPTS=("capture screen" "capture window" "capture selection" "recording start" "recording stop" "recording timer")
-  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
-  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Capture : ")
-  [ -z "$SELECTION" ] && return
-  ACTION=$(echo "$SELECTION" | awk '{print $2}')
-  STICKY="true"
-  perform_action
-}
+# enable or disable notifications for screenshot and recordings
+if is_notify_on; then
+  OPTS+=("notification disable")
+else
+  OPTS+=("notification enable")
+fi
 
-perform_action() {
-  [ -n "$1" ] && ACTION=$1
-  case "$ACTION" in
-  start)
-    start_recording
-    ;;
-  stop)
-    stop_recording
-    ;;
-  timer)
-    get_timer
-    ;;
-  screen)
-    capture_screen
-    ;;
-  window)
-    capture_window
-    ;;
-  selection)
-    capture_selection
-    ;;
-  recorder)
-    recording_menu
-    ;;
-  capture)
-    screenshot_menu
-    ;;
-  menu)
-    combined_menu
-    ;;
-  help)
-    show_help
-    ;;
-  *)
-    exit 0
-    ;;
-  esac
-}
+# if recording, then "stop" and "timer" are valid options
+if is_recording; then
+  OPTS+=("stop recording" "timer recording")
+else
+  # if not recording, then only "start recording" options should be present
+  OPTS+=("start recording")
+fi
 
-perform_action "$ACTION"
+# adding them last becz i want them to display i last of the list
+OPTS+=("screenshots directory" "recordings directory")
+
+# rofi options
+ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
+
+# only get selection if action is empty
+[ -z "$ACTION" ] && SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Capture : ")
+
+# if selection is not empty then set action to selection
+[ -n "$SELECTION" ] && ACTION=$(echo "$SELECTION" | awk '{print $1}') # $1 is action in all opts
+
+case "$ACTION" in
+start | record)
+  start_recording
+  ;;
+stop | cancel)
+  stop_recording
+  ;;
+timer | duration | elapsed)
+  get_timer
+  ;;
+notification | notify)
+  toggle_notify ""
+  ;;
+screen | fullscreen | desktop)
+  capture_screen
+  ;;
+window)
+  capture_window
+  ;;
+selection | area | selected | mouse)
+  capture_selection
+  ;;
+screenshot | screenshots | images | captures | shots)
+  open_directory "$SCREENSHOT_DIR"
+  ;;
+recording | recordings | vidoes | files)
+  open_directory "$RECORDINGS_DIR"
+  ;;
+help)
+  show_help
+  ;;
+*)
+  exit 0
+  ;;
+esac
