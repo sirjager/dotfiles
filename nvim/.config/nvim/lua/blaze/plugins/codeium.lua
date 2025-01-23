@@ -1,10 +1,10 @@
 local M = {
   "Exafunction/codeium.nvim",
-  event = "BufReadPost",
+  -- event = "LSPAttach",
 }
 
 function M.config()
-  require("codeium").setup {}
+  -- require("codeium").setup {}
 end
 
 return M

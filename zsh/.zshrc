@@ -125,14 +125,13 @@ alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
 # [ Private Aliases  ]================================
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
 
+[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
+
 # Shell Integrations =============================================
+eval "$(task --completion zsh)"
+eval "$(fnm completions --shell zsh)"
 eval "$(fzf --zsh)" # ctrl + r
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(direnv hook zsh)"
-
-[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
-[ -f "$HOME/.local/share/taskfile/zsh_completions" ] && . "$HOME/.local/share/taskfile/zsh_completions"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
+eval "$(fnm env --use-on-cd --shell zsh)"

@@ -1,6 +1,7 @@
 return {
   -- NOTE: File Explorer
-  { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
+  -- { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
+  { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
   -- NOTE: Obsidian

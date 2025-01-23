@@ -1,22 +1,11 @@
 local M = {
   "nvim-telescope/telescope.nvim",
   cmd = { "Telescope" },
-  dependencies = {
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    { "nvim-telescope/telescope-project.nvim" },
-    { "nvim-telescope/telescope-media-files.nvim" },
-    { "xiyaowong/telescope-emoji.nvim" },
-    { "nvim-telescope/telescope-ui-select.nvim" },
-  },
+  dependencies = {},
 }
 
 function M.config()
   local telescope = require "telescope"
-
-  telescope.load_extension "project"
-  telescope.load_extension "media_files"
-  telescope.load_extension "emoji"
-  telescope.load_extension "ui-select"
 
   local flutterInstalled, _ = pcall(require, "flutter")
   if flutterInstalled then
@@ -24,7 +13,6 @@ function M.config()
   end
 
   local actions = require "telescope.actions"
-  local project_actions = require "telescope._extensions.project.actions"
 
   telescope.setup {
     defaults = {
@@ -32,17 +20,7 @@ function M.config()
       selection_strategy = "reset",
       -- path_display = { "smart" },
       color_devicons = true,
-      vimgrep_arguments = {
-        "rg",
-        "--color=never",
-        "--no-heading",
-        "--with-filename",
-        "--line-number",
-        "--column",
-        "--smart-case",
-        "--hidden",
-        -- "--glob='!.git/**'",
-      },
+      vimgrep_arguments = { "rg" },
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
     file_ignore_patterns = { "^.git/", ".git/", "^.git/**", "**/.git/**", "^node_modules/", "^vendor/", "^.venv/" },
@@ -59,21 +37,23 @@ function M.config()
       oldfiles = {
         prompt_title = "Recent files",
         prompt_prefix = "   ",
-        theme = "dropdown",
-        previewer = false,
+        -- theme = "ivy", -- dropdown | ivy |
+        previewer = true,
       },
       find_files = {
         prompt_title = "Find files",
         prompt_prefix = "   ",
-        -- theme = "dropdown",
+        -- theme = "ivy",
         previewer = true,
       },
       live_grep = {
         prompt_title = "Live grep",
         prompt_prefix = "   ",
+        previewer = true,
       },
       help_tags = {
         prompt_title = "Help tags",
+        theme = "ivy",
         prompt_prefix = " 󰘥  ",
       },
       colorscheme = {
@@ -84,79 +64,44 @@ function M.config()
       keymaps = {
         prompt_title = "Key bindings",
         prompt_prefix = " 󰌓  ",
-        theme = "dropdown",
+        theme = "ivy",
       },
 
       buffers = {
         theme = "dropdown",
         initial_mode = "normal",
-        mappings = {
-          i = { ["<C-d>"] = actions.delete_buffer },
-          n = { ["dd"] = actions.delete_buffer },
-        },
-      },
-      lsp_references = {
-        initial_mode = "normal",
-      },
-      lsp_definitions = {
-        initial_mode = "normal",
+        mappings = { i = { ["<C-d>"] = actions.delete_buffer }, n = { ["dd"] = actions.delete_buffer } },
       },
 
-      lsp_declarations = {
-        initial_mode = "normal",
-      },
-
-      lsp_implementations = {
-        initial_mode = "normal",
-      },
+      lsp_references = { initial_mode = "normal" },
+      lsp_definitions = { initial_mode = "normal" },
+      lsp_declarations = { initial_mode = "normal" },
+      lsp_implementations = { initial_mode = "normal" },
     },
     mappings = {
-      i = { ["<C-_>"] = actions.which_key },
+      i = {
+        ["<C-_>"] = actions.which_key,
+        ["<C-j>"] = actions.preview_scrolling_down,
+        ["<C-k>"] = actions.preview_scrolling_up,
+      },
       n = {
         ["q"] = actions.close,
         ["<esc>"] = actions.close,
         ["<CR>"] = actions.select_default,
         ["?"] = actions.which_key,
+        ["<C-j>"] = actions.preview_scrolling_down,
+        ["<C-k>"] = actions.preview_scrolling_up,
       },
     },
 
-    extensions_list = { "themes", "media_files", "projects", "terms", "fzf" },
+    extensions_list = { "themes", "fzf" },
     extensions = {
       ["ui-select"] = { require("telescope.themes").get_dropdown() },
-      emoji = {
-        action = function(emoji)
-          vim.fn.setreg("*", emoji.value)
-          print([[Press p or "*p to paste this emoji]] .. emoji.value)
-          vim.api.nvim_put({ emoji.value }, "c", false, true)
-        end,
-      },
-      projects = {
-        base_dirs = {},
-        display_type = "full",
-        hidden_files = false, -- default: false
-        theme = "dropdown",
-        order_by = "asc",
-        search_by = "title",
-        sync_with_nvim_tree = true, -- default false
-        on_project_selected = function(prompt_bufnr)
-          project_actions.change_working_directory(prompt_bufnr, false)
-          require("harpoon.ui").nav_file(1)
-        end,
-      },
       fzf = {
         fuzzy = true,
         override_generic_sorter = true,
         override_file_sorter = true,
         case_mode = "smart_case",
-      },
-      media_files = {
-        filetypes = {
-          "png",
-          "webp",
-          "jpg",
-          "jpeg",
-        },
-        find_cmd = "rg --color=never --no-heading --with-filename --line-number --column --smart-case --hidden --glob='!.git/**'", -- find command (defaults to `fd`)
       },
     },
   }

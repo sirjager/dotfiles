@@ -167,10 +167,6 @@ super + r; {r, n, w, d, j, g, o, a, s}
 super + q; q
   rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
 
-# Smart calculator
-super + q; c
-  rofi -show calc -no-show-match -no-sort -theme ~/.config/rofi/launchers/type-7/style-7.rasi &
-
 # Browser History Browser
 super + q; h; {h, t, c}
   brohistory --chromium {--visit, --type, --copy} &
@@ -185,5 +181,12 @@ super + q; p
 
 # Floating Idealogs | Quick Notes | Floating Notes
 super + q; {i, d, e}
-  ~/.local/bin/floatedit --tmux --zoxide \
+  ~/.local/bin/floatedit --tmux --zoxide --location northeast \
     { --title Idealogs --path "personal/idealogs", --title dotfiles --path "$HOME/dotfiles", ""} &
+
+
+# Capture cli | Screen recording | Screenshot 
+super + q; c
+  ~/.local/bin/capturecli menu &
+
+

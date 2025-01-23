@@ -3,14 +3,15 @@ require "blaze.options"
 require "blaze.autocmds"
 
 require "blaze.lazy"
+require "blaze.plugins.luarocks"
 require "blaze.plugins.plenary"
 require "blaze.plugins.dressing"
 require "blaze.plugins.noice"
 
+require "blaze.plugins.miniicons"
 require "blaze.plugins.dashboard"
-require "blaze.plugins.devicons"
 
-require "blaze.plugins.neotree"
+require "blaze.plugins.minifiles"
 require "blaze.plugins.telescope"
 require "blaze.plugins.whichkey"
 require "blaze.plugins.tmuxnavigator"

@@ -1,0 +1,237 @@
+#!/bin/bash
+
+TIMER_FILE="/tmp/obs-recording"
+PROFILE="recording"
+
+OBS_ICON="com.obsproject.Studio"
+
+ACTION=""
+DELAY="0"
+STICKY=""
+
+NOTIFY="true"
+NOTIFY_ID="92832"
+IDLE_MESSAGE="Record"
+
+OUTPUT_DIR="$mystorage/downloads/capture"
+ROFI_THEME="$HOME/.config/sxhkd/rofi/horizontal.rasi"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --output | output | -o)
+    OUTPUT_DIR="$2"
+    shift 2
+    ;;
+  --profile | profile | -p)
+    PROFILE="$2"
+    shift 2
+    ;;
+  --start | start | -s)
+    ACTION="start"
+    shift
+    ;;
+  --stop | stop | -x)
+    ACTION="stop"
+    shift
+    ;;
+  --timer | timer | -t)
+    ACTION="timer"
+    shift
+    ;;
+  --sticky | --loop)
+    STICKY="true"
+    shift
+    ;;
+  --window | window | -w)
+    ACTION="window"
+    shift
+    ;;
+  --screen | screen | -f)
+    ACTION="screen"
+    shift
+    ;;
+  --selection | selection | -c)
+    ACTION="selection"
+    shift
+    ;;
+  --recorder | recorder)
+    ACTION="recorder"
+    shift
+    ;;
+  --screenshot | screenshot | --capture | capture)
+    ACTION="capture"
+    shift
+    ;;
+  --menu | menu)
+    ACTION="menu"
+    shift
+    ;;
+  --delay | delay)
+    DELAY="$2"
+    shift 2
+    ;;
+  --notify | notify | -n)
+    NOTIFY="true"
+    shift
+    ;;
+  --help | help | -h)
+    ACTION="help"
+    shift
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
+
+[ ! -d "$OUTPUT_DIR" ] && mkdir -p "$OUTPUT_DIR"
+
+show_help() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo "  --profile, -p <profile>   Specify OBS profile (default: recording)"
+  echo "  --start, -s               Start recording"
+  echo "  --stop, -x                Stop recording"
+  echo "  --timer, -t               Show timer for current recording"
+  echo "Examples:"
+  echo "  $0 --start -p custom_profile"
+  echo "  $0 --stop"
+  echo "  $0 --timer"
+}
+
+get_timer() {
+  if [ -f "$TIMER_FILE" ]; then
+    START_TIME=$(cat "$TIMER_FILE")
+    NOW=$(date +%s)
+    DURATION=$((NOW - START_TIME))
+    MINUTES=$(($DURATION / 60))
+    SECONDS=$(($DURATION % 60))
+    MESSAGE="$MINUTES mins $SECONDS sec"
+    echo "$MESSAGE"
+    [ "$NOTIFY" = "true" ] && notify-send -i "$OBS_ICON" -a "OBS" -r "$NOTIFY_ID" "Elapsed: $MESSAGE"
+  else
+    echo "$IDLE_MESSAGE"
+  fi
+
+  if [ "$STICKY" = "true" ]; then
+    get_timer >/dev/null 2>&1 &
+  fi
+}
+
+function cleanup() {
+  if [ -d "$HOME/.config/obs-studio/logs" ]; then
+    rm -rf "$HOME/.config/obs-studio/logs" 2>/dev/null
+    mkdir -p "$HOME/.config/obs-studio/logs" 2>/dev/null
+    rm -f "$HOME/.config/obs-studio/safe_mode" 2>/dev/null
+  fi
+}
+
+function stop_recording() {
+  command pkill obs >/dev/null 2>&1 &
+  [ -f "$TIMER_FILE" ] && rm -f "$TIMER_FILE" >/dev/null 2>&1
+  [ "$NOTIFY" = "true" ] && notify-send --close="$NOTIFY_ID" >/dev/null 2>&1 &
+}
+
+function start_recording() {
+  if [ -f "$TIMER_FILE" ]; then
+    message="Already recording"
+    [ "$NOTIFY" = "true" ] && notify-send -u critical -i "$OBS_ICON" -a "OSB" "$message"
+    exit 0
+  fi
+  cleanup
+  date +%s >"$TIMER_FILE"
+  DRI_PRIME=1 obs \
+    --profile "$PROFILE" \
+    --minimize-to-tray \
+    --startrecording >/dev/null 2>&1 &
+}
+
+capture_selection() {
+  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
+  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
+  gnome-screenshot --area --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
+    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
+}
+
+capture_window() {
+  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
+  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
+  gnome-screenshot --window --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
+    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
+}
+
+capture_screen() {
+  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
+  FILEPATH="$OUTPUT_DIR/$FILENAME.png"
+  gnome-screenshot --delay="$DELAY" --file="$FILEPATH" >/dev/null 2>&1 &&
+    [ "$NOTIFY" = "true" ] && notify-send -i "$FILEPATH" -a "Screenshot" "Screenshot Captured" "$FILEPATH"
+}
+
+recording_menu() {
+  OPTS=("start" "stop" "timer")
+  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
+  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Screenshot: ")
+  [ -z "$SELECTION" ] && return
+  ACTION=$SELECTION
+  perform_action
+}
+
+screenshot_menu() {
+  OPTS=("screen" "window" "selection")
+  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
+  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Screenshot: ")
+  [ -z "$SELECTION" ] && return
+  ACTION=$SELECTION
+  perform_action
+}
+
+combined_menu() {
+  OPTS=("capture screen" "capture window" "capture selection" "recording start" "recording stop" "recording timer")
+  ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
+  SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Capture : ")
+  [ -z "$SELECTION" ] && return
+  ACTION=$(echo "$SELECTION" | awk '{print $2}')
+  STICKY="true"
+  perform_action
+}
+
+perform_action() {
+  [ -n "$1" ] && ACTION=$1
+  case "$ACTION" in
+  start)
+    start_recording
+    ;;
+  stop)
+    stop_recording
+    ;;
+  timer)
+    get_timer
+    ;;
+  screen)
+    capture_screen
+    ;;
+  window)
+    capture_window
+    ;;
+  selection)
+    capture_selection
+    ;;
+  recorder)
+    recording_menu
+    ;;
+  capture)
+    screenshot_menu
+    ;;
+  menu)
+    combined_menu
+    ;;
+  help)
+    show_help
+    ;;
+  *)
+    exit 0
+    ;;
+  esac
+}
+
+perform_action "$ACTION"

@@ -67,6 +67,7 @@ export RUSTUP_HOME="$mystorage/programs/rustup"
 export YAZI_CONFIG_HOME="$XDG_CONFIG_HOME/yazi"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/vim.toml"
 export NVM_DIR="$mystorage/programs/nvm"
+export FNM_PATH="$mystorage/programs/fnm"
 
 # Global Environment Variables
 export GPG_TTY="$(tty)"
@@ -91,6 +92,7 @@ export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
 export PATH="$PATH:$GOBIN"
 
 # Node.js & Package Managers
+export PATH="$PATH:$FNM_PATH"
 export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
