@@ -50,6 +50,7 @@ return {
     Repo = " ",
     Octoface = " ",
     Branch = "",
+    Github = " ",
   },
   ui = {
     ArrowCircleDown = "",

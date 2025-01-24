@@ -1,6 +1,5 @@
 local M = {
   "williamboman/mason-lspconfig.nvim",
-  event = "BufReadPost",
 }
 
 M.servers = {

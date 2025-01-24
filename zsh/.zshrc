@@ -120,6 +120,7 @@ alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
 alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
+alias clear-shell-history="echo \"\" > $HISTFILE"
 
 # [ Private Aliases  ]================================
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"

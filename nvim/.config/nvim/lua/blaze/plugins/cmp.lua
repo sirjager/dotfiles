@@ -12,7 +12,6 @@ local M = {
     { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
     --
     { "onsails/lspkind-nvim" },
-    { "hrsh7th/cmp-emoji", event = "InsertEnter" },
     { "roobert/tailwindcss-colorizer-cmp.nvim" },
     --
     { "L3MON4D3/LuaSnip", event = "InsertEnter" },
@@ -47,8 +46,7 @@ function M.config()
   require("tailwindcss-colorizer-cmp").setup { color_square_width = 2 }
   require("luasnip").config.set_config { history = true, enable_autosnippets = true }
 
-  -- luasnip.filetype_extend("dart", { "flutter" })
-  require("luasnip.loaders.from_vscode").lazy_load { paths = { "./snippets" } }
+  luasnip.filetype_extend("dart", { "flutter" })
 
   local check_backspace = function()
     local col = vim.fn.col "." - 1
@@ -131,11 +129,6 @@ function M.config()
             vim_item.kind_hl_group = "CmpItemKindConstant"
           end
 
-          if entry.source.name == "emoji" then
-            vim_item.kind = icons.misc.Smiley
-            vim_item.kind_hl_group = "CmpItemKindEmoji"
-          end
-
           return vim_item
         end,
       },
@@ -151,7 +144,6 @@ function M.config()
       { name = "path" }, -- filesystem path completions
       { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
       { name = "hledger" },
-      -- { name = "emoji", option = { trigger_characters = { ":" } } },
     },
     completion = {
       -- keyword_length = 1,
@@ -165,13 +157,13 @@ function M.config()
         col_offset = 0,
         border = {
           { "󱐋", "WarningMsg" },
-          { "─", "Comment" },
-          { "╮", "Comment" },
-          { "│", "Comment" },
-          { "╯", "Comment" },
-          { "─", "Comment" },
-          { "╰", "Comment" },
-          { "│", "Comment" },
+          { "─", "FloatBorder" },
+          { "╮", "FloatBorder" },
+          { "│", "FloatBorder" },
+          { "╯", "FloatBorder" },
+          { "─", "FloatBorder" },
+          { "╰", "FloatBorder" },
+          { "│", "FloatBorder" },
         },
       },
 
@@ -180,18 +172,18 @@ function M.config()
         col_offset = 1,
         border = {
           { "", "DiagnosticHint" },
-          { "─", "Comment" },
-          { "╮", "Comment" },
-          { "│", "Comment" },
-          { "╯", "Comment" },
-          { "─", "Comment" },
-          { "╰", "Comment" },
-          { "│", "Comment" },
+          { "─", "FloatBorder" },
+          { "╮", "FloatBorder" },
+          { "│", "FloatBorder" },
+          { "╯", "FloatBorder" },
+          { "─", "FloatBorder" },
+          { "╰", "FloatBorder" },
+          { "│", "FloatBorder" },
         },
       },
     },
     experimental = {
-      ghost_text = false,
+      ghost_text = true,
     },
   }
 end

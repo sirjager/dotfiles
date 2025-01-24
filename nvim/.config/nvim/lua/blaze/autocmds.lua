@@ -37,3 +37,9 @@ if vim.o.filetype == "lazy" then
     end,
   })
 end
+
+vim.api.nvim_create_user_command("MasonInstallAll", function()
+  local servers = require("blaze.plugins.mason").servers or {}
+  local servers_str = table.concat(servers, " ")
+  vim.cmd("MasonInstall " .. servers_str)
+end, {})

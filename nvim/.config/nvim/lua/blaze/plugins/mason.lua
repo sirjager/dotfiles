@@ -1,11 +1,20 @@
 local M = {
   "williamboman/mason.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  cmd = {
+    "Mason",
+    "MasonLog",
+    "MasonUpdate",
+    "MasonInstall",
+    "MasonUninstall",
+    "MasonUninstallAll",
+  },
 }
 
 M.servers = {
   "luacheck",
   "stylua",
+  "lua-language-server",
   "prismals",
   "shellcheck",
   "shfmt",
@@ -23,6 +32,7 @@ M.servers = {
   "mypy",
   "black",
   -- astro
+  -- "astro-language-server@2.10.0" -- working fine
   -- "astro-language-server@2.10.0" -- working fine
 }
 

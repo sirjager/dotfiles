@@ -9,35 +9,32 @@ local logo = require("blaze.banners").jagervim
 M.shortcuts = {
   {
     action = "cd ~/dotfiles/nvim/.config/nvim | e ~/dotfiles/nvim/.config/nvim/init.lua",
-    desc = " Config",
-    icon = " ",
+    desc = "Config",
+    icon = " ",
     key = "c",
   },
   {
     action = "cd ~/dotfiles | e ~/dotfiles/tmux/.config/tmux/tmux.conf",
-    desc = " Tmux",
+    desc = "Tmux",
     icon = " ",
     key = "t",
   },
   {
     action = "Lazy",
-    desc = " Lazy",
+    desc = "Lazy",
     icon = "󰒲 ",
-    key = "L",
+    key = "l",
   },
   {
     action = "qa",
-    desc = " Quit",
-    icon = " ",
+    desc = "Quit",
+    icon = "󰅖 ",
     key = "q",
   },
 }
 
 M.footer = function()
-  ---@diagnostic disable-next-line: no-unknown
-  local stats = require("lazy").stats()
-  local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-  return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+  return { "" }
 end
 
 M.doom = {
@@ -52,6 +49,7 @@ M.doom = {
   config = {
     header = logo,
     center = M.shortcuts,
+    disable_move = true,
   },
   footer = M.footer(),
 }
@@ -68,6 +66,7 @@ M.hyper = {
   },
   config = {
     header = logo,
+    disable_move = true,
     shortcut = M.shortcuts,
     packages = { enable = true },
     week_header = { enable = false },
@@ -78,8 +77,8 @@ M.hyper = {
       label = "Projects",
       action = "Telescope find_files cwd=/mnt/storage/workspace",
     },
+    footer = M.footer(),
   },
-  footer = M.footer(),
 }
 
 function M.config()

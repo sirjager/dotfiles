@@ -1,6 +1,6 @@
 local M = {
   "neovim/nvim-lspconfig",
-  event = { "LspAttach" },
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "onsails/lspkind-nvim",
   },
@@ -44,10 +44,6 @@ M.on_attach = function(client, bufnr)
 end
 
 function M.common_capabilities()
-  -- local capabilities = require("cmp_nvim_lsp").default_capabilities() -- works with go
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities() -- not works with go
-
-  -- combined both
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
@@ -110,7 +106,7 @@ function M.config()
 
   for _, server in pairs(M.servers) do
     local opts = { on_attach = M.on_attach, capabilities = M.common_capabilities() }
-    local okreq, settings = pcall(require, "blaze.servers." .. server)
+    local okreq, settings = pcall(require, "blaze.plugins.servers." .. server)
     if okreq then
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
