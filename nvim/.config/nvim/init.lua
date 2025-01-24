@@ -40,6 +40,7 @@ require "blaze.plugins.hlchunk"
 require "blaze.plugins.ledger"
 -- require "blaze.plugins.illuminate"
 require "blaze.plugins.flash"
+require "blaze.plugins.screenkey"
 
 -- keymaps are last because they override all other keymaps set by other plugin
 require "blaze.keymaps"

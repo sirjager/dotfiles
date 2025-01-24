@@ -1,4 +1,5 @@
 # ~/.zshenv
+export DISPLAY=:0
 
 # Personal Directories
 export mystorage="/mnt/storage"

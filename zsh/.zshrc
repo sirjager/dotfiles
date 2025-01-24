@@ -113,7 +113,6 @@ alias install-widevine="yay --noconfirm --needed -S chromium-widevine && sudo ch
 alias fl="flutter"
 alias pn='pnpm'
 alias np='npm run'
-alias nvim="nvim_track --clean"
 alias n="nvim_track --clean"
 alias snv="sudo -E -s nvim_track --clean --skip"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"

@@ -2,10 +2,7 @@ local M = {}
 
 local bg = "#161622"
 local fg = "#B4BEFE"
-
-local border = "#B4BEFE"
 local none = "None"
-
 local accent = "#EF9F76" -- matches with tmux border
 
 local dimtext = "#414559"

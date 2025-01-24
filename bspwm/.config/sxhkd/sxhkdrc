@@ -129,6 +129,11 @@ super + shift + z
 super + shift + f
   ~/.config/sxhkd/scripts/toggle-polybar &
 
+
+# Retro Terminal | Cool Term | 90s Terminal
+super + t
+  /mnt/storage/programs/Cool-Retro-Term-1.1.1-x86_64.AppImage
+
 # Terminal: Kitty Tmux New Session | Kitty Without Tmux
 super + {_,shift + } Return
   { kitty sh -c tmux new, kitty } &

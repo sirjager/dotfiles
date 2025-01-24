@@ -1,0 +1,53 @@
+#!/bin/sh
+
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+
+## Purpose
+# Sometimes we dont remember repository names, or feel frustrating typing long repo names
+# again and again, which is why i created this script that allows you to quickly select and filter
+# from all repos of passed organization or username.
+
+# This script allows you to clone a repository from a GitHub organization or user account.
+# It retrieves the list of repositories from the specified GitHub organization or user using the gh CLI,
+# allows you to select one repository, and then clones it to your local machine.
+# Any additional arguments passed after the organization name are forwarded to the git clone command.
+
+# Dependencies: gh - github cli,  gum - selection ui, select-from (my own custom script for selection using gum)
+
+# example:
+# gitclone sirjager <enter>
+# gitclone google <enter>  ~/Downloads/tmp
+# gitclone cli <enter> <args1> <arg2> # any args passed will be passed to git clone command
+
+ORGANIZATION="$1" # username or organization
+shift             # shift to handle additional arguments passed after the organization name
+
+get_repos() {
+  gh repo list "$ORGANIZATION" --limit 999 --json name -q '.[].name'
+}
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "gh CLI is not installed. Please install and authenticate it first."
+  exit 1
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+  echo "gh CLI is not authenticated. Please authenticate it first."
+  exit 1
+fi
+
+# throw error if org is empty
+if [ -z "$ORGANIZATION" ]; then
+  echo "organization can not be empty"
+  exit 1
+fi
+
+SELECTED=$(select-from $(get_repos) --limit 1)
+
+# exit if nothing selected
+if [ -z "$SELECTED" ]; then
+  exit 1
+fi
+
+git clone "https://github.com/$ORGANIZATION/$SELECTED" "$@"
