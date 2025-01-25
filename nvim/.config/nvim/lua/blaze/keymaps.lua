@@ -1,6 +1,6 @@
 local keymaps = {
   n = {
-    ["<Esc>"] = { ":noh <CR>", "clear highlights" },
+    ["<Esc>"] = { "<ESC>:noh<CR>", "clear highlights" },
     ["q"] = { "<ESC><ESC>:noh<CR>", "clear highlights" }, -- disabling macro recording
     ["w"] = { "<ESC>ve", "select word to right" },
     ["b"] = { "<ESC>vb", "select word to left" },
@@ -21,8 +21,11 @@ local keymaps = {
 
     ["<S-h>"] = { ":vertical resize -2<CR>", "decrease window width" },
     ["<S-l>"] = { ":vertical resize +2<CR>", "increase window width" },
-    -- ["<S-k>"] = { ":resize -2<CR>", "decrease window height" },
-    -- ["<S-j>"] = { ":resize +2<CR>", "increase window height" },
+    ["<S-k>"] = { ":resize -2<CR>", "decrease window height" },
+    ["<S-j>"] = { ":resize +2<CR>", "increase window height" },
+
+
+    ["<S-m>"] = { "<CMD>MarksListAll<CR>", "list all marks" },
 
     -- INFO:  =================================================================
     -- All Most Used toggleable options using Alt key
@@ -61,8 +64,7 @@ local keymaps = {
 
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
-    -- ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
-    ["<A-u>"] = { ":DBUIToggle<CR>", "DB UI Toggle" },
+    ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 10000})<CR>", "format without saving" },
 
@@ -104,7 +106,6 @@ local keymaps = {
     ["K"] = { ":move '<-2<CR>gv-gv", "move selection up" },
 
     ["<A-c>"] = { "gcc", "toggle comment" }, -- Toggle Comment: Also in normal mode
-    ["<A-r>"] = { "y:%s/<MiddleMouse>//g<Left><Left>", "replace highlighted in buffer" }, -- replace highlighted in buffer
   },
 
   -- terminal

@@ -3,18 +3,18 @@
 
 local M = {}
 
-local bg = "#161622" -- for bg
-local fg = "#B4BEFE" -- for text
 local none = "None" -- to nil / transparent
+local fg = "#B4BEFE" -- for text
+local bg = "#161622" -- for bg
 
 local primary = "#f5a97f" -- controls the majoriry of ui color
 local accent = "#FFDAB3" -- similar to primary with lit tweak
 
 local border = primary
 
-local dimtext = "#414559"
+local dimtext = "#B4BEFE"
 local cursorline_bg = "#292c3c"
-local cursorline_fg = "#B4BEFE"
+local cursorline_fg = primary
 
 M.Normal = { bg = none }
 M.HoverNormal = { fg = fg, bg = none }
@@ -34,7 +34,7 @@ M.FloatBorder = { fg = border, bg = none }
 
 M.FloatTitle = { fg = fg, bg = bg }
 M.FloatFooter = { fg = fg, bg = bg }
-M.FloatShadow = { bg = none }
+M.FloatShadow = { bg = bg }
 
 -- mini.files
 M.MiniFilesNormal = M.NormalFloat

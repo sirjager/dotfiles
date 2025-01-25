@@ -1,10 +1,7 @@
 local M = {
   "folke/which-key.nvim",
-  event = "VeryLazy",
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 2000
-  end,
+  -- keys = { "<leader>" }, -- lazy load using key
+  event = "VeryLazy", -- 
 }
 
 M.opts = {

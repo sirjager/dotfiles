@@ -7,17 +7,6 @@ M.opts = {
   cmdline = {
     enabled = true,
     view = "cmdline_popup", -- `cmdline_popup` | `cmdline`
-    opts = {},
-    format = {
-      cmdline = { pattern = "^:", icon = " ", lang = "vim" },
-      search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
-      search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
-      filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
-      lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
-      help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
-      input = {}, -- Used by input()
-      -- lua = false, -- to disable a format, set to `false`
-    },
   },
   messages = {
     enabled = true, -- enables the Noice messages UI
@@ -28,9 +17,8 @@ M.opts = {
     view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
   },
   popupmenu = {
-    enabled = true, -- enables the Noice popupmenu UI
-    backend = "cmp", -- nui | cmp -- backend to use to show regular cmdline completions
-    kind_icons = {}, -- set to `false` to disable icons
+    enabled = true, 
+    backend = "nui", 
   },
   presets = {
     bottom_search = false, -- use a classic bottom cmdline for search
@@ -43,6 +31,14 @@ M.opts = {
   routes = {
     {
       filter = { event = "notify", find = "No information available" },
+      opts = { skip = true },
+    },
+    {
+      filter = { event = "notify", find = "completion request failed" },
+      opts = { skip = true },
+    },
+   {
+      filter = { event = "notify", find = "LSP[gopls] Invalid settings: setting option hints: invalid type []interface {} (want JSON object)" },
       opts = { skip = true },
     },
   },

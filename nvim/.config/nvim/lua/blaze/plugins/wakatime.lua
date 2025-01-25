@@ -1,6 +1,6 @@
 local M = {
   "wakatime/vim-wakatime",
-  event = "VeryLazy",
+  event = "InsertEnter",
 }
 
 return M

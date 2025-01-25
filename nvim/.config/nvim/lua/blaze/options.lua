@@ -8,7 +8,7 @@ local options = {
   backup = false, -- creates a backup file
   breakindent = true, --
   clipboard = "unnamedplus", -- allows neovim to access the system clipboard
-  cmdheight = 1, -- more space in the neovim command line for displaying messages
+  -- cmdheight = 1, -- 1 -- more space in the neovim command line for displaying messages
   completeopt = { "menuone", "noselect" }, -- mostly just for cmp
   conceallevel = 0, -- so that is visible in markdown files
   cursorline = false, -- highlight the current line
@@ -90,4 +90,8 @@ vim.cmd [[set iskeyword+=-]]
 vim.o.autoread = true
 vim.g.netrw_banner = 0
 vim.g.netrw_mouse = 2
+
+vim.o.timeout = true
+vim.o.timeoutlen = 2000
+
 vim.g.loaded_netrwPlugin = 0

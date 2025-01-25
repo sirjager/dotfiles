@@ -9,7 +9,7 @@ M.opts = {
   shortcut_type = "number", -- number | letter,
   shuffle_letter = false, -- default is true, shortcut 'letter' will be randomize, set to false to have ordered letter.
   hide = {
-    statusline = true, 
+    statusline = true,
     tabline = false, -- bufferline
     winbar = true,
   },

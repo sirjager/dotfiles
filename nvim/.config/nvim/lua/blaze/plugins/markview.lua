@@ -2,7 +2,6 @@
 local M = {
   "OXY2DEV/markview.nvim",
   ft = "markdown",
-
   opts = function()
     local presets = require "markview.presets"
     return {

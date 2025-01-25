@@ -1,6 +1,11 @@
 local M = {
   "akinsho/bufferline.nvim",
-  event = "VeryLazy",
+  cmd = {
+    "BufferLinePick",
+    "BufferLineTogglePin",
+    "BufferLineGoToBuffer",
+    "BufferLineCloseOthers",
+  },
 }
 
 M.opts = {

@@ -1,8 +1,14 @@
 return {
   -- NOTE: File Explorer
-  { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
-  -- { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile" },
+  -- { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
+  { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
+
+
+  { "<leader>m", group = "[M]acros", icon = "󰮋 " },
+  { "<leader>mr", "qa", icon = " ", desc = "Record Macro" },
+  { "<leader>ms", "q", icon = " ", desc = "Finish Record" },
+  { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
 
   -- NOTE: Obsidian
   { "<leader>o", group = "[O]bsidian", icon = "󰮋 " },

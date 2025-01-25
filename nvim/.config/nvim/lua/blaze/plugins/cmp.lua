@@ -5,7 +5,6 @@ local M = {
     { "hrsh7th/cmp-path", event = "InsertEnter" },
     --
     { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-    { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
     { "andersevenrud/cmp-tmux", event = "InsertEnter" },
     --
     { "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
@@ -104,10 +103,10 @@ function M.config()
       fields = { "kind", "abbr", "menu" }, -- rearrange positions if needed
       format = lspkind.cmp_format {
         mode = "symbol_text", -- show only symbol annotations -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = 60, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         before = function(entry, vim_item)
-          local maxwidth = 50
+          local maxwidth = 60
           local source = entry.source.name --> nvim_lsp, nvim_lua, luasnip, buffer, path
           local kind = vim_item.kind --> Class, Method, Variable etc...
           -- local item = entry:get_completion_item()
@@ -136,11 +135,11 @@ function M.config()
     -- sources for autocompletion, priorties from top to bottom order
     -- tutorial: https://www.youtube.com/watch?v=yTk3C3JMKzQ&list=PLOe6AggsTaVuIXZU4gxWJpIQNHMrDknfN&index=40
     sources = cmp.config.sources {
-      { name = "nvim_lsp", priority = 1000 },
-      { name = "luasnip" }, -- snippets completions
       { name = "codeium" }, -- completions from codeium
-      { name = "buffer" }, -- completions from opened buffers
+      { name = "nvim_lsp" }, -- lsp completions 
       { name = "nvim_lua" }, -- lua completions
+      { name = "luasnip" }, -- snippets completions
+      { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions
       { name = "tmux", option = { all_panes = true, keyword_pattern = [[\w\+]] } }, -- tmux completions
       { name = "hledger" },

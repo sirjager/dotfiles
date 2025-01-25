@@ -2,11 +2,11 @@
 
 # Reload sxhkd
 ctrl + shift + Escape
-  pkill -usr1 -x sxhkd &
+  pkill -usr1 -x sxhkd && dunstify -t 2000 -r 929292 -a "sxhkd" "Simple Hot key Daemon" "Restarted" &
 
 # Reload bspwm
 super + shift + r
-  bspc wm -r &
+  bspc wm -r && dunstify -t 2000 -r 939393 -a "bspwm" "BSPWM" "Restarted" &
 
 # Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
 super + q; k
@@ -128,11 +128,6 @@ super + shift + z
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f
   ~/.config/sxhkd/scripts/toggle-polybar &
-
-
-# Retro Terminal | Cool Term | 90s Terminal
-super + t
-  /mnt/storage/programs/Cool-Retro-Term-1.1.1-x86_64.AppImage
 
 # Terminal: Kitty Tmux New Session | Kitty Without Tmux
 super + {_,shift + } Return
