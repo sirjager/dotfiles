@@ -6,7 +6,7 @@
 
 
 [manager]
-cwd = { fg = "#f5a97f" }
+cwd = { fg = "#F5a97f" }
 
 # Hovered
 hovered         = { reversed = true }
