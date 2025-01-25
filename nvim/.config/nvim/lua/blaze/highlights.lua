@@ -1,3 +1,6 @@
+-- create or update highlight groups
+-- check all highlight groups using :hi
+
 local M = {}
 
 local bg = "#161622" -- for bg
@@ -16,6 +19,8 @@ local cursorline_fg = "#B4BEFE"
 M.Normal = { bg = none }
 M.HoverNormal = { fg = fg, bg = none }
 M.HoverBorder = { fg = border, bg = none }
+
+M.LineNr = { fg = "#525280", bg = none } -- line numbers
 
 M.Visual = { fg = bg, bg = primary } -- visual mode selection bg
 

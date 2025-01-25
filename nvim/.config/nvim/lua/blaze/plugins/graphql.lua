@@ -1,11 +1,8 @@
 local M = {
   "phenax/cmp-graphql",
-}
-
-function M.config()
-  require("cmp-graphql").setup {
+  opts = {
     schema_path = "graphql.schema.json",
-  }
-end
+  },
+}
 
 return M

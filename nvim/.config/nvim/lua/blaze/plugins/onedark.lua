@@ -29,12 +29,4 @@ M.opts = {
   },
 }
 
-function M.config()
-  local theme = "onedark"
-  require(theme).setup(M.opts)
-  vim.o.background = "dark"
-  vim.cmd "colorscheme onedark"
-  vim.cmd "hi LineNr guibg=none guifg=#525280"
-end
-
 return M

@@ -2,25 +2,27 @@ local M = {
   "rcarriga/nvim-notify",
 }
 
-function M.config()
+M.opts = {
+  background_colour = "#000000",
+  fps = 60,
+  icons = {
+    DEBUG = "",
+    ERROR = "",
+    INFO = "",
+    TRACE = "✎",
+    WARN = "",
+  },
+  level = 2,
+  minimum_width = 50,
+  render = "compact", -- default, minimal, simple, compact
+  stages = "fade_in_slide_out", -- fade_in_slide_out, fade, slide, static
+  timeout = 2500,
+  top_down = true,
+}
+
+function M.config(_, opts)
   local notify = require "notify"
-  notify.setup {
-    background_colour = "#000000",
-    fps = 60,
-    icons = {
-      DEBUG = "",
-      ERROR = "",
-      INFO = "",
-      TRACE = "✎",
-      WARN = "",
-    },
-    level = 2,
-    minimum_width = 50,
-    render = "compact", -- default, minimal, simple, compact
-    stages = "fade_in_slide_out", -- fade_in_slide_out, fade, slide, static
-    timeout = 2500,
-    top_down = true,
-  }
+  notify.setup(opts)
 
   local banned_messages = {
     "No information available",

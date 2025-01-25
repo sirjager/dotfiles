@@ -1,7 +1,7 @@
 local M = {
   "nvim-neotest/neotest",
   dependencies = {
-    { "nvim-neotest/nvim-nio" },
+    "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -10,8 +10,8 @@ local M = {
   },
 }
 
-function M.config()
-  require("neotest").setup {
+M.opts = function()
+  return {
     discovery = {
       -- Drastically improve performance in ginormous projects by
       -- only AST-parsing the currently opened buffer.

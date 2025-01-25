@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Run the commands passed as arguments
+"$@"

@@ -7,6 +7,4 @@ local M = {
 -- install hledger
 -- yay -S hledger
 
-function M.config() end
-
 return M

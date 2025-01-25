@@ -53,11 +53,11 @@ local keymaps = {
     -- Markdown Preview
     ["<A-M>"] = { ":MarkdownPreviewToggle<CR>", "toggle markdown preview" },
 
-    -- Harpoon
-    ["<TAB>"] = { ":lua require('blaze.plugins.harpoon').toggle_menu()<CR>", "harpoon toogle menu" },
-    ["<A-m>"] = { ":lua require('blaze.plugins.harpoon').mark_file()<CR>", "harpoon mark file" },
-    ["<A-j>"] = { ":lua require('blaze.plugins.harpoon').next_file()<CR>", "harpoon next marked file" },
-    ["<A-k>"] = { ":lua require('blaze.plugins.harpoon').prev_file()<CR>", "harpoon prev marked file" },
+    -- Harpoon - custom autocmd
+    ["<TAB>"] = { "<CMD>HarpoonToggle<CR>", "harpoon toogle menu" },
+    ["<A-m>"] = { "<CMD>HarpoonMark<CR>", "harpoon mark file" },
+    ["<A-j>"] = { "<CMD>HarpoonNextMarked<CR>", "harpoon next marked file" },
+    ["<A-k>"] = { "<CMD>HarpoonPrevMarked<CR>", "harpoon prev marked file" },
 
     ["<A-c>"] = { "gcc", "toggle comment" },
     ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },

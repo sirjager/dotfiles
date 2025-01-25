@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Reload sxhkd
 ctrl + shift + Escape
@@ -6,7 +6,7 @@ ctrl + shift + Escape
 
 # Reload bspwm
 super + shift + r
-  chmod +x $HOME/.config/bspwm/bspwmrc && bspc wm -r &
+  bspc wm -r &
 
 # Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
 super + q; k
@@ -36,8 +36,8 @@ super + {_,shift + }w
 super + ctrl + z
   bspc node -g private
 
-# Vertical View / Windows arranged vertically
-super + {_,shift + }KP_Multiply
+# Change Windows View | Change Layout | Vertical View | Horizontal View
+super + {_,shift + }v
   bspc node @parent -R 90 &
 
 # Window state Fullscreen
@@ -54,7 +54,7 @@ super + shift + KP_Subtract
 
 # Window state Toggle Floating / Tile
 super + f
-  if [ -n "$(bspc query -N -n focused.floating)" ];then bspc node -t tiled &; else bspc node -t floating &; fi
+  if [ -n "$(bspc query -N -n focused.floating)" ]; then bspc node -t tiled & else bspc node -t floating & fi
 
 # change workspace, send window to workspace 1-9
 super + {_,shift} {1-9,0}
@@ -75,11 +75,11 @@ super + shift  + {KP_8,KP_4,KP_5,KP_6}
 
 # Disable touchpad
 super + shift + braceleft
-  xinput --disable 'ELAN1200:00 04F3:30BA Touchpad' &
+  xinput --disable "$(xinput | grep | 'Touchpad' | awk '{print $3 " " $4 " " $5 }')" &
 
 # Enable touchpad
 super + shift + braceright
-  xinput --enable 'ELAN1200:00 04F3:30BA Touchpad' &
+  xinput --enable "$(xinput | grep | 'Touchpad' | awk '{print $3 " " $4 " " $5 }')" &
 
 # Increase brightness
 XF86MonBrightnessUp

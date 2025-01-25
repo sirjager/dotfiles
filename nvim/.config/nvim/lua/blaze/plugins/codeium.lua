@@ -1,10 +1,6 @@
 local M = {
   "Exafunction/codeium.nvim",
-  -- event = "LSPAttach",
+  event = "InsertEnter",
 }
-
-function M.config()
-  -- require("codeium").setup {}
-end
 
 return M

@@ -3,71 +3,45 @@ local M = {
   event = "VimEnter",
 }
 
--- https://github.com/nvimdev/dashboard-nvim
-local logo = require("blaze.banners").jagervim
-
-M.shortcuts = {
-  {
-    action = "cd ~/dotfiles/nvim/.config/nvim | e ~/dotfiles/nvim/.config/nvim/init.lua",
-    desc = "Config",
-    icon = " ",
-    key = "c",
-  },
-  {
-    action = "cd ~/dotfiles | e ~/dotfiles/tmux/.config/tmux/tmux.conf",
-    desc = "Tmux",
-    icon = " ",
-    key = "t",
-  },
-  {
-    action = "Lazy",
-    desc = "Lazy",
-    icon = "󰒲 ",
-    key = "l",
-  },
-  {
-    action = "qa",
-    desc = "Quit",
-    icon = "󰅖 ",
-    key = "q",
-  },
-}
-
-M.footer = function()
-  return { "" }
-end
-
-M.doom = {
-  theme = "doom",
-  disable_move = true,
-  vertical_center = false,
-  hide = {
-    statusline = true,
-    tabline = true,
-    winbar = true,
-  },
-  config = {
-    header = logo,
-    center = M.shortcuts,
-    disable_move = true,
-  },
-  footer = M.footer(),
-}
-
-M.hyper = {
+M.opts = {
   theme = "hyper",
   disable_move = true,
   shortcut_type = "number", -- number | letter,
   shuffle_letter = false, -- default is true, shortcut 'letter' will be randomize, set to false to have ordered letter.
   hide = {
-    statusline = true,
-    tabline = true,
+    statusline = true, 
+    tabline = false, -- bufferline
     winbar = true,
   },
   config = {
-    header = logo,
+    header = require("blaze.banners").jagervim,
     disable_move = true,
-    shortcut = M.shortcuts,
+    shortcut = {
+      {
+        action = "cd ~/dotfiles/nvim/.config/nvim | e ~/dotfiles/nvim/.config/nvim/init.lua",
+        desc = "Config",
+        icon = " ",
+        key = "c",
+      },
+      {
+        action = "cd ~/dotfiles | e ~/dotfiles/tmux/.config/tmux/tmux.conf",
+        desc = "Tmux",
+        icon = " ",
+        key = "t",
+      },
+      {
+        action = "Lazy",
+        desc = "Lazy",
+        icon = "󰒲 ",
+        key = "l",
+      },
+      {
+        action = "qa",
+        desc = "Quit",
+        icon = "󰅖 ",
+        key = "q",
+      },
+    },
     packages = { enable = true },
     week_header = { enable = false },
     mru = { enable = false, limit = 7, cwd_only = true },
@@ -77,12 +51,8 @@ M.hyper = {
       label = "Projects",
       action = "Telescope find_files cwd=/mnt/storage/workspace",
     },
-    footer = M.footer(),
+    footer = {},
   },
 }
-
-function M.config()
-  require("dashboard").setup(M.hyper)
-end
 
 return M

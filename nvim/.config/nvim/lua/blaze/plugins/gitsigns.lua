@@ -3,8 +3,4 @@ local M = {
   event = { "BufReadPost" },
 }
 
-function M.config()
-  require("gitsigns").setup {}
-end
-
 return M

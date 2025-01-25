@@ -4,7 +4,7 @@ local M = {
   build = ":TSUpdate",
 }
 
-M.servers = {
+local servers = {
   "bash",
   "jq",
   "lua",
@@ -24,7 +24,7 @@ function M.config()
   vim.filetype.add { extension = { astro = "astro" } }
   require("nvim-treesitter.configs").setup {
 
-    ensure_installed = M.servers,
+    ensure_installed = servers,
     sync_install = false,
     auto_install = true,
 

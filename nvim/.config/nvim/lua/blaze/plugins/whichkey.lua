@@ -78,8 +78,4 @@ M.opts = {
   },
 }
 
-function M.config()
-  require("which-key").setup(M.opts)
-end
-
 return M

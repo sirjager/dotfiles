@@ -4,9 +4,9 @@ local M = {
   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
 }
 
-function M.config()
+M.opts = function()
   local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  require("go").setup {
+  return {
     lsp_cfg = { capabilities = capabilities },
     disable_defaults = false,
     go = "go",
@@ -99,8 +99,13 @@ function M.config()
     luasnip = true, -- enable included luasnip snippets. you can also disable while add lua/snips folder to luasnip load
     --  Do not enable this if you already added the path, that will duplicate the entries
     iferr_vertical_shift = 2, -- defines where the cursor will end up vertically from the begining of if err statement
-    settings = require("blaze.servers.gopls").settings,
+    settings = require("blaze.plugins.servers.gopls").settings,
   }
+end
+
+M.config = function(_, opts)
+  require("dap-go").setup {}
+  require("go").setup(opts)
 end
 
 return M

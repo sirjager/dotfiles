@@ -48,8 +48,4 @@ M.opts = {
   },
 }
 
-function M.config()
-  require("noice").setup(M.opts)
-end
-
 return M

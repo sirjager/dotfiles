@@ -1,34 +1,32 @@
 local M = {
   "ThePrimeagen/harpoon",
   dependencies = {
-    { "nvim-lua/plenary.nvim" },
+    "nvim-lua/plenary.nvim",
   },
-}
 
-function M.config()
-  require("harpoon").setup {
+  opts = {
     global_settings = {
       save_on_toggle = true,
       save_on_change = true,
     },
-  }
-end
+  },
+}
 
-function M.mark_file()
+vim.api.nvim_create_user_command("HarpoonToggle", function()
+  require("harpoon.ui").toggle_quick_menu()
+end, {})
+
+vim.api.nvim_create_user_command("HarpoonMark", function()
   require("harpoon.mark").add_file()
   vim.notify("󱡅  marked file", vim.log.levels.INFO)
-end
+end, {})
 
-function M.toggle_menu()
-  require("harpoon.ui").toggle_quick_menu()
-end
-
-function M.next_file()
+vim.api.nvim_create_user_command("HarpoonNextMarked", function()
   require("harpoon.ui").nav_next()
-end
+end, {})
 
-function M.prev_file()
+vim.api.nvim_create_user_command("HarpoonPrevMarked", function()
   require("harpoon.ui").nav_prev()
-end
+end, {})
 
 return M

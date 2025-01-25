@@ -16,10 +16,6 @@ return {
   { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
   { "<leader>ov", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
 
-  -- NOTE: Git Neogit
-  { "<leader>i", group = "Neo G[I]t", icon = " " },
-  { "<leader>id", "<CMD>Neogit diff<CR>", icon = " ", desc = "[D]iff View" },
-
   -- NOTE: Debugging
   { "<leader>d", group = "[D]ebugging", icon = " " },
   { "<leader>du", "<CMD>DapUiToggle<CR>", icon = " ", desc = "[U]i Toggle" },
@@ -49,21 +45,21 @@ return {
   { "<leader>gl", ":GoToggleInlay<CR>", icon = "󰰃 ", desc = "In[L]ay Toggle" },
 
   -- NOTE: Neo Tests
-  { "<leader>n", group = "[N]eo Tests", icon = "󰙨" },
-  { "<leader>np", ":Neotest summary<CR>", icon = "󰊹 ", desc = "[P]anel Summary" },
-  { "<leader>nn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
-  { "<leader>na", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
-  { "<leader>nx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[X]top Test" },
+  { "<leader>t", group = "Neo Tests", icon = "󰙨" },
+  { "<leader>ts", ":Neotest summary<CR>", icon = "󰊹 ", desc = "Summary" },
+  { "<leader>tr", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "Run Test" },
+  { "<leader>ta", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "Attach Test" },
+  { "<leader>tx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "Stop Test" },
   {
-    "<leader>nc",
+    "<leader>tc",
     ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',
     icon = "󰢪 ",
     desc = "[C]urrent File Test",
   },
-  { "<leader>nd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
-  { "<leader>ng", group = "[G]o Tests", icon = " " },
-  { "<leader>ngn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
-  { "<leader>ngl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
+  { "<leader>td", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
+  { "<leader>tg", group = "[G]o Tests", icon = " " },
+  { "<leader>tgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
+  { "<leader>tgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
 
   -- NOTE: Telescope Search
   { "<leader>s", group = "[S]earch", icon = " " },

@@ -1,20 +1,11 @@
 local M = {
   "nvim-telescope/telescope.nvim",
   cmd = { "Telescope" },
-  dependencies = {},
 }
 
-function M.config()
-  local telescope = require "telescope"
-
-  local flutterInstalled, _ = pcall(require, "flutter")
-  if flutterInstalled then
-    telescope.load_extension "flutter"
-  end
-
+M.opts = function()
   local actions = require "telescope.actions"
-
-  telescope.setup {
+  return {
     defaults = {
       initial_mode = "insert",
       selection_strategy = "reset",

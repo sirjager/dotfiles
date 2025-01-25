@@ -3,8 +3,4 @@ local M = {
   event = "VeryLazy",
 }
 
-function M.config()
-  require("neoscroll").setup()
-end
-
 return M
