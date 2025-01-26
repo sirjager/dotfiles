@@ -2,7 +2,7 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
 * {
-  font:                        "JetBrainsMono Nerd Font 14px";
+  font:                        "JetBrainsMono Nerd Font 20px";
 }
 
 element {
@@ -46,7 +46,7 @@ window {
     anchor:                      south;
     fullscreen:                  false;
     width:                       100%;
-    height:                      25%;
+    height:                      30%;
     x-offset:                    0px;
     y-offset:                    0px;
     transparency:                "real";

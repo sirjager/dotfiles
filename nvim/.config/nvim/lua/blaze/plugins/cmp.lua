@@ -136,8 +136,9 @@ function M.config()
     -- tutorial: https://www.youtube.com/watch?v=yTk3C3JMKzQ&list=PLOe6AggsTaVuIXZU4gxWJpIQNHMrDknfN&index=40
     sources = cmp.config.sources {
       { name = "codeium" }, -- completions from codeium
-      { name = "nvim_lsp" }, -- lsp completions 
+      { name = "nvim_lsp" }, -- lsp completions
       { name = "nvim_lua" }, -- lua completions
+      { name = "render-markdown" }, -- markdown
       { name = "luasnip" }, -- snippets completions
       { name = "buffer" }, -- completions from opened buffers
       { name = "path" }, -- filesystem path completions

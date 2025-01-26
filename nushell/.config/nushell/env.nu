@@ -79,7 +79,7 @@ $env.NVM_DIR = $env.mystorage + '/programs/nvm'
 $env.FNM_PATH = $env.mystorage + '/programs/fnm'
 
 # Global Environment Variables
-$env.GPG_TTY = (tty)
+$env.GPG_TTY = 'tty'
 $env.EDITOR = 'nvim'
 $env.DIRENV_LOG_FORMAT = ''
 $env.TERMINAL = 'kitty'
@@ -94,42 +94,47 @@ $env.QT_IM_MODULE = 'fcitx'
 $env.GIT_DISCOVERY_ACROSS_FILESYSTEM = '1'
 $env.CHROME_EXECUTABLE = '/usr/bin/chromium'
 $env.ZSH_TMUX_AUTONAME_SESSION = 'true'
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
+
+
+# Nushell Prompt Indicators For Vi Mode
+$env.PROMPT_INDICATOR = {|| "> " }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " } # default: >
+$env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
+$env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
 
 # Paths
-use std "path add"
-
-# Scripts direcotry
-path add $env.HOME + '/.local/bin' # Local bin dir
 
 # Go
-path add $env.GOPATH + '/bin' # Go workspace binaries
-path add $env.GOROOT + '/bin' # Go SDK binaries
-path add $env.GOBIN # Go binaries
+$env.PATH = ($env.PATH | append ($env.GOPATH + '/bin'))       # Go workspace binaries
+$env.PATH = ($env.PATH | append ($env.GOROOT + '/bin'))       # Go SDK binaries
+$env.PATH = ($env.PATH | append $env.GOBIN)                  # Go binaries
 
 # Node.js & Package Managers
-path add $env.FNM_PATH # Node.js version manager (fnm)
-path add $env.PNPM_HOME # pnpm package manager
+$env.PATH = ($env.PATH | append $env.FNM_PATH)               # Node.js version manager (fnm)
+$env.PATH = ($env.PATH | append $env.PNPM_HOME)              # pnpm package manager
 
 # Flutter, Java, and Android
-path add $env.FLUTTER_ROOT + '/bin' # Flutter binaries
-path add $env.JAVA_HOME + '/bin' # Java binaries
-path add $env.ANDROID_HOME + '/tools/bin' # Android SDK tools
-path add $env.ANDROID_HOME + '/emulator' # Android emulator
-path add $env.ANDROID_HOME + '/platform-tools' # Android platform tools
+$env.PATH = ($env.PATH | append ($env.FLUTTER_ROOT + '/bin'))  # Flutter binaries
+$env.PATH = ($env.PATH | append ($env.JAVA_HOME + '/bin'))     # Java binaries
+$env.PATH = ($env.PATH | append ($env.ANDROID_HOME + '/tools/bin'))  # Android SDK tools
+$env.PATH = ($env.PATH | append ($env.ANDROID_HOME + '/emulator'))   # Android emulator
+$env.PATH = ($env.PATH | append ($env.ANDROID_HOME + '/platform-tools'))  # Android platform tools
 
 # Android Studio
-path add $env.mystorage + '/programs/appdev/android-studio/bin' # Android Studio binaries
-path add $env.mystorage + '/programs/appdev/android-studio/jbr/bin' # Android Studio Java binaries
+$env.PATH = ($env.PATH | append ($env.mystorage + '/programs/appdev/android-studio/bin'))  # Android Studio binaries
+$env.PATH = ($env.PATH | append ($env.mystorage + '/programs/appdev/android-studio/jbr/bin'))  # Android Studio Java binaries
 
 # Miscellaneous
-path add $env.WAKATIME_HOME + '/.wakatime' # Wakatime
-path add $env.XDG_CONFIG_HOME + '/rofi/scripts' # Rofi scripts
-path add $env.XDG_DATA_HOME + '/nvim/mason/bin' # Neovim Mason binaries
-path add $env.mystorage + '/programs/protoc/bin' # Protobuf binaries
+$env.PATH = ($env.PATH | append ($env.FNM_PATH))  # FNM
+$env.PATH = ($env.PATH | append ($env.WAKATIME_HOME + '/.wakatime'))  # Wakatime
+$env.PATH = ($env.PATH | append ($env.XDG_CONFIG_HOME + '/rofi/scripts'))  # Rofi scripts
+$env.PATH = ($env.PATH | append ($env.mystorage + '/programs/protoc/bin'))  # Protobuf binaries
+$env.PATH = ($env.PATH | append ($env.XDG_DATA_HOME + '/nvim/mason/bin'))  # Neovim Mason binaries
+$env.PATH = ($env.PATH | append ($env.HOME + '/.local/bin'))  # Local bin dir
 
-$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
-
-carapace _carapace nushell | save --force ~/.cache/carapace.nu
-starship init nu | save -f ~/.cache/starship.nu
-zoxide init nushell | save -f ~/.cache/zoxide.nu
+mkdir ~/.cache/nushell
+carapace _carapace nushell | save --force ~/.cache/nushell/carapace.nu
+starship init nu | save -f ~/.cache/nushell/starship.nu
+zoxide init nushell | save -f ~/.cache/nushell/zoxide.nu

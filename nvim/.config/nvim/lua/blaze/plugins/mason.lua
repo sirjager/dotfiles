@@ -19,6 +19,7 @@ M.servers = {
   "shellcheck",
   "shfmt",
   "html-lsp",
+  "prettier",
   "prettierd",
   "css-lsp",
   "typescript-language-server",
@@ -26,13 +27,14 @@ M.servers = {
   "markdownlint",
   "marksman",
   "hadolint",
+
   -- python
-  "pyright",
-  "ruff-lsp",
-  "mypy",
-  "black",
+  -- "pyright",
+  -- "ruff-lsp",
+  -- "mypy",
+  -- "black",
+
   -- astro
-  -- "astro-language-server@2.10.0" -- working fine
   -- "astro-language-server@2.10.0" -- working fine
 }
 

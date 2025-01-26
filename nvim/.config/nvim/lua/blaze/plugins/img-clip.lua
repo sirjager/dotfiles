@@ -1,6 +1,7 @@
 -- https://github.com/HakonHarnes/img-clip.nvim
 local M = {
   "HakonHarnes/img-clip.nvim",
+  event = "BufReadPost",
 }
 
 -- suggested keymap

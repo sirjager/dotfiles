@@ -11,7 +11,7 @@ M.opts = {
     "yamlls", -- yml
     "clangd",
     -- "sqlls",
-    -- "marksman", -- md
+    "marksman", -- md
     ----------------------- html,css, javascript, typescript
     "emmet_ls",
     "cssls",

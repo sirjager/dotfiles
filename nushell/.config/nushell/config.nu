@@ -17,6 +17,11 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
+# source files here
+source ~/.config/nushell/env.nu
+source ~/.cache/nushell/zoxide.nu
+source ~/.cache/nushell/carapace.nu
+use ~/.cache/nushell/starship.nu
 
 $env.config = {
 
@@ -28,7 +33,7 @@ $env.config = {
   }
 
   rm: {
-    always_trash: false # always act as if -t was given. Can be overridden with -p
+    always_trash: true # always act as if -t was given. Can be overridden with -p
   }
 
   table: {
@@ -104,13 +109,12 @@ $env.config = {
   buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
   use_ansi_coloring: true
   bracketed_paste: true # enable bracketed paste, currently useless on windows
-  edit_mode: emacs # emacs, vi
+  edit_mode: vi # emacs, vi
 
   render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
   use_kitty_protocol: false # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this.
   highlight_resolved_externals: false # true enables highlighting of external commands in the repl resolved by which.
   recursion_limit: 50 # the maximum number of times nushell allows recursion before stopping it
-
 
   shell_integration: {
     # osc2 abbreviates the path if in the home_dir, sets the tab/window title, shows the running command in the tab/window title
@@ -141,18 +145,42 @@ $env.config = {
     reset_application_mode: true
   }
 
+  keybindings: [
+    {
+      name: accept_segment_completion
+      modifier: control
+      keycode: char_f
+      mode: [emacs, vi_normal, vi_insert]
+      event: {
+        until: [
+          { send: historyhintwordcomplete }
+          { edit: movewordright }
+        ]
+      }
+    }
+    {
+      name: capitalize_char
+      modifier: alt
+      keycode: char_c
+      mode: emacs
+      event: { edit: capitalizechar }
+    }
+  ]
+
 }
 
+# custom aliases
+alias cd = z  # cd with zoxide
 
 alias l = eza --long --icons --git # List all files and folders 
 alias la = ls -a  # List all files and folders in table
 alias ll = eza --icons --git # List files and folders with icons
 alias lt = eza --tree --level=2 --long --icons --git # List files and folders in tree structure
 
-alias pkg-add = yay --noconfirm --needed -S # Install package if needed and skip confirmation
-alias pkg-remove = yay --noconfirm -Rns     # Remove packages without removing configurations
-alias pkg-update = yay --noconfirm -Syu     # Update packages and repositories databases
-alias pkg-mirrors = sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50 # Rank pacman mirrors list
+alias pm-add = yay --noconfirm --needed -S # Install package if needed and skip confirmation
+alias pm-remove = yay --noconfirm -Rns     # Remove packages without removing configurations
+alias pm-update = yay --noconfirm -Syu     # Update packages and repositories databases
+alias pm-mirrors = sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50 # Rank pacman mirrors list
 
 # application specific
 alias pn = pnpm # Pnpm alias
@@ -163,10 +191,3 @@ alias vim = nvim # alias for neovim
 alias vi = nvim # alias for neovim
 alias snv = sudo -E -s nvim # alias for sudo neovim
 alias svi = sudo -E -s nvim # alias for sudo neovim
-
-# system specific
-
-source ~/.config/nushell/env.nu
-source ~/.cache/carapace.nu
-source ~/.cache/zoxide.nu
-use ~/.cache/starship.nu

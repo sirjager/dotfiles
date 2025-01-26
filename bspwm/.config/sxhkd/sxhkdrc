@@ -25,7 +25,7 @@ super + ctrl + p
 
 # Lockscreen: Locks screen
 super + shift + l
-  ~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh &
+  run-external "bash" "-c" "~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh" 
 
 # Focus next window, Select next window
 alt + Tab

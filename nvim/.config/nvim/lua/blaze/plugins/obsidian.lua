@@ -98,6 +98,7 @@ function M.config()
 
   local util = require "obsidian.util"
   require("obsidian").setup {
+    ui = { enable = false },
     workspaces = {
       {
         name = "idealogs",
@@ -212,62 +213,6 @@ function M.config()
     -- 2. "vsplit" - to open in a vertical split if there's not already a vertical split
     -- 3. "hsplit" - to open in a horizontal split if there's not already a horizontal split
     open_notes_in = "vsplit",
-
-    ui = {
-      enable = true, -- set to false to disable all additional syntax features
-      update_debounce = 200, -- update delay after a text change (in milliseconds)
-      checkboxes = {
-        -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
-        [" "] = { char = " ", hl_group = "ObsidianTodo" },
-        ["/"] = { char = " ", hl_group = "ObsidianTodo" },
-        ["n"] = { char = "󰅙 ", hl_group = "ObsidianTodo" },
-        ["x"] = { char = "󰄳 ", hl_group = "ObsidianDone" },
-        [">"] = { char = " ", hl_group = "ObsidianRightArrow" },
-        ["<"] = { char = " ", hl_group = "ObsidianRightArrow" },
-        ["i"] = { char = " ", hl_group = "ObsidianBullet" },
-        ["?"] = { char = " ", hl_group = "ObsidianBullet" },
-        ["+"] = { char = " ", hl_group = "ObsidianBullet" },
-        ["-"] = { char = " ", hl_group = "ObsidianBullet" },
-        ["'"] = { char = "󰸥 ", hl_group = "ObsidianBullet" },
-        ["!"] = { char = "󰀨 ", hl_group = "ErrorMsg" },
-        ["*"] = { char = "󰓏 ", hl_group = "ObsidianBullet" },
-        ["^"] = { char = "󱠇 ", hl_group = "ObsidianTodo" },
-        -- numbers
-        ["0"] = { char = "󰲟 ", hl_group = "ObsidianBullet" },
-        ["1"] = { char = "󰲡 ", hl_group = "ObsidianBullet" },
-        ["2"] = { char = "󰲣 ", hl_group = "ObsidianBullet" },
-        ["3"] = { char = "󰲥 ", hl_group = "ObsidianBullet" },
-        ["4"] = { char = "󰲧 ", hl_group = "ObsidianBullet" },
-        ["5"] = { char = "󰲩 ", hl_group = "ObsidianBullet" },
-        ["6"] = { char = "󰲫 ", hl_group = "ObsidianBullet" },
-        ["7"] = { char = "󰲭 ", hl_group = "ObsidianBullet" },
-        ["8"] = { char = "󰲯 ", hl_group = "ObsidianBullet" },
-        ["9"] = { char = "󰲱 ", hl_group = "ObsidianBullet" },
-      },
-      -- Use bullet marks for non-checkbox lists.
-      bullets = { char = "", hl_group = "ObsidianBullet" },
-      external_link_icon = { char = " ", hl_group = "ObsidianExtLinkIcon" },
-      -- Replace the above with this if you don't have a patched font:
-      -- external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
-      reference_text = { hl_group = "ObsidianRefText" },
-      highlight_text = { hl_group = "ObsidianHighlightText" },
-      tags = { hl_group = "ObsidianTag" },
-      block_ids = { hl_group = "ObsidianBlockID" },
-      hl_groups = {
-        -- The options are passed directly to `vim.api.nvim_set_hl()`. See `:help nvim_set_hl`.
-        ObsidianTodo = { bold = true, fg = "#f78c6c" },
-        ObsidianDone = { bold = true, fg = "#89ddff" },
-        ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
-        ObsidianTilde = { bold = true, fg = "#ff5370" },
-        ObsidianBullet = { bold = true, fg = "#89ddff" },
-        ObsidianRefText = { underline = true, fg = "#c792ea" },
-        ObsidianExtLinkIcon = { fg = "#c792ea" },
-        ObsidianTag = { italic = true, fg = "#89ddff" },
-        ObsidianBlockID = { italic = true, fg = "#89ddff" },
-        ObsidianHighlightText = { bg = "#75662e" },
-      },
-    },
-
     attachments = {
       -- The default folder to place images in via `:ObsidianPasteImg`.
       -- If this is a relative path it will be interpreted as relative to the vault root.

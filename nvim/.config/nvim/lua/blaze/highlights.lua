@@ -65,4 +65,6 @@ M.DashboardHeader = { fg = primary, bg = none }
 M.DashboardShortCut = { fg = accent, bg = none }
 M.DashboardFooter = { fg = accent, bg = none }
 
+-- markdown
+
 return M

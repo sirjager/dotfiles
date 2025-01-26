@@ -26,8 +26,8 @@ M.servers = {
   "prismals",
   "gopls",
   "tailwindcss",
-  "pyright",
-  "ruff",
+  -- "pyright",
+  -- "ruff",
 }
 
 local function lsp_keymaps(bufnr)
@@ -60,6 +60,8 @@ end
 function M.config()
   local lspconfig = require "lspconfig"
   local icons = require "blaze.icons"
+
+  vim.treesitter.language.register("markdown", "vimwiki")
 
   local default_diagonastic_config = {
     signs = {

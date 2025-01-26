@@ -12,7 +12,7 @@
     padding:               0px;
     text-color:            white ;
     background-color:      transparent;
-    font:                  "JetBrainsMono Nerd Font 14px";
+    font:                        "JetBrainsMono Nerd Font 20px";
 }
  
 #window {

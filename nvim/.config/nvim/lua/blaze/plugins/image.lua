@@ -1,5 +1,6 @@
 local M = {
   "3rd/image.nvim",
+  event = "BufReadPost",
 }
 
 M.opts = {
@@ -19,7 +20,7 @@ M.opts = {
       -- it will be laggy and will take time for the initial load
       only_render_image_at_cursor = false,
       -- markdown extensions (ie. quarto) can go here
-      filetypes = { "markdown", "vimwiki", "mdx" },
+      filetypes = { "markdown", "vimwiki", "mdx", "mdoc" },
     },
     neorg = {
       enabled = true,

@@ -9,7 +9,7 @@
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
 * {
-  font:                  "JetBrainsMono Nerd Font 14px";
+  font:                        "JetBrainsMono Nerd Font 20px";
 }
  
 #window {
