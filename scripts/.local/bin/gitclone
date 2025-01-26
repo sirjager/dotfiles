@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 ## Author : Ankur Kumar (SirJager)
 ## Github : @SirJager

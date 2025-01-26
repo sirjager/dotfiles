@@ -48,6 +48,8 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
+export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+
 # [ Completion Settings ] =============================================
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -55,6 +57,8 @@ zstyle ':completion:*' menu yes
 
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
 
 
 # [ Custom Aliases  ]================================
@@ -62,36 +66,26 @@ alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
 
 # SSH
-alias ssh-newkey="ssh-keygen -t ed25519 -C"
-alias ssh-eval='eval "$(ssh-agent -s)"'
-alias ssh-test='ssh -T git@github.com'
-alias ssh-termux='ssh u0_760@192.168.0.101 -p 8022'
-
-# Tmux
-alias tk='tmux kill-session'
-alias tmux-delete-sessions="rm -rf ~/.local/share/tmux/resurrect/*"
+alias ssh-newkey="ssh-keygen -t ed25519 -C" # Create New SSH key
+alias ssh-eval='eval "$(ssh-agent -s)"'  # Evaluate SSH Agent
+alias ssh-test='ssh -T git@github.com' # Test SSH
 
 # Docker
-alias docker-clean-buildx="docker buildx prune --all"
-alias docker-clean-builder="docker builder prune --all"
-alias docker-clean-image="docker image prune --all"
+alias docker-clean-buildx="docker buildx prune --all" # Clean Docker Buildx
+alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
+alias docker-clean-image="docker image prune --all" # Clean Unused Docker Images
 
 # System Info: Battery
-alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
-
-# [Miscellaneous Functions] ========================================
-function pkill() {
-  ps aux --sort=-%cpu | fzf --tmux --height 40% --border --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
-}
-
+alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
 
 # General Aliases ================================================
-alias s="source ~/.zshenv; source ~/.zshrc;"
-alias rbf='fc-cache -fv'
+alias s="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
+alias rbf='fc-cache -fv' # Rebuild Font Cache
 
 # LS ============================================
-alias la=tree
-alias l="eza -l --icons --git -a"
+alias l="eza --long --icons --git"
+alias la="eza --icons --git --long --all"
+alias ls="eza --icons --git"
 alias lt="eza --tree --level=2 --long --icons --git"
 
 # Directory Navigation ============================================
@@ -102,11 +96,11 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 # Yay Package Manager / Aur Helper ===============================
-alias .i='yay --noconfirm --needed -S' # To install a package (always run pacman -Syu, before installing)
-alias .r="yay --noconfirm -Rns"        # To remove the package, avoid orphaned dependencies and erase its global configuration (which in most cases is the proper command to remove software.)
-alias .u="yay --noconfirm -Syu"        # To update the system && Update the database
-alias .rank-mirrors="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50"
-alias install-widevine="yay --noconfirm --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
+alias pkg-add="yay --noconfirm --needed -S"    # Install package if needed and skip confirmation
+alias pkg-remove="yay --noconfirm -Rns"        # Remove packages without removing configurations
+alias pkg-update="yay --noconfirm -Syu"        # Update packages and repositories databases
+alias pkg-mirrors="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50" # Rank pacman mirrors list
+alias pkg-add-widevine="yay --noconfirm --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
 
 
 # Application-Specific Aliases =====================================
@@ -124,14 +118,15 @@ alias clear-shell-history="echo \"\" > $HISTFILE"
 
 # [ Private Aliases  ]================================
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
+# [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 
-[ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
+
 
 # Shell Integrations =============================================
-eval "$(task --completion zsh)"
-eval "$(fnm completions --shell zsh)"
-eval "$(fzf --zsh)" # ctrl + r
+eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-eval "$(direnv hook zsh)"
-eval "$(fnm env --use-on-cd --shell zsh)"
+# eval "$(direnv hook zsh)"
+# eval "$(task --completion zsh)"
+# eval "$(fnm completions --shell zsh)"
+# eval "$(fnm env --use-on-cd --shell zsh)"

@@ -99,7 +99,8 @@ $env.ZSH_TMUX_AUTONAME_SESSION = 'true'
 # Paths
 use std "path add"
 
-path add $env.HOME + '/.local/bin' # Local binaries
+# Scripts direcotry
+path add $env.HOME + '/.local/bin' # Local bin dir
 
 # Go
 path add $env.GOPATH + '/bin' # Go workspace binaries
@@ -126,7 +127,6 @@ path add $env.WAKATIME_HOME + '/.wakatime' # Wakatime
 path add $env.XDG_CONFIG_HOME + '/rofi/scripts' # Rofi scripts
 path add $env.XDG_DATA_HOME + '/nvim/mason/bin' # Neovim Mason binaries
 path add $env.mystorage + '/programs/protoc/bin' # Protobuf binaries
-
 
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
 

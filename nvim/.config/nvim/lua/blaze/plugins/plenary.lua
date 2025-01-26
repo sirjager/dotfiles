@@ -1,6 +1,6 @@
 local M = {
   "nvim-lua/plenary.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 
 return M

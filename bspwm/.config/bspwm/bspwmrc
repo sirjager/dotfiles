@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 pgrep -x sxhkd >/dev/null || sxhkd &
 
 bspc monitor -d ⼀ ⼆ 三 四 五 六 七 ⼋ ⼏ ⼗
@@ -15,13 +16,11 @@ bspc config normal_border_color "#00000000"
 bspc config focused_border_color "#00000000"
 
 WALLPAPER_PATH="/mnt/storage/wallpaper/nature/venom-moonlight.jpg"
-if [ -f ~/.cache/current_wallpaper ]; then
-  LAST_WALLPAPER=$(cat ~/.cache/current_wallpaper) # Get the last/current wallpaper path
-  if [ -f "$LAST_WALLPAPER" ]; then                # Check if the current wallpaper exists
-    WALLPAPER_PATH="$LAST_WALLPAPER"
-  fi
+CURRENT_WALLPAPER="$(find ~/.cache/current -name 'wallpaper.*' | head -1)"
+if [ -f "$CURRENT_WALLPAPER" ]; then
+  WALLPAPER_PATH=$CURRENT_WALLPAPER 
 fi
-[ -f ~/.local/bin/wallpaper ] && ~/.local/bin/wallpaper -tmux -dunst -bspwm -polybar -path="$WALLPAPER_PATH" &
+~/.local/bin/wallpaper -tmux -dunst -bspwm -polybar -path="$WALLPAPER_PATH" &
 
 # windows:padding
 bspc config window_gap 20 &

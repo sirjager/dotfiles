@@ -38,7 +38,7 @@ M.FloatShadow = { bg = bg }
 
 -- mini.files
 M.MiniFilesNormal = M.NormalFloat
-M.MiniFilesBorder = { fg = dimtext, bg = none }
+M.MiniFilesBorder = { fg = border, bg = none }
 M.MiniFilesFile = { fg = dimtext }
 M.MiniFilesDirectory = { fg = dimtext }
 M.MiniFilesCursorLine = { fg = cursorline_fg, bg = cursorline_bg }

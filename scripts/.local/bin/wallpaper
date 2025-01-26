@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 ## Author : Ankur Kumar (SirJager)
 ## Github : @SirJager
@@ -135,10 +135,14 @@ set_tmux_colors() {
 }
 
 set_desktop_wallpaper() {
-  [ -z "$1" ] && return 1
-  feh --no-fehbg --bg-fill "$1" &
+  [ -z "$1" ] && return 1 # if empty
+  [ ! -f "$1" ] && return 1 # if not file exists
+  [ ! -d ~/.cache/current ] && mkdir -p ~/.cache/current
+  local ext="${1##*.}"
+  feh --no-fehbg --bg-fill "$1"
+  rm -f "$HOME/.cache/current/wallpaper*"
+  cp -f "$1" "$HOME/.cache/current/wallpaper.$ext"
   [ "$ECHO" = "true" ] && echo "$1"
-  echo "$1" >"$HOME/.cache/current_wallpaper"
 }
 
 generate_pywal_colors() {

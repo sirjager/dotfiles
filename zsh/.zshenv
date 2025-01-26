@@ -77,7 +77,6 @@ export EDITOR="nvim"
 export DIRENV_LOG_FORMAT=""
 export TERMINAL="kitty"
 export BROWSER="chromium"
-export LSCOLORS="0xGxBxDxCxEgEdxbxgxcxd	"    # terminal colors releated
 export PG_COLOR="always"                     # postgres
 export _JAVA_AWT_WM_NONREPARENTING=1         # For Java Applications
 export XMODIFIERS='@im=fcitx'                # multilang keyboard
@@ -87,6 +86,7 @@ export QT_IM_MODULE='fcitx'                  # multilang keyboard
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
 export CHROME_EXECUTABLE='/usr/bin/chromium' # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 
 
 # Go

@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# run-external is needed when using nushell
+# else can be removed for normal shells
+
 # Reload sxhkd
 ctrl + shift + Escape
-  pkill -usr1 -x sxhkd && dunstify -t 2000 -r 929292 -a "sxhkd" "Simple Hot key Daemon" "Restarted" &
+  run-external "bash" "-c" 'pkill -usr1 -x sxhkd && dunstify -t 2000 -r 929292 -a "sxhkd" "Simple Hot key Daemon" "Restarted"' &
 
 # Reload bspwm
 super + shift + r
-  bspc wm -r && dunstify -t 2000 -r 939393 -a "bspwm" "BSPWM" "Restarted" &
+  run-external "bash" "-c" 'bspc wm -r && dunstify -t 2000 -r 939393 -a "bspwm" "BSPWM" "Restarted"' &
 
 # Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
 super + q; k
@@ -30,7 +33,7 @@ alt + Tab
 
 # Close Active Window, Close All Window in current Desktop
 super + {_,shift + }w
-  bspc node -{c,k} &
+  run-external "bash" "-c" { "bspc node -c", "bspc node -k" } &
 
 # Set window private
 super + ctrl + z
@@ -54,7 +57,7 @@ super + shift + KP_Subtract
 
 # Window state Toggle Floating / Tile
 super + f
-  if [ -n "$(bspc query -N -n focused.floating)" ]; then bspc node -t tiled & else bspc node -t floating & fi
+  run-external "bash" "-c" 'if [ -n "$(bspc query -N -n focused.floating)" ]; then bspc node -t tiled & else bspc node -t floating & fi'
 
 # change workspace, send window to workspace 1-9
 super + {_,shift} {1-9,0}
@@ -75,11 +78,11 @@ super + shift  + {KP_8,KP_4,KP_5,KP_6}
 
 # Disable touchpad
 super + shift + braceleft
-  xinput --disable "$(xinput | grep | 'Touchpad' | awk '{print $3 " " $4 " " $5 }')" &
+  run-external "bash" "-c" 'xinput --disable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Disabled"' &
 
 # Enable touchpad
 super + shift + braceright
-  xinput --enable "$(xinput | grep | 'Touchpad' | awk '{print $3 " " $4 " " $5 }')" &
+  run-external "bash" "-c" 'xinput --enable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Enabled"' &
 
 # Increase brightness
 XF86MonBrightnessUp
@@ -127,7 +130,7 @@ super + shift + z
 
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f
-  ~/.config/sxhkd/scripts/toggle-polybar &
+  run-external "bash" "-c" "~/.config/sxhkd/scripts/toggle-polybar" &
 
 # Terminal: Kitty Tmux New Session | Kitty Without Tmux
 super + {_,shift + } Return
@@ -147,7 +150,7 @@ alt + @space
 
 # Browsers: Cromium | Quick App Launch
 super + b
-  chromium &
+  chromium
 
 # File Explorer, File Manager, Nautilus
 super + e
@@ -155,7 +158,7 @@ super + e
 
 # Apps: Obsidian, Vscode, OBS | Quick App Launch
 super + a; {n, v, o}
-  {obsidian, code --password-store="gnome", obs} &
+  run-external "bash" "-c" { "obsidian", "code --password-store=gnome", "obs" } &
 
 
 # Wallpapers: Random, Nature, WallHeaven, DeviantArt, Japan, Gruvbox, Nordic, Anime, OSMWall
@@ -169,11 +172,11 @@ super + q; q
 
 # Browser History Browser
 super + q; h; {h, t, c}
-  brohistory --chromium {--visit, --type, --copy} &
+  ~/.local/bin/brohistory --chromium {--visit, --type, --copy} &
 
 # Browser Bookmarks
 super + q; b; {b, t, c}
-  bookman --chromium {--visit, --type, --copy} &
+  ~/.local/bin/bookman --chromium {--visit, --type, --copy} &
 
 # Quick search | Quick web | search engine | youtube | duckduckgo | google 
 super + q; p

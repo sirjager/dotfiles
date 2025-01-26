@@ -1,6 +1,6 @@
 local M = {
   "karb94/neoscroll.nvim",
-  event = "VeryLazy",
+  event = "BufReadPost",
 }
 
 return M

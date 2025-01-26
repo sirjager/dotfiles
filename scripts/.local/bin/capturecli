@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TIMER_FILE="$HOME/.local/state/capturecli"
 

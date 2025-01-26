@@ -144,15 +144,15 @@ $env.config = {
 }
 
 
-alias l = eza --long --icons --git # list all files and folders 
-alias la = ls -a  # list all files and folders in table
-alias ll = eza --icons --git # list files and folders with icons
-alias lt = eza --tree --level=2 --long --icons --git # list files and folders in tree structure
+alias l = eza --long --icons --git # List all files and folders 
+alias la = ls -a  # List all files and folders in table
+alias ll = eza --icons --git # List files and folders with icons
+alias lt = eza --tree --level=2 --long --icons --git # List files and folders in tree structure
 
-alias pkg-add = yay --noconfirm --needed -S # Installs package from offical and aur repositories
-alias pkg-remove = yay --noconfirm -Rns  # Removes package, avoid orphaned dependencies and erase its global configuration
-alias pkg-update = yay --noconfirm -Syu  # Updates the system and repositories database
-alias pkg-mirrors = sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50 # Rank pacman mirror list 
+alias pkg-add = yay --noconfirm --needed -S # Install package if needed and skip confirmation
+alias pkg-remove = yay --noconfirm -Rns     # Remove packages without removing configurations
+alias pkg-update = yay --noconfirm -Syu     # Update packages and repositories databases
+alias pkg-mirrors = sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50 # Rank pacman mirrors list
 
 # application specific
 alias pn = pnpm # Pnpm alias
@@ -166,7 +166,7 @@ alias svi = sudo -E -s nvim # alias for sudo neovim
 
 # system specific
 
-
+source ~/.config/nushell/env.nu
 source ~/.cache/carapace.nu
 source ~/.cache/zoxide.nu
 use ~/.cache/starship.nu
