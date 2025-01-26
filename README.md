@@ -1,105 +1,36 @@
-```markdown
-# RenderMarkdown.nvim
+# My Dotfiles
 
-## Headings
-
-### Before
-```markdown
-# My Awesome Project
-## Features
-### Installation
-```
-
-### After
-```markdown
-🎉 My Awesome Project  
-✨ Features  
-⚙️ Installation  
-```
+This directory contains my personal dotfiles, which I use on a daily basis
 
 ---
 
-## Code Blocks
+## Requirements 
+Ensure that you have the following tools installed:
 
-### Before
-```markdown
-```python
-def hello_world():
-    print("Hello, World!")
+### Git
+
+```bash
+pacman -S git
 ```
 
-### After
-```markdown
-╔═══════════════════╗
-║ Python Code Block ║
-╚═══════════════════╝
-def hello_world():
-    print("Hello, World!")
+### Stow
+
+```bash
+pacman -S stow
+```
+--- 
+
+## Installation
+
+First, check out the dotfiles repo in your $HOME directory using git
+
+```bash
+$ git clone git@github.com/sirjager/dotfiles.git
+$ cd dotfiles
 ```
 
----
+then use GNU stow to create symlinks
 
-## Task Lists
-
-### Before
-```markdown
-- [ ] Write README
-- [x] Configure plugin
-```
-
-### After
-```markdown
-❏ Write README  
-✔ Configure plugin  
-```
-
----
-
-## Thematic Breaks
-
-### Before
-```markdown
----
-```
-
-### After
-```markdown
-═════════════════════════════
-```
-
----
-
-## Tables
-
-### Before
-
-| Feature    | Status  |
-|------------|---------|
-| Headings   | ✅      |
-| Code Blocks| ✅      |
-
-
-### After
-```markdown
-╔═══════════╦═════════╗
-║ Feature   ║ Status  ║
-╠═══════════╬═════════╣
-║ Headings  ║ ✅      ║
-║ Code Blocks║ ✅     ║
-╚═══════════╩═════════╝
-```
-
----
-
-## Links
-
-### Before
-```markdown
-[GitHub](https://github.com)
-```
-
-### After
-```markdown
-🔗 GitHub (https://github.com)
-```
+```bash
+$ stow .
 ```
