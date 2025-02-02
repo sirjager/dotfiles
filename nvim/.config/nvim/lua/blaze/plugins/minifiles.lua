@@ -28,7 +28,7 @@ M.opts = {
   },
 
   options = {
-    permanent_delete = true,
+    permanent_delete = false,
     use_as_default_explorer = true,
   },
 

@@ -21,10 +21,10 @@
 source ~/.config/nushell/env.nu
 source ~/.cache/nushell/zoxide.nu
 source ~/.cache/nushell/carapace.nu
+source ~/.cache/nushell/fnm.nu
 use ~/.cache/nushell/starship.nu
 
 $env.config = {
-
   show_banner: false
 
   ls: {
@@ -191,3 +191,5 @@ alias vim = nvim # alias for neovim
 alias vi = nvim # alias for neovim
 alias snv = sudo -E -s nvim # alias for sudo neovim
 alias svi = sudo -E -s nvim # alias for sudo neovim
+
+

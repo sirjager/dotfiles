@@ -1,0 +1,5 @@
+theme: default
+
+editor: nvim
+pager: less
+pager_json: jq

@@ -36,8 +36,8 @@ function M.config()
       null_ls.builtins.formatting.goimports_reviser, -- go imports
 
       -- python
-      null_ls.builtins.formatting.black,
-      null_ls.builtins.diagnostics.mypy,
+      -- null_ls.builtins.formatting.black,
+      -- null_ls.builtins.diagnostics.mypy,
       -- null_ls.builtins.diagnostics.ruff,
     },
   }

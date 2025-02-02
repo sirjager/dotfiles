@@ -1,0 +1,9 @@
+name: default
+primary: '#f5a97f'  
+accent: '#f5a97f' 
+background: '#161622' 
+
+# Optional metadata
+author: Ankur Kumar
+description: Dark Theme for Posting Cli
+homepage: https://github.com/sirjager/dotfiles

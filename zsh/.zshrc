@@ -96,10 +96,10 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 # Yay Package Manager / Aur Helper ===============================
-alias pkg-add="yay --noconfirm --needed -S"    # Install package if needed and skip confirmation
-alias pkg-remove="yay --noconfirm -Rns"        # Remove packages without removing configurations
-alias pkg-update="yay --noconfirm -Syu"        # Update packages and repositories databases
-alias pkg-mirrors="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50" # Rank pacman mirrors list
+alias .i="yay --noconfirm --needed -S"    # Install package if needed and skip confirmation
+alias .r="yay --noconfirm -Rns"        # Remove packages without removing configurations
+alias .u="yay --noconfirm -Syu"        # Update packages and repositories databases
+alias .m="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50" # Rank pacman mirrors list
 alias pkg-add-widevine="yay --noconfirm --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
 
 
@@ -107,8 +107,8 @@ alias pkg-add-widevine="yay --noconfirm --needed -S chromium-widevine && sudo ch
 alias fl="flutter"
 alias pn='pnpm'
 alias np='npm run'
-alias n="nvim_track --clean"
-alias snv="sudo -E -s nvim_track --clean --skip"
+alias n="nvim"
+alias snv="sudo -E -s nvim"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
 alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
@@ -121,12 +121,19 @@ alias clear-shell-history="echo \"\" > $HISTFILE"
 # [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
 
 
+# [ Custom Functions  ]================================
+function ledger() {
+  if [[ ! "$@" =~ "-f" ]]; then
+    set -- -f "$myledger" "$@"
+  fi
+  /usr/bin/ledger "$@"
+}
 
 # Shell Integrations =============================================
+eval "`fnm env`"
 eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-# eval "$(direnv hook zsh)"
-# eval "$(task --completion zsh)"
-# eval "$(fnm completions --shell zsh)"
-# eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(direnv hook zsh)"
+eval "$(fnm completions --shell zsh)"
+eval "$(fnm env --use-on-cd --shell zsh)"

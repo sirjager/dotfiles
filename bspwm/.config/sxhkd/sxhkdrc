@@ -5,15 +5,11 @@
 
 # Reload sxhkd
 ctrl + shift + Escape
-  run-external "bash" "-c" 'pkill -usr1 -x sxhkd && dunstify -t 2000 -r 929292 -a "sxhkd" "Simple Hot key Daemon" "Restarted"' &
+  pkill -usr1 -x sxhkd && dunstify -t 2000 -r 929292 -a "sxhkd" "Simple Hot key Daemon" "Restarted" &
 
 # Reload bspwm
 super + shift + r
-  run-external "bash" "-c" 'bspc wm -r && dunstify -t 2000 -r 939393 -a "bspwm" "BSPWM" "Restarted"' &
-
-# Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
-super + q; k
-  ~/.config/sxhkd/scripts/keybinds &
+  bspc wm -r && dunstify -t 2000 -r 939393 -a "bspwm" "BSPWM" "Restarted" &
 
 # Logout, quit bspwm
 super + alt + q
@@ -25,7 +21,7 @@ super + ctrl + p
 
 # Lockscreen: Locks screen
 super + shift + l
-  run-external "bash" "-c" "~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh" 
+  ~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh  &
 
 # Focus next window, Select next window
 alt + Tab
@@ -33,7 +29,7 @@ alt + Tab
 
 # Close Active Window, Close All Window in current Desktop
 super + {_,shift + }w
-  run-external "bash" "-c" { "bspc node -c", "bspc node -k" } &
+  bspc node -{c,k} &
 
 # Set window private
 super + ctrl + z
@@ -57,7 +53,7 @@ super + shift + KP_Subtract
 
 # Window state Toggle Floating / Tile
 super + f
-  run-external "bash" "-c" 'if [ -n "$(bspc query -N -n focused.floating)" ]; then bspc node -t tiled & else bspc node -t floating & fi'
+  if [ -n "$(bspc query -N -n focused.floating)" ]; then bspc node -t tiled & else bspc node -t floating & fi
 
 # change workspace, send window to workspace 1-9
 super + {_,shift} {1-9,0}
@@ -78,11 +74,11 @@ super + shift  + {KP_8,KP_4,KP_5,KP_6}
 
 # Disable touchpad
 super + shift + braceleft
-  run-external "bash" "-c" 'xinput --disable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Disabled"' &
+  xinput --disable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Disabled" &
 
 # Enable touchpad
 super + shift + braceright
-  run-external "bash" "-c" 'xinput --enable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Enabled"' &
+  xinput --enable "ELAN1200:00 04F3:30BA Touchpad" && dunstify -t 2000 -r 9178 "Touchpad Enabled" &
 
 # Increase brightness
 XF86MonBrightnessUp
@@ -130,7 +126,7 @@ super + shift + z
 
 # Toggle Polybar: Show or Hide Polybar
 super + shift + f
-  run-external "bash" "-c" "~/.config/sxhkd/scripts/toggle-polybar" &
+  ~/.config/sxhkd/scripts/toggle-polybar &
 
 # Terminal: Kitty Tmux New Session | Kitty Without Tmux
 super + {_,shift + } Return
@@ -158,38 +154,34 @@ super + e
 
 # Apps: Obsidian, Vscode, OBS | Quick App Launch
 super + a; {n, v, o}
-  run-external "bash" "-c" { "obsidian", "code --password-store=gnome", "obs" } &
-
+  { obsidian, code --password-store=gnome, obs } &
 
 # Wallpapers: Random, Nature, WallHeaven, DeviantArt, Japan, Gruvbox, Nordic, Anime, OSMWall
 super + r; {r, n, w, d, j, g, o, a, s}
   ~/.local/bin/wallpaper -tmux -bspwm -polybar -dunst \
     -path=/mnt/storage/wallpaper{/,/nature,/wallheaven,/deviantart,/japan,/gruvbox,/nordic,/anime,/osmwall} &
 
-# Emoji selector
-super + q; q
-  rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi &
-
-# Browser History Browser
-super + q; h; {h, t, c}
-  ~/.local/bin/brohistory --chromium {--visit, --type, --copy} &
-
-# Browser Bookmarks
-super + q; b; {b, t, c}
-  ~/.local/bin/bookman --chromium {--visit, --type, --copy} &
-
-# Quick search | Quick web | search engine | youtube | duckduckgo | google 
-super + q; p
-  ~/.config/sxhkd/scripts/quickweb &
-
 # Floating Idealogs | Quick Notes | Floating Notes
-super + q; {i, d, e}
+super + i; {i, d, e}
   ~/.local/bin/floatedit --tmux --zoxide --location northeast \
     { --title Idealogs --path "personal/idealogs", --title dotfiles --path "$HOME/dotfiles", ""} &
 
+# Browser History Browser
+super + i; h; {h, t, c}
+  ~/.local/bin/brohistory --chromium {--visit, --type, --copy} &
 
-# Capture cli | Screen recording | Screenshot 
-super + q; c
-  ~/.local/bin/capturecli menu &
+# Browser Bookmarks
+super + i; b; {b, t, c}
+  ~/.local/bin/bookman --chromium {--visit, --type, --copy} &
 
+# Capture cli (screenshot, screen recording) | Quick Web (search engine) | Emoji Selector
+super + i; {c, o, e}
+  { ~/.local/bin/capturecli menu, ~/.config/sxhkd/scripts/quickweb, rofi -show emoji -theme ~/.config/rofi/launchers/type-5/style-4.rasi } &
 
+# Keybindings | Keyboard Shortcuts | Keybinds | SXHKD Keybindings
+super + i; k
+  ~/.config/sxhkd/scripts/keybinds &
+
+# Mouseless Mode | xmouseless
+super + q; m; {m, h, j, k, l}
+  { xmouseless, exec warpd --hint, exec warpd --hint --click 1 --oneshot, exec warpd --hint --click 2 --oneshot, exec warpd --hint --click 3 --oneshot} & 

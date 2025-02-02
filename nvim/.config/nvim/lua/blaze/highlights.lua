@@ -65,6 +65,8 @@ M.DashboardHeader = { fg = primary, bg = none }
 M.DashboardShortCut = { fg = accent, bg = none }
 M.DashboardFooter = { fg = accent, bg = none }
 
--- markdown
+-- multicursors
+M.MultiCursor = { fg = bg, bg = accent }
+M.MultiCursorMain = { fg = bg, bg = accent }
 
 return M

@@ -21,7 +21,7 @@ REMOVE=""
 WIDTH_PERCENT=30  # Width in percentage
 HEIGHT_PERCENT=40 # Height in percentage
 
-OFFSET_X=8 # Gap away from left and right of the screen
+OFFSET_X=8  # Gap away from left and right of the screen
 OFFSET_Y=10 # Gap away from top and bottom of the screen
 
 # available: north | northeast | east | southeast | south | southwest | west | northwest
@@ -240,6 +240,10 @@ if [ ! -d "$OPEN_PATH" ]; then
 	WORKING_DIR="$(dirname "$OPEN_PATH")"
 fi
 
+if [ ! -f "$OPEN_PATH" ]; then
+	OPEN_PATH="" # if not a file then just open directory
+fi
+
 # [Execution] =================================================
 CLASS="$CLASS_PREFIX$CLASS"
 if [ "$TMUX" = "true" ]; then
@@ -247,7 +251,7 @@ if [ "$TMUX" = "true" ]; then
 		kitty --class "$CLASS" --title "$TITLE" \
 			-o font_size="$FONT_SIZE" \
 			-o window_padding_width=4 \
-			sh -c "cd $WORKING_DIR && tmux has-session -t $SESSION 2>/dev/null || tmux new-session -d -s $SESSION nvim_track $OPEN_PATH --clean; tmux attach -t $SESSION" &
+			sh -c "cd $WORKING_DIR && tmux has-session -t $SESSION 2>/dev/null || tmux new-session -d -s $SESSION nvim $OPEN_PATH; tmux attach -t $SESSION" &
 	else
 		echo "Error: tmux is not installed"
 		exit 1
@@ -256,7 +260,7 @@ else
 	kitty --class "$CLASS" --title "$TITLE" \
 		-o font_size="$FONT_SIZE" \
 		-o window_padding_width=4 \
-		sh -c "cd $WORKING_DIR && nvim_track $OPEN_PATH --clean" &
+		sh -c "cd $WORKING_DIR && nvim $OPEN_PATH" &
 fi
 
 bspc rule -a "$CLASS" state=floating sticky=on layer=above \

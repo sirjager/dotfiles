@@ -7,6 +7,7 @@ export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
 export mydownloads="$mystorage/downloads"
 export myrecentedits="$HOME/.local/state/recentedits.log"
+export myledger="$mystorage/personal/idealogs/finance/finance.ledger"
 
 # XDG Directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -70,6 +71,7 @@ export YAZI_CONFIG_HOME="$XDG_CONFIG_HOME/yazi"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/vim.toml"
 export NVM_DIR="$mystorage/programs/nvm"
 export FNM_PATH="$mystorage/programs/fnm"
+export FNM_DIR="$mystorage/programs/fnm"
 
 # Global Environment Variables
 export GPG_TTY="$(tty)"

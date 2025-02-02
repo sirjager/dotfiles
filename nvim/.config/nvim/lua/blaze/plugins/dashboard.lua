@@ -1,6 +1,8 @@
 local M = {
   "nvimdev/dashboard-nvim",
   event = "VimEnter",
+  lazy = false,
+  priority = 1000,
 }
 
 M.opts = {

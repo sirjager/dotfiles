@@ -1,27 +1,40 @@
 -- https://github.com/HakonHarnes/img-clip.nvim
 local M = {
   "HakonHarnes/img-clip.nvim",
-  event = "BufReadPost",
+  ft = {
+    "markdown",
+    "mdx",
+    "mdoc",
+    "norg",
+    -- "html",
+    -- "astro",
+  },
 }
 
 -- suggested keymap
 -- { "<leader>v", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+
+local function find_assets_dir()
+  local dir = vim.fn.expand "%:p:h"
+  while dir ~= "/" do
+    local full_path = dir .. "/assets/images"
+    if vim.fn.isdirectory(full_path) == 1 then
+      return full_path
+    end
+    dir = vim.fn.fnamemodify(dir, ":h")
+  end
+  return nil
+end
 
 M.opts = {
   -- add options here
   -- or leave it empty to use the default settings
   default = {
     use_absolute_path = false, ---@type boolean
-    -- make dir_path relative to current file rather than the cwd
-    -- To see your current working directory run `:pwd`
-    -- So if this is set to false, the image will be created in that cwd
-    -- In my case, I want images to be where the file is, so I set it to true
     relative_to_current_file = true, ---@type boolean
-
-    -- I want to save the images in a directory named after the current file,
-    -- but I want the name of the dir to end with `-img`
     dir_path = function()
-      return vim.fn.expand "%:t:r" .. "-img"
+      local path = find_assets_dir()
+      return path or vim.fn.expand "%:t:r" .. "-img"
     end,
 
     -- If you want to get prompted for the filename when pasting an image
@@ -31,7 +44,7 @@ M.opts = {
     --
     -- I don't want to give my images a name, but instead autofill it using
     -- the date and time as shown on `file_name` below
-    prompt_for_file_name = false, ---@type boolean
+    prompt_for_file_name = true, ---@type boolean
     file_name = "%Y-%m-%d-at-%H-%M-%S", ---@type string
 
     -- -- Set the extension that the image file will have
@@ -78,22 +91,7 @@ M.opts = {
   -- filetype specific options
   filetypes = {
     markdown = {
-      -- encode spaces and special characters in file path
       url_encode_path = true, ---@type boolean
-
-      -- -- The template is what specifies how the alternative text and path
-      -- -- of the image will appear in your file
-      --
-      -- -- $CURSOR will paste the image and place your cursor in that part so
-      -- -- you can type the "alternative text", keep in mind that this will
-      -- -- not affect the name that the image physically has
-      -- template = "![$CURSOR]($FILE_PATH)", ---@type string
-      --
-      -- -- This will just statically type "Image" in the alternative text
-      -- template = "![Image]($FILE_PATH)", ---@type string
-      --
-      -- -- This will dynamically configure the alternative text to show the
-      -- -- same that you configured as the "file_name" above
       template = "![$FILE_NAME]($FILE_PATH)", ---@type string
     },
   },

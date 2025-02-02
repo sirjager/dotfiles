@@ -127,7 +127,6 @@ $env.PATH = ($env.PATH | append ($env.mystorage + '/programs/appdev/android-stud
 $env.PATH = ($env.PATH | append ($env.mystorage + '/programs/appdev/android-studio/jbr/bin'))  # Android Studio Java binaries
 
 # Miscellaneous
-$env.PATH = ($env.PATH | append ($env.FNM_PATH))  # FNM
 $env.PATH = ($env.PATH | append ($env.WAKATIME_HOME + '/.wakatime'))  # Wakatime
 $env.PATH = ($env.PATH | append ($env.XDG_CONFIG_HOME + '/rofi/scripts'))  # Rofi scripts
 $env.PATH = ($env.PATH | append ($env.mystorage + '/programs/protoc/bin'))  # Protobuf binaries

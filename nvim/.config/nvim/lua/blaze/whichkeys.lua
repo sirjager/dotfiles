@@ -1,9 +1,7 @@
 return {
-  -- NOTE: File Explorer
-  -- { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile" },
-  { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile" },
+  -- { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
-
 
   { "<leader>m", group = "[M]acros", icon = "󰮋 " },
   { "<leader>mr", "qa", icon = " ", desc = "Record Macro" },
@@ -103,57 +101,30 @@ return {
 
   -- NOTE: Tools
   { "<leader>t", group = "[T]ools", icon = " " },
-  { "<leader>tto", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
-
+  { "<leader>tz", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
+  -- Tools:Lab
   { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
   { "<leader>tlr", ":Lab code run<CR>", icon = " ", desc = "[R]un Code" },
   { "<leader>tls", ":Lab code stop<CR>", icon = " ", desc = "[S]top Code" },
   { "<leader>tlp", ":Lab code panel<CR>", icon = "󱗄 ", desc = "[P]anel Show" },
   { "<leader>tlc", ":Lab code config<CR>", icon = " ", desc = "[C]onfig Lab" },
-
+  -- Tools:LiveServer
   { "<leader>ts", group = "[S]erver Live", icon = " " },
   { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
   { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
   { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
+  -- Flash
   { "<leader>f", group = "[F]lash", icon = " " },
-  {
-    "<leader>fj",
-    function()
-      require("flash").jump()
-    end,
-    icon = " ",
-    desc = "[J]ump To",
-  },
-  {
-    "<leader>ft",
-    function()
-      require("flash").treesitter()
-    end,
-    icon = " ",
-    desc = "[T]reesitter",
-  },
-  {
-    "<leader>fs",
-    function()
-      require("flash").treesitter_search()
-    end,
-    icon = " ",
-    desc = "[S]earch Treesitter",
-  },
+  -- stylua: ignore
+  {"<leader>fj",function()require("flash").jump()end,icon = " ",desc = "[J]ump To"},
+  -- stylua: ignore
+  {"<leader>ft",function()require("flash").treesitter()end,icon = " ",desc = "[T]reesitter"},
+  -- stylua: ignore
+  {"<leader>fs",function()require("flash").treesitter_search()end,icon = " ",desc = "[S]earch Treesitter"},
 
   -- Misc
   { "<leader>p", group = "Misc Shortcuts", icon = "暈" },
-  {
-    "<leader>ps",
-    function()
-      vim.opt.spell = not vim.opt.spell:get()
-      local status = vim.opt.spell:get() and "enabled" or "disabled"
-      vim.notify("Spell Checker " .. status, vim.log.levels.INFO)
-    end,
-    icon = "暈",
-    desc = function()
-      return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")
-    end,
-  },
+  -- stylua: ignore
+  {"<leader>ps","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
 }

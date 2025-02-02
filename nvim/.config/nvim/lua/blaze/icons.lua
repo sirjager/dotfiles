@@ -155,5 +155,6 @@ return {
     CircuitBoard = " ",
     Wand = " ",
     Supermaven = " ",
+    Forward = "󰓘 ",
   },
 }

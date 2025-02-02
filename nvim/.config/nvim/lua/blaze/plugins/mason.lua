@@ -12,30 +12,41 @@ local M = {
 }
 
 M.servers = {
+  --
+  "shfmt",
+  "shellcheck",
+
+  --
   "luacheck",
   "stylua",
   "lua-language-server",
-  "prismals",
-  "shellcheck",
-  "shfmt",
+
+  --
+  "marksman",
+  "markdownlint",
+
+  --
+  "hadolint",
+  "dockerfile-language-server",
+  "docker-compose-language-service",
+
+  --
   "html-lsp",
-  "prettier",
-  "prettierd",
   "css-lsp",
+  "prettierd",
   "typescript-language-server",
   "tailwindcss-language-server",
-  "markdownlint",
-  "marksman",
-  "hadolint",
 
-  -- python
+  --
+  -- "zls", -- zig
+
   -- "pyright",
   -- "ruff-lsp",
   -- "mypy",
   -- "black",
 
   -- astro
-  -- "astro-language-server@2.10.0" -- working fine
+  -- "astro-language-server@2.10.0" -- working fine | needs manual installed
 }
 
 function M.config()

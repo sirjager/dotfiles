@@ -3,4 +3,8 @@ local M = {
   event = "BufReadPost",
 }
 
+M.config = function()
+  require("neoscroll").setup()
+end
+
 return M

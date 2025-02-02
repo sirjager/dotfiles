@@ -7,25 +7,38 @@ local M = {
 }
 
 M.servers = {
-  -- "biome",
-  "astro",
+  --
   "bashls",
-  "cssls",
-  "cssmodules_ls",
-  "html",
-  "emmet_ls",
-  "buf_ls",
+
+  --
   "lua_ls",
-  "ts_ls",
-  "graphql",
-  "sqlls",
+
+  --
   "dockerls",
   "docker_compose_language_service",
+
+  --
+  "buf_ls",
+  "sqlls",
   "jsonls",
   "yamlls",
-  "prismals",
-  "gopls",
+  "graphql",
+
+  --
+  "html",
+  "cssls",
+  "emmet_ls",
+  "cssmodules_ls",
+  --
+  "ts_ls",
+  "astro",
   "tailwindcss",
+  -- "biome",
+
+  --
+  "gopls",
+
+  --
   -- "pyright",
   -- "ruff",
 }

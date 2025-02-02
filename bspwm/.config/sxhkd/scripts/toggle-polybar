@@ -3,21 +3,37 @@
 ## Author : Ankur Kumar (SirJager)
 ## Github : @SirJager
 if ~/.local/bin/toggle polybar; then
-  polybar-msg cmd hide
-  sleep 0.4
-  bspc config window_gap 0
-  bspc config top_padding 0
-  bspc config bottom_padding 0
-  bspc config right_padding 0
-  bspc config left_padding 0
-  bspc config border_width 0
+	polybar-msg cmd hide
+	sleep 0.4
+	bspc config window_gap 0
+	bspc config top_padding 0
+	bspc config bottom_padding 0
+	bspc config right_padding 0
+	bspc config left_padding 0
+	bspc config border_width 0
 else
-  bspc config window_gap 20 &
-  bspc config top_padding 36 &
-  bspc config bottom_padding 20 &
-  bspc config left_padding 20 &
-  bspc config right_padding 20 &
-  bspc config border_width 3 &
-  sleep 0.4
-  polybar-msg cmd show
+
+	TOP_PADDING=$(grep "top_padding" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+	BOTTOM_PADDING=$(grep "bottom_padding" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+	LEFT_PADDING=$(grep "left_padding" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+	RIGHT_PADDING=$(grep "right_padding" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+	WINDOW_GAP=$(grep "window_gap" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+	BORDER_WIDTH=$(grep "border_width" ~/.config/bspwm/bspwmrc | awk '{print $4}')
+
+	# set default value, if values not found in ~/.config/bspwm/bspwmrc
+	WINDOW_GAP=${WINDOW_GAP:-20}
+	BORDER_WIDTH=${BORDER_WIDTH:-3}
+	TOP_PADDING=${TOP_PADDING:-36}
+	BOTTOM_PADDING=${BOTTOM_PADDING:-20}
+	LEFT_PADDING=${LEFT_PADDING:-20}
+	RIGHT_PADDING=${RIGHT_PADDING:-20}
+
+	bspc config window_gap "$WINDOW_GAP" &
+	bspc config border_width "$BORDER_WIDTH" &
+	bspc config top_padding "$TOP_PADDING" &
+	bspc config bottom_padding "$BOTTOM_PADDING" &
+	bspc config left_padding "$LEFT_PADDING" &
+	bspc config right_padding "$RIGHT_PADDING" &
+	sleep 0.4
+	polybar-msg cmd show
 fi
