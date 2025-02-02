@@ -1,4 +1,4 @@
-# ~/.zshrc
+#!/bin/zsh
 
 # [ Zinit Setup and Plugins ] ============================================
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git

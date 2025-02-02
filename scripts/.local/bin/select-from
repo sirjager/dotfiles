@@ -11,6 +11,13 @@
 # 3. select-from "option 1" "option 2" "option 3" --limit 1
 # 5. select-from "option 1" "option 2" --no-limit --header "Select One Option"
 
+if ! which gum &>/dev/null; then
+	echo "gum is not installed"
+	echo "command to install gum: pacman -S gum"
+	echo "check gum on github:  https://github.com/charmbracelet/gum"
+	exit 1
+fi
+
 selection_choices=()
 default_selections=()
 limit_option="--no-limit"
