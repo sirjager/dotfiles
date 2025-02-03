@@ -29,4 +29,8 @@ M.opts = {
   },
 }
 
+M.config = function(_, opts)
+  require("lspsaga").setup(opts)
+end
+
 return M

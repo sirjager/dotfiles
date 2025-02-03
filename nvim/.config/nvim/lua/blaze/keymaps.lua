@@ -6,6 +6,8 @@ local keymaps = {
     ["b"] = { "<ESC>vb", "select word to left" },
     ["f"] = { ":lua require('flash').jump()<CR>", "flash jump" },
 
+    -- ["<S-i>"] = { require("blaze.plugins.minifiles").toggle_dotfiles(), "toggle dotfiles minifiles" },
+
     ["W"] = { [[<ESC>:execute "normal! v" .. (col('$') - col('.')) .. 'l'<CR>]], "select words till end of line" },
     ["B"] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], "select words till start of line" },
 
@@ -23,7 +25,6 @@ local keymaps = {
     ["<S-l>"] = { ":vertical resize +2<CR>", "increase window width" },
     ["<S-k>"] = { ":resize -2<CR>", "decrease window height" },
     ["<S-j>"] = { ":resize +2<CR>", "increase window height" },
-
 
     ["<S-m>"] = { "<CMD>MarksListAll<CR>", "list all marks" },
 
@@ -49,7 +50,7 @@ local keymaps = {
     ["<A-0>"] = { "<CMD>BufferLineGoToBuffer 10<CR>", "go to 10 buffer" },
 
     ["<A-a>"] = { ":Maximize<CR>", "maximize / restore window" },
-    ["<A-z>"] = { ":ZenMode<CR>", "toggle zen mode" },
+    ["<A-z>"] = { ":lua require('snacks').zen()<CR>", "toggle zenmode" },
     ["<A-t>"] = { ":TroubleToggle<CR>", "toggle trouble" },
     ["<A-P>"] = { "<CMD>BufferLineTogglePin<CR>", "toggle pin current buffer" },
 
@@ -63,7 +64,7 @@ local keymaps = {
     ["<A-k>"] = { "<CMD>HarpoonPrevMarked<CR>", "harpoon prev marked file" },
 
     ["<A-c>"] = { "gcc", "toggle comment" },
-    ["<A-o>"] = { ":Lspsaga outline<CR>LLLLL", "toggle lsp outline" },
+    ["<A-o>"] = { ":Outline<CR>", "Toggle LSP Outline" },
     ["<A-u>"] = { ":BufferLinePick<CR>", "focus any active buffers" },
     ["<A-w>"] = { ":BufferLineCloseOthers<CR>", "close other buffers" },
     ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 10000})<CR>", "format without saving" },

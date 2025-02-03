@@ -1,5 +1,9 @@
+-- stylua: ignore start
+local Snacks = require("snacks")
+local picker = Snacks.picker
+local todo_keywords = require("blaze.plugins.comments-todo").todo_keywords()
+
 return {
-  -- { "<leader>e", ":Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
@@ -9,7 +13,7 @@ return {
   { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
 
   -- NOTE: Obsidian
-  { "<leader>o", group = "[O]bsidian", icon = "󰮋 " },
+  { "<leader>o", group = "[O]bsidian", icon = " " },
   { "<leader>od", "<CMD>ObsidianFollowLink<CR>", icon = " ", desc = "[F]llow Link" },
   { "<leader>ot", "<CMD>ObsidianTags<CR>", icon = " ", desc = "[T]ags List" },
   { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>", icon = " ", desc = "[O]pen Markdown" },
@@ -54,37 +58,36 @@ return {
   { "<leader>tr", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "Run Test" },
   { "<leader>ta", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "Attach Test" },
   { "<leader>tx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "Stop Test" },
-  {
-    "<leader>tc",
-    ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',
-    icon = "󰢪 ",
-    desc = "[C]urrent File Test",
-  },
+  {"<leader>tc",':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',icon = "󰢪 ",desc = "[C]urrent File Test"},
   { "<leader>td", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
   { "<leader>tg", group = "[G]o Tests", icon = " " },
   { "<leader>tgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
   { "<leader>tgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
 
-  -- NOTE: Telescope Search
-  { "<leader>s", group = "[S]earch", icon = " " },
-  {
-    "<leader>ss",
-    ":Telescope find_files hidden=true no_ignore=false color=always<CR>",
-    icon = "󰥨 ",
-    desc = "[S]earch Files",
-  },
-  { "<leader>sb", ":Telescope buffers<CR>", icon = "󱎸 ", desc = "In [B]uffer" },
-  { "<leader>se", ":Telescope emoji<CR>", icon = "󱊒 ", desc = "[E]moji" },
-  { "<leader>sW", ":Telescope live_grep<CR>", icon = "󰨭 ", desc = "[W]orkspace" },
-  { "<leader>so", ":Telescope oldfiles<CR>", icon = " ", desc = "[O]pen Recent" },
-  { "<leader>sp", ":Telescope project<CR>", icon = " ", desc = "[P]roject" },
-  { "<leader>sr", ":Telescope resume<CR>", icon = " ", desc = "[R]esume" },
-  { "<leader>sw", ":Telescope current_buffer_fuzzy_find<CR>", icon = " ", desc = "[w]ord" },
-  { "<leader>sh", ":Telescope help_tags<CR>", icon = "󰋗 ", desc = "[H]elp" },
-  { "<leader>sk", ":Telescope keymaps<CR>", icon = " ", desc = "[K]eymaps" },
-  { "<leader>sc", ":Telescope colorscheme<CR>", icon = " ", desc = "[C]olorscheme" },
-  { "<leader>sa", ":Telescope autocommands<CR>", icon = " ", desc = "[A]utocommands" },
-  { "<leader>sC", ":Telescope commands<CR>", icon = "󰘳 ", desc = "[C]ommannds List" },
+  -- -- Snacks Picker | Telescope replacement
+  -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md
+  {"<leader>s", group = "[S]earch", icon = " " },
+  {"<leader>ss",function()picker.files({regex=true,hidden=true,dirs={vim.fn.getcwd()},})end,desc = "[s]earch files"},
+  {"<leader>sr",function()picker.resume()end,desc = "[r]esume search" },
+  {"<leader>sl",function()picker.lines()end,icon="󱎸 ", desc = "[l]ines search" },
+  {"<leader>sb",function()picker.buffers()end,icon = "󱎸 ",desc = "[b]uffers"},
+  {"<leader>so",function()picker.recent()end,icon = " ",desc = "[o]pen recent"},
+  {"<leader>sw",function()picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
+  {"<leader>sW",function()picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
+  {"<leader>sk",function()picker.keymaps()end, icon = " ", desc = "[k]eymaps" },
+  {"<leader>sg",function()picker.git_log({layout = "vertical"})end, icon = " ", desc = "[g]it log" },
+  {"<leader>sG",function()picker.git_status()end, icon = " ", desc = "[G]it status" },
+  {"<leader>sm",function()picker.marks()end, icon=" ", desc = "[m]arks" },
+  {"<leader>sf",function()picker.qflist()end,icon="󱖫 ", desc = "[f]ix list" },
+  {"<leader>sp",function()picker.projects()end,icon=" ",desc = "[p]rojects" },
+  {"<leader>sc",function()picker.colorschemes()end,icon=" ",desc = "[c]olorschemes" },
+  {"<leader>sM",function()picker.man()end,icon="󱔗 ",desc = "[m]an pages" },
+  {"<leader>sR",function()picker.registers()end, icon=" ", desc = "[R]egisters" },
+  {"<leader>sj",function()picker.jumps()end,icon="󱔕", desc = "[j]umps" },
+  {"<leader>sc",function()picker.command_history()end,icon=" ", desc = "[h]istory" },
+  {"<leader>st",function()picker.todo_comments()end,icon=" ", desc = "[t]odos" },
+  {"<leader>sT",function ()picker.todo_comments({keywords=todo_keywords}) end, desc = "[T]odo comments" },
+  {"<leader>si",function ()picker.icons() end, desc = "icons emojis" },
 
   -- NOTE: LSP & Diagnostic
   { "<leader>l", group = "[L]SP [D]iagnostic", icon = " " },
@@ -128,3 +131,5 @@ return {
   -- stylua: ignore
   {"<leader>ps","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
 }
+
+-- stylua: ignore end
