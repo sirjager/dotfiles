@@ -11,10 +11,14 @@
 # 3. select-from "option 1" "option 2" "option 3" --limit 1
 # 5. select-from "option 1" "option 2" --no-limit --header "Select One Option"
 
+if ! command -v pamixer &>/dev/null; then
+fi
+
 if ! which gum &>/dev/null; then
 	echo "gum is not installed"
 	echo "command to install gum: pacman -S gum"
 	echo "check gum on github:  https://github.com/charmbracelet/gum"
+	dunstify -u critical -a "Volume" -r 929321 "Gum not found" "sudo pacman --needed -S gum"
 	exit 1
 fi
 

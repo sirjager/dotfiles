@@ -5,8 +5,8 @@ pgrep -x sxhkd >/dev/null || sxhkd &
 bspc monitor -d ⼀ ⼆ 三 四 五 六 七 ⼋ ⼏ ⼗
 # bspc monitor -d 1 2 3 4 5 6 7 8 9 0
 
-xset r rate 200 50
-xsetroot -cursor_name left_ptr
+# xset r rate 200 50
+# xsetroot -cursor_name left_ptr
 
 bspc config automatic_scheme alternate &
 bspc config initial_polarity second_child &
@@ -52,22 +52,24 @@ bspc rule -a "qemu-system-x86_64" state=floating &
 # append this to /etc/sudoers: jager ALL=NOPASSWD:/usr/bin/chmod
 sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
 
-# Picom: sudo pacman -S picom
-command -v picom >/dev/null 2>&1 && picom &
+# Picom: sudo pacman -S picom --needed
+# command -v picom >/dev/null 2>&1 && picom &
 
 # Authentication: Polkit Gnone : sudo pacman -S polkit-gnome
-[ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# [ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-# Dunst: sudo pacman -S dunst
-command -v dunst >/dev/null 2>&1 && dunst &
+# Dunst: sudo pacman -S libnotify dunst --needed
+# command -v dunst >/dev/null 2>&1 && dunst &
 
-# Polybar: sudo pacman -S polybar
+# Polybar: sudo pacman -S polybar --needed
 [ -f ~/.config/polybar/launch.sh ] && ~/.config/polybar/launch.sh &
 
-# Network Manager Applet: sudo pacman -S nm-applet
+# Network Manager Applet: sudo pacman -S network-manager-applet --needed
 command -v nm-applet >/dev/null 2>&1 && nm-applet --indicator &
 
-# Bluetooth Manager Applet: sudo pacman -S blueman bluez bluez-utils
+# Bluetooth Manager Applet 
+# sudo pacman -S blueman bluez bluez-utils --needed
+# sudo systemctl enable --now bluetooth
 command -v blueman-applet >/dev/null 2>&1 && blueman-applet &
 
 # Low Batter Script:

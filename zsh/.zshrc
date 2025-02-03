@@ -123,10 +123,19 @@ alias clear-shell-history="echo \"\" > $HISTFILE"
 
 # [ Custom Functions  ]================================
 function ledger() {
-  if [[ ! "$@" =~ "-f" ]]; then
-    set -- -f "$myledger" "$@"
+  if [ "$1" = "-e" ]; then # if has -e then edit ledger
+  local currdir="$(pwd)" # store current working dir, to get back here
+  local editledger="$(dirname "$myledger")/$(date +%Y).ledger"
+  # change to ledger dir, edit ledger and switch back to current dir
+  cd "$(dirname "$myledger")" && nvim "$editledger" && cd "$currdir"
+  # else continue with normal ledger command
+  elif [[ ! "$@" =~ "-f" ]]; then
+    # if no file provided then use $myledger
+    /usr/bin/ledger -f "$myledger" "$@"
+  else
+    # else use provided file
+    /usr/bin/ledger "$@"
   fi
-  /usr/bin/ledger "$@"
 }
 
 # Shell Integrations =============================================
