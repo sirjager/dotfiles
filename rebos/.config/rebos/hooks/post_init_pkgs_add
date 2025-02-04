@@ -3,16 +3,39 @@
 # Set rustup toolchain to stable
 rustup default stable || exit 1
 
+# warn_notice() {
+# 	echo -e "\033[1;33mNOTICE: $1\033[0m"
+# }
+
 # This function installs collection of rofi custom applets
 # github: https://github.com/adi1090x/rofi
 setup_rofi() {
-  [ -d "$HOME/.config/rofi" ] && return # if configs already exists
-  set -e # automatically exits if any of the commands fails
-  local tempdir="/tmp/rofi-collection"
-  [ -d "$tempdir" ] && rm -rf "$tempdir"
-  git clone --depth=1 https://github.com/adi1090x/rofi.git "$tempdir"
-  cd "$tempdir" && chmod +x setup.sh && ./setup.sh
-  rm -rf "$tempdir"
+	[ -d "$HOME/.config/rofi" ] && return # if configs already exists
+	set -e                                # automatically exits if any of the commands fails
+	local tempdir="/tmp/rofi-collection"
+	[ -d "$tempdir" ] && rm -rf "$tempdir"
+	git clone --depth=1 https://github.com/adi1090x/rofi.git "$tempdir"
+	cd "$tempdir" && chmod +x setup.sh && ./setup.sh
+	rm -rf "$tempdir"
+}
+
+setup_fonts() {
+	# This downloads fonts from my old commit, if font doesn't exist
+	set -e # automatically exits if any of the commands fails
+	local dest_dir="$HOME/.local/share/fonts"
+	local fonts_downloaded="false"
+	local fonts=("GrapeNuts-Regular.ttf" "Icomoon-Feather.ttf" "icons.ttf" "Iosevka-Nerd-Font-Complete.ttf" "RampartOne-Regular.ttf")
+	local base_url="https://github.com/sirjager/dotfiles/blob/2ad06af59746dc3f0d645d451be68bf23da6cfd7/assets/.local/share/fonts"
+	[ ! -d "$dest_dir" ] && mkdir -p "$dest_dir"
+	for font in "${fonts[@]}"; do
+		if [ ! -f "$dest_dir/$font" ]; then
+			wget -q "$base_url/$font" -O "$dest_dir/$font" &&
+				echo "Downloaded Font: $font" &&
+				fonts_downloaded="true"
+		fi
+	done
+	[ "$fonts_downloaded" = "true" ] && fc-cache -fv
 }
 
 setup_rofi
+setup_fonts

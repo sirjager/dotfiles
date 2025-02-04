@@ -20,6 +20,7 @@ items = [
   "rofi",
   "neovim",
   "tmux",
+  "kitty",
   "nautilus",
   "trash-cli",
   "docker",
