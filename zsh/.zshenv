@@ -1,6 +1,8 @@
 # ~/.zshenv
 export DISPLAY=:0
 
+export GTK_THEME="Mojave-Dark:dark"
+
 # Personal Directories
 export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
@@ -65,8 +67,8 @@ export ANDROID_HOME="$mystorage/programs/appdev/android-studio-sdk"
 # Misc
 export BUN_INSTALL="$mystorage/programs/bun"
 export PNPM_HOME="$mystorage/programs/pnpm"
-export CARGO_HOME="$mystorage/programs/cargo"
-export RUSTUP_HOME="$mystorage/programs/rustup"
+# export CARGO_HOME="$mystorage/programs/cargo"
+# export RUSTUP_HOME="$mystorage/programs/rustup"
 export YAZI_CONFIG_HOME="$XDG_CONFIG_HOME/yazi"
 export ATAC_KEY_BINDINGS="$XDG_CONFIG_HOME/atac/vim.toml"
 export NVM_DIR="$mystorage/programs/nvm"

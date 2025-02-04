@@ -1,0 +1,32 @@
+# ================================
+# This file contains only system utilities like:
+# Notifications, Volume Control, Bluetooth, Network Management, etc
+# ================================
+
+# Authentication: https://wiki.archlinux.org/title/Polkit
+# Notifications Managers - https://wiki.archlinux.org/title/Desktop_notifications
+# Volume Control - https://man.archlinux.org/man/pamixer.1.en
+# Bluetooth Managers -https://wiki.archlinux.org/title/Bluetooth
+# Network Manager: https://wiki.archlinux.org/title/NetworkManager
+# Screen Locking: https://github.com/i3/i3lock
+# Light Brightness Control:https://aur.archlinux.org/packages/light
+
+[managers.system]
+items = [
+  "polkit-gnome",
+  "libnotify",
+  "dunst",
+  "pamixer",
+  "networkmanager",
+  "network-manager-applet",
+  "blueman",
+  "bluez",
+  "bluez-utils",
+  "i3lock",
+  "light",
+]
+
+[managers.serv_enable]
+items = [
+  "NetworkManager",
+]

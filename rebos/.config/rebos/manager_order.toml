@@ -1,0 +1,11 @@
+# filename of manager to run in order
+
+begin = [
+  "init_pkgs",
+  "system",
+]
+
+end = [
+  "serv_enable",
+  "serv_start",
+]

@@ -34,13 +34,13 @@ FIREFOX_HISTORY_LIMIT=5000
 CHROME_HISTORY_LIMIT=5000
 CHROMIUM_HISTORY_LIMIT=5000
 
-BRAVE_HISTORY_FILE="$HOME/.config/BraveSoftware/Brave-Browser/Default/History"
+BRAVE_HISTORY_FILE="$mystorage/programs/chromium/sirjager/Default/History"
 BRAVE_HISTORY_EXPORT="$BROHISTORY_DIR/exported-brave.brohistory"
 
-CHROME_HISTORY_FILE="$HOME/.config/google-chrome/Default/History"
+CHROME_HISTORY_FILE="$mystorage/programs/chromium/sirjager/Default/History"
 CHROME_HISTORY_EXPORT="$BROHISTORY_DIR/exported-chrome.brohistory"
 
-CHROMIUM_HISTORY_FILE="$HOME/.config/chromium/Default/History"
+CHROMIUM_HISTORY_FILE="$mystorage/programs/chromium/sirjager/Default/History"
 CHROMIUM_HISTORY_EXPORT="$BROHISTORY_DIR/exported-chromium.brohistory"
 
 FIREFOX_PROFILE="sirjager"

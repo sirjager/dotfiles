@@ -1,0 +1,13 @@
+# --------------------------------------- #
+#    Services to enable with flag --now   #
+# --------------------------------------- #
+
+add = "sudo systemctl enable --now #:?"
+remove = "sudo systemctl disable --now #:?"
+
+plural_name = "system services (now)"
+
+hook_name = "serv_start"
+
+[config]
+many_args = true

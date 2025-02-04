@@ -16,9 +16,9 @@ get_brightness() {
 
 get_icon() {
   if [[ "$1" == "up" ]]; then
-    icon="/usr/share/icons/Qogir-dark/32/status/weather-clear.svg"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/16/gpm-brightness-lcd.svg"
   else
-    icon="/usr/share/icons/Qogir-dark/32/status/weather-clear-night.svg"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/16/gpm-brightness-lcd.svg"
   fi
   echo $icon
 }

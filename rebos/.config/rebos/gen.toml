@@ -1,0 +1,32 @@
+# --------------------- #
+#    Generation File    #
+# --------------------- #
+
+# these packages will be required for almost every distro
+imports = [
+    "init_pkgs", # rebos needs these, paru, rustup, cargo
+    "core_pkgs", # core utils like git, wget, curl, timeshift etc
+    "x11_pkgs",  # x11 utils like xorg-server, xorg-xinit
+    "sys_pkgs", # auth agent,volume, network, bluetooth, brightness
+    "gpu_pkgs",  # amd graphics drivers, mesa, etc
+    "bspwm_pkgs", # bspwm, sxhkd, polybar, rofi, etc
+]
+
+# user specific packages
+[managers.system]
+items = [
+  "rofi",
+  "neovim",
+  "tmux",
+  "nautilus",
+  "trash-cli",
+]
+
+[managers.flatpak]
+items = [
+]
+
+[managers.cargo]
+items = [
+  "bacon",
+]

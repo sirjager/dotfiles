@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Set rustup toolchain to stable
+rustup default stable || exit 1

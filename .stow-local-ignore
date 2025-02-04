@@ -22,6 +22,8 @@ _darcs
 ^/LICENSE.*
 ^/COPYING
 
+\gtk-3.0\bookmarks
+\gtk-4.0\bookmarks
 
 ## ========================================
 .env

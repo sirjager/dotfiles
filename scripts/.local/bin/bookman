@@ -10,9 +10,9 @@
 # This script is alternate version of my another script bookmark-manager, which manages standalone bookmarks with encrypted sync.
 
 # bookmarks source file
-CHROMIUM_BOOKMARKS="$HOME/.config/chromium/Default/Bookmarks"
-GOOGLE_CHROME_BOOKMARKS="$HOME/.config/google-chrome/Default/Bookmarks"
-BRAVE_BOOKMARKS="$HOME/.config/BraveSoftware/Brave-Browser/Default/Bookmarks"
+CHROMIUM_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
+GOOGLE_CHROME_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
+BRAVE_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
 
 # Configuration
 WORKING_DIRECTORY="$HOME/.cache/bookman"

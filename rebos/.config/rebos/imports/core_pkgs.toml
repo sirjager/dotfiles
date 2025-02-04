@@ -1,0 +1,20 @@
+[managers.system]
+items = [
+  "wget", "curl", "git",
+  "p7zip", "zip", "unzip",
+  "clang", "gcc",
+  "gvfs", "gvfs-afc","gvfs-gphoto2", 
+  "gvfs-mtp","gvfs-nfs","gvfs-smb",
+  "fzf", "ripgrep", "fd","eza",
+  "xsel", "xclip", "xdotool",
+  "os-prober", "timeshift",
+  "gnome-screenshot", "imagemagick",
+  "htop","btop",
+  "gufw","xdg-utils",
+  "gum", "yad",
+]
+
+[managers.serv_start]
+items = [
+  "ufw"
+]

@@ -1,0 +1,19 @@
+# --------------------- #
+#    Generation File    #
+# --------------------- #
+
+imports = [
+]
+
+[managers.system]
+items = [
+]
+
+[managers.flatpak]
+items = [
+    # "com.github.tchx84.Flatseal",
+]
+
+[managers.cargo]
+items = [
+]

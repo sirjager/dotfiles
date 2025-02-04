@@ -1,0 +1,7 @@
+# everything that rebos needs
+[managers.init_pkgs]
+items = [
+    "rustup",
+    "cargo",
+    "paru",
+]

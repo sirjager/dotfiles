@@ -2,23 +2,23 @@
 
 pgrep -x sxhkd >/dev/null || sxhkd &
 
-bspc monitor -d ⼀ ⼆ 三 四 五 六 七 ⼋ ⼏ ⼗
 # bspc monitor -d 1 2 3 4 5 6 7 8 9 0
+bspc monitor -d ⼀ ⼆ 三 四 五 六 七 ⼋ ⼏ ⼗
 
-# xset r rate 200 50
-# xsetroot -cursor_name left_ptr
+xset r rate 200 50
+xsetroot -cursor_name left_ptr
 
 bspc config automatic_scheme alternate &
 bspc config initial_polarity second_child &
 bspc config focus_follows_pointer false &
 
-# bspc config normal_border_color "#000000"
+bspc config normal_border_color "#000000"
 # bspc config focused_border_color "#000000"
 
 WALLPAPER_PATH="/mnt/storage/wallpaper/nature/venom-moonlight.jpg"
 CURRENT_WALLPAPER="$(find ~/.cache/current -name 'wallpaper.*' | head -1)"
 if [ -f "$CURRENT_WALLPAPER" ]; then
-  WALLPAPER_PATH=$CURRENT_WALLPAPER 
+	WALLPAPER_PATH=$CURRENT_WALLPAPER
 fi
 ~/.local/bin/wallpaper -dunst -bspwm -polybar -path="$WALLPAPER_PATH" &
 
@@ -41,36 +41,40 @@ bspc rule -a scrcpy state=floating &
 bspc rule -a polkit-gnome-authentication-agent-1 border=off state=floating &
 bspc rule -a fcitx-config-gtk3 border=off state=floating &
 bspc rule -a kdeconnect-indicator border=off state=floating &
-bspc rule -a FLTK border=off state=floating &              # weylus
-bspc rule -a "blueman-manager" border=off state=floating & # blueman
-bspc rule -a "blueman-applet" border=off state=floating &  # blueman
+bspc rule -a FLTK border=off state=floating & # weylus
 bspc rule -a lutris desktop='^10' focus=on &
 bspc rule -a heroic desktop='^10' focus=on &
 bspc rule -a steam desktop='^10' focus=on &
-bspc rule -a "qemu-system-x86_64" state=floating &
 
 # append this to /etc/sudoers: jager ALL=NOPASSWD:/usr/bin/chmod
 sudo chmod a+rw /sys/class/backlight/amdgpu_bl2/brightness &
 
-# Picom: sudo pacman -S picom --needed
-# command -v picom >/dev/null 2>&1 && picom &
+# Authentication Agents: https://wiki.archlinux.org/title/Polkit
+# sudo pacman --needed -S polkit-gnome
+(pgrep -f polkit-gnome-authentication-agent-1 || nohup /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1 &) &
 
-# Authentication: Polkit Gnone : sudo pacman -S polkit-gnome
-# [ -f "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# Notifications Managers: https://wiki.archlinux.org/title/Desktop_notifications
+# sudo pacman --needed -S	dunst libnotify
+# delay is required, if not works normally
+(sleep 1 && (pgrep -f dunst || (nohup dunst >/dev/null 2>&1 &))) &
 
-# Dunst: sudo pacman -S libnotify dunst --needed
-# command -v dunst >/dev/null 2>&1 && dunst &
+# Network Manager Applet:
+# sudo pacman --needed -S networkmanager network-manager-applet
+# sudo systemctl disable systemd-networkd systemd-resolved
+# sudo systemctl enable NetworkManager
+(pgrep -f nm-applet || nohup nm-applet >/dev/null 2>&1 &) &
 
-# Polybar: sudo pacman -S polybar --needed
-[ -f ~/.config/polybar/launch.sh ] && ~/.config/polybar/launch.sh &
-
-# Network Manager Applet: sudo pacman -S network-manager-applet --needed
-command -v nm-applet >/dev/null 2>&1 && nm-applet --indicator &
-
-# Bluetooth Manager Applet 
+# Bluetooth Manager Applet
 # sudo pacman -S blueman bluez bluez-utils --needed
-# sudo systemctl enable --now bluetooth
-command -v blueman-applet >/dev/null 2>&1 && blueman-applet &
+(pgrep -f blueman-applet || nohup blueman-applet >/dev/null 2>&1 &) &
 
-# Low Batter Script:
-[ -f ~/.config/sxhkd/scripts/lowbattery ] && ~/.config/sxhkd/scripts/lowbattery &
+# Window Compositor: Picom
+# sudo pacman -S picom --needed
+(pgrep -f picom || nohup picom >/dev/null 2>&1 &) &
+
+# Polybar | Bar
+# sudo pacman -S polybar --needed
+sh ~/.config/polybar/launch.sh &
+
+# Low Battery Monitor Script
+sh ~/.config/sxhkd/scripts/lowbattery &

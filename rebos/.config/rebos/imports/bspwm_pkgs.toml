@@ -1,0 +1,9 @@
+# BSPWM
+[managers.system]
+items = [
+  "bspwm", "sxhkd",
+  "polybar", "picom",
+  "feh", "rofi", "python-pywal",
+  "gtk-engines", "gtk-engine-murrine",
+  "gtk3", "gtk4", "xdg-desktop-portal", "xdg-desktop-portal-gtk",
+]

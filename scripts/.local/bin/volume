@@ -14,13 +14,13 @@ get_vol() {
 
 get_icon() {
 	if [[ "$1" == "muted" || "$1" == 0 ]]; then
-		icon="/usr/share/icons/HighContrast/32x32/status/audio-volume-muted.png"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/32/audio-volume-muted.svg"
 	elif [ "$1" -gt 0 -a "$1" -le 25 ]; then
-		icon="/usr/share/icons/HighContrast/32x32/status/audio-volume-low.png"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/32/audio-volume-low.svg"
 	elif [ "$1" -ge 26 -a "$1" -le 99 ]; then
-		icon="/usr/share/icons/HighContrast/32x32/status/audio-volume-medium.png"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/32/audio-volume-medium.svg"
 	elif [[ "$1" == "100" ]]; then
-		icon="/usr/share/icons/HighContrast/32x32/status/audio-volume-high.png"
+		icon="$XDG_DATA_HOME/icons/McMojave-circle/status/32/audio-volume-high.svg"
 	fi
 	echo $icon
 }

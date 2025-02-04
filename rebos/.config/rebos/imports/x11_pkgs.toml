@@ -1,0 +1,14 @@
+# X11 Display Server Packages
+[managers.system]
+items = [
+  "xorg-xhost",
+  "xorg-server",
+  "xorg-xinit",
+  "xorg-xsetroot",
+  "xorg-xkill",
+  "xorg-xwininfo",
+  "xorg-xprop",
+  "xorg-xrandr",
+  "xorg-xbacklight",
+  "xorg-xinput",
+]
