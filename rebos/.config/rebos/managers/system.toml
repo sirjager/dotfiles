@@ -2,7 +2,7 @@
 #    Package Manager Configuration    #
 # ----------------------------------- #
 
-add = "paru --needed -S #:?"
+add = "paru --fm nvim --needed -S #:?"
 remove = "paru -Rns #:?"
 sync = "paru -Syy"
 upgrade = "paru -Syu"

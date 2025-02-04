@@ -4,4 +4,6 @@ items = [
     "rustup",
     "cargo",
     "paru",
+    "vim",
+    "neovim",
 ]

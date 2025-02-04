@@ -79,7 +79,7 @@ alias docker-clean-image="docker image prune --all" # Clean Unused Docker Images
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
 
 # General Aliases ================================================
-alias s="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
+alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
 alias rbf='fc-cache -fv' # Rebuild Font Cache
 
 # LS ============================================
@@ -104,11 +104,10 @@ alias pkg-add-widevine="paru --needed -S chromium-widevine && sudo chmod a+x /us
 
 
 # Application-Specific Aliases =====================================
-# alias startx="/usr/bin/startx >/dev/null 2>&1"
 alias fl="flutter"
 alias pn='pnpm'
 alias np='npm run'
-alias n="nvim"
+alias nv="nvim"
 alias snv="sudo -E -s nvim"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
@@ -138,6 +137,11 @@ function ledger() {
     /usr/bin/ledger "$@"
   fi
 }
+
+function x(){
+  pgrep -f startx || /usr/bin/startx >/dev/null 2>&1
+}
+
 
 # Shell Integrations =============================================
 eval "`fnm env`"
