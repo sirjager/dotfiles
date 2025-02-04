@@ -39,7 +39,7 @@ while [ $# -gt 0 ]; do
     shift
     ;;
   --bspwm | -bspwm | bspwm)
-    NOTIFY="true"
+    BSPWM="true"
     shift
     ;;
   --polybar | -polybar | polybar)

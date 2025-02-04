@@ -10,8 +10,8 @@ imports = [
     "sys_pkgs", # auth agent,volume, network, bluetooth, brightness
     "gpu_pkgs",  # amd graphics drivers, mesa, etc
     "bspwm_pkgs", # bspwm, sxhkd, polybar, rofi, etc
-    "display_man", # display manager like sddm, gdm, lightdm etc
-    "fonts_pkgs", # patched nerd fonts, sourcecodepro, jetbrains etc
+    "login_man", # login managers like sddm, gdm, lightdm etc
+    "theme_pkgs", # fonts, themes, icons, cursors, etc
 ]
 
 # user specific packages
@@ -22,7 +22,16 @@ items = [
   "tmux",
   "nautilus",
   "trash-cli",
+  "docker",
+  "docker-compose",
 ]
+
+# Services
+[managers.serv_enable]
+items = [
+  "docker",
+]
+
 
 [managers.flatpak]
 items = [

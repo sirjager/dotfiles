@@ -2,3 +2,17 @@
 
 # Set rustup toolchain to stable
 rustup default stable || exit 1
+
+# This function installs collection of rofi custom applets
+# github: https://github.com/adi1090x/rofi
+setup_rofi() {
+  [ -d "$HOME/.config/rofi" ] && return # if configs already exists
+  set -e # automatically exits if any of the commands fails
+  local tempdir="/tmp/rofi-collection"
+  [ -d "$tempdir" ] && rm -rf "$tempdir"
+  git clone --depth=1 https://github.com/adi1090x/rofi.git "$tempdir"
+  cd "$tempdir" && chmod +x setup.sh && ./setup.sh
+  rm -rf "$tempdir"
+}
+
+setup_rofi
