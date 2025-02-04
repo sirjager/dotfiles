@@ -24,13 +24,13 @@ setup_fonts() {
 	set -e # automatically exits if any of the commands fails
 	local dest_dir="$HOME/.local/share/fonts"
 	local fonts_downloaded="false"
+	local commit_sha="2ad06af59746dc3f0d645d451be68bf23da6cfd7"
 	local fonts=("GrapeNuts-Regular.ttf" "Icomoon-Feather.ttf" "icons.ttf" "Iosevka-Nerd-Font-Complete.ttf" "RampartOne-Regular.ttf" "JetBrains-Mono-Nerd-Font-Complete.ttf")
-	local base_url="https://github.com/sirjager/dotfiles/blob/2ad06af59746dc3f0d645d451be68bf23da6cfd7/assets/.local/share/fonts"
+	local base_url="https://raw.githubusercontent.com/sirjager/dotfiles/$commit_sha/assets/.local/share/fonts"
 	[ ! -d "$dest_dir" ] && mkdir -p "$dest_dir"
 	for font in "${fonts[@]}"; do
 		if [ ! -f "$dest_dir/$font" ]; then
-			# wget -q "$base_url/$font" -O "$dest_dir/$font" &&
-			curl -o "$dest_dir/$font" "$base_url/$font" &&
+			wget -q "$base_url/$font" -O "$dest_dir/$font" &&
 				echo "Downloaded Font: $font" &&
 				fonts_downloaded="true"
 		fi
