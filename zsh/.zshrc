@@ -96,7 +96,7 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 # Yay Package Manager / Aur Helper ===============================
-alias .i="paru --needed -S"    # Install package if needed and skip confirmation
+alias .i="paru --fm nvim --needed -S"    # Install package if needed and skip confirmation
 alias .r="paru -Rns"        # Remove packages without removing configurations
 alias .u="paru -Syu"        # Update packages and repositories databases
 alias .m="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50" # Rank pacman mirrors list
@@ -104,7 +104,7 @@ alias pkg-add-widevine="paru --needed -S chromium-widevine && sudo chmod a+x /us
 
 
 # Application-Specific Aliases =====================================
-alias startx="/usr/bin/startx >/dev/null 2>&1"
+# alias startx="/usr/bin/startx >/dev/null 2>&1"
 alias fl="flutter"
 alias pn='pnpm'
 alias np='npm run'

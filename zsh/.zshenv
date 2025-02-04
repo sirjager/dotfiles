@@ -1,5 +1,5 @@
 # ~/.zshenv
-export DISPLAY=:0
+# export DISPLAY=:0
 
 export GTK_THEME="Mojave-Dark:dark"
 

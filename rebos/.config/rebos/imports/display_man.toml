@@ -1,14 +1,8 @@
 # Display Manager
 [managers.system]
 items = [
-  "sddm",
-  "qt5-svg",
-  "qt5-graphicaleffects",
-  "qt5-quickcontrols2",
-  "sddm-sugar-dark",
 ]
 
 [managers.serv_enable]
 items = [
-  "sddm",
 ]

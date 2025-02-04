@@ -11,7 +11,8 @@ items = [
   "gnome-screenshot", "imagemagick",
   "htop","btop",
   "gufw","xdg-utils",
-  "gum", "yad", "bat"
+  "gum", "yad", "bat",
+  "stow"
 ]
 
 [managers.serv_start]

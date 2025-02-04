@@ -10,6 +10,8 @@ imports = [
     "sys_pkgs", # auth agent,volume, network, bluetooth, brightness
     "gpu_pkgs",  # amd graphics drivers, mesa, etc
     "bspwm_pkgs", # bspwm, sxhkd, polybar, rofi, etc
+    "display_man", # display manager like sddm, gdm, lightdm etc
+    "fonts_pkgs", # patched nerd fonts, sourcecodepro, jetbrains etc
 ]
 
 # user specific packages
