@@ -80,7 +80,7 @@ alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Sh
 
 # General Aliases ================================================
 alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
-alias rbf='fc-cache -fv' # Rebuild Font Cache
+alias rbf='fc-cache -f >/dev/null 2>&1' # Rebuild Font Cache
 
 # LS ============================================
 alias l="eza --long --icons --git"
@@ -115,6 +115,11 @@ alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speak
 alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
 alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
 alias clear-shell-history="echo \"\" > $HISTFILE"
+
+alias rebos-list="rebos gen list"
+alias rebos-check="rebos config check"
+alias rebos-commit="rebos gen commit"
+alias rebos-build="rebos gen current build"
 
 # [ Private Aliases  ]================================
 [ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"

@@ -31,9 +31,11 @@ _darcs
 .*\.env
 .*\.envrc
 
+\assets
+\assets\*
+
 \encrypted
 \encrypted\*
-
 
 # xmouseless 
 \xmouseless
