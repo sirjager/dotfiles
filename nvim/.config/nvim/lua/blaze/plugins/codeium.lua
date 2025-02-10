@@ -4,7 +4,7 @@ local M = {
 }
 
 M.opts = {
-  enable_cmp_source = true,
+  enable_cmp_source = false,
   virtual_text = {
     enabled = false,
   },

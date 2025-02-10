@@ -1,16 +1,24 @@
 -- create or update highlight groups
 -- check all highlight groups using :hi
-
 local M = {}
 
+local c = {
+  none = "None",
+  fg = "#B4BEFE",
+}
+
 local none = "None" -- to nil / transparent
-local fg = "#B4BEFE" -- for text
+local fg = c.fg -- for text
 local bg = "#161622" -- for bg
 
 local primary = "#f5a97f" -- controls the majoriry of ui color
+local secondary = "#4635B1"
 local accent = "#FFDAB3" -- similar to primary with lit tweak
 
+local info = "#2973B2"
+
 local border = primary
+local lineNr = "#525280"
 
 local dimtext = "#B4BEFE"
 local cursorline_bg = "#292c3c"
@@ -20,7 +28,7 @@ M.Normal = { bg = none }
 M.HoverNormal = { fg = fg, bg = none }
 M.HoverBorder = { fg = border, bg = none }
 
-M.LineNr = { fg = "#525280", bg = none } -- line numbers
+M.LineNr = { fg = lineNr, bg = none } -- line numbers
 
 M.Visual = { fg = bg, bg = primary } -- visual mode selection bg
 
@@ -68,5 +76,14 @@ M.DashboardFooter = { fg = accent, bg = none }
 -- multicursors
 M.MultiCursor = { fg = bg, bg = accent }
 M.MultiCursorMain = { fg = bg, bg = accent }
+
+-- blink.cmp
+M.BlinkCmpMenu = { fg = fg, bg = none }
+M.BlinkCmpMenuBorder = { fg = border, bg = none }
+M.BlinkCmpDocBorder = { fg = info, bg = none }
+M.BlinkCmpSignatureHelpBorder = { fg = secondary, bg = none }
+M.BlinkCmpItemIdx = { fg = lineNr, bg = none } -- completion index number
+
+
 
 return M

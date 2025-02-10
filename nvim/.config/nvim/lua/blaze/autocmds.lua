@@ -50,16 +50,16 @@ vim.api.nvim_create_user_command("ToggleSpellChecker", function()
   vim.notify("Spell Checker " .. status, vim.log.levels.INFO)
 end, {})
 
-vim.api.nvim_create_autocmd("InsertLeave", {
-  callback = function()
-    if
-      require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-      and not require("luasnip").session.jump_active
-    then
-      require("luasnip").unlink_current()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("InsertLeave", {
+--   callback = function()
+--     if
+--       require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+--       and not require("luasnip").session.jump_active
+--     then
+--       require("luasnip").unlink_current()
+--     end
+--   end,
+-- })
 
 vim.api.nvim_create_user_command("SourceKeymaps", function()
   vim.cmd("source " .. "~/.config/nvim/lua/blaze/keymaps.lua")

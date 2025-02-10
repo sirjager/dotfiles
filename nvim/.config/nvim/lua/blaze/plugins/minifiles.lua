@@ -2,6 +2,9 @@ local M = {
   "echasnovski/mini.files",
   version = "*",
   event = "VeryLazy",
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+  },
 }
 
 M.opts = {

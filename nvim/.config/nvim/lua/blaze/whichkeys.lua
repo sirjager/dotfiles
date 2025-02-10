@@ -54,6 +54,7 @@ return {
   { "<leader>gl", ":GoToggleInlay<CR>", icon = "󰰃 ", desc = "In[L]ay Toggle" },
 
   { "<leader>t",function() Snacks.toggle.dim()end, icon = "󰊹 ", desc = "[T]oggle" },
+  { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
 
   -- -- NOTE: Neo Tests
   -- { "<leader>t", group = "Neo Tests", icon = "󰙨" },
@@ -78,8 +79,8 @@ return {
   {"<leader>sw",function()Snacks.picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
   {"<leader>sW",function()Snacks.picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
   {"<leader>sk",function()Snacks.picker.keymaps()end, icon = " ", desc = "[k]eymaps" },
-  {"<leader>sg",function()Snacks.picker.git_log({layout = "vertical"})end, icon = " ", desc = "[g]it log" },
-  {"<leader>sG",function()Snacks.picker.git_status()end, icon = " ", desc = "[G]it status" },
+  {"<leader>sg",function()Snacks.lazygit.open()end, icon = " ", desc = "Lazy[g]it" },
+  {"<leader>sG",function()Snacks.lazygit.log()end, icon = " ", desc = "[G]itlog" },
   {"<leader>sm",function()Snacks.picker.marks()end, icon=" ", desc = "[m]arks" },
   {"<leader>sf",function()Snacks.picker.qflist()end,icon="󱖫 ", desc = "[f]ix list" },
   {"<leader>sp",function()Snacks.picker.projects()end,icon=" ",desc = "[p]rojects" },

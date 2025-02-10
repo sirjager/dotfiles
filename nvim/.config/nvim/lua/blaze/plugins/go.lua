@@ -5,9 +5,9 @@ local M = {
 }
 
 M.opts = function()
-  local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
   return {
-    lsp_cfg = { capabilities = capabilities },
+    -- lsp_cfg = { capabilities = capabilities },
     disable_defaults = false,
     go = "go",
     goimports = "goimports_reviser", -- gopls

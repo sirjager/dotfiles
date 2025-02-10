@@ -3,6 +3,7 @@ local M = {
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "onsails/lspkind-nvim",
+    "saghen/blink.cmp",
   },
 }
 
@@ -57,8 +58,10 @@ M.on_attach = function(client, bufnr)
 end
 
 function M.common_capabilities()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  local capabilities = require("blink.cmp").get_lsp_capabilities() -- with blink.cmp
+
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities() -- with nvim-cmp
+  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- with nvim-cmp
 
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
@@ -133,4 +136,9 @@ function M.config()
   -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 end
 
+
+
 return M
+
+
+

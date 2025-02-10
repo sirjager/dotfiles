@@ -96,4 +96,8 @@ M.opts.dashboard = {
   },
 }
 
+M.opts.lazygit = {
+  enabled = true,
+}
+
 return M

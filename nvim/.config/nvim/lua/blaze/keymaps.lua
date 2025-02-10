@@ -6,8 +6,6 @@ local keymaps = {
     ["b"] = { "<ESC>vb", "select word to left" },
     ["f"] = { ":lua require('flash').jump()<CR>", "flash jump" },
 
-    -- ["<S-i>"] = { require("blaze.plugins.minifiles").toggle_dotfiles(), "toggle dotfiles minifiles" },
-
     ["W"] = { [[<ESC>:execute "normal! v" .. (col('$') - col('.')) .. 'l'<CR>]], "select words till end of line" },
     ["B"] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], "select words till start of line" },
 
