@@ -1,0 +1,16 @@
+[managers.gobuilder]
+items = [
+  # "<git-repository-url>;name=<cli-name>;main=<path-to-main.go>;out=<output-path>"
+  # Required: 
+    # <git-repository-url> : Must be 1st
+    # name=                : name of the output binary
+    # main=                : path to main.go e.g. cmd/main.go . do not use /cmd or ./cmd
+    # out=                 : path to output directory e.g. /usr/local/bin or ~/.local/bin; avoid using vars
+  # Optiona
+    # sudo=true            : use sudo to install the binary; uses 
+    # overwrite=true       : deletes previous binary if exists before copying new one
+  # Example:
+  "https://github.com/paololazzari/play;name=play;main=main.go;out=/usr/local/bin",
+  # "https://github.com/peltho/tufw;name=tufw;main=cmd/tufw/main.go;out=/usr/local/bin",
+]
+

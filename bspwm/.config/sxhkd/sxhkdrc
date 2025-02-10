@@ -145,8 +145,8 @@ alt + @space
   rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi &
 
 # Browsers: Chromium | Quick App Launch
-super + b; {c, f, b,w}
-  {chromium, firefox, chromium --user-data-dir="$mystorage/programs/chromium/sirjager", chromium --user-data-dir="$mystorage/programs/chromium/5321ankur"} &
+super + b; {b, f}
+  { chromium, firefox } &
 
 # File Explorer, File Manager, Nautilus
 super + e

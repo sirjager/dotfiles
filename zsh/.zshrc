@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # [ Zinit Setup and Plugins ] ============================================
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
@@ -48,7 +46,6 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
-export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 # [ Completion Settings ] =============================================
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -60,99 +57,17 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
 
-
-# [ Custom Aliases  ]================================
-alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
-alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
-
-# SSH
-alias ssh-newkey="ssh-keygen -t ed25519 -C" # Create New SSH key
-alias ssh-eval='eval "$(ssh-agent -s)"'  # Evaluate SSH Agent
-alias ssh-test='ssh -T git@github.com' # Test SSH
-
-# Docker
-alias docker-clean-buildx="docker buildx prune --all" # Clean Docker Buildx
-alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
-alias docker-clean-image="docker image prune --all" # Clean Unused Docker Images
-
-# System Info: Battery
-alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
-
-# General Aliases ================================================
-alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
-alias rbf='fc-cache -f >/dev/null 2>&1' # Rebuild Font Cache
-
-# LS ============================================
-alias l="eza --long --icons --git"
-alias la="eza --icons --git --long --all"
-alias ls="eza --icons --git"
-alias lt="eza --tree --level=2 --long --icons --git"
-
-# Directory Navigation ============================================
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-
-# Yay Package Manager / Aur Helper ===============================
-alias .i="paru --fm nvim --needed -S"    # Install package if needed and skip confirmation
-alias .r="paru -Rns"        # Remove packages without removing configurations
-alias .u="paru -Syu"        # Update packages and repositories databases
-alias .m="sudo reflector --verbose --save /etc/pacman.d/mirrorlist --sort rate -l 50" # Rank pacman mirrors list
-alias pkg-add-widevine="paru --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
-
-
-# Application-Specific Aliases =====================================
-alias fl="flutter"
-alias pn='pnpm'
-alias np='npm run'
-alias nv="nvim"
-alias snv="sudo -E -s nvim"
-alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
-alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
-alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
-alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
-alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
-alias clear-shell-history="echo \"\" > $HISTFILE"
-
-alias rebos-list="rebos gen list"
-alias rebos-check="rebos config check"
-alias rebos-commit="rebos gen commit"
-alias rebos-build="rebos gen current build"
-
-# [ Private Aliases  ]================================
-[ -f "$mystorage/global/alias" ] && . "$mystorage/global/alias"
-# [ -f "$CARGO_HOME/env" ] && . "$CARGO_HOME/env" 
-
-
-# [ Custom Functions  ]================================
-function ledger() {
-  if [ "$1" = "-e" ]; then # if has -e then edit ledger
-  local currdir="$(pwd)" # store current working dir, to get back here
-  local editledger="$(dirname "$myledger")/$(date +%Y).ledger"
-  # change to ledger dir, edit ledger and switch back to current dir
-  cd "$(dirname "$myledger")" && nvim "$editledger" && cd "$currdir"
-  # else continue with normal ledger command
-  elif [[ ! "$@" =~ "-f" ]]; then
-    # if no file provided then use $myledger
-    /usr/bin/ledger -f "$myledger" "$@"
-  else
-    # else use provided file
-    /usr/bin/ledger "$@"
-  fi
-}
-
-function x(){
-  pgrep -f startx || /usr/bin/startx >/dev/null 2>&1
-}
-
-
-# Shell Integrations =============================================
+# [ Shell Integrations ] =============================================
 eval "`fnm env`"
 eval "$(fzf --zsh)"
-eval "$(starship init zsh)"
-eval "$(zoxide init --cmd cd zsh)"
 eval "$(direnv hook zsh)"
+eval "$(starship init zsh)"
+eval "$(cobra-cli completion zsh)"
+eval "$(replicgo completion zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 eval "$(fnm completions --shell zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
+export LS_COLORS="$(vivid generate catppuccin-macchiato)"
+
+# [ Custom Aliases ] =============================================
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliases" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/aliases"

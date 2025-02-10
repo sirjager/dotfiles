@@ -1,6 +1,6 @@
 local M = {
   "shellRaining/hlchunk.nvim",
-  event = "BufReadPost",
+  event = "VeryLazy",
 }
 
 local exclude_filetypes = {
@@ -15,21 +15,18 @@ local exclude_filetypes = {
 
 M.opts = {
   chunk = {
-    enable = true,
+    enable = false,
     style = "#FFBE98",
-    priority = 100,
     exclude_filetypes = exclude_filetypes,
   },
   indent = {
-    enable = true,
-    -- style = "#30304A",
+    enable = false,
     style = "#423c46",
     exclude_filetypes = exclude_filetypes,
   },
   line_num = {
     enable = true,
     style = "#FFBE98",
-    priority = 10,
     exclude_filetypes = exclude_filetypes,
   },
   blank = {

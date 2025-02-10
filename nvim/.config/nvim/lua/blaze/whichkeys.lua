@@ -1,10 +1,10 @@
 -- stylua: ignore start
 local Snacks = require("snacks")
-local picker = Snacks.picker
 local todo_keywords = require("blaze.plugins.comments-todo").todo_keywords()
 
 return {
-  { "<leader>e", ":lua MiniFiles.open()<CR>", icon = "  ", desc = "[F]ile Manager" },
+  -- { "<leader>e", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>e",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
   { "<leader>m", group = "[M]acros", icon = "󰮋 " },
@@ -37,12 +37,13 @@ return {
 
   -- NOTE: Golang
   { "<leader>g", group = "[G]olang", icon = " " },
-  { "<leader>gt", ":GoAddTag<CR>", icon = "󰜢 ", desc = "[T]ags Add" },
+  { "<leader>gt", ":GoAddTag ", icon = "󰜢 ", desc = "[T]ags Add" },
+  { "<leader>gx", ":GoRmTag ", icon = "󱈠 ", desc = "[X]Remove Tags" },
   { "<leader>gj", ":GoAddTag json -transform camelcase<CR>", icon = " ", desc = "[J]son Tags" },
   { "<leader>gb", ":GoAddTag bson -transform camelcase<CR>", icon = "󰨥 ", desc = "[B]son Tags" },
   { "<leader>gy", ":GoAddTag yaml -transform camelcase<CR>", icon = " ", desc = "[Y]aml Tags" },
+  { "<leader>gm", ":GoAddTag toml -transform camelcase<CR>", icon = " ", desc = "To[M]aml Tags" },
   { "<leader>gd", ":GoAddTag validate<CR>", icon = " ", desc = "[D]ata Validate" },
-  { "<leader>gx", ":GoRmTag<CR>", icon = "󱈠 ", desc = "[X]Remove Tags" },
   { "<leader>ge", ":GoIfErr<CR>", icon = " ", desc = "[E]rror Check" },
   { "<leader>gf", ":GoFixPlurals<CR>", icon = "󰁨 ", desc = "[F]ix Plurals" },
   { "<leader>gr", ":GoRun ./cmd<CR>", icon = " ", desc = "[R]un Code" },
@@ -52,42 +53,44 @@ return {
   { "<leader>gi", ":GoImpl<CR>", icon = "󰰃 ", desc = "[I]plement Interface" },
   { "<leader>gl", ":GoToggleInlay<CR>", icon = "󰰃 ", desc = "In[L]ay Toggle" },
 
-  -- NOTE: Neo Tests
-  { "<leader>t", group = "Neo Tests", icon = "󰙨" },
-  { "<leader>ts", ":Neotest summary<CR>", icon = "󰊹 ", desc = "Summary" },
-  { "<leader>tr", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "Run Test" },
-  { "<leader>ta", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "Attach Test" },
-  { "<leader>tx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "Stop Test" },
-  {"<leader>tc",':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',icon = "󰢪 ",desc = "[C]urrent File Test"},
-  { "<leader>td", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
-  { "<leader>tg", group = "[G]o Tests", icon = " " },
-  { "<leader>tgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
-  { "<leader>tgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
+  { "<leader>t",function() Snacks.toggle.dim()end, icon = "󰊹 ", desc = "[T]oggle" },
+
+  -- -- NOTE: Neo Tests
+  -- { "<leader>t", group = "Neo Tests", icon = "󰙨" },
+  -- { "<leader>ts", ":Neotest summary<CR>", icon = "󰊹 ", desc = "Summary" },
+  -- { "<leader>tr", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "Run Test" },
+  -- { "<leader>ta", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "Attach Test" },
+  -- { "<leader>tx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "Stop Test" },
+  -- {"<leader>tc",':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',icon = "󰢪 ",desc = "[C]urrent File Test"},
+  -- { "<leader>td", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
+  -- { "<leader>tg", group = "[G]o Tests", icon = " " },
+  -- { "<leader>tgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
+  -- { "<leader>tgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
 
   -- -- Snacks Picker | Telescope replacement
   -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md
   {"<leader>s", group = "[S]earch", icon = " " },
-  {"<leader>ss",function()picker.files({regex=true,hidden=true,dirs={vim.fn.getcwd()},})end,desc = "[s]earch files"},
-  {"<leader>sr",function()picker.resume()end,desc = "[r]esume search" },
-  {"<leader>sl",function()picker.lines()end,icon="󱎸 ", desc = "[l]ines search" },
-  {"<leader>sb",function()picker.buffers()end,icon = "󱎸 ",desc = "[b]uffers"},
-  {"<leader>so",function()picker.recent()end,icon = " ",desc = "[o]pen recent"},
-  {"<leader>sw",function()picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
-  {"<leader>sW",function()picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
-  {"<leader>sk",function()picker.keymaps()end, icon = " ", desc = "[k]eymaps" },
-  {"<leader>sg",function()picker.git_log({layout = "vertical"})end, icon = " ", desc = "[g]it log" },
-  {"<leader>sG",function()picker.git_status()end, icon = " ", desc = "[G]it status" },
-  {"<leader>sm",function()picker.marks()end, icon=" ", desc = "[m]arks" },
-  {"<leader>sf",function()picker.qflist()end,icon="󱖫 ", desc = "[f]ix list" },
-  {"<leader>sp",function()picker.projects()end,icon=" ",desc = "[p]rojects" },
-  {"<leader>sc",function()picker.colorschemes()end,icon=" ",desc = "[c]olorschemes" },
-  {"<leader>sM",function()picker.man()end,icon="󱔗 ",desc = "[m]an pages" },
-  {"<leader>sR",function()picker.registers()end, icon=" ", desc = "[R]egisters" },
-  {"<leader>sj",function()picker.jumps()end,icon="󱔕", desc = "[j]umps" },
-  {"<leader>sc",function()picker.command_history()end,icon=" ", desc = "[h]istory" },
-  {"<leader>st",function()picker.todo_comments()end,icon=" ", desc = "[t]odos" },
-  {"<leader>sT",function ()picker.todo_comments({keywords=todo_keywords}) end, desc = "[T]odo comments" },
-  {"<leader>si",function ()picker.icons() end, desc = "icons emojis" },
+  {"<leader>ss",function()Snacks.picker.files({layout="ivy",regex=true,hidden=true,dirs={vim.fn.getcwd()},})end,desc = "[s]earch files"},
+  {"<leader>sr",function()Snacks.picker.resume({layout="ivy",})end,desc = "[r]esume search" },
+  {"<leader>sl",function()Snacks.picker.lines()end,icon="󱎸 ", desc = "[l]ines search" },
+  {"<leader>sb",function()Snacks.picker.buffers({layout="ivy",})end,icon = "󱎸 ",desc = "[b]uffers"},
+  {"<leader>so",function()Snacks.picker.recent({layout="ivy"})end,icon = " ",desc = "[o]pen recent"},
+  {"<leader>sw",function()Snacks.picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
+  {"<leader>sW",function()Snacks.picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
+  {"<leader>sk",function()Snacks.picker.keymaps()end, icon = " ", desc = "[k]eymaps" },
+  {"<leader>sg",function()Snacks.picker.git_log({layout = "vertical"})end, icon = " ", desc = "[g]it log" },
+  {"<leader>sG",function()Snacks.picker.git_status()end, icon = " ", desc = "[G]it status" },
+  {"<leader>sm",function()Snacks.picker.marks()end, icon=" ", desc = "[m]arks" },
+  {"<leader>sf",function()Snacks.picker.qflist()end,icon="󱖫 ", desc = "[f]ix list" },
+  {"<leader>sp",function()Snacks.picker.projects()end,icon=" ",desc = "[p]rojects" },
+  {"<leader>sc",function()Snacks.picker.colorschemes({layout="ivy"})end,icon=" ",desc = "[c]olorschemes" },
+  {"<leader>sM",function()Snacks.picker.man()end,icon="󱔗 ",desc = "[m]an pages" },
+  {"<leader>sR",function()Snacks.picker.registers({layout="ivy"})end, icon=" ", desc = "[R]egisters" },
+  {"<leader>sj",function()Snacks.picker.jumps()end,icon="󱔕", desc = "[j]umps" },
+  {"<leader>sc",function()Snacks.picker.command_history()end,icon=" ", desc = "[h]istory" },
+  {"<leader>st",function()Snacks.picker.todo_comments({layout="ivy"})end,icon=" ", desc = "[t]odos" },
+  {"<leader>sT",function()Snacks.picker.todo_comments({keywords=todo_keywords}) end, desc = "[T]odo comments" },
+  {"<leader>si",function()Snacks.picker.icons({layout="ivy"}) end, desc = "icons emojis" },
 
   -- NOTE: LSP & Diagnostic
   { "<leader>l", group = "[L]SP [D]iagnostic", icon = " " },
@@ -102,20 +105,20 @@ return {
   { "<leader>ln", ":lua vim.diagnostic.enable(true)<CR>", icon = " ", desc = "O[N]" },
   { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[I]ncoming calls" },
 
-  -- NOTE: Tools
-  { "<leader>t", group = "[T]ools", icon = " " },
-  { "<leader>tz", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
-  -- Tools:Lab
-  { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
-  { "<leader>tlr", ":Lab code run<CR>", icon = " ", desc = "[R]un Code" },
-  { "<leader>tls", ":Lab code stop<CR>", icon = " ", desc = "[S]top Code" },
-  { "<leader>tlp", ":Lab code panel<CR>", icon = "󱗄 ", desc = "[P]anel Show" },
-  { "<leader>tlc", ":Lab code config<CR>", icon = " ", desc = "[C]onfig Lab" },
-  -- Tools:LiveServer
-  { "<leader>ts", group = "[S]erver Live", icon = " " },
-  { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
-  { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
-  { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
+  -- -- NOTE: Tools
+  -- { "<leader>t", group = "[T]ools", icon = " " },
+  -- { "<leader>tz", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
+  -- -- Tools:Lab
+  -- { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
+  -- { "<leader>tlr", ":Lab code run<CR>", icon = " ", desc = "[R]un Code" },
+  -- { "<leader>tls", ":Lab code stop<CR>", icon = " ", desc = "[S]top Code" },
+  -- { "<leader>tlp", ":Lab code panel<CR>", icon = "󱗄 ", desc = "[P]anel Show" },
+  -- { "<leader>tlc", ":Lab code config<CR>", icon = " ", desc = "[C]onfig Lab" },
+  -- -- Tools:LiveServer
+  -- { "<leader>ts", group = "[S]erver Live", icon = " " },
+  -- { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
+  -- { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
+  -- { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
   -- Flash
   { "<leader>f", group = "[F]lash", icon = " " },

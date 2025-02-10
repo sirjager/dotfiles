@@ -31,6 +31,13 @@ M.servers = {
   "docker-compose-language-service",
 
   --
+  "yaml-language-server",
+
+  --
+  "sqlfmt",
+  "sqlls",
+
+  --
   "html-lsp",
   "css-lsp",
   "prettierd",

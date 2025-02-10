@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 warn_notice() {
-	echo -e "\033[1;33mNOTICE: $1\033[0m"
+  echo -e "\033[1;33mNOTICE: $1\033[0m"
 }
 
 echo

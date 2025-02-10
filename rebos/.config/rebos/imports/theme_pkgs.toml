@@ -1,10 +1,6 @@
 # Themeing 
 [managers.system]
 items = [
-  # fonts
-  "ttf-sourcecodepro-nerd",
-  "ttf-jetbrains-mono-nerd",
-  
   # icons
   "whitesur-icon-theme", # https://github.com/vinceliuice/WhiteSur-icon-theme
   "mcmojave-circle-icon-theme-git", # https://github.com/vinceliuice/McMojave-circle

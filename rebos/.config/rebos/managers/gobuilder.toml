@@ -1,0 +1,20 @@
+# ----------------------------------- #
+#    Package Manager Configuration    #
+# ----------------------------------- #
+
+# single quotes are required otherwise it was not working
+add = "~/.config/rebos/scripts/gobuilder add --sudo --overwrite --pkg '#:?'"
+remove = "~/.config/rebos/scripts/gobuilder remove --sudo --overwrite --pkg '#:?'"
+
+plural_name = "go package builder"
+
+hook_name = "gobuilder"
+
+
+# ------------------------------- #
+#    Additional configuration.    #
+# ------------------------------- #
+
+# gobuilder script does not support many pkgs
+[config]
+many_args = false

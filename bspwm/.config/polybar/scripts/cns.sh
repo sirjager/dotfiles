@@ -1,55 +1,40 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-function capslock() {
+# xset -q | grep "Scroll"
+# 00: Caps Lock:   off    01: Num Lock:    off    02: Scroll Lock: off
+# Caps: $4
+# Numlock $8
+# Scroll $12
 
-  caps=$(xset -q | grep Caps | awk '{ print $4 }')
-
-  if [ $caps == 'off' ]; then
-    echo "%{T1}%{T-}"
+is_key_locked() {
+  printcmd=""
+  case "$1" in
+    Caps) printcmd="{print \$4}" ;;
+    Num) printcmd="{print \$8}" ;;
+    Scroll) printcmd="{print \$12}" ;;
+    *) echo "Error: not a valid options: Caps|Num|Scroll" && exit 0 ;;
+  esac
+  value=$(xset -q | grep "$1" | awk "$printcmd")
+  if [ "$value" != "off" ]; then 
+    return 0
   else
-    echo "%{T1}בּ%{T-}"
+    return 1
   fi
-
 }
 
-function numlock {
+case "$1" in 
 
-  num=$(xset -q | grep Num | awk '{ print $8 }')
+ num-ison|numlock-isactive) is_key_locked Num;;
+ caps-ison|capslock-isactive) is_key_locked Caps;;
+ scroll-ison|scrolllock-isactive) is_key_locked Scroll;;
 
-  if [ $num == 'off' ]; then
-    echo "%{T1}%{T-}"
-  else
-    echo "%{T1}%{T-}"
-  fi
+ num-icon|numlock-icon) is_key_locked Num && echo "" || echo "";;
+ caps-icon|capslock-icon) is_key_locked Caps && echo "" || echo "" ;;
+ scroll-icon|scrolllock-icon) is_key_locked Scroll && echo ""|| echo "";;
 
-}
+ num-state|numlock-state) is_key_locked Num && echo "on" || echo "off";;
+ caps-state|capslock-state) is_key_locked Caps && echo "on" || echo "off" ;;
+ scroll-state|scrolllock-state) is_key_locked Scroll && echo "on"|| echo "off";;
 
-function scroll() {
-
-  scroll=$(xset -q | grep Scroll | awk '{ print $12 }')
-
-  if [ $scroll == 'off' ]; then
-    echo "%{T1}%{T-}"
-  else
-    echo "%{T1}%{T-}"
-fi
-
-}
-
-main () {
-
-  if [ "$1" == "-c"  ]; then
-    capslock
-  fi
-
-  if [ "$1" == "-n"  ]; then
-    numlock
-  fi
-
-  if [ "$1" == "-s"  ]; then
-    scroll
-  fi
-
-}
-
-main $1
+ *) echo "'$1' is not valid command" ;;
+esac

@@ -1,0 +1,267 @@
+#!/usr/bin/env bash
+
+# NAME: GoBuilder
+## Author : Ankur Kumar (SirJager)
+## Github : @SirJager
+# DESCRIPTION: A simple script to build and install go applications
+# Purpose: I made this script to use with rebos, it keep tracks of binaries and 
+# installs and removes using this script
+# Checkout Rebos: https://gitlab.com/Oglo12/rebos/-/wikis/home
+# Chekkout show_help function
+
+ACTION=""
+VERBOSE="true"
+TEMP_DIR="/tmp/gobuilder"
+
+PACKAGE=""
+SPLIT_BY=";"
+
+USE_SUDO=""
+OVERWRITE=""
+
+GITHUB_REPO=""
+BUILD_NAME=""
+PATH_TO_MAIN=""
+OUTPUT_PATH=""
+CLONE_ARGS=""
+
+log() {
+  echo "$1"
+}
+
+bluelog() {
+  [ "$VERBOSE" != "true" ] && return
+  echo -e "\033[34m$1\033[0m"
+}
+
+redlog() {
+  [ "$VERBOSE" != "true" ] && return
+  echo -e "\033[31m$1\033[0m"
+}
+
+greenlog() {
+  [ "$VERBOSE" != "true" ] && return
+  echo -e "\033[32m$1\033[0m"
+}
+
+orangelog() {
+  [ "$VERBOSE" != "true" ] && return
+  echo -e "\033[33m$1\033[0m"
+}
+
+create_temp_dir() {
+  if [ ! -d "$TEMP_DIR" ]; then
+    if [ "$USE_SUDO" = "true" ]; then
+      sudo mkdir -p "$TEMP_DIR" && sudo chown "$USER:$USER" "$TEMP_DIR"
+
+    else
+      mkdir -p "$TEMP_DIR"
+    fi
+  fi
+}
+
+clean_up_temp_dir() {
+  if [ -d "$TEMP_DIR" ]; then
+    if [ "$USE_SUDO" = "true" ]; then
+      sudo rm -rf "$TEMP_DIR"
+    else
+      rm -rf "$TEMP_DIR"
+    fi
+  fi
+}
+
+validate_variables() {
+  if [[ -z "$GITHUB_REPO" ]]; then
+    redlog "Error: GITHUB_REPO is empty."
+    exit 1
+  elif [[ -z "$BUILD_NAME" ]]; then
+    redlog "Error: BUILD_NAME is empty."
+    exit 1
+  elif [[ -z "$PATH_TO_MAIN" ]]; then
+    redlog "Error: PATH_TO_MAIN is empty."
+    exit 1
+  elif [[ -z "$OUTPUT_PATH" ]]; then
+    redlog "Error: OUTPUT_PATH is empty."
+    exit 1
+  fi
+}
+
+delete_file() {
+  if [ "$USE_SUDO" = "true" ]; then
+    sudo rm -f "$1"
+  else
+    rm -f "$1"
+  fi
+}
+
+copy_file() {
+  if [ "$USE_SUDO" = "true" ]; then
+    sudo cp -f "$1" "$2"
+    sudo chmod u+s "$2"
+  else
+    cp -f "$1" "$2"
+  fi
+}
+
+show_help() {
+  echo "Usage: $0 [OPTIONS]"
+  echo
+  echo "Options:"
+  echo "  --pkg, --url, --link      Specify the package in the format:"
+  echo "                            <GITHUB_REPO>;name=<BUILD_NAME>;main=<PATH_TO_MAIN>;out=<OUTPUT_PATH>;clone=<CLONE_ARGS>;sudo=true"
+  echo "                            https://github.com/peltho/tufw;name=tufw;main=cmd/tufw/main.go;out=/usr/loca/bin;sudo=true;overwrite=true"
+  echo "  add, install, build       Perform add/install/build action"
+  echo "  rm, remove, uninstall     Perform remove/uninstall action"
+  echo "  --overwrite               Removes previous file if exists and copies the new one"
+  echo "  --sudo, --use-sudo        Only need sudo when out=<OUTPUT_PATH> is in system dir like /usr/local/bin (sudo cp and sudo rm -f)"
+  echo "  --verbose, log, logs      Enable verbose logging"
+  echo "  --temp-dir <dir>          Specify a custom temporary directory (default: /tmp/gobuilder)"
+  echo
+  echo "Examples:"
+  echo "  $0 --verbose add --pkg github.com/example/repo;name=myapp;main=main.go;out=/usr/local/bin;clone=--depth=1"
+  echo "  $0 --verbose remove --pkg github.com/example/repo;name=myapp;main=cmd/main.go;out=~/.local/bin"
+  echo
+  echo "Actions:"
+  echo "  add       Build and install the application"
+  echo "  remove    Remove the previously installed application"
+  echo
+  echo "Note: If no action is provided, the script will exit with a help message."
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  url | link | pkg | --url | --link | --pkg)
+    PACKAGE="$2"
+    shift 2
+    ;;
+  add | install | build | --add | --instll | --build)
+    ACTION="add"
+    shift
+    ;;
+  rm | --rm | remove | uninstall | --remove | --uninstall)
+    ACTION="remove"
+    shift
+    ;;
+  log | logs | verbose | --log | --logs | --verbose)
+    VERBOSE="true"
+    shift
+    ;;
+  --sudo | --use-sudo | sudo | usesudo | --usesudo)
+    USE_SUDO="true"
+    shift
+    ;;
+  --overwrite)
+    OVERWRITE="true"
+    shift
+    ;;
+  temp-dir | tmp-dir | --temp-dir | --tmp-dir | tmpdir | tempdir)
+    TEMP_DIR="$2"
+    shift 2
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
+
+if [ -z "$PACKAGE" ]; then
+  redlog "Error: Invalid or empty package: '$PACKAGE'"
+  exit 1
+fi
+
+IFS="$SPLIT_BY" read -ra ITEMS <<<"$PACKAGE"
+for i in "${!ITEMS[@]}"; do
+  if ((i == 0)); then
+    GITHUB_REPO="${ITEMS[i]}"
+  else
+    case "${ITEMS[i]}" in
+    name=*) BUILD_NAME="${ITEMS[i]#name=}" ;;
+    main=*) PATH_TO_MAIN="${ITEMS[i]#main=}" ;;
+    out=*) OUTPUT_PATH="${ITEMS[i]#out=}" ;;
+    clone=*) CLONE_ARGS="${ITEMS[i]#clone=}" ;;
+    sudo=*) USE_SUDO="${ITEMS[i]#sudo=}" ;;
+    overwrite=*) OVERWRITE="${ITEMS[i]#overwrite=}" ;;
+    *) ;;
+    esac
+  fi
+done
+
+build_app() {
+  # this ensures that the temp dir is cleaned up
+  # on exit or even if any error occurs
+  trap clean_up_temp_dir EXIT
+  set -e # exit if any errors
+
+  clean_up_temp_dir # clean up any previous temp dir
+  create_temp_dir   # create new temp dir
+
+  bluelog "Switching to $TEMP_DIR for building"
+  log "cd  $TEMP_DIR"
+  cd "$TEMP_DIR"
+
+  bluelog "Cloning $GITHUB_REPO"
+  log "git clone $CLONE_ARGS $GITHUB_REPO $TEMP_DIR"
+  if [ -z "$CLONE_ARGS" ]; then
+    git clone "$GITHUB_REPO" "$TEMP_DIR"
+  else
+    git clone "$CLONE_ARGS" "$GITHUB_REPO" "$TEMP_DIR"
+  fi
+
+  bluelog "Running go build"
+  log "go build -o $BUILD_NAME $PATH_TO_MAIN"
+  go build -o "$BUILD_NAME" "$PATH_TO_MAIN"
+
+  FILEPATH="$OUTPUT_PATH/$BUILD_NAME"
+
+  bluelog "Checking if $BUILD_NAME alredy exists in $OUTPUT_PATH"
+  if [ -f "$FILEPATH" ]; then
+    orangelog "$BUILD_NAME alredy exists in $OUTPUT_PATH"
+    if [ "$OVERWRITE" = "true" ]; then
+      bluelog "Removing existing file: $FILEPATH"
+      delete_file "$FILEPATH"
+      log "Existing file removed."
+    else
+      redlog "Exiting without removing the file."
+      exit 1
+    fi
+  fi
+
+  bluelog "Copying $BUILD_NAME to $OUTPUT_PATH"
+  OUTPUT_PATH=$(eval echo "$OUTPUT_PATH")
+  copy_file "$BUILD_NAME" "$OUTPUT_PATH"
+  greenlog "Successfully installed $BUILD_NAME"
+  greenlog "$BUILD_NAME:  $OUTPUT_PATH/$BUILD_NAME"
+}
+
+remove_app() {
+  OUTPUT_PATH=$(eval echo "$OUTPUT_PATH")
+  FILEPATH="$OUTPUT_PATH/$BUILD_NAME"
+  if [ -f "$FILEPATH" ]; then
+    bluelog "Removing file: $FILEPATH"
+    delete_file "$FILEPATH"
+    greenlog "Successfully removed $FILEPATH"
+  else
+    greenlog "Nothing to remove. $FILEPATH does not exist."
+  fi
+}
+
+clean_up_temp_dir
+validate_variables
+
+echo "PACKAGE: $PACKAGE"
+echo "GITHUB_REPO: $GITHUB_REPO"
+echo "BUILD_NAME: $BUILD_NAME"
+echo "PATH_TO_MAIN: $PATH_TO_MAIN"
+echo "OUTPUT_PATH: $OUTPUT_PATH"
+echo "CLONE_ARGS: $CLONE_ARGS"
+echo "USE_SUDO: $USE_SUDO"
+echo "OVERWRITE: $OVERWRITE"
+echo "TEMP_DIR: $TEMP_DIR"
+
+case "$ACTION" in
+add) build_app ;;
+remove) remove_app ;;
+*) show_help && exit 0 ;;
+esac
+
+clean_up_temp_dir

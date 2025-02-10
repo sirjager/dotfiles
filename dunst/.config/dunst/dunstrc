@@ -1,14 +1,14 @@
 [global]
-frame_color = "#b1d3a0"
-separator_color = "#1E644D"
+frame_color = "#cdd2da"
+separator_color = "#65708B"
  
 [urgency_low]
 background = "#282828" 
-foreground = "#b1d3a0" 
+foreground = "#cdd2da" 
  
 [urgency_normal]
 background = "#282828" 
-foreground = "#b1d3a0" 
+foreground = "#cdd2da" 
  
 [urgency_critical]
 background = "#282828" 

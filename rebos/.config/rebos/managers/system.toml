@@ -4,12 +4,9 @@
 
 add = "paru --fm nvim --needed -S #:?"
 remove = "paru -Rns #:?"
-sync = "paru -Syy"
-upgrade = "paru -Syu"
 
 plural_name = "system packages"
 
-# This is used in hooks. (Example: post_system_packages_add)
 hook_name = "system_packages"
 
 # ------------------------------- #

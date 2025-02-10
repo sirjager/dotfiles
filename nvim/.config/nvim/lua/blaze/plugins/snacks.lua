@@ -8,7 +8,7 @@ local M = {
 M.opts = {
   bigfile = { enabled = true },
   dashboard = { enabled = true },
-  indent = { enabled = false },
+  indent = { enabled = true },
   input = { enabled = true },
   notifier = { enabled = true, timeout = 3000 },
   quickfile = { enabled = true },
@@ -20,6 +20,15 @@ M.opts = {
   zen = { enabled = true },
 }
 
+M.opts.toggle = {
+  enabled = true,
+  map = vim.keymap.set,
+  notify = true,
+  which_key = true,
+  icon = { enabled = " ", disabled = " " },
+  color = { enabled = "green", disabled = "yellow" },
+}
+
 M.opts.picker = {
   enabled = true,
   debug = {
@@ -28,6 +37,45 @@ M.opts.picker = {
   matcher = {
     frecency = true,
   },
+
+  layout = { preset = "ivy", cycle = false },
+  layouts = {
+    vertical = {
+      layout = {
+        backdrop = false,
+        width = 0.8,
+        min_width = 80,
+        height = 0.8,
+        min_height = 30,
+        box = "vertical",
+        border = "rounded",
+        title = "{title} {live} {flags}",
+        title_pos = "center",
+        { win = "input", height = 1, border = "bottom" },
+        { win = "list", border = "none" },
+        { win = "preview", title = "{preview}", height = 0.4, border = "top" },
+      },
+    },
+    ivy = {
+      layout = {
+        box = "vertical",
+        backdrop = false,
+        row = -1,
+        width = 0,
+        height = 0.5,
+        border = "top",
+        title = " {title} {live} {flags}",
+        title_pos = "left",
+        { win = "input", height = 1, border = "bottom" },
+        {
+          box = "horizontal",
+          { win = "list", border = "none" },
+          { win = "preview", title = "{preview}", width = 0.5, border = "left" },
+        },
+      },
+    },
+  },
+
   win = {
     input = {
       keys = {
@@ -43,6 +91,9 @@ M.opts.picker = {
 
 M.opts.dashboard = {
   enabled = true,
+  preset = {
+    header = require("blaze.banners").jagervim,
+  },
 }
 
 return M

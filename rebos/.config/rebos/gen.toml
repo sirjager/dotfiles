@@ -11,7 +11,9 @@ imports = [
     "gpu_pkgs",  # amd graphics drivers, mesa, etc
     "bspwm_pkgs", # bspwm, sxhkd, polybar, rofi, etc
     "login_man", # login managers like sddm, gdm, lightdm etc
-    "theme_pkgs", # fonts, themes, icons, cursors, etc
+    "theme_pkgs", # themes, icons, cursors, etc
+    "go_pkgs", # downloading go projects from git and building them
+    "fonts_dl", # fonts downloader from arch repo, google fonts
 ]
 
 # user specific packages
@@ -25,6 +27,7 @@ items = [
   "trash-cli",
   "docker",
   "docker-compose",
+  "carapace-bin",
 ]
 
 # Services

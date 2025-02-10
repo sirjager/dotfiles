@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+
+# [ Custom Aliases  ]================================
+alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
+alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
+
+# SSH
+alias ssh-newkey="ssh-keygen -t ed25519 -C" # Create New SSH key
+alias ssh-eval='eval "$(ssh-agent -s)"'     # Evaluate SSH Agent
+alias ssh-test='ssh -T git@github.com'      # Test SSH
+
+# Docker
+alias docker-clean-buildx="docker buildx prune --all"   # Clean Docker Buildx
+alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
+alias docker-clean-image="docker image prune --all"     # Clean Unused Docker Images
+
+# System Info: Battery
+alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
+
+# General Aliases ================================================
+alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
+alias cp="cp -i"                              # confirm before overwriting something
+
+# LS ============================================
+alias l="eza --long --icons --git"
+alias la="eza --icons --git --long --all"
+alias ls="eza --icons --git"
+alias lt="eza --tree --level=2 --long --icons --git"
+
+# Git Commands ===================================================
+alias fetch="git fetch"          # Git Fetch
+alias addup="git add -u"         # Git add updated
+alias addall="git add ."         # Git add all
+alias branch="git branch"        # Git Branch
+alias checkout="git checkout"    # Git checkout
+alias pull="git pull origin"     # Git pull origin
+alias rebase="git pull --rebase" # Git pull rebase
+alias newtag="git tag -a"        # Git new tag
+alias tags="git tag"             # Git tags
+
+# Youtube DL =====================================================
+alias yta-acc="youtube-dl --extract-audio --audio-format mp3"
+alias yta-best="youtube-dl --extract-audio --audio-format best"
+alias yta-flac="youtube-dl --extract-audio --audio-format flac"
+alias yta-m4a="youtube-dl --"
+
+# Directory Navigation ============================================
+alias ..='cd ..'             # cd up 1 directory
+alias ...='cd ../..'         # cd up 2 directory
+alias .3='cd ../../..'       # cd up 3 directory
+alias .4='cd ../../../..'    # cd up 4 directory
+alias .5='cd ../../../../..' # cd up 5 directory
+cdd() {                      # cdd - Change to a directory and then move to its parent.
+	if [ -f "$1" ]; then        # Example: cdd /mnt/storage/programs -> cd to /mnt/storage
+		cd "$(dirname "$1")" || return
+	else
+		cd "$1" && cd ..
+	fi
+}
+up() { # up <n> : to go n up
+	local d=""
+	local limit="$1"
+	if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
+		limit=1
+	fi
+	for ((i = 1; i <= limit; i++)); do
+		d="../$d"
+	done
+	if ! cd "$d"; then
+		echo "Couldn't go up $limit dirs."
+	fi
+}
+
+# Paru | Yay | Pacman | Package Manager
+alias .i="paru --fm nvim --needed -S" # Install package if needed and skip confirmation
+alias .r="paru -Rns"                  # Remove packages without removing configurations
+alias .u="paru -Syu"                  # Update packages and repositories databases
+alias .s="paru -Syy"                  # Sync packages and repositories
+alias .c='paru -Rns $(pacman -Qtdq)'  # Remove Orphaned packages and dependencies
+
+# Coloring Grep Outputs
+alias grep='grep --color=auto'
+
+# get fastest mirrors
+alias mirror="sudo reflector -f 30 --sort rate -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist" # Rank pacman mirrors list
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"         # sort by delay
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"         # sort by score
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"           # sor by age
+
+alias pkg-add-widevine="paru --needed -S chromium-widevine && sudo chmod a+x /usr/lib/chromium/WidevineCdm/_platform_specific/linux_x64/libwidevinecdm.so"
+
+# Application-Specific Aliases =====================================
+alias pn='pnpm'
+alias np='npm run'
+alias n="nvim"
+alias nv="nvim"
+alias snv="sudo -E -s nvim"
+alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
+alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"
+alias audio-relay="pactl load-module module-null-sink sink_name=audiorelay-speakers sink_properties=device.description=AudioRelay-Speakers"
+alias active-graphic-card="glxinfo | grep \"OpenGL renderer\" "
+alias fix-cannot-open-display="xhost +localhost; xhost +si:localuser:root"
+
+alias clear-shell-history='echo "" > "$HISTFILE"'
+
+alias rebos-list="rebos gen list | tac | fzf >/dev/null 2>&1" # list generations, easier to search
+alias rebos-align="rebos gen align"                           # align generation numbers
+alias rebos-commit="rebos gen commit"                         # commit rebos generation
+alias rebos-check="rebos config check"                        # check rebos configs
+alias rebos-build="rebos gen current build"                   # build rebos current generation
+rebos-delete() {
+	selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
+	[ -z "$selected" ] && return
+	selected_num="$(echo "$selected" | awk '{print $1}')"
+	gum confirm \
+		--default=true \
+		--affirmative="yeah, delete it" \
+		--negative="nah! never mind" \
+		"Delete: $selected ?" &&
+		rebos gen delete "$selected_num" ||
+		return 0
+}
+
+alias font-cache='fc-cache -f >/dev/null 2>&1'                                     # Font Cache Refresh
+alias font-list="fc-list | awk '{print \$F}' | sed 's/://g' | fzf >/dev/null 2>&1" # Search Font
+font-preview() {                                                                   # Preview Fonts
+	selected=$(fc-list | awk '{print $1}' | sed 's/://g' | rofi -dmenu -theme ~/.config/sxhkd/rofi/vertical.rasi -p "Preview Font")
+	[ -z "$selected" ] && return 0
+	floatwin display "$selected"
+}
+
+# ex: Extracts various compressed archive formats.
+# Example: ex archive.tar.gz → Extracts using `tar xzf`
+ex() {
+	if [ -f "$1" ]; then
+		case $1 in
+		*.tar.bz2) tar xjf "$1" ;;
+		*.tar.gz) tar xzf "$1" ;;
+		*.bz2) bunzip2 "$1" ;;
+		*.rar) unrar x "$1" ;;
+		*.gz) gunzip "$1" ;;
+		*.tar) tar xf "$1" ;;
+		*.tbz2) tar xjf "$1" ;;
+		*.tgz) tar xzf "$1" ;;
+		*.zip) unzip "$1" ;;
+		*.Z) uncompress "$1" ;;
+		*.7z) 7z x "$1" ;;
+		*.deb) ar x "$1" ;;
+		*.tar.xz) tar xf "$1" ;;
+		*.tar.zst) unzstd "$1" ;;
+		*) echo "'$1' can not be extracted via ex()" ;;
+		esac
+	else
+		echo "'$1' is not a valid file"
+	fi
+}
+
+# ledger function: A wrapper around the `ledger` command to manage ledger files efficiently.
+#
+# Usage:
+#   ledger [options]
+#   ledger -f <file> [options]  # Use a specific ledger file
+#   ledger -e                   # Edit the current year's ledger
+#
+# Behavior:
+# - If `-f <file>` is provided, it uses that file.
+# - If `-f` is not provided, it defaults to `$myledger` (must be set in ~/.zshenv).
+# - If `-e` is provided, it opens the current year's ledger file (`YYYY.ledger`) in `$EDITOR`.
+#
+# Error Handling:
+# - Exits if `$myledger` is not set and `-f` is not provided.
+# - Ensures `$EDITOR` has access to related files by changing to the ledger's directory before opening.
+ledger() {
+	# check $myledger variable, throw error if does not exists
+	local ledgerfile
+
+	# Extract ledger file from `-f` flag
+	for ((i = 0; i < ${#args[@]}; i++)); do
+		if [[ ${args[i]} == "-f" && -n ${args[i + 1]} ]]; then
+			ledgerfile="${args[i + 1]}"
+			break
+		fi
+	done
+
+	if [ ! -f "$ledgerfile" ]; then
+		: "${myledger:?Error: myledger is not set. Please define it in the environment or use ~/.zshenv}"
+		ledgerfile="$myledger"
+	fi
+
+	[ -z "$ledgerfile" ] && echo "Error: No ledger file provided" && exit 1
+
+	if [[ " ${*} " =~ " -e " ]]; then
+		curr_working_dir="$(pwd)" # to get back in current working directory
+		ledgerdir="$(dirname "$ledgerfile")"
+		current_year_ledger="$ledgerdir/$(date +%Y).ledger"
+		cd "$ledgerdir" || return # it will help $EDITOR to see other files in file manager
+		"${EDITOR:-nvim}" "$current_year_ledger"
+		cd "$curr_working_dir" || return # back to previous working directory
+	else
+		command ledger -f "$ledgerfile" "$@"
+	fi
+}

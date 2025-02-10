@@ -20,7 +20,7 @@ M.opts = {
     mark_goto = "M",
     mark_set = "m",
     reset = "R",
-    reveal_cwd = "@",
+    reveal_cwd = ".",
     show_help = "g?",
     synchronize = "s",
     trim_left = "<",
@@ -28,7 +28,13 @@ M.opts = {
   },
 
   options = {
+    -- - Delete file or directory by deleting **whole line** describing it.
+    -- - If `options.permanent_delete` is `true`, delete is permanent. Otherwise
+    -- file system entry is moved to a module-specific trash directory
+    -- (see |MiniFiles.config| for more details).
+    -- ~/.local/share/nvim/mini.files/trash
     permanent_delete = false,
+
     use_as_default_explorer = true,
   },
 
@@ -40,23 +46,6 @@ M.opts = {
     width_preview = 25,
   },
 }
-
-local show_dotfiles = true
-
-local filter_show = function(fs_entry)
-  return true
-end
-
-local filter_hide = function(fs_entry)
-  return not vim.startswith(fs_entry.name, ".")
-end
-
-M.toggle_dotfiles = function()
-  local MiniFiles = require "mini.files"
-  show_dotfiles = not show_dotfiles
-  local new_filter = show_dotfiles and filter_show or filter_hide
-  MiniFiles.refresh { content = { filter = new_filter } }
-end
 
 M.config = function(_, opts)
   require("mini.files").setup(opts)

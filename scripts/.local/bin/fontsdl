@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+
+TEMP_DIR="/tmp/fontsdl"
+FONT_LINK="https://fonts.googleapis.com/css2?family=B612:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+
+SOURCE="google"
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	url | link | font | -url | -link | -font)
+		FONT_LINK="$2"
+		shift 2
+		;;
+	google)
+		SOURCE="google"
+		shift
+		;;
+	add | install | build | --add | --instll | --build)
+		ACTION="add"
+		shift
+		;;
+	rm | --rm | remove | uninstall | --remove | --uninstall)
+		ACTION="remove"
+		shift
+		;;
+	log | logs | verbose | --log | --logs | --verbose)
+		VERBOSE="true"
+		shift
+		;;
+	--sudo | --use-sudo | sudo | usesudo | --usesudo)
+		USE_SUDO="true"
+		shift
+		;;
+	--overwrite)
+		OVERWRITE="true"
+		shift
+		;;
+	temp-dir | tmp-dir | --temp-dir | --tmp-dir | tmpdir | tempdir)
+		TEMP_DIR="$2"
+		shift 2
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+redlog() {
+	[ "$VERBOSE" != "true" ] && return
+	echo -e "\033[31m$1\033[0m"
+}
+
+show_help() {
+	echo
+}
+
+delete_file() {
+	if [ "$USE_SUDO" = "true" ]; then
+		sudo rm -f "$1"
+	else
+		rm -f "$1"
+	fi
+}
+
+create_temp_dir() {
+	if [ ! -d "$TEMP_DIR" ]; then
+		if [ "$USE_SUDO" = "true" ]; then
+			sudo mkdir -p "$TEMP_DIR" && sudo chown "$USER:$USER" "$TEMP_DIR"
+		else
+			mkdir -p "$TEMP_DIR"
+		fi
+	fi
+	TEMP_DIR=$(eval echo "$TEMP_DIR")
+}
+
+clean_up_temp_dir() {
+	if [ -d "$TEMP_DIR" ]; then
+		if [ "$USE_SUDO" = "true" ]; then
+			sudo rm -rf "$TEMP_DIR"
+		else
+			rm -rf "$TEMP_DIR"
+		fi
+	fi
+}
+
+validate_variables() {
+	if [[ -z "$FONT_LINK" ]]; then
+		redlog "Error: Missing font link."
+		exit 1
+	elif [[ -z "$SOURCE" ]]; then
+		redlog "Error: Source is not set"
+		exit 1
+	fi
+}
+
+save_font() {
+	if [ -z "$1" ]; then
+		logred "Error: missing font file path."
+		exit 1
+	fi
+
+	set -e
+
+	FONT_EXT="${1##*.}"
+	FONT_FULLNAME="$(fc-scan "$1" | grep 'fullname:' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/ /_/g')"
+	FONT_FAMILY="$(fc-scan "$1" | grep 'family:' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/ /_/g')"
+	FONT_WEIGHT="$(fc-scan "$1" | grep 'weight:' | sed -E 's/.*weight: ([0-9]+).*/\1/' | sed 's/ /_/g')"
+	STYLE_LANG="$(fc-scan "$1" | grep 'stylelang:' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's/ /_/g')"
+
+	echo "$FONT_WEIGHT"
+
+	FINAL_FONTS_DIR="$TEMP_DIR/FONTS/$FONT_FAMILY"
+	[ ! -d "$FINAL_FONTS_DIR" ] && mkdir -p "$FINAL_FONTS_DIR"
+	FINAL_FONT_FILE_NAME="${FONT_FULLNAME}_${FONT_WEIGHT}_${STYLE_LANG}.$FONT_EXT"
+	cp "$1" "$FINAL_FONTS_DIR/$FINAL_FONT_FILE_NAME"
+	echo "$FINAL_FONT_FILE_NAME"
+}
+
+google_fonts() {
+	# trap clean_up_temp_dir EXIT # clean up on exit
+	set -e # exit if any errors
+
+	clean_up_temp_dir # clean up any previous temp dir
+	create_temp_dir   # create new temp dir
+	cd "$TEMP_DIR"    # change to temp dir
+
+	LINKS_FILE="$TEMP_DIR/$SOURCE" # temp file to keep all links
+
+	FAMILY_NAME="$(echo "$FONT_LINK" | grep -oP '(?<=family=)[^:&]+' | sed 's/+/_/g')"
+
+	# Download all font files
+	FONT_DIR="$TEMP_DIR/$FAMILY_NAME"
+	[ ! -d "$FONT_DIR" ] && mkdir -p "$FONT_DIR"
+	FONT_DIR=$(eval echo "$TEMP_DIR/$FAMILY_NAME")
+
+	curl -s "$FONT_LINK" | grep -oP 'url\(\K[^)]+(?=\))' >"$LINKS_FILE"
+	while IFS= read -r LINK; do
+		wget "$LINK"
+	done <"$LINKS_FILE"
+	delete_file "$LINKS_FILE"
+
+	# loop over all files in current dir
+	for file in *; do
+		save_font "$file"
+	done
+}
+
+# FONT_FILE="$(command ls --all --full-time | grep .ttf | awk '{print $NF}' | head -1)"
+remove_font() {
+	echo
+}
+
+validate_variables
+
+case "$ACTION" in
+add)
+	case "$SOURCE" in
+	google) google_fonts ;;
+	*) redlog "Source '$SOURCE' not implemented" && exit 1 ;;
+	esac
+	;;
+remove) remove_font ;;
+*) show_help && exit 0 ;;
+esac

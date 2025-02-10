@@ -9,7 +9,7 @@ export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
 export mydownloads="$mystorage/downloads"
 export myrecentedits="$HOME/.local/state/recentedits.log"
-export myledger="$mystorage/personal/idealogs/finance/finance.ledger"
+export myledger="$mystorage/personal/ledgers/main.ledger"
 
 # XDG Directories
 export XDG_CACHE_HOME="$HOME/.cache"

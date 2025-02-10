@@ -3,6 +3,8 @@
 begin = [
   "init_pkgs",
   "system",
+  "gobuilder",
+  "fontsdl",
 ]
 
 end = [
