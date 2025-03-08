@@ -4,7 +4,7 @@ msgId="98989"
 arg=$1
 
 if ! command -v pamixer &>/dev/null; then
-	dunstify -u critical -a "Volume" -r "$msgId" "Pamixer not found" "sudo pacman --needed -S pamixer"
+	notify-send -u critical -a "Volume" -r "$msgId" "Pamixer not found" "sudo pacman --needed -S pamixer"
 	exit 1
 fi
 
@@ -26,7 +26,7 @@ get_icon() {
 }
 
 send_notification() {
-	dunstify -i $(get_icon $(get_vol)) -a "Volume" -r "$msgId" -h int:value:"$(get_vol)" "$(get_vol)"
+	notify-send -i $(get_icon $(get_vol)) -a "Volume" -r "$msgId" -h int:value:"$(get_vol)" "$(get_vol)"
 }
 
 case $arg in

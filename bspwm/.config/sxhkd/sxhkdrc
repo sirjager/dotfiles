@@ -145,8 +145,8 @@ alt + @space
   rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi &
 
 # Browsers: Chromium | Quick App Launch
-super + b; {b, f}
-  { chromium, firefox } &
+super + b; {b, w, c, f}
+  { zen-browser, zen-browser -P 5321ankur, chromium, firefox } &
 
 # File Explorer, File Manager, Nautilus
 super + e

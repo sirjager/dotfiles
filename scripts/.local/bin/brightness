@@ -5,7 +5,7 @@ arg=$1
 
 
 if ! command -v light &>/dev/null; then
-	dunstify -u critical -a "Brightness" -r "$msgId" "Light not found" "sudo pacman --needed -S light"
+	notify-send -u critical -a "Brightness" -r "$msgId" "Light not found" "sudo pacman --needed -S light"
 	exit 1
 fi
 
@@ -24,7 +24,7 @@ get_icon() {
 }
 
 send_notification() {
-  dunstify -i "$1" -a "Brightness" -r "$msgId" -h int:value:"$(get_brightness)" "$(get_brightness)"
+  notify-send -i "$1" -a "Brightness" -r "$msgId" -h int:value:"$(get_brightness)" "$(get_brightness)"
 }
 
 case $arg in

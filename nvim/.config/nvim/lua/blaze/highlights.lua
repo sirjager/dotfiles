@@ -84,6 +84,4 @@ M.BlinkCmpDocBorder = { fg = info, bg = none }
 M.BlinkCmpSignatureHelpBorder = { fg = secondary, bg = none }
 M.BlinkCmpItemIdx = { fg = lineNr, bg = none } -- completion index number
 
-
-
 return M

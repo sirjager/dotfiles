@@ -38,6 +38,7 @@ M.servers = {
   "sqlls",
 
   --
+  "emmet-ls",
   "html-lsp",
   "css-lsp",
   "prettierd",
@@ -53,6 +54,7 @@ M.servers = {
   -- "black",
 
   -- astro
+  "astro-language-server", -- working fine | needs manual installed
   -- "astro-language-server@2.10.0" -- working fine | needs manual installed
 }
 
