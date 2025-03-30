@@ -63,7 +63,7 @@ eval "$(fzf --zsh)"
 eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 eval "$(cobra-cli completion zsh)"
-eval "$(replicgo completion zsh)"
+# eval "$(replicgo completion zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(fnm completions --shell zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
@@ -71,3 +71,19 @@ export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 # [ Custom Aliases ] =============================================
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliases" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/aliases"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/mnt/storage/programs/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/mnt/storage/programs/miniconda/etc/profile.d/conda.sh" ]; then
+        . "/mnt/storage/programs/miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/mnt/storage/programs/miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

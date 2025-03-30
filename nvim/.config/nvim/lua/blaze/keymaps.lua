@@ -1,7 +1,7 @@
 local keymaps = {
   n = {
     ["<Esc>"] = { "<ESC>:noh<CR>", "clear highlights" },
-    ["q"] = { "<ESC><ESC>:noh<CR>", "clear highlights" }, -- disabling macro recording
+    -- ["q"] = { "<ESC><ESC>:noh<CR>", "clear highlights" }, -- disabling macro recording
     ["w"] = { "<ESC>ve", "select word to right" },
     ["b"] = { "<ESC>vb", "select word to left" },
     ["f"] = { ":lua require('flash').jump()<CR>", "flash jump" },
@@ -95,7 +95,7 @@ local keymaps = {
   -- visual mode
   v = {
     ["p"] = { '"_dp', "paste last copied" }, -- keep last copied in clipboard
-    ["q"] = { "<ESC><ESC> :noh <CR>", "escape visual mode" },
+    -- ["q"] = { "<ESC><ESC> :noh <CR>", "escape visual mode" },
     ["w"] = { "e", "select word to right" },
 
     -- move selection left, right, top, bottom

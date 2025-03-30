@@ -4,6 +4,15 @@ local M = {
   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
 }
 
+-- fixes imports
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.go",
+  callback = function()
+    vim.cmd "silent! !goimports -w %"
+    vim.cmd "edit" -- Reload the file to reflect changes
+  end,
+})
+
 M.opts = function()
   -- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
   return {

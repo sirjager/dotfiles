@@ -3,6 +3,8 @@ local M = {
   event = "BufReadPost",
 }
 
+local last_macro = ""
+
 function M.config()
   local windline = require "windline"
   local helper = require "windline.helpers"
@@ -39,6 +41,29 @@ function M.config()
       return { { "  ", state.mode[2] } }
     end,
   }
+
+  basic.macros = {
+    name = "macros",
+    hl_colors = {
+      red = { "red", "black" },
+      yellow = { "yellow", "black" },
+    },
+    text = function()
+      local rec = vim.fn.reg_recording()
+      if rec ~= "" then
+        last_macro = rec -- Store last recorded macro
+        return { { "   RECORDING MACRO @" .. rec .. " ", "red" } }
+      elseif last_macro ~= "" then
+        -- Show last macro executed for 5 seconds
+        vim.defer_fn(function()
+          last_macro = ""
+        end, 10000) -- seconds in ms
+        return { { "   RECORDED Macro: @" .. last_macro .. " ", "yellow" } }
+      end
+      return { { "", "" } }
+    end,
+  }
+
   basic.square_mode = {
     hl_colors = colors_mode,
     text = function()
@@ -190,6 +215,7 @@ function M.config()
       basic.file,
       basic.lsp_diagnos,
       basic.divider,
+      basic.macros,
       basic.file_right,
       basic.lsp_name,
       basic.git,

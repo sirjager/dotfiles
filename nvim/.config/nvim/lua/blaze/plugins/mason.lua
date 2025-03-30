@@ -42,6 +42,7 @@ M.servers = {
   "html-lsp",
   "css-lsp",
   "prettierd",
+  "cssmodules-language-server",
   "typescript-language-server",
   "tailwindcss-language-server",
 

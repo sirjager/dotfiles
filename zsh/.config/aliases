@@ -94,6 +94,7 @@ alias pn='pnpm'
 alias np='npm run'
 alias n="nvim"
 alias nv="nvim"
+alias nvim-clean-state="rm -f ~/.local/state/nvim/shada/main.shada"
 alias snv="sudo -E -s nvim"
 alias nvim-remove-shada="rm -rf ~/.local/state/nvim/shada/"
 alias hyprwin="hyprctl clients -j | jq '.[] | {class,title,pid}'"

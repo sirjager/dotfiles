@@ -61,6 +61,17 @@ end, {})
 --   end,
 -- })
 
-vim.api.nvim_create_user_command("SourceKeymaps", function()
-  vim.cmd("source " .. "~/.config/nvim/lua/blaze/keymaps.lua")
-end, {})
+-- vim.api.nvim_create_autocmd("RecordingEnter", {
+--   callback = function()
+--     vim.notify("Recording Macro: " .. vim.fn.reg_recording(), vim.log.levels.INFO)
+--   end,
+-- })
+
+-- vim.api.nvim_create_autocmd("RecordingLeave", {
+--   callback = function()
+--     vim.defer_fn(function()
+--       local last_macro = vim.fn.reg_recorded()
+--       vim.notify("Macro Recorded: @" .. last_macro .. " = " .. vim.fn.getreg(last_macro), vim.log.levels.INFO)
+--     end, 100)
+--   end,
+-- })

@@ -7,10 +7,10 @@ return {
   { "<leader>e",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
-  { "<leader>m", group = "[M]acros", icon = "󰮋 " },
-  { "<leader>mr", "qa", icon = " ", desc = "Record Macro" },
-  { "<leader>ms", "q", icon = " ", desc = "Finish Record" },
-  { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
+  -- { "<leader>m", group = "[M]acros", icon = "󰮋 " },
+  -- { "<leader>mr", "qa", icon = " ", desc = "Record Macro" },
+  -- { "<leader>ms", "q", icon = " ", desc = "Finish Record" },
+  -- { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
 
   -- NOTE: Obsidian
   { "<leader>o", group = "[O]bsidian", icon = " " },

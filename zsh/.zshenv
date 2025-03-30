@@ -91,6 +91,7 @@ export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
 export CHROME_EXECUTABLE='/usr/bin/chromium' # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+export MASON_BIN="$XDG_DATA_HOME/nvim/mason/bin" # Mason bin
 
 
 # Go
@@ -99,6 +100,7 @@ export PATH="$PATH:$GOBIN"
 
 # Node.js & Package Managers
 export PATH="$PATH:$FNM_PATH"
+export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
@@ -112,7 +114,6 @@ export PATH="$PATH:$mystorage/programs/appdev/android-studio/bin"
 export PATH="$PATH:$mystorage/programs/appdev/android-studio/jbr/bin"
 
 # Miscellaneous
-export PATH="$PATH:$mystorage/programs/Postman"
-export PATH="$PATH:$HOME/.local/bin:$WAKATIME_HOME/.wakatime"
-export PATH="$PATH:$XDG_CONFIG_HOME/emacs/bin:$XDG_CONFIG_HOME/rofi/scripts"
-export PATH="$PATH:$XDG_DATA_HOME/nvim/mason/bin:$mystorage/programs/protoc/bin"
+export PATH="$PATH:$PNPM_HOME:$MASON_BIN"
+export PATH="$PATH:$mystorage/programs/protoc/bin"
+export PATH="$PATH:$XDG_CONFIG_HOME/rofi/scripts"
