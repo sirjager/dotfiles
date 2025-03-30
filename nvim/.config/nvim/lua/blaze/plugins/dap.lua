@@ -1,22 +1,40 @@
 local M = {
   "rcarriga/nvim-dap-ui",
+  event = "VeryLazy",
   dependencies = {
+    { "ray-x/guihua.lua" }, -- gui lib
     { "folke/neodev.nvim" },
-    { "ray-x/guihua.lua" },
+    { "nvim-neotest/nvim-nio" },
     { "mfussenegger/nvim-dap" },
     { "theHamsta/nvim-dap-virtual-text" },
+    --
     { "leoluz/nvim-dap-go" },
+    { "mfussenegger/nvim-dap-python" },
   },
 }
 
 function M.config()
-  -- require("dap-go").setup {}
-  local dap = require "dap"
-  local dapui = require "dapui"
-  local neodev = require "neodev"
-  dapui.setup()
+  local dap = require("dap")
+  local dapui = require("dapui")
+  local neodev = require("neodev")
 
-  neodev.setup { library = { plugins = { "nvim-dap-ui" }, types = true } }
+  local sign = vim.fn.sign_define
+
+  sign("DapStopped", { text = "󰜴", texthl = "DiagnosticSignWarn", linehl = "Visual", numhl = "DiagnosticSignWarn" })
+  sign("DapBreakpoint", { text = "󰻃 ", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+  sign("DapBreakpointRejected", { text = "󰜺 ", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+
+  --
+  dapui.setup()
+  require("nvim-dap-virtual-text").setup({
+    commented = true, -- show virtual text alongside comment
+  })
+
+  -- language debug_adapters
+  require("dap-go").setup()
+  require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
+
+  neodev.setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
 
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
@@ -29,22 +47,6 @@ function M.config()
   dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
   end
-
-  dap.adapters.dart = {
-    type = "executable",
-    command = "flutter",
-    args = { "debug_adapter" },
-  }
-  dap.configurations.dart = {
-    {
-      type = "dart",
-      request = "launch",
-      name = "Launch Dart Program",
-      program = "${file}",
-      cwd = "${workspaceFolder}",
-      args = {},
-    },
-  }
 end
 
 return M

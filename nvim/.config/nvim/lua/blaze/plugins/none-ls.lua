@@ -8,8 +8,8 @@ local M = {
 }
 
 function M.config()
-  local null_ls = require "null-ls"
-  null_ls.setup {
+  local null_ls = require("null-ls")
+  null_ls.setup({
     debug = false,
     sources = {
       null_ls.builtins.formatting.stylua, -- lua
@@ -36,11 +36,10 @@ function M.config()
       null_ls.builtins.formatting.goimports_reviser, -- go imports
 
       -- python
-      -- null_ls.builtins.formatting.black,
-      -- null_ls.builtins.diagnostics.mypy,
-      -- null_ls.builtins.diagnostics.ruff,
+      null_ls.builtins.formatting.black,
+      null_ls.builtins.diagnostics.mypy,
     },
-  }
+  })
 end
 
 return M

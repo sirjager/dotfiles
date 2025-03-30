@@ -26,14 +26,14 @@ return {
 
   -- NOTE: Debugging
   { "<leader>d", group = "[D]ebugging", icon = " " },
-  { "<leader>du", "<CMD>DapUiToggle<CR>", icon = " ", desc = "[U]i Toggle" },
-  { "<leader>db", "<CMD>DapToggleBreakpoint<CR>", icon = "", desc = "[B]reakpoint" },
-  { "<leader>dc", "<CMD>DapContinue<CR>", icon = " ", desc = "[C]ontinue Debug" },
-  { "<leader>dt", "<CMD>DapTerminate<CR>", icon = " ", desc = "[T]erminate Debug" },
-  { "<leader>dl", "<CMD>DapShowLog<CR>", icon = "󱂅 ", desc = "[L]og Debug" },
-  { "<leader>di", "<CMD>DapStepInto<CR>", icon = "󰶡", desc = "[I]nto Step" },
-  { "<leader>dj", "<CMD>DapStepOver<CR>", icon = "󰔰 ", desc = "[J]ump Step" },
-  { "<leader>do", "<CMD>DapStepOut<CR>", icon = "󰶣 ", desc = "[O]ut Step" },
+  { "<leader>du", ":lua require('dapui').toggle()<CR>", icon = " ", desc = "[U]i Toggle" },
+  { "<leader>db", ":lua require('dap').toggle_breakpoint()<CR>", icon = "", desc = "[B]reakpoint" },
+  { "<leader>dc", ":lua require('dap').continue()<CR>", icon = " ", desc = "[C]ontinue Debug" },
+  { "<leader>dl", ":lua require('dap').show_log()<CR>", icon = "󱂅 ", desc = "[L]og Debug" },
+  { "<leader>dq", ":lua require('dap').terminate()<CR>", icon = " ", desc = "[Q]uit Debug" },
+  { "<leader>di", ":lua require('dap').step_into()<CR>", icon = "󰶡", desc = "[I]nto Step" },
+  { "<leader>dj", ":lua require('dap').step_over()<CR>", icon = "󰔰 ", desc = "[J]ump Step" },
+  { "<leader>do", ":lua require('dap').step_out()<CR>", icon = "󰶣 ", desc = "[O]ut Step" },
 
   -- NOTE: Golang
   { "<leader>g", group = "[G]olang", icon = " " },
@@ -55,18 +55,6 @@ return {
 
   { "<leader>t",function() Snacks.toggle.dim()end, icon = "󰊹 ", desc = "[T]oggle" },
   { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
-
-  -- -- NOTE: Neo Tests
-  -- { "<leader>t", group = "Neo Tests", icon = "󰙨" },
-  -- { "<leader>ts", ":Neotest summary<CR>", icon = "󰊹 ", desc = "Summary" },
-  -- { "<leader>tr", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "Run Test" },
-  -- { "<leader>ta", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "Attach Test" },
-  -- { "<leader>tx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "Stop Test" },
-  -- {"<leader>tc",':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',icon = "󰢪 ",desc = "[C]urrent File Test"},
-  -- { "<leader>td", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
-  -- { "<leader>tg", group = "[G]o Tests", icon = " " },
-  -- { "<leader>tgn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
-  -- { "<leader>tgl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
 
   -- -- Snacks Picker | Telescope replacement
   -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md

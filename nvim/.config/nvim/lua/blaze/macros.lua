@@ -2,7 +2,7 @@
 local esc = vim.api.nvim_replace_termcodes("<ESC>", true, true, true)
 
 local default_macros = {
-  l = "yoconsole.log('" .. esc .. "pa:" .. esc .. "la, " .. esc .. "pl",
+  -- l = "yoconsole.log('" .. esc .. "pa:" .. esc .. "la, " .. esc .. "pl",
 }
 
 for key, command in pairs(default_macros) do

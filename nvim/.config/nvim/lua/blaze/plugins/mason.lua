@@ -26,6 +26,7 @@ M.servers = {
   "markdownlint",
 
   --
+  "json-lsp",
   "hadolint",
   "dockerfile-language-server",
   "docker-compose-language-service",
@@ -49,10 +50,14 @@ M.servers = {
   --
   -- "zls", -- zig
 
-  -- "pyright",
+  -- python
+  "pyright", -- lsp
+  "debugpy", -- debug
+  "mypy", -- diagnostic
+  "black", -- formatter
+
+  -- rust
   -- "ruff-lsp",
-  -- "mypy",
-  -- "black",
 
   -- astro
   "astro-language-server", -- working fine | needs manual installed
@@ -60,7 +65,7 @@ M.servers = {
 }
 
 function M.config()
-  require("mason").setup {
+  require("mason").setup({
     opts = {
       automatic_installation = true,
       ensure_installed = M.servers,
@@ -73,7 +78,7 @@ function M.config()
         package_uninstalled = " 󰚌 ",
       },
     },
-  }
+  })
 end
 
 return M

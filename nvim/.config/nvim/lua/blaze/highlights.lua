@@ -2,13 +2,8 @@
 -- check all highlight groups using :hi
 local M = {}
 
-local c = {
-  none = "None",
-  fg = "#B4BEFE",
-}
-
-local none = "None" -- to nil / transparent
-local fg = c.fg -- for text
+local none = "#000000" -- to nil / transparent
+local fg = "#B4BEFE" -- for text
 local bg = "#161622" -- for bg
 
 local primary = "#f5a97f" -- controls the majoriry of ui color

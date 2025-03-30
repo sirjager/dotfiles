@@ -4,12 +4,12 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  pattern = { "*" },
-  callback = function()
-    vim.cmd "checktime"
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+--   pattern = { "*" },
+--   callback = function()
+--     vim.cmd "checktime"
+--   end,
+-- })
 
 -- text highlight when yanking
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {

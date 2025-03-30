@@ -36,11 +36,13 @@ M.servers = {
   "tailwindcss",
   -- "biome",
 
-  --
+  -- go
   "gopls",
 
-  --
-  -- "pyright",
+  -- -- python
+  "pyright",
+
+  -- -- rust
   -- "ruff",
 }
 
@@ -58,8 +60,13 @@ M.on_attach = function(client, bufnr)
 end
 
 function M.common_capabilities()
-  local capabilities = require("blink.cmp").get_lsp_capabilities() -- with blink.cmp
 
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- capabilities.textDocument.completion = cmp_capabilities.textDocument.completion
+
+
+  local capabilities = require("blink.cmp").get_lsp_capabilities() -- with blink.cmp -- working
   -- local capabilities = vim.lsp.protocol.make_client_capabilities() -- with nvim-cmp
   -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- with nvim-cmp
 
