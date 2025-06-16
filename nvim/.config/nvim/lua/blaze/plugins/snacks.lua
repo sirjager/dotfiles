@@ -37,7 +37,6 @@ M.opts.picker = {
   matcher = {
     frecency = true,
   },
-
   layout = { preset = "ivy", cycle = false },
   layouts = {
     vertical = {
@@ -92,7 +91,16 @@ M.opts.picker = {
 M.opts.dashboard = {
   enabled = true,
   preset = {
-    header = require("blaze.banners").jagervim,
+    header = require("blaze.banners").threeskulls_v1,
+    -- stylua: ignore start
+    keys = {
+      { icon = " ",key = "c", desc = "Config",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})"},
+      { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+      { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+      { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+
+    -- stylua: ignore end
+    },
   },
 }
 

@@ -93,9 +93,10 @@ export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 export MASON_BIN="$XDG_DATA_HOME/nvim/mason/bin" # Mason bin
 
-# Go
-export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
-export PATH="$PATH:$GOBIN"
+
+export PATH="$PATH:/sbin:$HOME/.local/bin" # custom scripts
+export PATH="$PATH:$HOME/.cargo/bin" # rust pkgs
+export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$GOBIN" # go pkgs
 
 # Node.js & Package Managers
 export PATH="$PATH:$FNM_PATH"

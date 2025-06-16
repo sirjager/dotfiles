@@ -1,5 +1,10 @@
 local M = {
   "nvim-neo-tree/neo-tree.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    "MunifTanjim/nui.nvim",
+  },
   cmd = {
     "Neotree",
   },
@@ -7,6 +12,11 @@ local M = {
 }
 
 M.opts = {
+  source_selector = {
+    winbar = true, -- toggle to show selector on winbar
+    statusline = false, -- toggle to show selector on statusline
+    show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
+  },
   close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
   popup_border_style = "rounded",
   enable_git_status = true,
@@ -100,7 +110,7 @@ M.opts = {
   commands = {},
   window = {
     position = "left",
-    width = 40, -- default 35
+    width = 35, -- default 35
     mapping_options = {
       noremap = true,
       nowait = true,
@@ -176,6 +186,7 @@ M.opts = {
         "yarn.lock",
         "pnpm-lock.yaml",
         "package-lock.json",
+        "__init__.py",
       },
       hide_by_pattern = { -- uses glob style patterns
         --"*.meta",
@@ -247,15 +258,14 @@ M.opts = {
     commands = {
       -- Override delete to use trash instead of rm
       delete = function(state)
-        local inputs = require "neo-tree.ui.inputs"
+        local inputs = require("neo-tree.ui.inputs")
         local path = state.tree:get_node().path
         local msg = "Are you sure you want to delete " .. path
         inputs.confirm(msg, function(confirmed)
           if not confirmed then
             return
           end
-
-          vim.fn.system { "trash", vim.fn.fnameescape(path) }
+          vim.fn.system({ "trash", vim.fn.fnameescape(path) })
           require("neo-tree.sources.manager").refresh(state.name)
         end)
       end,

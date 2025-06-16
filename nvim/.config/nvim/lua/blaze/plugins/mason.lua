@@ -20,6 +20,7 @@ M.servers = {
   "luacheck",
   "stylua",
   "lua-language-server",
+  "buf-language-server",
 
   --
   "marksman",
@@ -33,6 +34,7 @@ M.servers = {
 
   --
   "yaml-language-server",
+  "tree-sitter-cli",
 
   --
   "sqlfmt",

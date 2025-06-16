@@ -1,0 +1,47 @@
+---
+
+pager: less
+pager_json: jq
+watch_env_files: true
+use_host_environment: true
+text_input:
+  blinking_cursor: true
+
+# Appearance
+theme: jager
+animation: full # none | basic | full
+layout: horizontal # horizontal | vertical
+watch_themes: false
+
+heading:
+  visible: false
+  show_host: false
+
+collection_browser:
+  position: left  # left | right
+  show_on_startup: true
+
+command_palette:
+  theme_preview: true
+
+focus:
+  on_startup: "collection" # "url", "method", "collection" (Default: "url")
+  on_response: "body" #"body", "tabs" (Default: unset)
+  on_request_open: "body" # "headers", "body", "query", "info", "url", "method" (Default: unset)
+
+# Response
+response:
+  prettify_json: true
+  show_size_and_time: true
+
+
+# Keybindings
+keymap:
+  focus-method: ctrl+m
+  focus-url: ctrl+u
+  new-request: ctrl+n
+  save-request: ctrl+s
+  send-request: ctrl+r,ctrl+j
+  expand-section: ctrl+e
+  toggle-collection: ctrl+h
+

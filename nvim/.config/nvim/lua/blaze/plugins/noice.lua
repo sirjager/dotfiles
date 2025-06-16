@@ -9,7 +9,7 @@ M.opts = {
     view = "cmdline_popup", -- `cmdline_popup` | `cmdline`
   },
   messages = {
-    enabled = true, -- enables the Noice messages UI
+    enabled = false, -- enables the Noice messages UI
     view = "notify", -- default view for messages
     view_error = "notify", -- view for errors
     view_warn = "notify", -- view for warnings
@@ -17,8 +17,8 @@ M.opts = {
     view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
   },
   popupmenu = {
-    enabled = true, 
-    backend = "nui", 
+    enabled = true,
+    backend = "nui",
   },
   presets = {
     bottom_search = false, -- use a classic bottom cmdline for search
@@ -37,8 +37,11 @@ M.opts = {
       filter = { event = "notify", find = "completion request failed" },
       opts = { skip = true },
     },
-   {
-      filter = { event = "notify", find = "LSP[gopls] Invalid settings: setting option hints: invalid type []interface {} (want JSON object)" },
+    {
+      filter = {
+        event = "notify",
+        find = "LSP[gopls] Invalid settings: setting option hints: invalid type []interface {} (want JSON object)",
+      },
       opts = { skip = true },
     },
   },

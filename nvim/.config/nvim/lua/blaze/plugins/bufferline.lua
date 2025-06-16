@@ -1,6 +1,6 @@
 local M = {
   "akinsho/bufferline.nvim",
-  -- event = "BufReadPost",
+  event = "BufReadPost",
   cmd = {
     "BufferLinePick",
     "BufferLineTogglePin",
@@ -36,6 +36,7 @@ M.opts = {
     enforce_regular_tabs = true,
     always_show_bufferline = true,
     diagnostics_update_in_insert = false,
+    highlights = require("blaze.highlights"),
   },
 }
 

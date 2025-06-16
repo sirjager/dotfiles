@@ -54,35 +54,36 @@ end
 
 M.on_attach = function(client, bufnr)
   lsp_keymaps(bufnr)
-  if client.supports_method "textDocument/inlayHint" then
+  if client.supports_method("textDocument/inlayHint") then
     vim.lsp.inlay_hint.enable(true, { bufnr })
   end
 end
 
 function M.common_capabilities()
+  -- -- for blink
+  local capabilities = {
+    textDocument = {
+      completion = { completionItem = { snippetSupport = false } },
+      foldingRange = { dynamicRegistration = false, lineFoldingOnly = true },
+    },
+  }
+  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities) -- with blink
 
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
--- capabilities.textDocument.completion = cmp_capabilities.textDocument.completion
+  -- -- with cmp
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-
-  local capabilities = require("blink.cmp").get_lsp_capabilities() -- with blink.cmp -- working
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities() -- with nvim-cmp
-  -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities) -- with nvim-cmp
-
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
   return capabilities
 end
 
 M.toggle_inlay_hints = function()
   local bufnr = vim.api.nvim_get_current_buf()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr }, { bufnr })
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr }), { bufnr })
 end
 
 function M.config()
-  local lspconfig = require "lspconfig"
-  local icons = require "blaze.icons"
+  local lspconfig = require("lspconfig")
+  local icons = require("blaze.icons")
 
   vim.treesitter.language.register("markdown", "vimwiki")
 
@@ -143,9 +144,4 @@ function M.config()
   -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 end
 
-
-
 return M
-
-
-

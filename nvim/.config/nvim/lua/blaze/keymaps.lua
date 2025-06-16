@@ -71,10 +71,14 @@ local keymaps = {
     ["<A-b>"] = { ":lua require'ufo'.closeAllFolds()<CR>", "close all folds" },
 
     ["<A-r>"] = { ":Lspsaga rename<CR>", "smart rename" },
-    ["<A-i>"] = { ":Lspsaga hover_doc<CR>", "documentation" },
+    -- ["<A-i>"] = { ":Lspsaga hover_doc<CR>", "documentation" },
+    ["<A-i>"] = { ":lua vim.lsp.buf.hover()<CR>", "documentation" },
     ["<A-e>"] = { ":Lspsaga peek_definition<CR>", "peek definition" },
     ["<A-d>"] = { ":Lspsaga goto_definition<CR>", "goto definition" },
     ["<A-f>"] = { ":Lspsaga code_action<CR>", "code action" },
+
+    ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
   },
 
   -- insert mode
@@ -105,6 +109,9 @@ local keymaps = {
     ["K"] = { ":move '<-2<CR>gv-gv", "move selection up" },
 
     ["<A-c>"] = { "gcc", "toggle comment" }, -- Toggle Comment: Also in normal mode
+
+    ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
   },
 
   -- terminal

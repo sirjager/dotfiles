@@ -21,11 +21,11 @@ M.opts = {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
     code_action = "💡", --  💡                                 
     lines = { "┗", "┣", "┃", "━", "┏" },
-    colors = {},
     -- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+    colors = {},
   },
   symbol_in_winbar = {
-    enable = true,
+    enable = false,
   },
 }
 

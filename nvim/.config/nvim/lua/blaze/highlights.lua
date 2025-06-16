@@ -2,9 +2,9 @@
 -- check all highlight groups using :hi
 local M = {}
 
-local none = "#000000" -- to nil / transparent
+local none = "Black" -- to nil / transparent
 local fg = "#B4BEFE" -- for text
-local bg = "#161622" -- for bg
+local bg = "Black" -- for bg
 
 local primary = "#f5a97f" -- controls the majoriry of ui color
 local secondary = "#4635B1"

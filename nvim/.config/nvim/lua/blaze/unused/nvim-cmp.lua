@@ -27,6 +27,8 @@ function M.config()
   local lspkind = require "lspkind"
   local icons = require "blaze.icons"
 
+  local maxwidth = 60
+
   require("vim-react-snippets").lazy_load()
   require("luasnip.loaders.from_lua").load()
   require("luasnip/loaders/from_vscode").lazy_load()
@@ -88,10 +90,9 @@ function M.config()
       fields = { "kind", "abbr", "menu" }, -- rearrange positions if needed
       format = lspkind.cmp_format {
         mode = "symbol_text", -- show only symbol annotations -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-        maxwidth = 70, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        maxwidth = maxwidth, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         before = function(entry, vim_item)
-          local maxwidth = 70
           local source = entry.source.name --> nvim_lsp, nvim_lua, luasnip, buffer, path
           local kind = vim_item.kind --> Class, Method, Variable etc...
           -- local item = entry:get_completion_item()
@@ -139,7 +140,8 @@ function M.config()
     -- tutorial: https://www.youtube.com/watch?v=yTk3C3JMKzQ&list=PLOe6AggsTaVuIXZU4gxWJpIQNHMrDknfN&index=40
     sources = cmp.config.sources {
       { name = "nvim_lsp", priority = 1000, group_index = 1 }, -- lsp completions
-      { name = "codeium", priority = 950, group_index = 2 }, -- completions from codeium
+      { name = "copilot", priority = 950, group_index = 2 }, -- completions from codeium
+      -- { name = "codeium", priority = 950, group_index = 2 }, -- completions from codeium
       { name = "luasnip", priority = 900, group_index = 3 }, -- snippets completions
       { name = "nvim_lua", priority = 850, group_index = 4 }, -- lua completions
       { name = "render-markdown", priority = 800, group_index = 5 }, -- markdown

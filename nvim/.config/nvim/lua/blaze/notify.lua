@@ -14,7 +14,7 @@ M.opts = {
   },
   level = 2,
   minimum_width = 50,
-  render = "minimal", -- default, minimal, simple, compact
+  render = "default", -- default, minimal, simple, compact
   stages = "slide", -- fade_in_slide_out, fade, slide, static
   timeout = 2500,
   top_down = true,

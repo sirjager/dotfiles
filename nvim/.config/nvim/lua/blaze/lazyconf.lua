@@ -4,7 +4,7 @@ return {
   },
   install = {
     missing = true,
-    colorscheme = { "onedark" },
+    colorscheme = { "onedark", "monokai-pro" },
   },
   rocks = {
     hererocks = true,
@@ -20,7 +20,7 @@ return {
   performance = {
     cache = {
       enabled = true,
-      path = vim.fn.stdpath "cache" .. "/lazy/cache",
+      path = vim.fn.stdpath("cache") .. "/lazy/cache",
       disable_events = { "VimEnter", "BufReadPre" },
     },
     reset_packpath = true, -- reset the package path to improve startup time

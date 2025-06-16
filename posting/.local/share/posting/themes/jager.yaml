@@ -1,0 +1,40 @@
+---
+# Optional metadata
+author: Ankur Kumar
+description: A dark transparent theme matching with my neovim and tmux
+homepage: https://github.com/sirjager/dotfiles
+
+name: jager # use this name in your config file
+primary: "#FFDAB3" # buttons, fixed table columns
+secondary: "#B4BEFE" # method selector, some minor labels
+accent: "#f5a97f" # header text, scrollbars, cursors, focus highlights
+background: "#000000" # background colors
+surface: "#000000" # panels, etc
+error: "#e74c3c" # error messages
+success: "#2ecc71" # success messages
+warning: "#f1c40f" # warning messages
+
+
+text_area:
+  cursor: 'reverse'
+  cursor_line: 'bold'
+  selection: 'reverse'
+  gutter: 'bold #5c6370'
+  matched_bracket: 'black on #98c379'
+
+url:
+  base: 'italic #61afef'
+  protocol: 'bold #c678dd'
+
+syntax:
+  json_key: 'italic #e06c75'
+  json_number: '#d19a66'
+  json_string: '#98c379'
+  json_boolean: '#56b6c2'
+  json_null: 'underline #c678dd'
+
+method:
+  get: 'underline #50e3c2'
+  post: 'italic #b8e986'
+  put: 'bold #b8e986'
+  delete: 'strikethrough #b8e986'

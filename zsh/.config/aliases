@@ -130,6 +130,10 @@ font-preview() {                                                                
 	floatwin display "$selected"
 }
 
+kill-port() {
+	lsof -ti :"$1" | xargs kill -9
+}
+
 # ex: Extracts various compressed archive formats.
 # Example: ex archive.tar.gz → Extracts using `tar xzf`
 ex() {

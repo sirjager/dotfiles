@@ -1,6 +1,6 @@
 local M = {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "nvim-treesitter/nvim-treesitter-context" },
+  -- dependencies = { "nvim-treesitter/nvim-treesitter-context" },
   build = ":TSUpdate",
 }
 
@@ -9,20 +9,35 @@ local servers = {
   "jq",
   "lua",
   "html",
-  "html",
+  "latex",
+  "typst",
+  "yaml",
   "markdown",
   "markdown_inline",
+  "typescript",
+  "tsx",
+  "javascript",
+  "json",
+  "css",
+  "scss",
+  "astro",
+  "rasi",
+  "vim",
+  "vimdoc",
+  "regex",
+  "go",
+  "python",
 }
 
 function M.config()
-  vim.filetype.add { extension = { rasi = "rasi" } }
+  vim.filetype.add({ extension = { rasi = "rasi" } })
   vim.treesitter.language.register("css", "rasi")
 
-  vim.filetype.add { extension = { mdx = "mdx" } }
+  vim.filetype.add({ extension = { mdx = "mdx" } })
   vim.treesitter.language.register("markdown", "mdx")
 
-  vim.filetype.add { extension = { astro = "astro" } }
-  require("nvim-treesitter.configs").setup {
+  vim.filetype.add({ extension = { astro = "astro" } })
+  require("nvim-treesitter.configs").setup({
 
     ensure_installed = servers,
     sync_install = false,
@@ -61,22 +76,22 @@ function M.config()
     textobjects = {
       select = { enable = true, lookahead = true },
     },
-  }
+  })
 
-  require("treesitter-context").setup {
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-    -- line_numbers = true,
-    multiline_threshold = 1, -- 20, -- Maximum number of lines to show for a single context
-    trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-    -- Separator between context and content. Should be a single character string, like '-'.
-    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-    separator = nil,
-    zindex = 1, -- The Z-index of the context window
-    on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-  }
+  -- require("treesitter-context").setup {
+  --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  --   max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
+  --   min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  --   -- line_numbers = true,
+  --   multiline_threshold = 1, -- 20, -- Maximum number of lines to show for a single context
+  --   trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  --   mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
+  --   -- Separator between context and content. Should be a single character string, like '-'.
+  --   -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  --   separator = nil,
+  --   zindex = 1, -- The Z-index of the context window
+  --   on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+  -- }
 end
 
 return M

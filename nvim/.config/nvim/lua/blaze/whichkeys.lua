@@ -3,8 +3,9 @@ local Snacks = require("snacks")
 local todo_keywords = require("blaze.plugins.comments-todo").todo_keywords()
 
 return {
-  -- { "<leader>e", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
-  { "<leader>e",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>r",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>E", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>e", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
   -- { "<leader>m", group = "[M]acros", icon = "󰮋 " },
@@ -35,6 +36,18 @@ return {
   { "<leader>dj", ":lua require('dap').step_over()<CR>", icon = "󰔰 ", desc = "[J]ump Step" },
   { "<leader>do", ":lua require('dap').step_out()<CR>", icon = "󰶣 ", desc = "[O]ut Step" },
 
+  -- NOTE: Neo Tests
+  { "<leader>n", group = "[N]eo Tests", icon = "󰙨" },
+  { "<leader>np", ":Neotest summary<CR>", icon = "󰊹 ", desc = "[P]anel Summary" },
+  { "<leader>nn", ':lua require("neotest").run.run()<CR>', icon = "󰊹 ", desc = "[N]earest Test" },
+  { "<leader>na", ':lua require("neotest").run.attach()<CR>', icon = " ", desc = "[A]ttach Test" },
+  { "<leader>nx", ':lua require("neotest").run.stop()<CR>', icon = "  ", desc = "[X]top Test" },
+  { "<leader>nc", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', icon = "󰢪 ", desc = "[C]urrent File Test" },
+  { "<leader>nd", ':lua require("neotest").run.run({strategy = "dap"})<CR>', icon = " ", desc = "[D]ebugger Test" },
+  { "<leader>ng", group = "[G]o Tests", icon = " " },
+  { "<leader>ngn", ':lua require("dap-go").debug_test()<CR>', icon = "󰊹 ", desc = "[G]o [N]earest Test" },
+  { "<leader>ngl", ':lua require("dap-go").debug_last()<CR>', icon = "󰎔 ", desc = "[G]o [L]ast Test" },
+
   -- NOTE: Golang
   { "<leader>g", group = "[G]olang", icon = " " },
   { "<leader>gt", ":GoAddTag ", icon = "󰜢 ", desc = "[T]ags Add" },
@@ -52,9 +65,6 @@ return {
   { "<leader>gv", ":GoModVendor<CR>", icon = "󰕳 ", desc = "[V]endor Mod" },
   { "<leader>gi", ":GoImpl<CR>", icon = "󰰃 ", desc = "[I]plement Interface" },
   { "<leader>gl", ":GoToggleInlay<CR>", icon = "󰰃 ", desc = "In[L]ay Toggle" },
-
-  { "<leader>t",function() Snacks.toggle.dim()end, icon = "󰊹 ", desc = "[T]oggle" },
-  { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
 
   -- -- Snacks Picker | Telescope replacement
   -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md
@@ -111,17 +121,18 @@ return {
 
   -- Flash
   { "<leader>f", group = "[F]lash", icon = " " },
-  -- stylua: ignore
   {"<leader>fj",function()require("flash").jump()end,icon = " ",desc = "[J]ump To"},
-  -- stylua: ignore
   {"<leader>ft",function()require("flash").treesitter()end,icon = " ",desc = "[T]reesitter"},
-  -- stylua: ignore
   {"<leader>fs",function()require("flash").treesitter_search()end,icon = " ",desc = "[S]earch Treesitter"},
 
-  -- Misc
-  { "<leader>p", group = "Misc Shortcuts", icon = "暈" },
-  -- stylua: ignore
-  {"<leader>ps","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
+   -- NOTE: Toggle Keys
+  { "<leader>t", group = "[T]oggle", icon = "󰊹 " },
+  { "<leader>td",function()Snacks.toggle.dim()end, icon = "", desc = "[D]im" },
+  { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
+  { "<leader>tk", "<CMD>Screenkey<CR>", icon = " ", desc = "Screen[k]eys" },
+  {"<leader>ts","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
+
+
 }
 
 -- stylua: ignore end

@@ -1,0 +1,11 @@
+# Zathura configs
+# https://wiki.archlinux.org/title/Zathura
+
+# Make zathura the default pdf viewer
+# xdg-mime default org.pwmt.zathura.desktop application/pdf
+
+
+set selection-clipboard clipboard
+
+map D set "first-page-column 1:1"
+map <C-d> set "first-page-column 1:2"

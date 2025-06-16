@@ -1,6 +1,7 @@
 local M = {
   "Exafunction/codeium.nvim",
   event = "InsertEnter",
+  priority = 1000,
 }
 
 M.opts = {

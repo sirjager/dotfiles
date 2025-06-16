@@ -37,7 +37,7 @@ local options = {
   showtabline = 0, -- always show tabs, 0 = disable, 2 = always
   si = true, -- smart indent
   sidescrolloff = 8,
-  signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
+  signcolumn = "yes:1", -- always show the sign column, otherwise it would shift the text each time
   smartcase = true, -- smart case
   smartindent = true, -- make indenting smarter again
   smarttab = true, -- smart tab
@@ -72,20 +72,20 @@ end
 vim.wo.foldlevel = 99
 vim.wo.conceallevel = 2
 
-vim.opt.shortmess:append "c"
-vim.opt.path:append { "**" } -- find files, search down into subfolders
+vim.opt.shortmess:append("c")
+vim.opt.path:append({ "**" }) -- find files, search down into subfolders
 
-vim.opt.wildignore:append { "*/.git/*" }
-vim.opt.wildignore:append { "*/node_modules/*" }
+vim.opt.wildignore:append({ "*/.git/*" })
+vim.opt.wildignore:append({ "*/node_modules/*" })
 vim.opt.fillchars = vim.opt.fillchars + "eob: "
-vim.opt.fillchars:append { stl = " " }
+vim.opt.fillchars:append({ stl = " " })
 
 -- undercurl
-vim.cmd [[ let &t_Cs = "\e[4:3m]" ]]
-vim.cmd [[ let &t_Ce = "\e[4:0m]" ]]
+vim.cmd([[ let &t_Cs = "\e[4:3m]" ]])
+vim.cmd([[ let &t_Ce = "\e[4:0m]" ]])
 
-vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.cmd([[set iskeyword+=-]])
 
 vim.o.autoread = true
 vim.g.netrw_banner = 0
