@@ -1,3 +1,9 @@
+# Add user configurations here
+# For HyDE to not touch your beloved configurations,
+# we added 2 files to the project structure:
+# 1. ~/.user.zsh - for customizing the shell related hyde configurations
+# 2. ~/.zshenv - for updating the zsh environment variables handled by HyDE // this will be modified across updates
+
 # [ Zinit Setup and Plugins ] ============================================
 ZINIT_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git
 if [ ! -f "${ZINIT_HOME}/zinit.zsh" ]; then
@@ -9,8 +15,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-completions
+zinit light Aloxaf/fzf-tab
 
 # Add snippets: 
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
@@ -20,6 +26,7 @@ zinit snippet OMZP::sudo
 # [functions autoload] =====================================
 autoload -U compinit && compinit
 zinit cdreplay -q
+
 
 # [Emacs keybindings for zsh] =======================================
 # ctrl+e -> to move curosr to end; 
@@ -68,7 +75,3 @@ eval "$(zoxide init --cmd cd zsh)"
 eval "$(fnm completions --shell zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
-
-
-# [ Custom Aliases ] =============================================
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/aliases" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/aliases"

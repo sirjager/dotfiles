@@ -2,7 +2,7 @@
 -- check all highlight groups using :hi
 local M = {}
 
-local none = "Black" -- to nil / transparent
+local none = "Nil" -- to nil / transparent
 local fg = "#B4BEFE" -- for text
 local bg = "Black" -- for bg
 
