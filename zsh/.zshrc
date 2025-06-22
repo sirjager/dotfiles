@@ -43,6 +43,7 @@ source <(carapace _carapace)
 # [ Shell Integrations ] =============================================
 eval "`fnm env`"
 eval "$(fzf --zsh)"
+eval "$(atuin init zsh)"
 eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 # eval "$(cobra-cli completion zsh)"
