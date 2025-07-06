@@ -4,7 +4,7 @@ return {
   },
   install = {
     missing = true,
-    colorscheme = { "onedark", "monokai-pro" },
+    colorscheme = { "onedark", "catppuccin", "monokai-pro" },
   },
   rocks = {
     hererocks = true,

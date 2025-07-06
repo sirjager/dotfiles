@@ -54,3 +54,8 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 . "$HOME/dotfiles/zsh/.aliases"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/jager/.lmstudio/bin"
+# End of LM Studio CLI section
+

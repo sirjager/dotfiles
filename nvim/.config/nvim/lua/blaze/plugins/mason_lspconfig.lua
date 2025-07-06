@@ -7,6 +7,7 @@ M.opts = {
   ensure_installed = {
     "lua_ls",
     "bashls",
+    "bash-language-server",
     "jsonls", -- json
     "yamlls", -- yml
     "clangd",

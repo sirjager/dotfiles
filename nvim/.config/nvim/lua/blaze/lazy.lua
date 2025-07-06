@@ -19,4 +19,4 @@ local configs = require "blaze.lazyconf"
 
 require("lazy").setup("blaze.plugins", configs)
 
-vim.cmd("colorscheme " .. configs.install.colorscheme[1])
+vim.cmd("colorscheme " .. "catppuccin")

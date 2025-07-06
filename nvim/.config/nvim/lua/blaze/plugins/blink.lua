@@ -132,10 +132,10 @@ M.opts.keymap = {
   -- ['<TAB>'] = { 'select_and_accept' },
   ["<C-e>"] = {},
 
-  ["<C-p>"] = { "select_prev"},
-  ["<C-k>"] = { "select_prev" },
+  ["<C-b>"] = { "select_prev"},
   ["<C-n>"] = { "select_next" },
-  ["<C-j>"] = { "select_next" },
+  -- ["<C-k>"] = { "select_prev" },
+  -- ["<C-j>"] = { "select_next" },
 
   -- ['<S-k>'] = { 'scroll_documentation_up' },
   -- ['<S-j>'] = { 'scroll_documentation_down' },
