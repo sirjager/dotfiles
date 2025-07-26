@@ -77,8 +77,8 @@ local keymaps = {
     ["<A-d>"] = { ":Lspsaga goto_definition<CR>", "goto definition" },
     ["<A-f>"] = { ":Lspsaga code_action<CR>", "code action" },
 
-    ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
-    ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    -- ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    -- ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
   },
 
   -- insert mode
@@ -110,8 +110,8 @@ local keymaps = {
 
     ["<A-c>"] = { "gcc", "toggle comment" }, -- Toggle Comment: Also in normal mode
 
-    ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
-    ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    -- ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+    -- ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
   },
 
   -- terminal

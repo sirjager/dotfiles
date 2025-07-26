@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 -----------------------------------------------------------------------------------
+
 local macros_golang = {
   l = 'yofmt.Println("' .. esc .. "pa:" .. esc .. "la, " .. esc .. "pl",
 }

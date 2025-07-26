@@ -5,14 +5,84 @@
   name = Ankur Kumar
   email = 18713058+sirjager@users.noreply.github.com
 
+[init]
+  defaultBranch = dev
+
+[core]
+  compression = 9
+  whitespace = error
+  preloadindex = true
+
+[status]
+  branch = true
+  showStash = true
+
+[push]
+  autoSetupRemote = true
+  default = current
+  followTags = true
+
+[pull]
+  default = current
+  rebase = true
+
+[rebase]
+  autoStash = true
+  preserveMerges = true
+  missingCommitsCheck = warn
+
+[diff]
+  context = 3
+  renames = copies
+  interHunkContext = 10
+
+[log]
+  abbrevCommit = true
+  graphColors = blue,yellow,cyan,magenta,green,red
+
+[color "decorate"]
+  HEAD          = red
+  branch        = blue
+  tag           = yellow
+  remoteBranch  = magenta
+
+[color "branch"]
+  current     = magenta
+  local       = default
+  remote      = yellow
+  upstream    = green
+  plain       = blue
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = -taggerdate
+
+[pager]
+  diff = diff-so-fancy | $PAGER
+  branch = false
+  tag = false
+
+[diff-so-fancy]
+  markEmptyLines = false
+
+[color "diff"]
+  old         = red
+  context     = white
+  frag        = magenta
+  meta        = black bold
+  whitespace  = yellow reverse
+
 [url "ssh://git@github.com/sirjager"]
   insteadOf = https://github.com/sirjager
 
-[url "ssh://git@gitlab.com/sirjager"]
-  insteadOf = https://gitlab.com/sirjager
+[url "ssh://git@github.com/sirjager/"]
+  insteadOf = "sj:"
 
-[url "ssh://git@bitbucket.org/sirjager"]
-  insteadOf = https://bitbucket.org/sirjager
+[url "git@github.com:"]
+  insteadOf = "gh:"
+
 
 ;;; if want to include some sensitive configs
 ; [include]

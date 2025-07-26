@@ -3,9 +3,9 @@ local Snacks = require("snacks")
 local todo_keywords = require("blaze.plugins.comments-todo").todo_keywords()
 
 return {
-  { "<leader>r",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
-  { "<leader>E", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
-  { "<leader>e", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>e",function()require("mini.files").open(vim.uv.cwd(),true)end,icon = "  ", desc = "[F]ile Manager" },
+  { "<leader>r", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
+  -- { "<leader>E", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
   -- { "<leader>m", group = "[M]acros", icon = "󰮋 " },
