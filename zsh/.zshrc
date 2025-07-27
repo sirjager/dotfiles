@@ -59,3 +59,5 @@ export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 export PATH="$PATH:/home/jager/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+. "$HOME/.local/share/../bin/env"
