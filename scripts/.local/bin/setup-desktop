@@ -89,7 +89,7 @@ install_bspwm() {
 	sudo pacman --needed -S nautilus timeshift
 
 	echo
-  # https://archlinux.org/groups/any/nerd-fonts
+	# https://archlinux.org/groups/any/nerd-fonts
 	echo "Installing Patched Nerd Fonts: JetBrain, SourceCodePro"
 	sudo pacman --needed -S ttf-sourcecodepro-nerd ttf-jetbrains-mono-nerd
 }
@@ -159,5 +159,15 @@ enable_samba_shares() {
 	[ -e ~/smb.conf ] && rm -f ~/smb.conf
 }
 
-
-enable_samba_shares
+install_and_setup_waydroid() {
+	yay --needed --noconfirm -S waydroid
+  sudo waydroid init -s GAPPS
+	sudo systemctl enable --now waydroid-container.service
+	waydroid prop set persist.waydroid.width 1920
+	waydroid prop set persist.waydroid.height 1080
+	sudo sed -i '/^\[properties\]/a \
+ro.hardware.gralloc=default\n\
+ro.hardware.egl=swiftshader' /var/lib/waydroid/waydroid.cfg
+  sudo waydroid upgrade --offline
+ sudo systemctl restart waydroid-container.service
+}
