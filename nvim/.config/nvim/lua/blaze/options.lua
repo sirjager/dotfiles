@@ -37,7 +37,7 @@ local options = {
   showtabline = 0, -- always show tabs, 0 = disable, 2 = always
   si = true, -- smart indent
   sidescrolloff = 8,
-  signcolumn = "yes:1", -- always show the sign column, otherwise it would shift the text each time
+  signcolumn = "yes:2", -- always show the sign column, otherwise it would shift the text each time
   smartcase = true, -- smart case
   smartindent = true, -- make indenting smarter again
   smarttab = true, -- smart tab

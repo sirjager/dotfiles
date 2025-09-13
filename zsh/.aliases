@@ -17,6 +17,9 @@ alias docker-clean-image="docker image prune --all"     # Clean Unused Docker Im
 # System Info: Battery
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
 
+# Adb commands
+alias violet-scrcpy="scrcpy --no-audio -s $(adb devices | grep .101: | awk '{print $1}')"
+
 # General Aliases ================================================
 alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
 alias cp="cp -i"                              # confirm before overwriting something
