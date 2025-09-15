@@ -18,3 +18,4 @@ hook_name = "gobuilder"
 # gobuilder script does not support many pkgs
 [config]
 many_args = false
+arg_sep = " "

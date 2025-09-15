@@ -12,8 +12,7 @@ install_yay() {
 
 install_amd_graphic_drivers() {
 	echo
-	yay --needed --noconfirm -S \
-		lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
+	yay --needed --noconfirm -S lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
 }
 
 mount_ntfs_storage() {

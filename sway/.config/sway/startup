@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+exec_always --no-startup-id (pgrep -f nm-applet || nohup nm-applet >/dev/null 2>&1 &) &
+exec_always --no-startup-id (sleep 1 && (pgrep -f dunst || (nohup dunst >/dev/null 2>&1 &))) &
+exec_always --no-startup-id (pgrep -f polkit-gnome-authentication-agent-1 || nohup /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1 &) &
+

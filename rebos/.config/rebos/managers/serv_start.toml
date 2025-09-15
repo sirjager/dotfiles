@@ -11,3 +11,4 @@ hook_name = "serv_start"
 
 [config]
 many_args = true
+arg_sep = " "

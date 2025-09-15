@@ -5,20 +5,30 @@
  *
  **/
 
-
 @theme "~/.local/bin/rofi-dmenu/colors.rasi"
- 
+
 * {
-    background-color:      @main-bg;
-    text-color:            @main-bg;
+    background-color:      @base;
+    text-color:            @text;
     font:                  @font;
+
+    border-radius:      8px;
+    border-color:       @surface0;
+
+    selected-bg:        @red;
+    selected-fg:        @base;
+
+    button-bg:        @base;
+    button-fg:        @text;
+
+    scrollbar-color:    @peach;
 }
- 
+
 #window {
     anchor:       north;
     location:     north;
     width:        70%;
-    padding:      10px 6px 10px 6px;
+    padding:      10px 6px;
     transparency: "real";
     children:     [ horibox ];
     border-radius: 20px;
@@ -27,40 +37,38 @@
     x-offset:     0px;
     y-offset:     20px;
 }
- 
+
 #horibox {
     orientation: horizontal;
-    children:   [ prompt, entry, listview ];
+    children:   [ prompt, listview ];  /* removed entry, since rofipick doesn’t need text input */
 }
-
- 
 
 prompt {
     enabled: true;
-    padding: 2px 10px;
+    padding: 6px 12px;
+    text-color: @text-color;
 }
 
 #listview {
-    enabled:                     true;
-    spacing:                     2px;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
-    layout:                      horizontal;
-    background-color:            transparent;
+    enabled:          true;
+    spacing:          8px;
+    cycle:            false;
+    dynamic:          true;
+    scrollbar:        false;
+    layout:           horizontal;
+    background-color: transparent;
 }
-
-#entry {
-    expand:     false;
-    width:      100%;
-}
-
 
 #element {
-    padding: 4px 8px;
+    padding:       6px 14px;
+    border-radius: @border-radius;
+    text-color:    @button-fg;
+    background-color: @button-bg;
 }
 
 #element selected {
-    border:                       0px solid;
-    border-radius:                @border-radius;
+    background-color: @selected-bg;
+    text-color:       @selected-fg;
+    border-radius:    @border-radius;
 }
+

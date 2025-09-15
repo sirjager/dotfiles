@@ -3,13 +3,13 @@
 msgId="98989"
 arg=$1
 
-if ! command -v light &>/dev/null; then
-	notify-send -u critical -a "Brightness" -r "$msgId" "Light not found" "sudo pacman --needed -S light"
+if ! command -v brightnessctl &>/dev/null; then
+	notify-send -u critical -a "Brightness" -r "$msgId" "brightnessctl not found" "sudo pacman --needed -S brightnessctl"
 	exit 1
 fi
 
 get_brightness() {
-	echo "$(light -G)"
+	echo "$(brightnessctl | grep "Current " | awk -F'[()%]' '{print $2}')%"
 }
 
 get_icon() {
@@ -25,20 +25,30 @@ send_notification() {
 	notify-send -i "$1" -a "Brightness" -r "$msgId" -h int:value:"$(get_brightness)" "$(get_brightness)"
 }
 
+
+bright_up(){
+  brightnessctl s +5%
+}
+
+bright_down(){
+  brightnessctl s 5%-
+}
+
+
 case $arg in
 get)
-	echo "$(light -G)"
+	get_brightness
   exit 0
 	;;
 
 up)
-	light -A 5
+  bright_up
 	;;
 down)
-	light -U 5
+	bright_down
 	;;
 *)
-	echo "Usage: brightness [up|down]"
+	echo "Usage: brightness [up|down|get]"
 	exit 0
 	;;
 esac

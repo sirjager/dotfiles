@@ -16,3 +16,4 @@ hook_name = "init_pkgs"
 
 [config]
 many_args = true
+arg_sep = " "

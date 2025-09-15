@@ -171,3 +171,5 @@ ro.hardware.egl=swiftshader' /var/lib/waydroid/waydroid.cfg
   sudo waydroid upgrade --offline
  sudo systemctl restart waydroid-container.service
 }
+
+

@@ -1,0 +1,32 @@
+# █░█ █▀ █▀▀ █▀█   █▀█ █▀█ █▀▀ █▀▀ █▀
+# █▄█ ▄█ ██▄ █▀▄   █▀▀ █▀▄ ██▄ █▀░ ▄█
+
+
+font pango:JetbrainsMono Nerd Font 11
+
+# Set resolution and refresh rate
+output eDP-1 resolution 1920x1080@60Hz
+
+exec_always swaybg -o eDP-1 -i /mnt/storage/wallpaper/hyprland/waifu_pink.jpg -m fill
+
+# █ █▄░█ █▀█ █░█ ▀█▀
+# █ █░▀█ █▀▀ █▄█ ░█░
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll disabled
+    middle_emulation enabled
+}
+
+input type:keyboard {
+    xkb_layout "us"
+    repeat_rate 60
+    repeat_delay 180
+}
+
+include /etc/sway/config.d/*
+include ~/.config/sway/bar
+include ~/.config/sway/keybinds
+include ~/.config/sway/startup
+include ~/.config/sway/effects

@@ -10,8 +10,9 @@
 # Network Manager: https://wiki.archlinux.org/title/NetworkManager
 # Screen Locking: https://github.com/i3/i3lock
 # Light Brightness Control:https://aur.archlinux.org/packages/light
+# Brightnessctl: https://man.archlinux.org/man/brightnessctl.1.en
 
-[managers.system]
+[managers.packages]
 items = [
   "polkit-gnome",
   "libnotify",
@@ -23,7 +24,7 @@ items = [
   "bluez",
   "bluez-utils",
   "i3lock",
-  "light",
+  "brightnessctl",
 ]
 
 [managers.serv_enable]

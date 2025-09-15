@@ -5,7 +5,7 @@
 imports = [
 ]
 
-[managers.system]
+[managers.packages]
 items = [
 ]
 

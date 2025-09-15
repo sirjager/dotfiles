@@ -1,0 +1,90 @@
+/**
+ *
+ * Author : Ankur Kumar (SirJager)
+ * Github : @SirJager
+ * 
+ *
+ **/
+ 
+@theme "~/.local/bin/rofi-dmenu/colors.rasi"
+
+* {
+  font:                     "Ubuntu Bold 14px";
+  background-color:         transparent;
+
+  border-radius:      8px;
+  border-color:       @surface0;
+
+  selected-bg:        @red;
+  selected-fg:        @base;
+
+  button-bg:        @base;
+  button-fg:        @text;
+
+  scrollbar-color:    @peach;
+}
+ 
+#window {
+    anchor:     north;
+    location:   north;
+    width:      99%;
+    x-offset:     0px;
+    y-offset:     -39px;
+    border-radius: 10px;
+    children:   [ horibox ];
+    transparency: "real";
+}
+ 
+#horibox {
+    orientation: horizontal;
+    children:   [ prompt, entry, listview ];
+}
+
+prompt {
+    enabled: true;
+    padding:          6px 14px;
+    text-color:       @base;
+    background-color: @red;
+}
+
+#entry {
+    expand:           false;
+    width:            15%;
+    margin:           0px 12px;
+    padding:          6px 12px;
+    text-color:       @red;
+    background-color: @base;
+}
+
+#listview {
+  enabled:                     true;
+  spacing:                     8px;
+  cycle:                       true;
+  dynamic:                     true;
+  scrollbar:                   true;
+  layout:                      horizontal;
+  show-icons: false;
+}
+
+
+#element {
+  padding:          6px 12px;
+  border-radius:    @border-radius;
+  background-color: @base;
+}
+
+
+#element-text {
+  margin: 0px 0px 0px -20px;
+  text-color:       @text;
+}
+
+#element selected {
+  text-color:       @base;
+  background-color: @red;
+}
+
+#element-text selected {
+  text-color:       @base;
+}
+

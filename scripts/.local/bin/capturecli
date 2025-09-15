@@ -27,7 +27,7 @@ RECORDINGS_DIR="$mystorage/downloads/Recordings"
 NOTIFY_ID="92832" # id to keep replace old notifications
 
 # Rofi theme like dmneu
-ROFI_THEME="$HOME/.config/sxhkd/rofi/horizontal.rasi"
+ROFI_THEME="$myscripts/rofi-dmenu/horizontal.rasi"
 
 while [ $# -gt 0 ]; do
   case "$1" in

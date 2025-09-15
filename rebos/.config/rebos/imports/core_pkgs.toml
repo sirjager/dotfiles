@@ -1,4 +1,4 @@
-[managers.system]
+[managers.packages]
 items = [
   "wget", "curl", "git",
   "p7zip", "zip", "unzip",
@@ -12,7 +12,7 @@ items = [
   "htop","btop",
   "gufw","xdg-utils",
   "gum", "yad", "bat",
-  "stow"
+  "stow", "luarocks",
 ]
 
 [managers.serv_start]

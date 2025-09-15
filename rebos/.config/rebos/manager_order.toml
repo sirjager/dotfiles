@@ -2,7 +2,7 @@
 
 begin = [
   "init_pkgs",
-  "system",
+  "packages",
   "gobuilder",
   "fontsdl",
 ]

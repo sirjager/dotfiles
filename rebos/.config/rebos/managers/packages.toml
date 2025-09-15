@@ -2,8 +2,8 @@
 #    Package Manager Configuration    #
 # ----------------------------------- #
 
-add = "paru --fm nvim --needed -S #:?"
-remove = "paru -Rns #:?"
+add = "yay --needed -S #:?"
+remove = "yay -Rns #:?"
 
 plural_name = "system packages"
 
@@ -15,3 +15,4 @@ hook_name = "system_packages"
 
 [config]
 many_args = true
+arg_sep = " "

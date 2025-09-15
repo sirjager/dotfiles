@@ -9,3 +9,4 @@ hook_name = "crates"
 
 [config]
 many_args = true
+arg_sep = " "

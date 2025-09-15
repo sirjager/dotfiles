@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+
+# █▀▀ █▄░█ █░█
+# ██▄ █░▀█ ▀▄▀
+
+set $alt Mod1
+set $super Mod4 
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $browser brave
+set $editor nvim
+set $explorer nautilus --new-window
+set $term kitty bash -c tmux attach
+
+
+# Drag And Resize Window with mouse buttons + $super
+floating_modifier $super normal
+
+## Reload sway configuration
+bindsym $super+Shift+r reload 
+
+## Exit sway | Logout Wayland session | Quit | Exit
+bindsym $super+Shift+q exec $myscripts/rofipick -p 'Do you really want to exit current sway session ?' -o 'Nope; exit 0' -o 'Yes, Exit Sway; swaymsg exit'
+
+## Power menu | Shutdown | Restart | Logout
+bindsym $super+Ctrl+p exec ~/.config/rofi/applets/bin/powermenu.sh
+
+## Lockscreen: Locks screen
+bindsym $alt+Shift+l exec ~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh
+
+## Volume | Increase | Raise  | UP
+bindsym $alt+KP_Add exec $myscripts/volume up
+bindsym --locked XF86AudioRaiseVolume exec $myscripts/volume up 
+
+## Volume | Decrease | Lower  | Down
+bindsym $alt+KP_Subtract exec $myscripts/volume down
+bindsym --locked XF86AudioLowerVolume exec $myscripts/volume down 
+
+## Volume | Mute | Zero | Toggle
+bindsym --locked XF86AudioMute exec $myscripts/volume toggle 
+
+## Mic Microphone | Mute | Toggle
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+
+## Brightness | | Increase | Raise  | UP
+bindsym $super+KP_Add exec $myscripts/brightness up
+bindsym --locked XF86MonBrightnessUp exec $myscripts/brightness up
+
+## Brightness | Decrease | Lower  | Down
+bindsym $super+KP_Subtract exec $myscripts/brightness down
+bindsym --locked XF86MonBrightnessDown exec $myscripts/brightness down
+
+bindsym Print exec grim # Special key to take a screenshot with grim
+
+
+# █▄▀ █▀▀ █▄█ █▄▄ █ █▄░█ █▀▄ █ █▄░█ █▀▀ █▀
+# █░█ ██▄ ░█░ █▄█ █ █░▀█ █▄▀ █ █░▀█ █▄█ ▄█
+
+
+## Focused window floating
+bindsym $super+f floating toggle
+
+## Focused window sticky | pin window
+bindsym $super+Shift+p sticky toggle
+
+## Focused window fullscreen
+bindsym $super+Shift+f fullscreen
+
+## Focus toggle between titling and floating
+bindsym $super+Tab focus mode_toggle
+
+## Focus window next | next window
+bindsym $alt+Tab focus next
+
+## Focus window prev | prev window
+bindsym $alt+Shift+Tab focus prev
+
+## Focused Window Close | Kill Active window
+bindsym $super+w kill
+
+## Move your focus left | h/left
+bindsym $super+$left focus left
+bindsym $super+Left focus left
+
+## Move your focus down | j/down
+bindsym $super+$down focus down
+bindsym $super+Down focus down
+
+## Move your focus up |  k/up
+bindsym $super+$up focus up
+bindsym $super+Up focus up
+
+## Move your focus right |  l/right
+bindsym $super+$right focus right
+bindsym $super+Right focus right
+
+## Move the focused window left
+bindsym $super+Shift+$left move left
+bindsym $super+Shift+Left move left
+
+## Move the focused window down
+bindsym $super+Shift+$down move down
+bindsym $super+Shift+Down move down
+
+## Move the focused window up
+bindsym $super+Shift+$up move up
+bindsym $super+Shift+Up move up
+
+## Move the focused window right
+bindsym $super+Shift+$right move right # 
+bindsym $super+Shift+Right move right
+
+## Switch to workspace 1-10
+bindsym $super+1 workspace number 1
+bindsym $super+2 workspace number 2
+bindsym $super+3 workspace number 3
+bindsym $super+4 workspace number 4
+bindsym $super+5 workspace number 5
+bindsym $super+6 workspace number 6
+bindsym $super+7 workspace number 7
+bindsym $super+8 workspace number 8
+bindsym $super+9 workspace number 9
+bindsym $super+0 workspace number 10
+
+## Move focused window to workspace 1-10
+bindsym $super+Shift+1 move container to workspace number 1 ; workspace number 1
+bindsym $super+Shift+2 move container to workspace number 2 ; workspace number 2
+bindsym $super+Shift+3 move container to workspace number 3 ; workspace number 3
+bindsym $super+Shift+4 move container to workspace number 4 ; workspace number 4
+bindsym $super+Shift+5 move container to workspace number 5 ; workspace number 5
+bindsym $super+Shift+6 move container to workspace number 6 ; workspace number 6
+bindsym $super+Shift+7 move container to workspace number 7 ; workspace number 7
+bindsym $super+Shift+8 move container to workspace number 8 ; workspace number 8 
+bindsym $super+Shift+9 move container to workspace number 9 ; workspace number 9
+bindsym $super+Shift+0 move container to workspace number 10; workspace number 10
+
+## Split Layout Horizontal
+bindsym $super+shift+backslash splith
+
+## Split Layout Vertical
+bindsym $super+shift+minus splitv
+
+## Layout Split | Horizontal | Vertical | Layout  
+bindsym $super+shift+KP_Divide layout toggle split
+
+## Layout Stack | Tabbed
+bindsym $super+shift+KP_Subtract layout stacking
+
+mode "resize" {
+   bindsym $left resize shrink width 10px
+  bindsym $down resize grow height 10px
+  bindsym $up resize shrink height 10px
+  bindsym $right resize grow width 10px
+  bindsym Left resize shrink width 10px
+  bindsym Down resize grow height 10px
+  bindsym Up resize shrink height 10px
+  bindsym Right resize grow width 10px
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+## Window Resize Mode | Resize window with hjkl/arrows
+bindsym $super+r mode "resize"
+
+
+
+# Scratchpad:
+#
+  # Sway has a "scratchpad", which is a bag of holding for windows.
+  # You can send windows there and get them back later.
+
+  # Move the currently focused window to the scratchpad
+  # bindsym $super+Shift+minus move scratchpad
+
+  # Show the next scratchpad window or hide the focused scratchpad window.
+  # If there are multiple scratchpad windows, this command cycles through them.
+  bindsym $super+minus scratchpad show
+
+
+# ▄▀█ █▀█ █▀█ █▀
+# █▀█ █▀▀ █▀▀ ▄█
+
+## Launcher App Menu | Rofi Launcher
+bindsym $alt+Space exec rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi
+
+## Launch File Manager | Explorer | Nautilus 
+bindsym $super+e exec $explorer
+
+## Launch Terminal | Kitty 
+bindsym $super+Return exec $term
+
+## Launch Terminal | Kitty 
+bindsym $alt+Return exec $term
+
+
+# █░░ ▄▀█ █░█ █▄░█ █▀▀ █░█
+# █▄▄ █▀█ █▄█ █░▀█ █▄▄ █▀█
+
+mode "Browser" {
+ ## Brave Browser Profile - sirjager
+ bindsym b exec brave --profile-directory=sirjager; mode "default"
+ ## Brave Browser Profile - 5321ankur
+ bindsym n exec brave --profile-directory=5321ankur; mode "default"
+ # Return to default mode
+ bindsym Return mode "default"
+ bindsym Escape mode "default"
+}
+## Browser Mode | Browser Profiles
+bindsym $super+b mode "Browser"
+
+
+mode "Bookmarks" {
+ ## Bookmark | Visit
+ bindsym b exec $myscripts/bookman --brave --visit; mode "default"
+ ## Bookmark | Copy Link
+ bindsym c exec $myscripts/bookman --brave --visit; mode "default"
+ # Return to default mode
+ bindsym Return mode "default"
+ bindsym Escape mode "default"
+}
+## Bookmark manager
+bindsym $super+m mode "Bookmarks"
+
+for_window [app_id="brave-browser"] move to workspace number 1, workspace number 1
+

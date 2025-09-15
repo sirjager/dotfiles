@@ -1,5 +1,5 @@
 # X11 Display Server Packages
-[managers.system]
+[managers.packages]
 items = [
   "xorg-xhost",
   "xorg-server",

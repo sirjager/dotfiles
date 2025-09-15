@@ -10,3 +10,4 @@ hook_name = "flatpaks"
 
 [config]
 many_args = true
+arg_sep = " "

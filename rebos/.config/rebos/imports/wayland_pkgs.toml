@@ -1,0 +1,8 @@
+# X11 Display Server Packages
+[managers.packages]
+items = [
+  "rofi-wayland",
+  "waybar",
+  # "sway",
+  "swayfx",
+ ]

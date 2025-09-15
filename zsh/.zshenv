@@ -24,6 +24,15 @@ XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-"$(xdg-user-dir MUSIC)"}"
 XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-"$(xdg-user-dir PICTURES)"}"
 XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-"$(xdg-user-dir VIDEOS)"}"
 
+# Personal Directories
+export mystorage="/mnt/storage"
+export mygithub="github.com/sirjager"
+export mydotfiles="$HOME/dotfiles"
+export mydownloads="$mystorage/downloads"
+export myscripts="$mydotfiles/scripts/.local/bin"
+export myrecentedits="$HOME/.local/state/recentedits.log"
+export myledger="$mystorage/personal/ledgers/main.ledger"
+
 LESSHISTFILE=${LESSHISTFILE:-/tmp/less-hist}
 PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
 SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
@@ -72,14 +81,6 @@ zinit snippet OMZP::sudo
 # [functions autoload] =====================================
 autoload -U compinit && compinit
 zinit cdreplay -q
-
-# Personal Directories
-export mystorage="/mnt/storage"
-export mygithub="github.com/sirjager"
-export mydotfiles="$HOME/dotfiles"
-export mydownloads="$mystorage/downloads"
-export myrecentedits="$HOME/.local/state/recentedits.log"
-export myledger="$mystorage/personal/ledgers/main.ledger"
 
 # XDG Directories
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -150,7 +151,7 @@ export GPG_TTY="$(tty)"
 export EDITOR="nvim"
 export DIRENV_LOG_FORMAT=""
 export TERMINAL="kitty"
-export BROWSER="chromium"
+export BROWSER="brave"
 export PG_COLOR="always"                     # postgres
 export _JAVA_AWT_WM_NONREPARENTING=1         # For Java Applications
 export XMODIFIERS='@im=fcitx'                # multilang keyboard
@@ -158,7 +159,7 @@ export GTK_IM_MODULE='fcitx'                 # multilang keyboard
 export SDL_IM_MODULE='fcitx'                 # multilang keyboard
 export QT_IM_MODULE='fcitx'                  # multilang keyboard
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
-export CHROME_EXECUTABLE='/usr/bin/chromium' # Chrome executable path
+export CHROME_EXECUTABLE='/usr/bin/brave' # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 export MASON_BIN="$XDG_DATA_HOME/nvim/mason/bin" # Mason bin

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+alias cat="bat"
+
 # [ Custom Aliases  ]================================
 alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=EndeavourOS"
@@ -75,11 +77,11 @@ up() { # up <n> : to go n up
 }
 
 # Paru | Yay | Pacman | Package Manager
-alias .i="paru --fm nvim --needed -S" # Install package if needed and skip confirmation
-alias .r="paru -Rns"                  # Remove packages without removing configurations
-alias .u="paru -Syu"                  # Update packages and repositories databases
-alias .s="paru -Syy"                  # Sync packages and repositories
-alias .c='paru -Rns $(pacman -Qtdq)'  # Remove Orphaned packages and dependencies
+alias .i="yay --needed -S" # Install package if needed and skip confirmation
+alias .r="yay -Rns"                  # Remove packages without removing configurations
+alias .u="yay -Syu"                  # Update packages and repositories databases
+alias .s="yay -Syy"                  # Sync packages and repositories
+alias .c='yay -Rns $(pacman -Qtdq)'  # Remove Orphaned packages and dependencies
 
 # Coloring Grep Outputs
 alias grep='grep --color=auto'

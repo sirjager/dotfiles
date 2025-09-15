@@ -12,12 +12,12 @@
 # bookmarks source file
 CHROMIUM_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
 GOOGLE_CHROME_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
-BRAVE_BOOKMARKS="$mystorage/programs/chromium/sirjager/Default/Bookmarks"
+BRAVE_BOOKMARKS="$HOME/.config/BraveSoftware/Brave-Browser/sirjager/Bookmarks"
 
 # Configuration
 WORKING_DIRECTORY="$HOME/.cache/bookman"
 STANDALONE_BOOKMARKS="$WORKING_DIRECTORY/standalone.bookmarks"
-ROFI_THEME="$HOME/.config/sxhkd/rofi/vertical.rasi"
+ROFI_THEME="$HOME/.local/bin/rofi-dmenu/vertical.rasi"
 
 # Change Icons or Clear to remove
 FOLDER_ICON="📂 "

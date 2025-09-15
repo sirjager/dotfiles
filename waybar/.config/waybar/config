@@ -1,0 +1,35 @@
+{
+  "layer": "top",
+  "position": "top", // (top|bottom|left|right)
+  "height": 28,
+  "margin": "0 0 0 0",
+
+  "modules-left": [
+    "custom/launcher",
+    "sway/workspaces",
+    "sway/mode",
+    "sway/window",
+    ],
+
+  "modules-center": ["clock"],
+
+  "modules-right": [
+    "custom/uptime",
+    "custom/keyboard-layout",
+    //
+    "cpu",
+    "temperature",
+    "memory",
+    //
+    "backlight",
+    "pulseaudio",
+    "battery",
+    "network",
+    //
+    "tray",
+    "custom/power",
+  ],
+  "include": [
+    "~/.config/waybar/modules.json"
+  ]
+}

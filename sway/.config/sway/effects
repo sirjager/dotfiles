@@ -1,0 +1,21 @@
+# https://github.com/WillPower3309/swayfx
+## Only works with swayfx not with sway
+
+blur enable
+blur_radius 4
+blur_passes 3
+corner_radius 20
+shadows disable
+
+
+# Remove titlebars
+titlebar_padding 1
+default_border none
+default_border pixel 0
+default_floating_border none
+titlebar_border_thickness 0
+font pango:monospace 0.001
+
+gaps inner 5
+gaps outer 3
+smart_borders on

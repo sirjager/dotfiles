@@ -1,5 +1,5 @@
 # BSPWM
-[managers.system]
+[managers.packages]
 items = [
   "bspwm", "sxhkd",
   "polybar", "picom",
