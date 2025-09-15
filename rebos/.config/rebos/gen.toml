@@ -30,6 +30,7 @@ items = [
   "rofi-wayland",
   "carapace-bin",
   "swaybg",
+  "yazi",
 ]
 
 # Services
