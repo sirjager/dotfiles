@@ -139,7 +139,8 @@ set_desktop_wallpaper() {
   [ ! -f "$1" ] && return 1 # if not file exists
   [ ! -d ~/.cache/current ] && mkdir -p ~/.cache/current
   local ext="${1##*.}"
-  feh --no-fehbg --bg-fill "$1"
+  # feh --no-fehbg --bg-fill "$1"
+  nohup swaybg -o eDP-1 -i "$1" -m fill >/dev/null 2>&1 &
   rm -f "$HOME/.cache/current/wallpaper*"
   cp -f "$1" "$HOME/.cache/current/wallpaper.$ext"
   [ "$ECHO" = "true" ] && echo "$1"
@@ -165,7 +166,7 @@ set_random_wallpaper() {
 
 set_wallpaper() {
   [ -z "$1" ] && return 1
-  generate_pywal_colors "$1"
+  # generate_pywal_colors "$1"
   set_desktop_wallpaper "$1"
   [ "$BSPWM" = "true" ] && set_bspwm_colors &
   [ "$POLYBAR" = "true" ] && set_polybar_colors &
@@ -173,6 +174,7 @@ set_wallpaper() {
   [ "$TMUX" = "true" ] && set_tmux_colors &
   exit 0 # script end
 }
+
 
 if [ -f "$WALLPAPER" ]; then
   set_wallpaper "$WALLPAPER"

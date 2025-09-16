@@ -17,7 +17,8 @@
     }
   },
   "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>"
+    "format": "<span style=\"italic\">{}</span>",
+    "rotate": 90
   },
   "sway/window": {
     "format": "{app_id}"
@@ -56,10 +57,20 @@
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     },
-    "format": "   {:%a %d %b      %I:%M %p} ",
+    "format": "{:%I:%M}",
     "format-alt": "   {:%d/%m/%Y  %H:%M:%S}",
-    "timezones": ["Kolkata"],
+    "timezones": [
+      "Kolkata"
+    ],
     "max-length": 200,
+    "interval": 1
+  },
+  "clock#hour": {
+    "format": "{:%I}",
+    "interval": 1
+  },
+  "clock#min": {
+    "format": "{:%M}",
     "interval": 1
   },
   "cpu": {
@@ -82,8 +93,11 @@
     "format": "  {temperatureC}°C"
   },
   "backlight": {
-    "format": "{icon}  {percent: >3}%",
-    "format-icons": ["", ""],
+    "format": "{icon} {percent: >3}",
+    "format-icons": [
+      "",
+      ""
+    ],
     "on-scroll-up": "brightness up",
     "on-scroll-down": "brightness down"
   },
@@ -93,15 +107,27 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon}  {capacity: >3}%",
+    "format": "{icon} {capacity: >3}",
     "_format-good": "",
     "_format-full": "",
-    "format-icons": ["", "", "", "", "", "", "", "", "", ""]
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
   },
   "network": {
     "_interface": "wlp2s0",
     "format": "⚠  Disabled",
-    "format-wifi": "   {essid}",
+    "format-wifi": " ",
+    "_format-wifi": "   {essid}",
     "_format-ethernet": " {ifname}: {ipaddr}/{cidr}",
     "format-ethernet": "  Wired",
     "format-disconnected": "⚠  Disconnected",
@@ -109,8 +135,8 @@
   },
   "pulseaudio": {
     "scroll-step": 1,
-    "format": "{icon}  {volume: >3}%",
-    "format-bluetooth": "{icon}  {volume: >3}%",
+    "format": "{icon}  {volume: >3}",
+    "format-bluetooth": "{icon}  {volume: >3}",
     "format-muted": " muted",
     "format-icons": {
       "headphones": "",
@@ -119,7 +145,10 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", ""]
+      "default": [
+        "",
+        ""
+      ]
     },
     "on-click": "pavucontrol",
     "on-scroll-up": "volume up",
@@ -147,8 +176,13 @@
     "on-click": "~/.config/waybar/scripts/keyhint.sh"
   },
   "custom/launcher": {
-    "format": " ",
-    "on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
+    "format": " ",
+    "on-click": "swaync-client -t -sw",
+    "tooltip": false
+  },
+  "custom/wallpaper": {
+    "format": "",
+    "on-click": "setwal -path $mystorage/wallpaper ",
     "tooltip": false
   }
 }

@@ -1,27 +1,5 @@
 @import "machiatto.css";
-
-/*
- Polar Night
- nord0  #2e3440
- nord1  #3b4252
- nord2  #434c5e
- nord3  #4c566a
- Snow Storm
- nord4  #d8dee9
- nord5  #e5e9f0
- nord6  #eceff4
- Frost
- nord7  #8fbcbb
- nord8  #88c0d0
- nord9  #81a1c1
- nord10 #5e81ac
- Aurora
- nord11 #bf616a
- nord12 #d08770
- nord13 #ebcb8b
- nord14 #a3be8c
- nord15 #b48ead
- */
+@import "colors.css";
 
 /* -----------------------------------------------------------------------------
   * Base styles
@@ -31,15 +9,11 @@
 
 * {
   color: @lavender;
-  border: 0;
-  padding: 0 0;
-  font-family: UbuntuMono;
-  /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
-  /* font-family: "Hack Nerd Font"; */
+  border: 0px;
+  padding: 0px 0px;
   font-size: 12px;
   font-weight: bold;
-  /* padding-bottom:4px;
-     padding-top: 4px; */
+  font-family: UbuntuMono;
 }
 
 window#waybar {
@@ -50,8 +24,7 @@ window#waybar {
 #workspaces button {
   color: @base;
   border-radius: 50%;
-  margin: 0px 0px;
-  padding: 3 8 3 8;
+  padding: 3px 8px 3px 8px;
 }
 
 #workspaces button:hover {
@@ -76,16 +49,20 @@ window#waybar {
   border-style: solid;
   background-color: @base;
   border-radius: 10px;
-  margin: 8px 0px 8px 8px;
+  margin: 10px 4px 10px 10px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #workspaces button.focused {
   color: @red;
   border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #workspaces button.focused * {
   color: @red;
+  font-size: 14px;
 }
 
 #clock,
@@ -108,12 +85,12 @@ window#waybar {
 #custom-uptime,
 #custom-date,
 #custom-clock,
+#custom-wallpaper,
 #mpd {
-  padding: 5px 8px;
   border-style: solid;
   background-color: shade(@base, 1);
   opacity: 1;
-  margin: 8px 0;
+  margin: 10px 4px 0px 8px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -121,12 +98,20 @@ window#waybar {
   * -------------------------------------------------------------------------- */
 #mode {
   color: @base;
-  background-color: @red;
+  background-color: @peach;
   border-radius: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+  padding: 18px 2px 18px 2px;
+  margin: 10px 4px 10px 10px;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
+}
+
+#custom-wallpaper {
+  color: @teal;
+  background-color: @base;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 4px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #custom-uptime {
@@ -136,22 +121,41 @@ window#waybar {
 
 #clock {
   color: @sky;
-  border-radius: 10px;
-  margin: 8px 10px;
-  padding: 3 8 3 8;
+  font-size: 22px;
+  font-weight: 900;
+  font-family: "Rampart One", sans-serif;
+  margin: 0px 4px 0px 8px;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
+}
+
+#clock.hour {
+  color: @sky;
+  margin-top: 10px;
+  padding: 3px 8px 0px 8px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+#clock.min {
+  color: @sky;
+  margin-bottom: 10px;
+  padding: 0px 8px 3px 8px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 #backlight {
   color: @yellow;
-  /* border-bottom: 2px solid @yellow; */
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 7px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #battery {
   color: #d8dee9;
-  /* border-bottom: 2px solid #d8dee9; */
-  border-radius: 0 10px 10px 0;
-  margin-right: 10px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 7px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #battery.charging {
@@ -199,9 +203,10 @@ window#waybar {
 
 #network {
   color: @green;
-  /* border-bottom: 2px solid @green; */
   border-radius: 10px;
-  margin-right: 5px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 7px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #network.disconnected {
@@ -211,7 +216,11 @@ window#waybar {
 
 #pulseaudio {
   color: @flamingo;
-  /* border-bottom: 2px solid @flamingo; */
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 7px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
+
 }
 
 #pulseaudio.muted {
@@ -244,17 +253,18 @@ window#waybar {
   color: @base;
   background-color: @mauve;
   border-radius: 10px;
-  padding: 5px 10px;
-  margin-left: 15px;
+  padding: 7px 7px 7px 8px;
+  margin: 10px 10px 0px 10px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #custom-power {
   color: @base;
   background-color: @peach;
   border-radius: 10px;
-  margin-left: 10px;
-  margin-right: 15px;
-  padding: 5px 10px 5px 6px;
+  margin-bottom: 20px;
+  padding: 10px 7px 10px 4px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #window {

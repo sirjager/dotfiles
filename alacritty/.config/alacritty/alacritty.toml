@@ -1,4 +1,5 @@
-import = ["~/.config/alacritty/themes/catppuccin-macchiato.toml"]
+[general]
+import = ["colors.toml"]
 
 live_config_reload = true
 
@@ -39,7 +40,7 @@ multiplier = 3
 [selection]
 save_to_clipboard = true
 
-[shell]
+[terminal.shell]
 program = "/usr/bin/zsh"
 
 [window]
@@ -62,4 +63,6 @@ y = 20
 
 [cursor]
 style = "block" #  ▇ "block" | "beam" _ "underline"
+
+[terminal]
 

@@ -13,6 +13,13 @@ items = [
   "gufw","xdg-utils",
   "gum", "yad", "bat",
   "stow", "luarocks",
+
+  # GTK settings editor, for Wayland : https://github.com/nwg-piotr/nwg-look
+  "nwg-look",
+  # Generate/Export Material You Color Palette: https://github.com/InioX/matugen
+  "matugen-bin",
+  # Generate and change color-schemes on the fly.: https://github.com/dylanaraps/pywal
+  "python-pywal",
 ]
 
 [managers.serv_start]

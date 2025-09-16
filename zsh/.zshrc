@@ -1,8 +1,5 @@
-# Add user configurations here
-# For HyDE to not touch your beloved configurations,
-# we added 2 files to the project structure:
-# 1. ~/.user.zsh - for customizing the shell related hyde configurations
-# 2. ~/.zshenv - for updating the zsh environment variables handled by HyDE // this will be modified across updates
+# ~/.zshrc
+
 
 # [Emacs keybindings for zsh] =======================================
 # ctrl+e -> to move curosr to end; 
@@ -53,4 +50,4 @@ eval "$(fnm completions --shell zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
-[ -f "$HOME/dotfiles/zsh/.aliases" ] && . "$HOME/dotfiles/zsh/.aliases"
+[ -f "$HOME/__aliases__" ] && . "$HOME/__aliases__"

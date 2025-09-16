@@ -1,13 +1,22 @@
 # █░█ █▀ █▀▀ █▀█   █▀█ █▀█ █▀▀ █▀▀ █▀
 # █▄█ ▄█ ██▄ █▀▄   █▀▀ █▀▄ ██▄ █▀░ ▄█
 
+include colors
 
 font pango:JetbrainsMono Nerd Font 11
+
+exec_always swaync
+exec_always swww-daemon
+
 
 # Set resolution and refresh rate
 output eDP-1 resolution 1920x1080@60Hz
 
-exec_always swaybg -o eDP-1 -i /mnt/storage/wallpaper/hyprland/waifu_pink.jpg -m fill
+# exec_always swaybg -o eDP-1 -i /mnt/storage/wallpaper/hyprland/waifu_pink.jpg -m fill
+
+exec_always --no-startup-id sh -c 'pgrep -x polkit-gnome-authentication-agent-1 || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &'
+
+
 
 # █ █▄░█ █▀█ █░█ ▀█▀
 # █ █░▀█ █▀▀ █▄█ ░█░

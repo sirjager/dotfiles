@@ -1,18 +1,4 @@
-#!/usr/bin/env zsh
-#!          ░▒▓
-#!        ░▒▒░▓▓
-#!      ░▒▒▒░░░▓▓           ___________
-#!    ░░▒▒▒░░░░░▓▓        //___________/
-#!   ░░▒▒▒░░░░░▓▓     _   _ _    _ _____
-#!   ░░▒▒░░░░░▓▓▓▓▓ | | | | |  | |  __/
-#!    ░▒▒░░░░▓▓   ▓▓ | |_| | |_/ /| |___
-#!     ░▒▒░░▓▓   ▓▓   \__  |____/ |____/    ▀█ █▀ █░█
-#!       ░▒▓▓   ▓▓  //____/                █▄ ▄█ █▀█
-
-# HyDE's ZSH env configuration
-# This file is sourced by ZSH on startup
-# And ensures that we have an obstruction-free ~/.zshrc file
-# This also ensures that the proper HyDE $ENVs are loaded
+# ~/.zshenv
 
 # XDG User Directories
 XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR:-"$(xdg-user-dir DESKTOP)"}"
@@ -188,3 +174,20 @@ export PATH="$PATH:$mystorage/programs/appdev/android-studio/jbr/bin"
 export PATH="$PATH:$PNPM_HOME:$MASON_BIN"
 export PATH="$PATH:$mystorage/programs/protoc/bin"
 export PATH="$PATH:$XDG_CONFIG_HOME/rofi/scripts"
+
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  export GDK_BACKEND="wayland"
+  export QT_QPA_PLATFORM="wayland"
+  export SDL_VIDEODRIVER="wayland"
+  export CLUTTER_BACKEND="wayland"
+  export XDG_CURRENT_DESKTOP="${XDG_CURRENT_DESKTOP:-sway:wlroots:swayfx}"
+  export XDG_SESSION_DESKTOP="$XDG_CURRENT_DESKTOP"
+  export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+  export QT_QPA_PLATFORMTHEME=qt5ct
+fi
+
+if [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  export GDK_BACKEND="x11"
+  export QT_QPA_PLATFORM="xcb"
+fi

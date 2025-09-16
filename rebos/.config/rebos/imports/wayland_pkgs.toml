@@ -1,8 +1,12 @@
 # X11 Display Server Packages
 [managers.packages]
 items = [
-  "rofi-wayland",
+  "xorg-xhost",
   "waybar",
   # "sway",
   "swayfx",
+  "swaync",
+  "swaybg",
+  "swww",
+  "rofi-wayland",
  ]

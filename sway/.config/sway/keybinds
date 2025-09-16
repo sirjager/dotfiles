@@ -180,6 +180,10 @@ bindsym $super+r mode "resize"
   # If there are multiple scratchpad windows, this command cycles through them.
   bindsym $super+minus scratchpad show
 
+  ## Notifiction Center | Overwatch
+  bindsym $super+Shift+n exec swaync-client -t -sw
+
+
 
 # ▄▀█ █▀█ █▀█ █▀
 # █▀█ █▀▀ █▀▀ ▄█

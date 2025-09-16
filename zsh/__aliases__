@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 alias cat="bat"
 
@@ -33,15 +33,16 @@ alias ls="eza --icons --git"
 alias lt="eza --tree --level=2 --long --icons --git"
 
 # Git Commands ===================================================
-alias fetch="git fetch"          # Git Fetch
-alias addup="git add -u"         # Git add updated
-alias addall="git add ."         # Git add all
-alias branch="git branch"        # Git Branch
-alias checkout="git checkout"    # Git checkout
-alias pull="git pull origin"     # Git pull origin
-alias rebase="git pull --rebase" # Git pull rebase
-alias newtag="git tag -a"        # Git new tag
-alias tags="git tag"             # Git tags
+alias fetch="git fetch"                                       # Git Fetch
+alias addup="git add -u"                                      # Git add updated
+alias addall="git add ."                                      # Git add all
+alias branch="git branch"                                     # Git Branch
+alias checkout="git checkout"                                 # Git checkout
+alias pull="git pull origin"                                  # Git pull origin
+alias rebase="git pull --rebase"                              # Git pull rebase
+alias newtag="git tag -a"                                     # Git new tag
+alias tags="git tag"                                          # Git tags
+alias gitlog="git log --outline --graph --decorate --all"     # Git Log
 
 # Youtube DL =====================================================
 alias yta-acc="youtube-dl --extract-audio --audio-format mp3"
@@ -50,41 +51,19 @@ alias yta-flac="youtube-dl --extract-audio --audio-format flac"
 alias yta-m4a="youtube-dl --"
 
 # Directory Navigation ============================================
-alias ..='cd ..'             # cd up 1 directory
-alias ...='cd ../..'         # cd up 2 directory
-alias .3='cd ../../..'       # cd up 3 directory
-alias .4='cd ../../../..'    # cd up 4 directory
-alias .5='cd ../../../../..' # cd up 5 directory
-cdd() {                      # cdd - Change to a directory and then move to its parent.
-	if [ -f "$1" ]; then        # Example: cdd /mnt/storage/programs -> cd to /mnt/storage
-		cd "$(dirname "$1")" || return
-	else
-		cd "$1" && cd ..
-	fi
-}
-up() { # up <n> : to go n up
-	local d=""
-	local limit="$1"
-	if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
-		limit=1
-	fi
-	for ((i = 1; i <= limit; i++)); do
-		d="../$d"
-	done
-	if ! cd "$d"; then
-		echo "Couldn't go up $limit dirs."
-	fi
-}
+mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
+cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # usage: cdup | cdup 3
 
 # Paru | Yay | Pacman | Package Manager
-alias .i="yay --needed -S" # Install package if needed and skip confirmation
-alias .r="yay -Rns"                  # Remove packages without removing configurations
-alias .u="yay -Syu"                  # Update packages and repositories databases
-alias .s="yay -Syy"                  # Sync packages and repositories
-alias .c='yay -Rns $(pacman -Qtdq)'  # Remove Orphaned packages and dependencies
+alias .i="yay --needed -S"          # Install package if needed and skip confirmation
+alias .r="yay -Rns"                 # Remove packages without removing configurations
+alias .u="yay -Syu"                 # Update packages and repositories databases
+alias .s="yay -Syy"                 # Sync packages and repositories
+alias .o='pacman -Qtdq'             # Orphaned packages listing
+alias .c='yay -Rns $(pacman -Qtdq)' # Cleanup Orphaned packages and their dependencies
 
 # Coloring Grep Outputs
-alias grep='grep --color=auto'
+alias grep='command grep --color=auto'
 
 # get fastest mirrors
 alias mirror="sudo reflector -f 30 --sort rate -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist" # Rank pacman mirrors list

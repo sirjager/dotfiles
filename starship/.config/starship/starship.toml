@@ -30,8 +30,21 @@ $docker_context\
 $cmd_duration
 [└─>](bold green) """
 
-
 right_format = """${custom.filescount}"""
+
+palette = 'colors'
+
+[palettes.colors]
+mustard = '#af8700' # example
+color1 = '#99d4a3'
+color2 = '#003918'
+color3 = '#c1c9be'
+color4 = '#1c211c'
+color5 = '#003918'
+color6 = '#101510'
+color7 = '#101510'
+color8 = '#99d4a3'
+color9 = '#a2ced8'
 
 [custom.filescount]
 style = "dimmed"
@@ -48,15 +61,20 @@ format = '[$user]($style) '
 disabled = false
 show_always = true
 
+# Prompt symbols 
 [character]
-success_symbol = "🌿"
-error_symbol = "🔥"
+# success_symbol = "🌿"
+# error_symbol = "🔥"
+success_symbol = "[🞈](color9 bold)"
+error_symbol = "[🞈](@{error})"
+vicmd_symbol = "[🞈](#f9e2af)"
 
 [time]
 disabled = false
 time_format = "%r" # Hour:Minute Format
 style = "bg:#1d2230"
-format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+# format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $time](fg:color3 bg:color4)[](fg:color4) "
 
 [cmd_duration]
 format = 'last command: [$duration](bold yellow)'
@@ -68,7 +86,6 @@ show_milliseconds = true
 full_symbol = '🔋 '
 charging_symbol = '⚡️ '
 discharging_symbol = '💀 '
-
 
 [os]
 format = '[$symbol](bold white) '
@@ -92,8 +109,13 @@ home_symbol = '󰋜 '
 read_only_style = '197'
 read_only = '  '
 format = 'at [$path]($style)[$read_only]($read_only_style) '
+# format = "[](fg:color1 bg:color4)[󰉋](bg:color1 fg:color2)[ ](fg:color1 bg:color4)[$path ](fg:color3 bg:color4)[ ](fg:color4)"
 
 [directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
 '/mnt/storage/workspace/goenv/src/github.com/sirjager' = ' ' #  
 '/mnt/storage/workspace/apps' = ' ' #  
 '/mnt/storage/workspace/rust' = ' '
@@ -114,6 +136,7 @@ format = 'at [$path]($style)[$read_only]($read_only_style) '
 [git_branch]
 symbol = " "
 format = 'via [$symbol$branch]($style)'
+# format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $branch](fg:color3 bg:color4)[](fg:color4) "
 # truncation_length = 4
 truncation_symbol = '…/'
 style = 'italic green'
@@ -181,7 +204,9 @@ symbol = " "
 
 [python]
 symbol = " "
+pyenv_prefix = 'venv'
 pyenv_version_name = true
+# format = "[](fg:color8 bg:color4)[${symbol}${version}](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5)( ${virtualenv})](fg:color3 bg:color4)[](fg:color4) "
 
 [ruby]
 symbol = " "
