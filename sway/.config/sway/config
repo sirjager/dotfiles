@@ -5,16 +5,10 @@ include colors
 
 font pango:JetbrainsMono Nerd Font 11
 
-exec_always swaync
-exec_always swww-daemon
-
-
-# Set resolution and refresh rate
-output eDP-1 resolution 1920x1080@60Hz
-
-# exec_always swaybg -o eDP-1 -i /mnt/storage/wallpaper/hyprland/waifu_pink.jpg -m fill
-
-exec_always --no-startup-id sh -c 'pgrep -x polkit-gnome-authentication-agent-1 || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &'
+exec_always pgrep -x swaync >/dev/null || swaync &
+exec_always pgrep -x waybar >/dev/null || waybar &
+exec_always pgrep -x swww-daemon >/dev/null || swww-daemon &
+exec_always --no-startup-id sh -c 'pgrep -f polkit-gnome-authentication-agent-1 || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &'
 
 
 
@@ -35,7 +29,6 @@ input type:keyboard {
 }
 
 include /etc/sway/config.d/*
-include ~/.config/sway/bar
 include ~/.config/sway/keybinds
 include ~/.config/sway/startup
 include ~/.config/sway/effects

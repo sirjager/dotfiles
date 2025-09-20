@@ -173,3 +173,4 @@ ro.hardware.egl=swiftshader' /var/lib/waydroid/waydroid.cfg
 }
 
 
+enable_samba_shares

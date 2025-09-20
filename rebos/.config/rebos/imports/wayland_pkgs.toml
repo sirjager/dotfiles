@@ -6,7 +6,6 @@ items = [
   # "sway",
   "swayfx",
   "swaync",
-  "swaybg",
   "swww",
   "rofi-wayland",
  ]

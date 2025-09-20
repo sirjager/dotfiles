@@ -175,14 +175,14 @@
     "tooltip": false,
     "on-click": "~/.config/waybar/scripts/keyhint.sh"
   },
-  "custom/launcher": {
-    "format": " ",
+  "custom/notification": {
+    "format": "",
     "on-click": "swaync-client -t -sw",
     "tooltip": false
   },
   "custom/wallpaper": {
     "format": "",
-    "on-click": "setwal -path $mystorage/wallpaper ",
+    "on-click": "setwal -p $mystorage/wallpaper",
     "tooltip": false
   }
 }

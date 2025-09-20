@@ -63,10 +63,10 @@ show_always = true
 
 # Prompt symbols 
 [character]
-# success_symbol = "🌿"
-# error_symbol = "🔥"
-success_symbol = "[🞈](color9 bold)"
-error_symbol = "[🞈](@{error})"
+success_symbol = "🌿"
+error_symbol = "🔥"
+# success_symbol = "[🞈](color9 bold)"
+# error_symbol = "[🞈](@{error})"
 vicmd_symbol = "[🞈](#f9e2af)"
 
 [time]

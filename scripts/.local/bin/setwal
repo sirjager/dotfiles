@@ -57,21 +57,21 @@ set_wallpaper_on_wayland() {
     --transition-type=grow \
     --transition-pos=bottom-left \
     --transition-step=30 \
-    --transition-fps=120
+    --transition-fps=120 \
+    >/dev/null
 
   # Generate pywal colors
   wal -i "$IMAGE" -q -t -e -s -n >/dev/null 2>&1
 
   # Matugen to generate material you colors
-  matugen image "$IMAGE"
+  matugen image "$IMAGE" >/dev/null
 
-  # Refresh waybar
-  pkill -9 -x waybar
-  waybar >/dev/null 2>&1 &
+  # Refresh waybar; Currently handled by matugen configs
+  # pkill -9 -x waybar >/dev/null 2>&1
+  # waybar >/dev/null & 
 
-  # Refresh swaync
-  pkill -9 -x swaync
-  swaync >/dev/null 2>&1 &
+  # Relaod swaync-client
+  # swaync-client  -R >/dev/null &
 }
 
 set_wallpaper_on_x11() {
@@ -83,5 +83,5 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
   set_wallpaper_on_x11 "$IMAGE"
 else
-  echo "Unknown session type: $XDG_SESSION_TYPE" >&2
+  echo "Unknown session type: $XDG_SESSION_TYPE" 
 fi

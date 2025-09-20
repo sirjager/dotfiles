@@ -6,12 +6,17 @@ set = true
 [templates.sway]
 input_path = '~/.config/matugen/templates/sway.conf'
 output_path = '~/.config/sway/colors'
-post_hook = "swaymsg reload"
+# post_hook = "swaymsg reload >/dev/null 2>&1"
+
+[templates.swaync]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/swaync/colors.css'
+post_hook = "swaync-client -R >/dev/null 2>&1"
 
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
-post_hook = 'pkill -SIGUSR2 waybar'
+post_hook = 'pkill -SIGUSR2 waybar >/dev/null 2>&1'
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk.css'
@@ -25,12 +30,12 @@ output_path = '~/.config/gtk-4.0/colors.css'
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.config/kitty/colors.conf'
-post_hook = 'pkill -SIGUSR1 kitty'
+post_hook = 'pkill -SIGUSR1 kitty >/dev/null 2>&1'
 
-[templates.dunst]
-input_path = '~/.config/matugen/templates/dunst'
-output_path = '~/.config/dunst/dunstrc'
-post_hook = 'pkill -SIGUSR2 dunst'
+# [templates.dunst]
+# input_path = '~/.config/matugen/templates/dunst'
+# output_path = '~/.config/dunst/dunstrc'
+# post_hook = 'pkill -SIGUSR2 dunst >/dev/null 2>&1'
 
 [templates.rofi]
 input_path = '~/.config/matugen/templates/rofi.rasi'

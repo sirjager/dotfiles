@@ -13,8 +13,8 @@ set $right l
 
 set $browser brave
 set $editor nvim
-set $explorer nautilus --new-window
 set $term kitty bash -c tmux attach
+
 
 
 # Drag And Resize Window with mouse buttons + $super
@@ -22,6 +22,9 @@ floating_modifier $super normal
 
 ## Reload sway configuration
 bindsym $super+Shift+r reload 
+
+## Restart waybar
+bindsym $super+Shift+w exec pkill -SIGUSR2 waybar >/dev/null 2>&1
 
 ## Exit sway | Logout Wayland session | Quit | Exit
 bindsym $super+Shift+q exec $myscripts/rofipick -p 'Do you really want to exit current sway session ?' -o 'Nope; exit 0' -o 'Yes, Exit Sway; swaymsg exit'
@@ -191,14 +194,24 @@ bindsym $super+r mode "resize"
 ## Launcher App Menu | Rofi Launcher
 bindsym $alt+Space exec rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi
 
-## Launch File Manager | Explorer | Nautilus 
-bindsym $super+e exec $explorer
-
 ## Launch Terminal | Kitty 
 bindsym $super+Return exec $term
 
 ## Launch Terminal | Kitty 
 bindsym $alt+Return exec $term
+
+## Launch File Manager | Explorer | Nautilus 
+mode "File Explorer" {
+ ## Brave Browser Profile - sirjager
+ bindsym e exec thunar; mode "default"
+ bindsym n exec nautilus  --new-window; mode "default"
+ bindsym Return mode "default"
+ bindsym Escape mode "default"
+}
+## Browser Mode | Browser Profiles
+bindsym $super+e mode "File Explorer"
+
+
 
 
 # █░░ ▄▀█ █░█ █▄░█ █▀▀ █░█

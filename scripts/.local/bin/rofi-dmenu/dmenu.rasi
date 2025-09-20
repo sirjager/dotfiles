@@ -9,7 +9,6 @@
 @theme "~/.local/bin/rofi-dmenu/colors.rasi"
 
 * {
-  font:                     "Ubuntu Bold 14px";
   background-color:         transparent;
 
   border-radius:      8px;

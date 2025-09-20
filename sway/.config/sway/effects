@@ -18,4 +18,5 @@ font pango:monospace 0.001
 
 gaps inner 5
 gaps outer 3
+
 smart_borders on

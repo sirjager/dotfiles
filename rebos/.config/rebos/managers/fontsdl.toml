@@ -2,8 +2,8 @@
 #    Package Manager Configuration    #
 # ----------------------------------- #
 
-add = "~/.config/rebos/scripts/fontsdl add google --font '#:?'"
-remove = "~/.config/rebos/scripts/fontsdl add google --font '#:?'"
+add = "~/.config/rebos/scripts/googlefonts add google --font '#:?'"
+remove = "~/.config/rebos/scripts/googlefonts remove google --font '#:?'"
 
 plural_name = "fonts downloader (google fonts)"
 hook_name = "fontsdl"

@@ -15,7 +15,7 @@ export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
 export mydownloads="$mystorage/downloads"
-export myscripts="$mydotfiles/scripts/.local/bin"
+export myscripts="$HOME/.local/bin"
 export myrecentedits="$HOME/.local/state/recentedits.log"
 export myledger="$mystorage/personal/ledgers/main.ledger"
 

@@ -4,7 +4,7 @@
   "margin": "0 0 0 0",
   "width": 32,  
   "modules-left": [
-    "custom/launcher",
+    "custom/notification",
     "sway/workspaces",
     "sway/mode",
    ],

@@ -1,4 +1,3 @@
-@import "machiatto.css";
 @import "colors.css";
 
 /* -----------------------------------------------------------------------------
@@ -7,8 +6,27 @@
 
 /* Reset all styles */
 
+@define-color base  @on_secondary_fixed;
+@define-color base_fg  @secondary_container;
+
+@define-color active  @primary_container;
+@define-color active_fg  @primary_fixed;
+
+@define-color highlight  @primary_container;
+@define-color highlight_fg  @secondary_fixed;
+
+
+@define-color primary @on_primary;
+@define-color primary_fg @on_primary_container;
+
+@define-color secondary @secondary_container;
+@define-color secondary_fg @secondary_fixed;
+
+@define-color tertiary @primary_container;
+@define-color tertiary_fg @primary_fixed;
+
 * {
-  color: @lavender;
+  color: @base_fg;
   border: 0px;
   padding: 0px 0px;
   font-size: 12px;
@@ -28,7 +46,7 @@ window#waybar {
 }
 
 #workspaces button:hover {
-  color: @mauve;
+  color: @base_fg;
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -36,12 +54,12 @@ window#waybar {
 }
 
 #workspaces button:hover * {
-  color: @mauve;
+  color: @base_fg;
   background-color: @base;
 }
 
 #workspaces * {
-  color: @overlay2;
+  color: @base_fg;
 }
 
 #workspaces {
@@ -54,14 +72,14 @@ window#waybar {
 }
 
 #workspaces button.focused {
-  color: @red;
+  color: @active_fg;
   border-radius: 20px;
   border: 2px solid rgba(0, 0, 0, 0.7);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #workspaces button.focused * {
-  color: @red;
+  color: @active_fg;
   font-size: 14px;
 }
 
@@ -81,10 +99,9 @@ window#waybar {
 #tray,
 #custom-power,
 #custom-pacman,
-#custom-launcher,
+#custom-notification,
 #custom-uptime,
 #custom-date,
-#custom-clock,
 #custom-wallpaper,
 #mpd {
   border-style: solid;
@@ -97,8 +114,8 @@ window#waybar {
   * Module styles
   * -------------------------------------------------------------------------- */
 #mode {
-  color: @base;
-  background-color: @peach;
+  color: @highlight_fg;
+  background-color: @highlight;
   border-radius: 10px;
   padding: 18px 2px 18px 2px;
   margin: 10px 4px 10px 10px;
@@ -120,7 +137,8 @@ window#waybar {
 }
 
 #clock {
-  color: @sky;
+  color: @primary_fg;
+  background-color: shade(@primary, 1);
   font-size: 22px;
   font-weight: 900;
   font-family: "Rampart One", sans-serif;
@@ -129,14 +147,12 @@ window#waybar {
 }
 
 #clock.hour {
-  color: @sky;
   margin-top: 10px;
   padding: 3px 8px 0px 8px;
   border-radius: 10px 10px 0px 0px;
 }
 
 #clock.min {
-  color: @sky;
   margin-bottom: 10px;
   padding: 0px 8px 3px 8px;
   border-radius: 0px 0px 10px 10px;
@@ -249,18 +265,18 @@ window#waybar {
   border-radius: 10px;
 }
 
-#custom-launcher {
-  color: @base;
-  background-color: @mauve;
+#custom-notification {
+  color: @secondary_fg;
+  background-color: @secondary;
   border-radius: 10px;
-  padding: 7px 7px 7px 8px;
+  padding: 8px 8px 8px 8px;
   margin: 10px 10px 0px 10px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7); /* x-offset, y-offset, blur, color */
 }
 
 #custom-power {
-  color: @base;
-  background-color: @peach;
+  color: @tertiary_fg;
+  background-color: @tertiary;
   border-radius: 10px;
   margin-bottom: 20px;
   padding: 10px 7px 10px 4px;

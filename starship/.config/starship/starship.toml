@@ -36,15 +36,15 @@ palette = 'colors'
 
 [palettes.colors]
 mustard = '#af8700' # example
-color1 = '#99d4a3'
-color2 = '#003918'
-color3 = '#c1c9be'
-color4 = '#1c211c'
-color5 = '#003918'
-color6 = '#101510'
-color7 = '#101510'
-color8 = '#99d4a3'
-color9 = '#a2ced8'
+color1 = '#9fcafc'
+color2 = '#003257'
+color3 = '#c2c7cf'
+color4 = '#1d2024'
+color5 = '#003257'
+color6 = '#101418'
+color7 = '#101418'
+color8 = '#9fcafc'
+color9 = '#d5bee5'
 
 [custom.filescount]
 style = "dimmed"
@@ -63,10 +63,10 @@ show_always = true
 
 # Prompt symbols 
 [character]
-# success_symbol = "🌿"
-# error_symbol = "🔥"
-success_symbol = "[🞈](color9 bold)"
-error_symbol = "[🞈](@{error})"
+success_symbol = "🌿"
+error_symbol = "🔥"
+# success_symbol = "[🞈](color9 bold)"
+# error_symbol = "[🞈](@{error})"
 vicmd_symbol = "[🞈](#f9e2af)"
 
 [time]
