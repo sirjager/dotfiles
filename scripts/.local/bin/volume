@@ -26,7 +26,13 @@ get_icon() {
 }
 
 send_notification() {
-	notify-send -i $(get_icon $(get_vol)) -a "Volume" -r "$msgId" -h int:value:"$(get_vol)" "$(get_vol)"
+	vol=$(get_vol)
+	notify-send \
+    -i "$(get_icon "$vol")" \
+		-a "Volume" \
+		-r "$msgId" \
+		-h int:value:"$vol" \
+		-h string:synchronous:volume "$vol"
 }
 
 case $arg in

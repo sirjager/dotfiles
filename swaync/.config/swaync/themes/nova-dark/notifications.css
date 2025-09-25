@@ -1,3 +1,6 @@
+@import 'colors.css';
+
+@define-color base            alpha(@on_secondary_fixed, .90);
 @define-color text            @foreground;
 @define-color background-alt  @color1;
 @define-color selected        @color3;
@@ -28,7 +31,7 @@
 }
 
 .floating-notifications.background .notification-row .notification-background {
-  background: alpha(@background, .55);
+  background: @base;
   box-shadow: 0 0 8px 0 rgba(0,0,0,.6);
   border: 1px solid @selected;
   border-radius: 24px;
