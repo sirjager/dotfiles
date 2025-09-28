@@ -34,6 +34,10 @@ _darcs
 \assets
 \assets\*
 
+
+\static
+\static\*
+
 \encrypted
 \encrypted\*
 

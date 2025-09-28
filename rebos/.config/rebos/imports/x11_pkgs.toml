@@ -1,14 +1,14 @@
 # X11 Display Server Packages
 [managers.packages]
 items = [
-  "xorg-xhost",
-  "xorg-server",
-  "xorg-xinit",
-  "xorg-xsetroot",
-  "xorg-xkill",
-  "xorg-xwininfo",
-  "xorg-xprop",
-  "xorg-xrandr",
-  "xorg-xbacklight",
-  "xorg-xinput",
+  "xorg-xhost",      # X server access control utility
+  "xorg-server",     # Core Xorg server
+  "xorg-xinit",      # Start X server manually
+  "xorg-xsetroot",   # Change X root window properties (background, color)
+  "xorg-xkill",      # Kill unresponsive X applications
+  "xorg-xwininfo",   # Display window information
+  "xorg-xprop",      # Display/set window properties
+  "xorg-xrandr",     # Configure screen resolution and rotation
+  "xorg-xbacklight", # Adjust screen backlight brightness
+  "xorg-xinput",     # Configure/input device settings
 ]

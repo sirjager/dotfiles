@@ -3,29 +3,33 @@
 # --------------------- #
 
 imports = [
-    "init_pkgs",          # rebos needs these, paru, rustup, cargo
-    "sys_pkgs",           # auth agent,volume, network, bluetooth, brightness
-    "core_pkgs",          # core utils like git, wget, curl, timeshift etc
-    "gpu_pkgs",           # amd graphics drivers, mesa, etc
-    "login_man",          # login managers like sddm, gdm, lightdm etc
-    "wayland_pkgs",       # wayland utils like rofi-wayland etc
-    "theme_pkgs",         # themes, icons, cursors, etc
-    "go_pkgs",            # downloading go projects from git and building them
-    "fonts_dl",           # fonts downloader from arch repo, google fonts
-    "work_pkgs",          # work related packages, docker, vscode etc
-    "symlinks",           # automatically manage symlinks 
+  "init_pkgs",    # rebos needs these, paru, rustup, cargo
+  "sys_pkgs",     # auth agent,volume, network, bluetooth, brightness
+  "core_pkgs",    # core utils like git, wget, curl, timeshift etc
+  "gpu_pkgs",     # amd graphics drivers, mesa, etc
+  "login_man",    # login managers like sddm, gdm, lightdm etc
+  "wayland_pkgs", # wayland utils like rofi-wayland etc
+  "theme_pkgs",   # themes, icons, cursors, etc
+  "go_pkgs",      # downloading go projects from git and building them
+  "fonts_dl",     # fonts downloader from arch repo, google fonts
+  "work_pkgs",    # work related packages, docker, vscode etc
+  "symlinks",     # automatically manage symlinks 
 ]
 
 [managers.packages]
 items = [
   #add-user-pkgs-here
-	 "docker",
+  "vlc",
+  "pamac-aur",
+  "mpv",
 
   #add-utils-pkgs-here
 
   #add-theme-pkgs-here
+  "bibata-cursor-theme-bin",
 
   #add-fonts-pkgs-here
+  "ttf-sourcecodepro-nerd",
 ]
 
 [managers.flatpak]
@@ -49,7 +53,5 @@ items = [
 [managers.symbuilder]
 items = [
   #add-symlinks-here
- "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+  "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
 ]
-
-

@@ -13,6 +13,10 @@ alias ssh-test='ssh -T git@github.com'      # Test SSH
 
 alias sys='sudo systemctl'   # Systemctl
 
+# Sway
+alias swayapps='swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id") and .app_id != null then "id:" + .app_id elif has("class") and .class != null then "cl:" + .class else empty end'"'"' | sort -u'
+
+
 # Docker
 alias docker-clean-buildx="docker buildx prune --all"   # Clean Docker Buildx
 alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
@@ -57,8 +61,30 @@ mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
 cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # usage: cdup | cdup 3
 
 # Reproducable package management using rebos : gitlab.com/Oglo12/rebos
+list() {
+  file="$HOME/.config/rebos/machines/$(hostname)/gen.toml"
+    awk '
+        /^\[managers\./ {
+            # Extract manager name, e.g., [managers.packages] → packages
+            if (match($0, /\[managers\.([^\]]+)\]/, m)) manager=m[1];
+            in_section=1; 
+            next
+        }
+        in_section && /items\s*=\s*\[/ {flag=1; next} 
+        flag {
+            gsub(/"|,/, ""); 
+            sub(/#.*/,""); 
+            line=$0; 
+            gsub(/^[ \t]+|[ \t]+$/,"",line); 
+            if(line!="" && line!="]"){print manager ":" line} 
+            if($0 ~ /\]/){flag=0}
+        }
+   ' "$file" | fzf | awk -F: '{print $2}' | xargs | wl-copy
+}
 alias add="command .rebos add" 
 alias rem="command .rebos remove" 
+
+
 
 # Paru | Yay | Pacman | Package Manager
 alias .i="yay --needed -S"          # Install package if needed and skip confirmation

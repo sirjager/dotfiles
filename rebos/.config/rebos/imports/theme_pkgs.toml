@@ -1,13 +1,32 @@
 # Themeing 
 [managers.packages]
 items = [
+  # utility tools for appearance
+  "nwg-look",           # GTK theme and appearance configuration tool for Wayland
+  "qt5ct",              # Qt5 theme and style configuration tool
+  "qt6ct",              # Qt6 theme and style configuration tool
+  "kvantum",            # SVG-based theme engine for Qt6 applications
+  "kvantum-qt5",        # SVG-based theme engine for Qt5 applications
+  "qt5-wayland",        # Wayland platform support for Qt5 apps
+  "qt6-wayland",        # Wayland platform support for Qt6 apps
+  "lxappearance",       # Lightweight GTK theme and icon selector
+  "gtk-engines",        # Collection of GTK2 theme engines
+  "gtk-engine-murrine", # Murrine GTK2 engine for modern themes
+  "matugen-bin",        # Generate/export Material You color palettes
+  "python-pywal",       # Dynamic color scheme generator for terminal and apps
+
+
+  # cursors
+  "bibata-cursor-theme-bin", # Animated and modern cursor theme - https://github.com/ful1e5/Bibata_Cursor
+
   # icons
-  # "whitesur-icon-theme", # https://github.com/vinceliuice/WhiteSur-icon-theme
-  "mcmojave-circle-icon-theme-git", # https://github.com/vinceliuice/McMojave-circle
-  # "tela-circle-icon-theme-all", # https://github.com/vinceliuice/Tela-circle-icon-theme
+  "whitesur-icon-theme",            # macOS-inspired WhiteSur icon theme - https://github.com/vinceliuice/WhiteSur-icon-theme
+  "mcmojave-circle-icon-theme-git", # macOS Mojave-style circular icons - https://github.com/vinceliuice/McMojave-circle
+  # "tela-circle-icon-theme-all",      # Tela Circle icon theme (commented out) - https://github.com/vinceliuice/Tela-circle-icon-theme
 
   # themes
-  # "orchis-theme-git", # https://github.com/vinceliuice/Orchis-theme
-  "mojave-gtk-theme-git", # https://github.com/vinceliuice/Mojave-gtk-theme
-  # "whitesur-gtk-theme", # https://github.com/vinceliuice/WhiteSur-gtk-theme
+  # "orchis-theme-git",                # Orchis GTK theme (commented out) - https://github.com/vinceliuice/Orchis-theme
+  "mojave-gtk-theme-git", # macOS Mojave GTK theme - https://github.com/vinceliuice/Mojave-gtk-theme
+  "whitesur-gtk-theme",   # macOS WhiteSur GTK theme - https://github.com/vinceliuice/WhiteSur-gtk-theme
+
 ]

@@ -4,11 +4,11 @@
 
 [managers.packages]
 items = [
-  "docker",
-  "docker-compose",
+  "docker",         # Containerization platform
+  "docker-compose", # Tool for defining and running multi-container Docker apps
 ]
 
 [managers.serv_start]
 items = [
-  "docker"
+  "docker", # Start Docker daemon at login
 ]

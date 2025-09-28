@@ -2,8 +2,8 @@
 #    Symlinks Builder     #
 # ----------------------- #
 
-add = "~/.config/rebos/scripts/symbuilder --link #:?"
-remove = "~/.config/rebos/scripts/symbuilder --unlink #:?"
+add = "~/.config/rebos/scripts/symbuilder --link --sudo #:?"
+remove = "~/.config/rebos/scripts/symbuilder --unlink --sudo #:?"
 
 plural_name = "symlinks builder"
 

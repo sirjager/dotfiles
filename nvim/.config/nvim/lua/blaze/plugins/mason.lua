@@ -17,6 +17,7 @@ M.servers = {
   "shellcheck",
 
   --
+  "taplo", -- toml
   "buf",
   "luacheck",
   "stylua",

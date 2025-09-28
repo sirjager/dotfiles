@@ -1,10 +1,10 @@
 [managers.packages]
 items = [
-  "xf86-video-amdgpu",
-  "vulkan-icd-loader",
-  "vulkan-radeon",
-  "mesa",
-  "lib32-mesa",
-  "lib32-vulkan-radeon",
-  "lib32-vulkan-icd-loader",
+  "xf86-video-amdgpu",       # Open-source AMD GPU driver for Xorg
+  "vulkan-icd-loader",       # Vulkan Installable Client Driver loader
+  "vulkan-radeon",           # Vulkan driver for AMD GPUs
+  "mesa",                    # Open-source OpenGL/ Vulkan implementation
+  "lib32-mesa",              # 32-bit Mesa libraries (for Steam/32-bit apps)
+  "lib32-vulkan-radeon",     # 32-bit Vulkan driver for AMD GPUs
+  "lib32-vulkan-icd-loader", # 32-bit Vulkan ICD loader (for 32-bit apps)
 ]

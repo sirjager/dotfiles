@@ -4,51 +4,48 @@
 
 [managers.packages]
 items = [
-  "wget",
-  "curl", 
-  "git",
-  "p7zip",
-  "zip",
-  "unzip",
-  "clang",
-  "gcc",
-  "gvfs",
-  "gvfs-afc",
-  "gvfs-gphoto2", 
-  "gvfs-mtp",
-  "gvfs-nfs",
-  "gvfs-smb",
-  "fzf",
-  "ripgrep",
-  "fd",
-  "eza",
-  "xsel",
-  "xclip",
-  "xdotool",
-  "os-prober",
-  # "timeshift",
-  "gnome-screenshot",
-  "imagemagick",
-  "htop",
-  "btop",
-  "gufw",
-  "xdg-utils",
-  "gum",
-  "yad",
-  "bat",
-  "stow", 
-  "luarocks",
-  "trash-cli",
-
-  # GTK settings editor, for Wayland : https://github.com/nwg-piotr/nwg-look
-  "nwg-look",
-  # Generate/Export Material You Color Palette: https://github.com/InioX/matugen
-  "matugen-bin",
-  # Generate and change color-schemes on the fly.: https://github.com/dylanaraps/pywal
-  "python-pywal",
+  "wget",         # Command-line file downloader
+  "curl",         # Data transfer tool with URL syntax
+  "git",          # Version control system
+  "p7zip",        # 7z file compression tool
+  "zip",          # Create zip archives
+  "unzip",        # Extract zip archives
+  "clang",        # C/C++ compiler
+  "gcc",          # GNU C/C++ compiler
+  "gvfs",         # Virtual filesystem for GTK
+  "gvfs-afc",     # Apple iOS device support
+  "gvfs-gphoto2", # Camera support
+  "gvfs-mtp",     # MTP device support
+  "gvfs-nfs",     # NFS filesystem support
+  "gvfs-smb",     # SMB/CIFS network support
+  "fzf",          # Fuzzy finder for the command line
+  "ripgrep",      # Fast recursive search tool
+  "fd",           # Simple, fast alternative to find
+  "eza",          # Modern replacement for ls
+  "xsel",         # Command-line clipboard utility
+  "xclip",        # Another command-line clipboard tool
+  "xdotool",      # Simulate keyboard/mouse input
+  "os-prober",    # Detect other OS installations
+  # "timeshift",              # System restore utility (commented out)
+  "gnome-screenshot",       # Take screenshots
+  "imagemagick",            # Image manipulation suite
+  "htop",                   # Interactive process viewer
+  "btop",                   # Resource monitor with graphs
+  "gufw",                   # GUI firewall manager
+  "xdg-utils",              # Utilities for desktop integration
+  "gum",                    # CLI UI utilities
+  "yad",                    # GTK dialog generator
+  "bat",                    # Syntax-highlighting cat clone
+  "stow",                   # Symlink farm manager
+  "luarocks",               # Lua package manager
+  "trash-cli",              # Move files to trash from CLI
+  "xdg-desktop-portal-gtk", # GTK portal for file picker/dbus integration
+  "xdg-user-dirs",          # Manage user directories like ~/Desktop
+  "pacman-contrib",         # Extra pacman utilities
+  "parallel",               # Execute jobs in parallel
+  "gnome-keyring",          # Secure storage for passwords and keys
+  "seahorse",               # GUI to manage keys and passwords
 ]
 
 [managers.serv_start]
-items = [
-  "ufw"
-]
+items = ["ufw"]

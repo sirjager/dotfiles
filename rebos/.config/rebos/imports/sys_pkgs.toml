@@ -14,20 +14,22 @@
 
 [managers.packages]
 items = [
-  "polkit-gnome",
-  "libnotify",
-  "dunst",
-  "pamixer",
-  "networkmanager",
-  "network-manager-applet",
-  "blueman",
-  "bluez",
-  "bluez-utils",
-  "i3lock",
-  "brightnessctl",
+  "polkit-gnome",           # PolicyKit authentication agent for GNOME
+  "lxqt-policykit",         # PolicyKit authentication agent for LXQt
+  "libnotify",              # Library for sending desktop notifications
+  "dunst",                  # Lightweight notification daemon
+  "pamixer",                # Command-line volume control for PulseAudio
+  "networkmanager",         # Network management daemon
+  "network-manager-applet", # GUI applet for NetworkManager
+  "blueman",                # Bluetooth manager GUI
+  "bluez",                  # Bluetooth protocol stack
+  "bluez-utils",            # Bluetooth utilities (e.g., bluetoothctl)
+  "i3lock",                 # Screen locker
+  "brightnessctl",          # Command-line screen brightness control
+  "udiskie",                # Automounting and removable drive management
 ]
 
 [managers.serv_enable]
 items = [
-  "NetworkManager",
+  "NetworkManager", # Enable NetworkManager service at startup
 ]

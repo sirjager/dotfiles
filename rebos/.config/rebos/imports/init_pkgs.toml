@@ -1,9 +1,9 @@
-# everything that rebos needs
+# Everything that Rebos needs
 [managers.init_pkgs]
 items = [
-    "rustup",
-    "cargo",
-    "yay",
-    "neovim",
-    "tmux",
+  "rustup", # Rust toolchain installer
+  "cargo",  # Rust package manager and build tool
+  "yay",    # AUR helper for installing packages
+  "neovim", # Modern Vim-based text editor
+  "tmux",   # Terminal multiplexer
 ]

@@ -1,24 +1,23 @@
 # Login Managers
 [managers.packages]
 items = [
+  "sddm",                 # Simple Desktop Display Manager (KDE-friendly)
+  "qt5-svg",              # Qt5 SVG support required by SDDM themes
+  "qt5-graphicaleffects", # Qt5 graphical effects module for SDDM
+  "qt5-quickcontrols2",   # Qt5 Quick Controls 2 module for SDDM
+  "sddm-sugar-dark",      # Dark theme for SDDM
 
-  "sddm",
-  "qt5-svg",
-  "qt5-graphicaleffects",
-  "qt5-quickcontrols2",
-  "sddm-sugar-dark",
+  # "lightdm",                   # Lightweight display manager (commented out)
+  # "lightdm-gtk-greeter",       # GTK greeter for LightDM (commented out)
+  # "lightdm-webkit2-greeter",   # WebKit greeter for LightDM (commented out)
+  # "lightdm-webkit2-theme-glorious", # Glorious theme for LightDM (commented out)
 
-  # "lightdm",
-  # "lightdm-gtk-greeter",
-  # "lightdm-webkit2-greeter",
-  # "lightdm-webkit2-theme-glorious",
-
-  # "ly",
+  # "ly",                        # TUI (text-based) login manager (commented out)
 ]
 
 [managers.serv_enable]
 items = [
-  "sddm",
-  # "lightdm",
-  # "ly",
+  "sddm", # Enable SDDM display manager service at startup
+  # "lightdm",                   # Enable LightDM service (commented out)
+  # "ly",                        # Enable Ly TUI login manager (commented out)
 ]

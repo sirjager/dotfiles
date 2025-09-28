@@ -202,8 +202,8 @@ bindsym $alt+Return exec $term
 ## Launch File Manager | Explorer | Nautilus 
 mode "File Explorer" {
  ## Brave Browser Profile - sirjager
- bindsym e exec thunar; mode "default"
- bindsym n exec nautilus  --new-window; mode "default"
+ bindsym e exec nautilus --new-window; mode "default"
+ bindsym t exec thunar; mode "default"
  bindsym Return mode "default"
  bindsym Escape mode "default"
 }
@@ -241,5 +241,9 @@ mode "Bookmarks" {
 ## Bookmark manager
 bindsym $super+m mode "Bookmarks"
 
-for_window [app_id="brave-browser"] move to workspace number 1, workspace number 1
+## Show Application IDS
+bindsym $super+Shift+i exec bash -c 'notify-send -t 5000 "Running Applications:\n\n$(swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id") and .app_id != null then "id:" + .app_id elif has("class") and .class != null then "cl:" + .class else empty end'"'"' | sort -u)"'
+
+
+
 

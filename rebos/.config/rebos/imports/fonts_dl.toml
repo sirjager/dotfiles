@@ -1,9 +1,11 @@
-# Fonts from normal arch repos
+# Fonts from normal Arch repos
 [managers.packages]
 items = [
-  "ttf-sourcecodepro-nerd",
-  "ttf-jetbrains-mono-nerd",
+  "noto-fonts-emoji",        # Noto emoji font for consistent emoji rendering
+  "ttf-sourcecodepro-nerd",  # Source Code Pro patched with Nerd Fonts icons
+  "ttf-jetbrains-mono-nerd", # JetBrains Mono patched with Nerd Fonts icons
 ]
+
 
 # Fonts using fontsdl; custom script to download google fonts
 [managers.fontsdl]
@@ -11,4 +13,3 @@ items = [
   # "https://fonts.googleapis.com/css2?family=B612:ital,wght@0,400;0,700;1,400;1,700&display=swap",
   # "https://fonts.googleapis.com/css2?family=Rampart+One&display=swap"
 ]
-

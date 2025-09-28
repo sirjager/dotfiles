@@ -2,3 +2,6 @@
 
 # Set rustup toolchain to stable
 rustup default stable >/dev/null 2>&1 || exit 1
+
+# Copies static configurations to their specific paths
+sh ~/dotfiles/static/execute.sh --sudo --overwrite

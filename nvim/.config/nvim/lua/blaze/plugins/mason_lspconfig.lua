@@ -5,8 +5,10 @@ local M = {
 M.opts = {
   automatic_installation = true,
   ensure_installed = {
+    "taplo",
     "lua_ls",
     "bashls",
+    "taplo",
     "bash-language-server",
     "jsonls", -- json
     "yamlls", -- yml

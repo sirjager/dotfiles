@@ -3,6 +3,8 @@
 SRC=""
 DEST=""
 ACTION=""
+USE_SUDO=""
+OVERWRITE=""
 
 # Function to print help
 print_help() {
@@ -14,6 +16,8 @@ Options:
   --dest, -d <destination>    Path where the symlink will be created or removed
   --create, -c, --link, -l    Create a symlink
   --remove, -r, --unlink, -u  Remove a symlink
+  --sudo                      Use sudo for commands
+  --overwrite                 Remove destination if it exists before creating symlink
   --help, -h                  Show this help message
 
 Examples:
@@ -40,6 +44,14 @@ while [ $# -gt 0 ]; do
 		ACTION="unlink"
 		shift
 		;;
+	--sudo)
+		USE_SUDO="yes"
+		shift
+		;;
+	--overwrite)
+		OVERWRITE="yes"
+		shift
+		;;
 	--help | help | -h)
 		ACTION="help"
 		shift
@@ -49,6 +61,11 @@ while [ $# -gt 0 ]; do
 		;;
 	esac
 done
+
+SUDO_CMD=""
+if [ "$USE_SUDO" = "yes" ]; then
+	SUDO_CMD="sudo"
+fi
 
 # Run help
 if [ "$ACTION" = "help" ]; then
@@ -68,15 +85,21 @@ if [ "$ACTION" = "link" ]; then
 		exit 1
 	fi
 
+	# Remove existing file/symlink if --overwrite is specified
+	if [ "$OVERWRITE" = "yes" ] && { [ -e "$DEST" ] || [ -L "$DEST" ]; }; then
+		echo "Destination exists. Removing $DEST"
+		$SUDO_CMD rm -rf "$DEST"
+	fi
+
 	if [ -e "$DEST" ] || [ -L "$DEST" ]; then
 		echo "Error: Destination '$DEST' already exists."
-    echo
+		echo
 		exit 1
 	fi
 
-	ln -s "$SRC" "$DEST"
+	$SUDO_CMD ln -s "$SRC" "$DEST"
 	echo "Symlink created: $DEST -> $SRC"
-  echo
+	echo
 	exit 0
 
 elif [ "$ACTION" = "unlink" ]; then
@@ -87,11 +110,11 @@ elif [ "$ACTION" = "unlink" ]; then
 
 	if [ ! -L "$DEST" ]; then
 		echo "Warning: '$DEST' is not a symlink or does not exist."
-    echo
+		echo
 		exit 0
 	fi
 
-	rm "$DEST"
+	$SUDO_CMD rm "$DEST"
 	echo "Symlink removed: $DEST"
 	exit 0
 

@@ -1,12 +1,13 @@
 # X11 Display Server Packages
 [managers.packages]
 items = [
-  "xorg-xhost",
-  "xorg-server-xwayland",
-  "waybar",
-  # "sway",
-  "swayfx",
-  "swaync",
-  "swww",
-  "rofi-wayland",
- ]
+  "uwsm",                 # A standalone Wayland session manager
+  "xorg-xhost",           # X server access control utility
+  "xorg-server-xwayland", # XWayland server for running X apps on Wayland
+  "waybar",               # Highly customizable status bar for Sway/Wayland
+  # "sway",                # Tiling Wayland compositor (commented out)
+  "swayfx",       # Blur and visual effects daemon for Sway
+  "swaync",       # Notification daemon for Sway
+  "swww",         # Wallpaper and lockscreen manager for Wayland
+  "rofi-wayland", # Application launcher/menu for Wayland
+]

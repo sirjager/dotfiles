@@ -10,6 +10,7 @@ local M = {
 M.servers = {
   --
   "bashls",
+  "taplo",
 
   --
   "lua_ls",

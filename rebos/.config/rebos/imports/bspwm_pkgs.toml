@@ -1,9 +1,17 @@
 # BSPWM
 [managers.packages]
 items = [
-  "bspwm", "sxhkd",
-  "polybar", "picom",
-  "feh", "rofi", "python-pywal",
-  "gtk-engines", "gtk-engine-murrine",
-  "gtk3", "gtk4", "xdg-desktop-portal", "xdg-desktop-portal-gtk",
+  "bspwm",                  # Tiling window manager
+  "sxhkd",                  # Simple X hotkey daemon for BSPWM
+  "polybar",                # Status bar for window managers
+  "picom",                  # Compositor for transparency and effects
+  "feh",                    # Lightweight image viewer and wallpaper setter
+  "rofi",                   # Application launcher and window switcher
+  "python-pywal",           # Dynamic color scheme generator
+  "gtk-engines",            # GTK2 theme engines
+  "gtk-engine-murrine",     # Murrine GTK2 engine for modern themes
+  "gtk3",                   # GTK3 libraries
+  "gtk4",                   # GTK4 libraries
+  "xdg-desktop-portal",     # Desktop integration portal for sandboxed apps
+  "xdg-desktop-portal-gtk", # GTK backend for xdg-desktop-portal
 ]

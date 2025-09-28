@@ -5,7 +5,5 @@
 
 [managers.symbuilder]
 items = [
-  # "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+  "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
 ]
-
-

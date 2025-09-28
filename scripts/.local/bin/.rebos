@@ -20,6 +20,55 @@ GOLANG_MANAGER_ID="add-golang-pkgs-here"
 UTILS_PACKAGE_MANAGER_ID="add-utils-pkgs-here"
 CARGO_PACKAGE_MANAGER_ID="add-cargo-pkgs-here"
 
+# --- Default values ---
+COMMIT="false"
+BUILD="false"
+COMMIT_MSG=""
+
+ARGS=()
+# Save original args (for commit fallback)
+ORIGINAL_CMD="$*"
+
+# --- Parse args and remove flags from $@ ---
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--build | -b)
+		BUILD="true"
+		shift
+		;;
+	--commit | -c)
+		COMMIT="true"
+		shift
+		# Only set COMMIT_MSG if next arg exists and does NOT start with "-"
+		if [ $# -gt 0 ] && [[ ! "$1" =~ ^- ]]; then
+			COMMIT_MSG="$1"
+			# Ensure commit message starts with alphanumeric
+			if [[ ! "$COMMIT_MSG" =~ ^[A-Za-z0-9] ]]; then
+				echo "Warning: Commit message must start with A-Z, a-z, or 0-9. Using fallback."
+				COMMIT_MSG="$ORIGINAL_CMD"
+			fi
+			shift
+		else
+			# fallback to original command
+			COMMIT_MSG="$ORIGINAL_CMD"
+		fi
+		;;
+	*)
+		ARGS+=("$1")
+		shift
+		;;
+	esac
+done
+
+# Put positional args back in place
+set -- "${ARGS[@]}"
+
+[ $# -lt 2 ] && usage
+
+ACTION=$1
+PKG_GROUP=$2
+ITEM_NAMES=("${@:3}")
+
 # Check if an item exists under a given ID marker
 if_exists() {
 	id="$1"
@@ -72,10 +121,6 @@ remove_item() {
 	done
 }
 
-ACTION=$1
-PKG_GROUP=$2
-ITEM_NAMES=("${@:3}")
-
 # --- Dispatch ---
 case $ACTION in
 add)
@@ -112,3 +157,12 @@ remove)
 	usage
 	;;
 esac
+
+# --- Post actions ---
+if [ "$COMMIT" = "true" ]; then
+	command rebos gen commit "$COMMIT_MSG"
+fi
+
+if [ "$BUILD" = "true" ]; then
+	command rebos gen current build
+fi
