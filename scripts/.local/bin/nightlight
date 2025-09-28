@@ -1,0 +1,152 @@
+#!/bin/bash
+# Nightlight controller for Sway/Waybar using gammastep
+# sudo pacman -S gammastep
+# Supports: increase, decrease, reset, set <temp>, get, get_percent, set_percent, toggle, on, off, auto
+
+STATEFILE="$HOME/.local/state/nightlight"
+STATUSFILE="$HOME/.local/state/nightlight-status"
+mkdir -p "$(dirname "$STATEFILE")"
+
+# Limits
+MAX_TEMP=6500 # daylight
+MIN_TEMP=2000 # very warm
+DEFAULT_TEMP=6500
+STEP=250                         # per scroll step
+LOCATION="28.6172637:77.3148067" #  default location
+
+# Initialize state if not present
+if [ ! -f "$STATEFILE" ]; then
+  echo "$DEFAULT_TEMP" >"$STATEFILE"
+fi
+if [ ! -f "$STATUSFILE" ]; then
+  echo "auto" >"$STATUSFILE"
+fi
+
+# Helpers
+
+notify_temp() {
+  local temp=$1
+  local status=$2
+  notify-send \
+    -i "weather-clear-symbolic" \
+    -a "Night Light" \
+    -h int:value:"$temp" \
+    -h string:synchronous:"nightlight" \
+    "Night Light" "Temperature: ${temp}K ($status)"
+}
+
+get_temp() {
+  cat "$STATEFILE"
+}
+
+get_status() {
+  cat "$STATUSFILE"
+}
+
+set_status() {
+  echo "$1" >"$STATUSFILE"
+}
+
+set_temp() {
+  local temp=$1
+  # Clamp between MIN and MAX
+  if [ "$temp" -gt "$MAX_TEMP" ]; then temp=$MAX_TEMP; fi
+  if [ "$temp" -lt "$MIN_TEMP" ]; then temp=$MIN_TEMP; fi
+  echo "$temp" >"$STATEFILE"
+  set_status "manual"
+  pkill -x gammastep 2>/dev/null
+  gammastep -O "$temp" &
+  notify_temp "$temp" "$(get_status)"
+
+}
+
+# Functions
+increase() {
+  local temp
+  temp=$(get_temp)
+  set_temp $((temp - STEP))
+}
+
+decrease() {
+  local temp
+  temp=$(get_temp)
+  set_temp $((temp + STEP))
+}
+
+reset() {
+  echo "$DEFAULT_TEMP" >"$STATEFILE"
+  set_status "manual"
+  pkill -x gammastep 2>/dev/null
+  gammastep -x &
+  notify_temp "$DEFAULT_TEMP" "$(get_status)"
+
+}
+
+current() {
+  echo "$(get_temp)K ($(get_status))"
+}
+
+get_percent() {
+  local temp
+  temp=$(get_temp)
+  # Map temperature to 0–100 scale (warmest = 0%, coolest = 100%)
+  local pct=$(((temp - MIN_TEMP) * 100 / (MAX_TEMP - MIN_TEMP)))
+  echo "$pct%"
+}
+
+set_percent() {
+  local pct=$1
+  if [ -z "$pct" ]; then
+    echo "Usage: $0 set_percent <0-100>"
+    exit 1
+  fi
+  # Clamp
+  if [ "$pct" -gt 100 ]; then pct=100; fi
+  if [ "$pct" -lt 0 ]; then pct=0; fi
+
+  # Convert percent back to temp
+  local temp=$((MIN_TEMP + (pct * (MAX_TEMP - MIN_TEMP) / 100)))
+  set_temp "$temp"
+}
+
+toggle() {
+  if [ "$(get_status)" = "off" ]; then
+    on
+  else
+    off
+  fi
+}
+
+on() {
+  set_status "auto"
+  pkill -x gammastep 2>/dev/null
+  gammastep -l "$LOCATION" &
+  notify_temp "$(get_temp)" "auto"
+
+}
+
+off() {
+  set_status "off"
+  pkill -x gammastep 2>/dev/null
+  gammastep -x &
+  notify_temp "$(get_temp)" "off"
+
+}
+
+# Dispatcher
+case "$1" in
+increase | inc | up) increase ;;
+decrease | dec | down) decrease ;;
+reset) reset ;;
+set) set_temp "$2" ;;
+get | current) current ;;
+get_percent) get_percent ;;
+set_percent) set_percent "$2" ;;
+toggle) toggle ;;
+on | auto) on ;;
+off) off ;;
+*)
+  echo "Usage: $0 {increase|decrease|reset|get|set <temp>|set_percent <0-100>|get_percent|toggle|on|off|auto}"
+  exit 1
+  ;;
+esac

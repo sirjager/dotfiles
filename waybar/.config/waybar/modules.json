@@ -59,9 +59,7 @@
     },
     "format": "{:%I:%M}",
     "format-alt": "   {:%d/%m/%Y  %H:%M:%S}",
-    "timezones": [
-      "Kolkata"
-    ],
+    "timezones": ["Kolkata"],
     "max-length": 200,
     "interval": 1
   },
@@ -94,10 +92,7 @@
   },
   "backlight": {
     "format": "{icon} {percent: >3}",
-    "format-icons": [
-      "",
-      ""
-    ],
+    "format-icons": ["", ""],
     "on-scroll-up": "brightness up",
     "on-scroll-down": "brightness down"
   },
@@ -110,18 +105,7 @@
     "format": "{icon} {capacity: >3}",
     "_format-good": "",
     "_format-full": "",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
+    "format-icons": ["", "", "", "", "", "", "", "", "", ""]
   },
   "network": {
     "_interface": "wlp2s0",
@@ -145,10 +129,7 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": [
-        "",
-        ""
-      ]
+      "default": ["", ""]
     },
     "on-click": "pavucontrol",
     "on-scroll-up": "volume up",
@@ -179,6 +160,15 @@
     "format": "",
     "on-click": "swaync-client -t -sw",
     "tooltip": false
+  },
+  "custom/nightlight": {
+    "format": "",
+    "tooltip": false,
+    "on-click-left": "sunset on",
+    "on-click-right": "sunset off",
+    "on-click-middle": "sunset reset",
+    "on-scroll-up": "sunset up",
+    "on-scroll-down": "sunset down"
   },
   "custom/wallpaper": {
     "format": "",

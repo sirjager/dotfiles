@@ -17,6 +17,7 @@
   "modules-right": [
     "tray",
 
+    "custom/nightlight",
     "backlight",
 
     "pulseaudio",

@@ -85,10 +85,10 @@ if [ "$ACTION" = "link" ]; then
 		exit 1
 	fi
 
-	# Remove existing file/symlink if --overwrite is specified
-	if [ "$OVERWRITE" = "yes" ] && { [ -e "$DEST" ] || [ -L "$DEST" ]; }; then
-		echo "Destination exists. Removing $DEST"
-		$SUDO_CMD rm -rf "$DEST"
+	# Remove existing symlink if --overwrite is specified
+	if [ "$OVERWRITE" = "yes" ] && [ -L "$DEST" ]; then
+		echo "Destination symlink exists. Removing $DEST"
+		$SUDO_CMD rm "$DEST"
 	fi
 
 	if [ -e "$DEST" ] || [ -L "$DEST" ]; then

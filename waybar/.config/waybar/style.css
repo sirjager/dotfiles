@@ -103,6 +103,7 @@ window#waybar {
 #custom-uptime,
 #custom-date,
 #custom-wallpaper,
+#custom-nightlight,
 #mpd {
   border-style: solid;
   background-color: shade(@base, 1);
@@ -123,6 +124,15 @@ window#waybar {
   /* x-offset, y-offset, blur, color */
 }
 
+#custom-nightlight {
+  color: @teal;
+  background-color: @base;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 7px 7px 7px 4px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
+}
+
 #custom-wallpaper {
   color: @teal;
   background-color: @base;
@@ -130,7 +140,6 @@ window#waybar {
   margin-bottom: 4px;
   padding: 7px 7px 7px 4px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #custom-uptime {

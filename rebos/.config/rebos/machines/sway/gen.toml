@@ -19,6 +19,7 @@ imports = [
 [managers.packages]
 items = [
   #add-user-pkgs-here
+	 "obsidian",
   "vlc",
   "pamac-aur",
   "mpv",
@@ -53,5 +54,5 @@ items = [
 [managers.symbuilder]
 items = [
   #add-symlinks-here
-  "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+  "--overwrite --src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
 ]
