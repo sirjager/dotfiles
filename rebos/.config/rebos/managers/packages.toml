@@ -2,7 +2,7 @@
 #    Package Manager Configuration    #
 # ----------------------------------- #
 
-add = "yay --needed -S #:?"
+add = "yay --answerdiff None --answerclean None --needed -S #:?"
 remove = "yay -Rns #:?"
 
 plural_name = "system packages"

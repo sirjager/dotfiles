@@ -2,6 +2,7 @@
 [managers.packages]
 items = [
   "xorg-xhost",
+  "xorg-server-xwayland",
   "waybar",
   # "sway",
   "swayfx",

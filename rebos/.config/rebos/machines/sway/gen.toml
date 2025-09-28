@@ -1,0 +1,55 @@
+# --------------------- #
+#    Generation File    #
+# --------------------- #
+
+imports = [
+    "init_pkgs",          # rebos needs these, paru, rustup, cargo
+    "sys_pkgs",           # auth agent,volume, network, bluetooth, brightness
+    "core_pkgs",          # core utils like git, wget, curl, timeshift etc
+    "gpu_pkgs",           # amd graphics drivers, mesa, etc
+    "login_man",          # login managers like sddm, gdm, lightdm etc
+    "wayland_pkgs",       # wayland utils like rofi-wayland etc
+    "theme_pkgs",         # themes, icons, cursors, etc
+    "go_pkgs",            # downloading go projects from git and building them
+    "fonts_dl",           # fonts downloader from arch repo, google fonts
+    "work_pkgs",          # work related packages, docker, vscode etc
+    "symlinks",           # automatically manage symlinks 
+]
+
+[managers.packages]
+items = [
+  #add-user-pkgs-here
+	 "docker",
+
+  #add-utils-pkgs-here
+
+  #add-theme-pkgs-here
+
+  #add-fonts-pkgs-here
+]
+
+[managers.flatpak]
+items = [
+  #add-flatpaks-here
+]
+
+[managers.cargo]
+items = [
+  #add-cargo-pkgs-here
+  "bacon",
+]
+
+# Read more in "managers/gobuilder.toml"
+[managers.gobuilder]
+items = [
+  #add-golang-pkgs-here
+]
+
+# Read more in "managers/symbuilder.toml"
+[managers.symbuilder]
+items = [
+  #add-symlinks-here
+ "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+]
+
+

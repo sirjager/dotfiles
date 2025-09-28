@@ -1,0 +1,34 @@
+#compdef .rebos
+
+# --- Commands with descriptions ---
+local -a commands
+commands=(
+  "add:Add something (pkg, font, theme, flatpak, gopkg, util)"
+  "remove:Remove something (pkg, font, theme, flatpak, gopkg, util)"
+)
+
+# --- Categories with descriptions ---
+local -a categories
+categories=(
+  "font:Manage fonts - example: (add|remove) font ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd"
+  "theme:Manage themes - example: (add|remove) theme mcmojave-circle-icon-theme-git mojave-gtk-theme-git"
+  "flatpak:Manage flatpaks - example: (add|remove) flatpak <name>"
+  "pkg:Manage user packages - example: (add|remove) pkg tmux kitty neovim"
+  "util:Manage utility packages - example: (add|remove) util dunst swaync"
+  "gopkg:Manage golang packages - example: (add|remove) https://github.com/paololazzari/play;name=play;main=main.go;out=/usr/local/bin"
+  "cargo:Manage cargo packages - example: (add|remove) bacon"
+)
+
+_arguments -C \
+  '1:command:->command' \
+  '2:category:->category'
+
+case $state in
+  command)
+    _describe -t commands 'command' commands
+    ;;
+  category)
+    _describe -t categories 'category' categories
+    ;;
+esac
+

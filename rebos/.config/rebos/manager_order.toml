@@ -5,6 +5,7 @@ begin = [
   "packages",
   "gobuilder",
   "fontsdl",
+  "symbuilder",
 ]
 
 end = [

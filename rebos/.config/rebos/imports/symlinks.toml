@@ -1,0 +1,11 @@
+# ================================
+# This file contains only symlinks
+# ================================
+
+
+[managers.symbuilder]
+items = [
+  # "--src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+]
+
+

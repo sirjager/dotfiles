@@ -4,39 +4,16 @@
 
 # these packages will be required for almost every distro
 imports = [
-    "init_pkgs",          # rebos needs these, paru, rustup, cargo
-    "core_pkgs",          # core utils like git, wget, curl, timeshift etc
-    "x11_pkgs",         # x11 utils like xorg-server, xorg-xinit
-    "wayland_pkgs",     # wayland utils like rofi-wayland etc
-    "sys_pkgs",         # auth agent,volume, network, bluetooth, brightness
-    "gpu_pkgs",         # amd graphics drivers, mesa, etc
-    # "bspwm_pkgs",       # bspwm, sxhkd, polybar, rofi, etc
-    "login_man",        # login managers like sddm, gdm, lightdm etc
-    "theme_pkgs",       # themes, icons, cursors, etc
-    "go_pkgs",          # downloading go projects from git and building them
-    "fonts_dl",         # fonts downloader from arch repo, google fonts
 ]
 
 # user specific packages
 [managers.packages]
 items = [
-  "neovim",
-  "tmux",
-  "kitty",
-  "nautilus",
-  "trash-cli",
-  "docker",
-  "docker-compose",
-  "rofi-wayland",
-  "carapace-bin",
-  "swaybg",
-  "yazi",
 ]
 
 # Services
 [managers.serv_enable]
 items = [
-  "docker",
 ]
 
 
@@ -46,5 +23,4 @@ items = [
 
 [managers.cargo]
 items = [
-  "bacon",
 ]

@@ -11,6 +11,8 @@ alias ssh-newkey="ssh-keygen -t ed25519 -C" # Create New SSH key
 alias ssh-eval='eval "$(ssh-agent -s)"'     # Evaluate SSH Agent
 alias ssh-test='ssh -T git@github.com'      # Test SSH
 
+alias sys='sudo systemctl'   # Systemctl
+
 # Docker
 alias docker-clean-buildx="docker buildx prune --all"   # Clean Docker Buildx
 alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
@@ -53,6 +55,10 @@ alias yta-m4a="youtube-dl --"
 # Directory Navigation ============================================
 mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
 cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # usage: cdup | cdup 3
+
+# Reproducable package management using rebos : gitlab.com/Oglo12/rebos
+alias add="command .rebos add" 
+alias rem="command .rebos remove" 
 
 # Paru | Yay | Pacman | Package Manager
 alias .i="yay --needed -S"          # Install package if needed and skip confirmation

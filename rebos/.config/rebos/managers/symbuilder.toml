@@ -1,0 +1,13 @@
+# ----------------------- #
+#    Symlinks Builder     #
+# ----------------------- #
+
+add = "~/.config/rebos/scripts/symbuilder --link #:?"
+remove = "~/.config/rebos/scripts/symbuilder --unlink #:?"
+
+plural_name = "symlinks builder"
+
+hook_name = "symbuilder"
+
+[config]
+many_args = false

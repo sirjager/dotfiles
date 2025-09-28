@@ -1,0 +1,114 @@
+#!/usr/bin/bash
+
+usage() {
+	cmd=$(basename "$0") # Extract just the script/CLI name
+	echo "Usage: $cmd {add|remove} {pkg|font|theme|flatpak|gopkg} NAME"
+	echo "Example: $cmd add pkg docker"
+	echo "Example: $cmd add font ttf-jetbrains-mono-nerd"
+	exit 0
+}
+
+[ $# -lt 3 ] && usage
+
+GEN_FILE="$HOME/dotfiles/rebos/.config/rebos/machines/$(hostname)/gen.toml"
+
+USER_PACKAGE_MANAGER_ID="add-user-pkgs-here"
+FONT_MANAGER_ID="add-fonts-pkgs-here"
+THEME_MANAGER_ID="add-theme-pkgs-here"
+FLATPAKS_MANAGER_ID="add-flatpaks-here"
+GOLANG_MANAGER_ID="add-golang-pkgs-here"
+UTILS_PACKAGE_MANAGER_ID="add-utils-pkgs-here"
+CARGO_PACKAGE_MANAGER_ID="add-cargo-pkgs-here"
+
+# Check if an item exists under a given ID marker
+if_exists() {
+	id="$1"
+	item="$2"
+	file="$GEN_FILE"
+
+	# escape for grep
+	safe_item=$(printf '%s\n' "$item" | sed 's/[][\/.^$*]/\\&/g')
+
+	# extract lines under the marker and check for exact item ignoring leading/trailing spaces
+	awk "/#$id/{flag=1;next}/^#/{flag=0}flag" "$file" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -q "^\"$safe_item\",$"
+}
+
+# Add one or more items only if they do not exist
+add_item() {
+	id="$1"
+	shift 1 # $@ now contains items
+	file="$GEN_FILE"
+
+	for item in "$@"; do
+		if if_exists "$id" "$item"; then
+			printf '\033[1;31m'\''%s'\''\033[0m already exists under #%s. Skipping!\n' "$item" "$id"
+			continue
+		fi
+
+		safe_item=$(printf '%s\n' "$item" | sed 's/[&/\]/\\&/g')
+		sed -i "/#$id/a\\
+\t \"$safe_item\"," "$file"
+	done
+}
+
+# Remove one or more items under a given ID marker
+remove_item() {
+	id="$1"
+	shift 1 # $@ now contains items
+	file="$GEN_FILE"
+
+	for item in "$@"; do
+		if ! if_exists "$id" "$item"; then
+			printf '\033[1;31m'\''%s'\''\033[0m does not exist under #%s. Skipping!\n' "$item" "$id"
+			continue
+		fi
+
+		safe_item=$(printf '%s\n' "$item" | sed 's/[&/\]/\\&/g')
+
+		# remove line with optional leading whitespace
+		sed -i "/#$id/,/^#/{/^[[:space:]]*\"$safe_item\",$/d}" "$file"
+
+		printf '\033[1;32m'\''%s'\''\033[0m removed from #%s\n' "$item" "$id"
+	done
+}
+
+ACTION=$1
+PKG_GROUP=$2
+ITEM_NAMES=("${@:3}")
+
+# --- Dispatch ---
+case $ACTION in
+add)
+	case $PKG_GROUP in
+	pkg) add_item "$USER_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	font) add_item "$FONT_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	theme) add_item "$THEME_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	flatpak) add_item "$FLATPAKS_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	gopkg) add_item "$GOLANG_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	util) add_item "$UTILS_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	cargo) add_item "$CARGO_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	*)
+		echo "Unknown category"
+		usage
+		;;
+	esac
+	;;
+remove)
+	case $PKG_GROUP in
+	pkg) remove_item "$USER_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	font) remove_item "$FONT_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	theme) remove_item "$THEME_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	flatpak) remove_item "$FLATPAKS_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	util) remove_item "$UTILS_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	gopkg) remove_item "$GOLANG_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	cargo) remove_item "$CARGO_PACKAGE_MANAGER_ID" "${ITEM_NAMES[@]}" ;;
+	*)
+		echo "Unknown category"
+		usage
+		;;
+	esac
+	;;
+*)
+	usage
+	;;
+esac

@@ -1,0 +1,101 @@
+#!/bin/sh
+
+SRC=""
+DEST=""
+ACTION=""
+
+# Function to print help
+print_help() {
+	cat <<EOF
+Usage: $0 [options]
+
+Options:
+  --src, -s <source>          Path to the source file or directory (used for linking)
+  --dest, -d <destination>    Path where the symlink will be created or removed
+  --create, -c, --link, -l    Create a symlink
+  --remove, -r, --unlink, -u  Remove a symlink
+  --help, -h                  Show this help message
+
+Examples:
+  $0 --create --src /usr/bin/python3 --dest ~/python
+  $0 --remove --dest ~/python
+EOF
+}
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--src | src | -s)
+		SRC="$2"
+		shift 2
+		;;
+	--dest | dest | -d | --target | target | -t)
+		DEST="$2"
+		shift 2
+		;;
+	--create | create | -c | --link | link | -l)
+		ACTION="link"
+		shift
+		;;
+	--remove | remove | -r | --unlink | unlink | -u)
+		ACTION="unlink"
+		shift
+		;;
+	--help | help | -h)
+		ACTION="help"
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
+done
+
+# Run help
+if [ "$ACTION" = "help" ]; then
+	print_help
+	exit 0
+fi
+
+# Validate inputs
+if [ -z "$ACTION" ]; then
+	echo "Error: Action (--link or --unlink) is required."
+	exit 1
+fi
+
+if [ "$ACTION" = "link" ]; then
+	if [ -z "$SRC" ] || [ -z "$DEST" ]; then
+		echo "Error: Both --src and --dest are required for creating a symlink."
+		exit 1
+	fi
+
+	if [ -e "$DEST" ] || [ -L "$DEST" ]; then
+		echo "Error: Destination '$DEST' already exists."
+    echo
+		exit 1
+	fi
+
+	ln -s "$SRC" "$DEST"
+	echo "Symlink created: $DEST -> $SRC"
+  echo
+	exit 0
+
+elif [ "$ACTION" = "unlink" ]; then
+	if [ -z "$DEST" ]; then
+		echo "Error: --dest is required for removing a symlink."
+		exit 1
+	fi
+
+	if [ ! -L "$DEST" ]; then
+		echo "Warning: '$DEST' is not a symlink or does not exist."
+    echo
+		exit 0
+	fi
+
+	rm "$DEST"
+	echo "Symlink removed: $DEST"
+	exit 0
+
+else
+	echo "Error: Unknown action '$ACTION'"
+	exit 1
+fi

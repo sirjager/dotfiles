@@ -1,0 +1,14 @@
+# --------------------------- #
+#    Work Related Packages    #
+# --------------------------- #
+
+[managers.packages]
+items = [
+  "docker",
+  "docker-compose",
+]
+
+[managers.serv_start]
+items = [
+  "docker"
+]

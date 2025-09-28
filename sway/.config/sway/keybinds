@@ -11,7 +11,6 @@ set $down j
 set $up k
 set $right l
 
-set $browser brave
 set $editor nvim
 set $term kitty bash -c tmux attach
 

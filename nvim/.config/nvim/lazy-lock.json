@@ -22,7 +22,7 @@
   "go.nvim": { "branch": "master", "commit": "2f7cd3a20a2940320d5cad338722601ffa3ce31b" },
   "guihua.lua": { "branch": "master", "commit": "87bea7b98429405caf2a0ce4d029b027bb017c70" },
   "harpoon": { "branch": "master", "commit": "1bc17e3e42ea3c46b33c0bbad6a880792692a1b3" },
-  "hererocks": { "branch": "master", "commit": "d2e2b7ab1ce5b6d4e517619746a810159f0e18db" },
+  "hererocks": { "branch": "master", "commit": "160228946bed9998f5e3b168bd0b66ba2690f8f3" },
   "hlchunk.nvim": { "branch": "main", "commit": "474ec5d0f220158afa83aaefab32402e710d3032" },
   "image.nvim": { "branch": "master", "commit": "446a8a5cc7a3eae3185ee0c697732c32a5547a0b" },
   "img-clip.nvim": { "branch": "main", "commit": "f33f3af9ba50f99d70f8fcb1a8575750ada4ea4a" },
@@ -78,6 +78,6 @@
   "vim-tmux-navigator": { "branch": "master", "commit": "c45243dc1f32ac6bcf6068e5300f3b2b237e576a" },
   "vim-wakatime": { "branch": "master", "commit": "d7973b157a632d1edeff01818f18d67e584eeaff" },
   "volt": { "branch": "main", "commit": "620de1321f275ec9d80028c68d1b88b409c0c8b1" },
-  "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" },
+  "which-key.nvim": { "branch": "main", "commit": "904308e6885bbb7b60714c80ab3daf0c071c1492" },
   "windline.nvim": { "branch": "master", "commit": "1630ab15aa3349f1ad32ef78d5cff632ae74625d" }
 }

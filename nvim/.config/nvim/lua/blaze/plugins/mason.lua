@@ -17,10 +17,11 @@ M.servers = {
   "shellcheck",
 
   --
+  "buf",
   "luacheck",
   "stylua",
   "lua-language-server",
-  "buf-language-server",
+  "bash-language-server",
 
   --
   "marksman",

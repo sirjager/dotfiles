@@ -1,6 +1,14 @@
 # ~/.zshrc
 
 
+if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+  tmux attach-session \
+    -t "$(tmux list-sessions \
+    -F "#{session_id}" 2>/dev/null | head -n 1)" || \
+    tmux new-session
+fi
+
+
 # [Emacs keybindings for zsh] =======================================
 # ctrl+e -> to move curosr to end; 
 # ctrl+a -> to move cursor to beginning
@@ -36,6 +44,11 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --i
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
+
+fpath=(~/.local/bin/completions $fpath)
+
+autoload -Uz compinit
+compinit
 
 # [ Shell Integrations ] =============================================
 eval "`fnm env`"

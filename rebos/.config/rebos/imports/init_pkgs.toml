@@ -5,4 +5,5 @@ items = [
     "cargo",
     "yay",
     "neovim",
+    "tmux",
 ]
