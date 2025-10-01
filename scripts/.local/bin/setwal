@@ -5,83 +5,94 @@ NOTIFY=""
 ECHO=""
 
 while [ $# -gt 0 ]; do
-  case "$1" in
-  --path | -path | --p | -p)
-    PROVIDED_PATH="$2"
-    shift 2
-    ;;
-  --notify | notify | --n | -n)
-    NOTIFY="true"
-    shift
-    ;;
-  --echo | echo | --e | -e)
-    ECHO="true"
-    shift
-    ;;
-  *)
-    shift
-    ;;
-  esac
+	case "$1" in
+	--path | -path | --p | -p)
+		PROVIDED_PATH="$2"
+		shift 2
+		;;
+	--notify | notify | --n | -n)
+		NOTIFY="true"
+		shift
+		;;
+	--echo | echo | --e | -e)
+		ECHO="true"
+		shift
+		;;
+	*)
+		shift
+		;;
+	esac
 done
 
 random_file() {
-  local path="$1"
-  while true; do
-    if [[ -f "$path" ]]; then
-      echo "$path"
-      return 0
-    elif [[ -d "$path" ]]; then
-      # Get a random entry (file or dir) inside
-      path=$(find "$path" -mindepth 1 -maxdepth 1 | shuf -n 1 2>/dev/null)
+	local path="$1"
+	while true; do
+		if [[ -f "$path" ]]; then
+			echo "$path"
+			return 0
+		elif [[ -d "$path" ]]; then
+			# Get a random entry (file or dir) inside
+			path=$(find "$path" -mindepth 1 -maxdepth 1 | shuf -n 1 2>/dev/null)
 
-      # If directory is empty
-      if [[ -z "$path" ]]; then
-        echo "Error: no files found" >&2
-        return 1
-      fi
-    else
-      echo "Error: $1 is not a valid file or directory" >&2
-      return 1
-    fi
-  done
+			# If directory is empty
+			if [[ -z "$path" ]]; then
+				echo "Error: no files found" >&2
+				return 1
+			fi
+		else
+			echo "Error: $1 is not a valid file or directory" >&2
+			return 1
+		fi
+	done
 }
 
 IMAGE="$(random_file "$PROVIDED_PATH")"
 
 set_wallpaper_on_wayland() {
-  # Set wallpaper
-  # transition-type = none simple fade left right top bottom wipe wave grow center any outer random
-  # transition-pos = center top left right bottom top-left top-right bottom-right bottom-left
+	# Enable "exit on error" inside the function
+	set -e
 
-  swww img "$1" \
-    --transition-type=grow \
-    --transition-pos=bottom-left \
-    --transition-step=30 \
-    --transition-fps=120 \
-    >/dev/null
+	# Set wallpaper
+	# transition-type = none simple fade left right top bottom wipe wave grow center any outer random
+	# transition-pos = center top left right bottom top-left top-right bottom-right bottom-left
 
-  # Generate pywal colors
-  wal -i "$IMAGE" -q -t -e -s -n >/dev/null 2>&1
+	swww img "$1" \
+		--transition-type=grow \
+		--transition-pos=bottom-left \
+		--transition-step=30 \
+		--transition-fps=120 \
+		>/dev/null
 
-  # Matugen to generate material you colors
-  matugen image "$IMAGE" >/dev/null
+	# Generate pywal colors
+	wal -i "$1" -q -t -e -s -n >/dev/null 2>&1
 
-  # Refresh waybar; Currently handled by matugen configs
-  # pkill -9 -x waybar >/dev/null 2>&1
-  # waybar >/dev/null & 
+	# Matugen to generate material you colors
+	matugen image "$1" >/dev/null
 
-  # Relaod swaync-client
-  # swaync-client  -R >/dev/null &
+	post_hook
+}
+
+post_hook() {
+	# Update tmux primary color
+	PRIMARY_COLOR=$(awk '/client.focused/ {print $3; exit}' ~/.config/sway/colors | xargs)
+	sed -i "s|^\s*set -.*@thm_peach\s\+\"[^\"]*\"|set -g @thm_peach \"$PRIMARY_COLOR\"|" "$HOME/.config/tmux/tmux.conf"
+
+	# Refresh waybar; Currently handled by matugen configs
+	# pkill -9 -x waybar >/dev/null 2>&1
+	# waybar >/dev/null &
+
+	# Relaod swaync-client
+	# swaync-client  -R >/dev/null &
 }
 
 set_wallpaper_on_x11() {
-  echo "$1"
+	echo "$1"
 }
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-  set_wallpaper_on_wayland "$IMAGE"
+	set_wallpaper_on_wayland "$IMAGE" || notify-send "Set Wallpaper Failed" --error
 elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
-  set_wallpaper_on_x11 "$IMAGE"
+	set_wallpaper_on_x11 "$IMAGE"
 else
-  echo "Unknown session type: $XDG_SESSION_TYPE" 
+	echo "Unknown session type: $XDG_SESSION_TYPE"
 fi

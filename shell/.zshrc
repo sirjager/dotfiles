@@ -63,4 +63,4 @@ eval "$(fnm completions --shell zsh)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
-[ -f "$HOME/__aliases__" ] && . "$HOME/__aliases__"
+[ -f "$HOME/dotfiles/shell/.aliases" ] && . "$HOME/dotfiles/shell/.aliases"

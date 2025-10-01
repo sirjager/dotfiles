@@ -162,7 +162,7 @@
     "tooltip": false
   },
   "custom/nightlight": {
-    "format": "",
+    "format": "",
     "tooltip": false,
     "on-click-left": "sunset on",
     "on-click-right": "sunset off",

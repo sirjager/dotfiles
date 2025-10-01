@@ -5,21 +5,12 @@ include colors
 
 font pango:JetbrainsMono Nerd Font 11
 
-exec_always --no-startup-id pgrep -x swaync >/dev/null || swaync &
-exec_always --no-startup-id pgrep -x waybar >/dev/null || waybar &
-exec_always --no-startup-id pgrep -x swww-daemon >/dev/null || swww-daemon &
-
-
-
-exec_always --no-startup-id pgrep -x udiskie >/dev/null || udiskie -t >/dev/null 2>&1 &
-exec_always --no-startup-id pgrep -x nm-applet >/dev/null || nm-applet >/dev/null 2>&1 &
-exec_always --no-startup-id pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1 &
-exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2&1 &
-exec_always --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
-
-exec_always --no-startup-id pgrep -x Telegram >/dev/null || Telegram >/dev/null 2>&1 &
-exec_always --no-startup-id pgrep -f gnome-keyring-daemon >/dev/null || /usr/bin/gnome-keyring-daemon --start --components=secrets 
-
+# bindsym --whole-window button1 exec notify-send "Left click"
+# bindsym --whole-window button2 exec notify-send "Middle click"
+# bindsym --whole-window button3 exec notify-send "Right click"
+# bindsym --whole-window button4 exec notify-send "Scroll Up"
+# bindsym --whole-window button5 exec notify-send "Scroll down"
+# bindsym --whole-window button5 exec notify-send "Scroll down"
 
 
 # Window States - floating | fullscreen | sticky
@@ -58,4 +49,4 @@ input type:keyboard {
 include /etc/sway/config.d/*
 include ~/.config/sway/keybinds
 include ~/.config/sway/effects
-# include ~/.config/sway/startup
+include ~/.config/sway/startup

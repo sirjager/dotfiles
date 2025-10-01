@@ -1,6 +1,25 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-exec_always --no-startup-id (pgrep -f nm-applet || nohup nm-applet >/dev/null 2>&1 &) &
-exec_always --no-startup-id (sleep 1 && (pgrep -f dunst || (nohup dunst >/dev/null 2>&1 &))) &
-exec_always --no-startup-id (pgrep -f polkit-gnome-authentication-agent-1 || nohup /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1 &) &
+# Desktop
+exec_always --no-startup-id pgrep -x swww-daemon >/dev/null || swww-daemon &
+exec_always --no-startup-id pgrep -x waybar >/dev/null || waybar &
+exec_always --no-startup-id pgrep -x swaync >/dev/null || swaync &
 
+# Applets
+exec_always --no-startup-id pgrep -x udiskie >/dev/null || udiskie -t >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -x nm-applet >/dev/null || nm-applet >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -x brave >/dev/null || brave --profile-directory=sirjager >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -f kdeconnect-indicator >/dev/null || kdeconnect-indicator >/dev/null 2>&1 &
+
+# System
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -f gnome-keyring-daemon >/dev/null || /usr/bin/gnome-keyring-daemon --start --components=secrets
+
+# Applications
+# exec_always --no-startup-id pgrep -x Telegram >/dev/null || Telegram >/dev/null 2>&1 &
+exec_always --no-startup-id pgrep -x brave >/dev/null || brave --profile-directory=sirjager >/dev/null 2>&1 &
+
+# Open Kitty in workspace 2;
+# exec_always --no-startup-id pgrep -x kitty >/dev/null || current=$(swaymsg -t get_workspaces \
+	# jq -r '.[] | select(.focused==true).name') && swaymsg "workspace 2; exec kitty; workspace $current" >/dev/null 2>&1 &

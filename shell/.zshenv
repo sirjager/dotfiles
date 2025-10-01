@@ -175,6 +175,10 @@ export PATH="$PATH:$PNPM_HOME:$MASON_BIN"
 export PATH="$PATH:$mystorage/programs/protoc/bin"
 export PATH="$PATH:$XDG_CONFIG_HOME/rofi/scripts"
 
+# Shell functions and small scripts
+export PATH="$PATH:$HOME/func"
+
+
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   export GDK_BACKEND="wayland"

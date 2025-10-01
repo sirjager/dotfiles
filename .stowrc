@@ -1,5 +1,6 @@
 # Comments and blank lines are allowed.
 
+# Version control files
 RCS
 .+,v
 
@@ -15,36 +16,44 @@ _darcs
 \.gitignore
 \.gitmodules
 
+# Editor backup / autosave files
 .+~          # emacs backup files
 \#.*\#       # emacs autosave files
 
+# Documentation
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
 
+# GTK bookmarks
 \gtk-3.0\bookmarks
 \gtk-4.0\bookmarks
 
 ## ========================================
-.env
-.envrc
+
+# Environment files
+\.env
+\.envrc
 .*\.env
 .*\.envrc
 
+# Asset folders
 \assets
 \assets\*
 
-# static configs
+# Static configs
 \static
 \static\*
 
+# Encrypted files
 \encrypted
 \encrypted\*
 
-# xmouseless 
+# Xmouseless configs
 \xmouseless
 \xmouseless\*
 
-# shell configs
+# Shell configs (ignored)
 \aliases
 \shell\aliases
+
