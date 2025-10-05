@@ -9,7 +9,7 @@ local M = {
     { "theHamsta/nvim-dap-virtual-text" },
     --
     { "leoluz/nvim-dap-go" },
-    { "mfussenegger/nvim-dap-python" },
+    -- { "mfussenegger/nvim-dap-python" },
   },
 }
 
@@ -32,7 +32,7 @@ function M.config()
 
   -- language debug_adapters
   require("dap-go").setup()
-  require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
+  -- require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
 
   neodev.setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
 

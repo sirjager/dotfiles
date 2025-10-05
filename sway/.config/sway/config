@@ -17,6 +17,7 @@ font pango:JetbrainsMono Nerd Font 11
 for_window [app_id="scrcpy"] floating enable
 for_window [class="GParted"] floating enable
 for_window [app_id="udiskie"] floating enable
+for_window [class="xdman-Main"] floating enable
 for_window [app_id="org.telegram.desktop"] floating enable
 for_window [app_id="blueman-manager"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable

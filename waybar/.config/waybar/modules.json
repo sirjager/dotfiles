@@ -1,4 +1,8 @@
 {
+  "sway/mode": {
+    "format": "<span style=\"italic\">{}</span>",
+    "rotate": 90
+  },
   "sway/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
@@ -16,12 +20,17 @@
       "10": "⼗"
     }
   },
-  "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>",
-    "rotate": 90
-  },
   "sway/window": {
-    "format": "{app_id}"
+    "format": "{title}",
+    "max-length": 50,
+    "rotate": 90,
+    "all-outputs": true,
+    "offscreen-css": true,
+    "offscreen-css-text": "(inactive)",
+    "rewrite": {
+      "(.*) - Mozilla Firefox": " $1",
+      "(.*) - fish": "> [$1]"
+    }
   },
   "idle_inhibitor": {
     "format": "{icon}",
@@ -34,14 +43,15 @@
     "icon-size": 14,
     "spacing": 5
   },
-  "clock": {
+  "clock#hour": {
+    "format": "{:%I}",
+    "interval": 1,
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
-      "mode": "month",
+      "mode": "year",
       "mode-mon-col": 3,
       "weeks-pos": "right",
       "on-scroll": 1,
-      "on-click-right": "mode",
       "format": {
         "months": "<span color='#ffead3'><b>{}</b></span>",
         "days": "<span color='#ecc6d9'><b>{}</b></span>",
@@ -51,34 +61,33 @@
       }
     },
     "actions": {
-      "on-click-right": "mode",
-      "on-click-forward": "tz_up",
-      "on-click-backward": "tz_down",
+      "on-click-middle": "mode",
+      "on-click": "shift_down",
+      "on-click-right": "shift_up",
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
-    },
-    "format": "{:%I:%M}",
-    "format-alt": "   {:%d/%m/%Y  %H:%M:%S}",
-    "timezones": ["Kolkata"],
-    "max-length": 200,
-    "interval": 1
-  },
-  "clock#hour": {
-    "format": "{:%I}",
-    "interval": 1
+    }
   },
   "clock#min": {
     "format": "{:%M}",
-    "interval": 1
+    "interval": 1,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "format": {
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click": "shift_down",
+      "on-click-left": "shift_down",
+      "on-click-right": "shift_up",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
   },
   "cpu": {
     "format": "  {usage: >3}%",
     "on-click": "alacritty -e htop"
-  },
-  "custom/uptime": {
-    "format": "  {}",
-    "exec": "uptimex",
-    "interval": 120
   },
   "memory": {
     "format": "  {: >3}%",
@@ -92,9 +101,11 @@
   },
   "backlight": {
     "format": "{icon} {percent: >3}",
-    "format-icons": ["", ""],
+    "format-icons": ["", "", "", "", "", ""],
+    "tooltip-format": " Brightness {percent}%",
     "on-scroll-up": "brightness up",
-    "on-scroll-down": "brightness down"
+    "on-scroll-down": "brightness down",
+    "on-click-right": "~/.config/rofi/applets/bin/brightness.sh"
   },
   "battery": {
     "states": {
@@ -103,37 +114,47 @@
       "critical": 15
     },
     "format": "{icon} {capacity: >3}",
-    "_format-good": "",
-    "_format-full": "",
-    "format-icons": ["", "", "", "", "", "", "", "", "", ""]
+    "format-charging": " {capacity: >3}",
+    "format-icons": ["", "", "", "", "", "", "", "", "", ""],
+    "tooltip-format": "  Battery {capacity}%  Capacity {health}% "
   },
   "network": {
-    "_interface": "wlp2s0",
-    "format": "⚠  Disabled",
+    "format": "⚠ Disabled",
     "format-wifi": " ",
-    "_format-wifi": "   {essid}",
-    "_format-ethernet": " {ifname}: {ipaddr}/{cidr}",
     "format-ethernet": "  Wired",
     "format-disconnected": "⚠  Disconnected",
+    "max-length": 50,
+    "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+    "tooltip-format-wifi": "  {essid} {signalStrength}% ",
+    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-disconnected": "Disconnected",
     "on-click": "nm-connection-editor"
   },
   "pulseaudio": {
     "scroll-step": 1,
-    "format": "{icon}  {volume: >3}",
-    "format-bluetooth": "{icon}  {volume: >3}",
+    "format": "{icon} {volume: >3}",
+    "format-bluetooth": "{icon} {volume: >3}",
     "format-muted": " muted",
     "format-icons": {
       "headphones": "",
       "handsfree": "",
       "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
       "default": ["", ""]
     },
-    "on-click": "pavucontrol",
+    "on-click-left": "pavucontrol",
     "on-scroll-up": "volume up",
-    "on-scroll-down": "volume down"
+    "on-scroll-down": "volume down",
+    "on-click-right": "~/.config/rofi/applets/bin/volume.sh"
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": "",
+    "format-connected-battery": "{device_battery_percentage}",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click-left": "blueman-manager"
   },
   "custom/pacman": {
     "format": "  {}",
@@ -143,27 +164,17 @@
     "on-click": "alacritty -e sudo pacman -Syu",
     "signal": 8
   },
-  "custom/power": {
-    "format": "  ",
-    "tooltip": false,
-    "on-click": "~/.config/rofi/applets/bin/powermenu.sh"
-  },
-  "custom/keyboard-layout": {
-    "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
-    "interval": 1,
-    "format": "    {}",
-    "signal": 1,
-    "tooltip": false,
-    "on-click": "~/.config/waybar/scripts/keyhint.sh"
-  },
   "custom/notification": {
     "format": "",
-    "on-click": "swaync-client -t -sw",
-    "tooltip": false
+    "on-click": "swaync-client -t -sw"
+  },
+  "custom/uptime": {
+    "format": "  {}",
+    "exec": "uptimex",
+    "interval": 120
   },
   "custom/nightlight": {
     "format": "",
-    "tooltip": false,
     "on-click-left": "sunset on",
     "on-click-right": "sunset off",
     "on-click-middle": "sunset reset",
@@ -172,7 +183,47 @@
   },
   "custom/wallpaper": {
     "format": "",
-    "on-click": "setwal -p $mystorage/wallpaper",
-    "tooltip": false
+    "on-click": "setwal -p $mystorage/wallpaper"
+  },
+  "custom/power": {
+    "format": "  ",
+    "on-click": "~/.config/rofi/applets/bin/powermenu.sh"
+  },
+  "custom/quit": {
+    "format": "󰗼",
+    "on-click": "hyprctl dispatch exit"
+  },
+  "custom/lock": {
+    "format": "󰍁",
+    "on-click": "swaylock"
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "on-click": "reboot"
+  },
+  "group/group-power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-power",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/power", "custom/quit", "custom/lock", "custom/reboot"]
+  },
+  "group/group-utils": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-utils",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "pulseaudio",
+      "network",
+      "bluetooth",
+      "custom/wallpaper",
+      "custom/nightlight",
+      "backlight"
+    ]
   }
 }

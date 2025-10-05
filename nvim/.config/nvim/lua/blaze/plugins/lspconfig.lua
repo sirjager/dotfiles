@@ -137,7 +137,6 @@ function M.config()
     if okreq then
       opts = vim.tbl_deep_extend("force", settings, opts)
     end
-
     lspconfig[server].setup(opts)
   end
 

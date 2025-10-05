@@ -16,17 +16,11 @@
 
   "modules-right": [
     "tray",
-
-    "custom/nightlight",
-    "backlight",
-
-    "pulseaudio",
+    "group/group-utils",
     "battery",
-    "network",
-
-    "custom/wallpaper",
-    "custom/power",
+    "group/group-power"
   ],
+
   "include": [
     "~/.config/waybar/modules.json"
   ]

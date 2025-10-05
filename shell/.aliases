@@ -13,6 +13,8 @@ ff() {
     cd "$(dirname "$file_path")" && $EDITOR "$file_path" && cd "$orig_dir"
 }
 
+connect() { adb connect "192.168.0.101:$1" } 
+
 
 # [ Custom Aliases  ]================================
 alias wakatime="$WAKATIME_HOME/.wakatime/wakatime-cli"

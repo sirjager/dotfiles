@@ -29,7 +29,7 @@ bindsym $super+Shift+w exec pkill -SIGUSR2 waybar >/dev/null 2>&1
 bindsym $super+Shift+q exec $myscripts/rofipick -p 'Do you really want to exit current sway session ?' -o 'Nope; exit 0' -o 'Yes, Exit Sway; swaymsg exit'
 
 ## Power menu | Shutdown | Restart | Logout
-bindsym $super+Ctrl+p exec ~/.config/rofi/applets/bin/powermenu.sh
+bindsym $super+Ctrl+p exec --no-startup-id ~/.config/rofi/powermenu/type-6/powermenu.sh
 
 ## Lockscreen: Locks screen
 bindsym $alt+Shift+l exec ~/.config/sxhkd/scripts/i3lock/i3lock-fancy.sh

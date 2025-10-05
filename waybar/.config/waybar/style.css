@@ -4,8 +4,6 @@
   * Base styles
   * -------------------------------------------------------------------------- */
 
-/* Reset all styles */
-
 @define-color base @on_secondary_fixed;
 @define-color base_fg @secondary_container;
 
@@ -24,13 +22,14 @@
 @define-color tertiary @primary_container;
 @define-color tertiary_fg @primary_fixed;
 
+/* Reset all styles */
+
 * {
   color: @base_fg;
   border: 0px;
   padding: 0px 0px;
   font-size: 12px;
   font-weight: bold;
-  font-family: UbuntuMono;
 }
 
 window#waybar {
@@ -68,14 +67,12 @@ window#waybar {
   border-radius: 10px;
   margin: 10px 4px 10px 10px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #workspaces button.focused {
   color: @active_fg;
   border-radius: 30px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #workspaces button.focused * {
@@ -97,7 +94,11 @@ window#waybar {
 #pulseaudio,
 #mode,
 #tray,
+#bluetooth,
 #custom-power,
+#custom-quit,
+#custom-lock,
+#custom-reboot,
 #custom-pacman,
 #custom-notification,
 #custom-uptime,
@@ -121,7 +122,6 @@ window#waybar {
   padding: 18px 2px 18px 2px;
   margin: 10px 4px 10px 10px;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #custom-nightlight {
@@ -129,7 +129,7 @@ window#waybar {
   background-color: @base;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding: 7px 7px 7px 4px;
+  padding: 10px 7px 10px 4px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
 }
 
@@ -138,7 +138,7 @@ window#waybar {
   background-color: @base;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding: 7px 7px 7px 4px;
+  padding: 10px 7px 10px 4px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
 }
 
@@ -155,7 +155,6 @@ window#waybar {
   font-family: "Rampart One", sans-serif;
   margin: 0px 4px 0px 8px;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #clock.hour {
@@ -176,7 +175,6 @@ window#waybar {
   margin-bottom: 4px;
   padding: 7px 5px 7px 5px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #battery {
@@ -185,24 +183,20 @@ window#waybar {
   margin-bottom: 4px;
   padding: 7px 5px 7px 5px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #battery.charging {
   color: #81a1c1;
-  /* border-bottom: 2px solid #81a1c1; */
 }
 
 @keyframes blink {
   to {
     color: @red;
-    /* border-bottom: 2px solid @red; */
   }
 }
 
 #battery.critical:not(.charging) {
   color: #bf616a;
-  /* border-bottom: 2px solid #bf616a; */
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
@@ -212,7 +206,6 @@ window#waybar {
 
 #cpu {
   color: @sky;
-  /* border-bottom: 2px solid @sky; */
   border-radius: 10px 0px 0px 10px;
 }
 
@@ -228,171 +221,92 @@ window#waybar {
 
 #network.disabled {
   color: #bf616a;
-  /* border-bottom: 2px solid #bf616a; */
+}
+
+#bluetooth {
+  color: @teal;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 10px 7px 10px 7px;
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
 }
 
 #network {
   color: @green;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding: 7px 7px 7px 7px;
+  padding: 10px 7px 10px 7px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #network.disconnected {
   color: #bf616a;
-  /* border-bottom: 2px solid #bf616a; */
 }
 
 #pulseaudio {
-  color: @flamingo;
   border-radius: 10px;
   margin-bottom: 4px;
-  padding: 7px 5px 7px 5px;
+  padding: 10px 7px 10px 4px;
+  color: @flamingo;
+  background-color: @tertiary;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #pulseaudio.muted {
   color: #3b4252;
-  /* border-bottom: 2px solid #3b4252; */
-}
-
-#temperature {
-  color: @teal;
-  /* border-bottom: 2px solid @teal; */
-}
-
-#temperature.critical {
-  color: @red;
-  /* border-bottom: 2px solid @red; */
-}
-
-#idle_inhibitor {
-  background-color: #ebcb8b;
-  color: @base;
 }
 
 #tray {
-  /* background-color: @base; */
   border-radius: 10px;
   margin-bottom: 4px;
   padding: 7px 5px 7px 5px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #custom-notification {
   color: @secondary_fg;
   background-color: @secondary;
   border-radius: 10px;
-  padding: 8px 8px 8px 8px;
+  padding: 8px 9px 8px 9px;
   margin: 10px 10px 0px 10px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
+}
+
+#custom-power,
+#custom-quit,
+#custom-lock,
+#custom-reboot {
+  border-radius: 10px;
+  padding: 10px 7px 10px 4px;
+  color: @teal;
+  background-color: @base;
 }
 
 #custom-power {
+  margin-bottom: 20px;
   color: @tertiary_fg;
   background-color: @tertiary;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  padding: 10px 7px 10px 4px;
   box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.7);
-  /* x-offset, y-offset, blur, color */
 }
 
 #window {
   border-style: hidden;
   margin-left: 10px;
-  /* margin-top:1px;  
-     padding: 8px 1rem; */
   margin-right: 10px;
   color: #eceff4;
 }
 
-#custom-keyboard-layout {
-  color: @peach;
-  /* border-bottom: 2px solid @peach; */
-  border-radius: 0 10px 10px 0;
-  margin-right: 10px;
+tooltip {
+  font-size: 12px;
+  opacity: 0.95;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+  background-color: @tertiary;
+  border: 1px solid #89b4fa;
 }
 
-/* window#waybar {
-     background: #2d2a2e;
- }
- 
- * {
-     color: #c8b9a9;
-     font-family: Ubuntu Mono, sans-serif;
-     font-size: 12px;
- }
- 
- #workspaces button.focused {
-     color: #f2e5bc;
- }
- 
- #workspaces button {
-     color: #c8b9a9;
- }
- 
- .separator {
-     background-color: #c8b9a9;
- }
- 
- #mode {
-     color: #ebcb8b;
- }
- 
- #clock {
-     color: #a3be8c;
- }
- 
- #battery {
-     color: #d8dee9;
- }
- 
- #battery.charging {
-     color: #b48ead;
- }
- 
- #battery.critical:not(.charging) {
-     color: #bf616a;
- }
- 
- #cpu {
-     color: #a3be8c;
- }
- 
- #memory {
-     color: #d3869b;
- }
- 
- #network {
-     color: #8fbcbb;
- }
- 
- #network.disabled {
-     color: #bf616a;
- }
- 
- #network.disconnected {
-     color: #bf616a;
- }
- 
- #pulseaudio {
-     color: #b48ead;
- }
- 
- #pulseaudio.muted {
-     color: #bf616a;
- }
- 
- #temperature {
-     color: #8fbcbb;
- }
- 
- #temperature.critical {
-     color: #bf616a;
- } */
+tooltip label {
+  color: @tertiary_fg;
+}

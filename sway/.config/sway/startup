@@ -9,7 +9,6 @@ exec_always --no-startup-id pgrep -x swaync >/dev/null || swaync &
 exec_always --no-startup-id pgrep -x udiskie >/dev/null || udiskie -t >/dev/null 2>&1 &
 exec_always --no-startup-id pgrep -x nm-applet >/dev/null || nm-applet >/dev/null 2>&1 &
 exec_always --no-startup-id pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1 &
-exec_always --no-startup-id pgrep -x brave >/dev/null || brave --profile-directory=sirjager >/dev/null 2>&1 &
 exec_always --no-startup-id pgrep -f kdeconnect-indicator >/dev/null || kdeconnect-indicator >/dev/null 2>&1 &
 
 # System

@@ -19,7 +19,11 @@ imports = [
 [managers.packages]
 items = [
   #add-user-pkgs-here
-	 "obsidian",
+	 "light",
+	 "xdman",
+  "auto-cpufreq",
+  "qbittorrent",
+  "obsidian",
   "vlc",
   "pamac-aur",
   "mpv",
@@ -55,4 +59,11 @@ items = [
 items = [
   #add-symlinks-here
   "--overwrite --src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+]
+
+
+[managers.serv_start]
+items = [
+  #add-enable-service-now
+  "auto-cpufreq",
 ]
