@@ -134,12 +134,12 @@
     "scroll-step": 1,
     "format": "{icon} {volume: >3}",
     "format-bluetooth": "{icon} {volume: >3}",
-    "format-muted": " muted",
+    "format-muted": "",
     "format-icons": {
       "headphones": "",
       "handsfree": "",
       "headset": "",
-      "default": ["", ""]
+      "default": ["", ""]
     },
     "on-click-left": "pavucontrol",
     "on-scroll-up": "volume up",

@@ -19,8 +19,8 @@ imports = [
 [managers.packages]
 items = [
   #add-user-pkgs-here
-	 "light",
-	 "xdman",
+	 "visual-studio-code-bin",
+  "light",
   "auto-cpufreq",
   "qbittorrent",
   "obsidian",
@@ -40,6 +40,7 @@ items = [
 [managers.flatpak]
 items = [
   #add-flatpaks-here
+  "bazaar",
 ]
 
 [managers.cargo]

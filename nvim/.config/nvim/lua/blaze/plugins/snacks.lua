@@ -94,7 +94,8 @@ M.opts.dashboard = {
     header = require("blaze.banners").threeskulls_v1,
     -- stylua: ignore start
     keys = {
-      { icon = " ",key = "c", desc = "Config",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})"},
+      { icon = " ",key = "c", desc = "Config",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('~/dotfiles/nvim/.config/nvim')})"},
+      { icon = " ",key = "d", desc = "Dotfiles",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('~/dotfiles')})"},
       { icon = " ", key = "s", desc = "Restore Session", section = "session" },
       { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
       { icon = " ", key = "q", desc = "Quit", action = ":qa" },

@@ -29,6 +29,9 @@ for_window [app_id="org.manjaro.pamac.manager"] floating enable
 for_window [app_id="brave-browser"] move to workspace number 1, workspace number 1
 for_window [app_id="org.telegram.desktop"] move to workspace number 10
 
+for_window [class=".*"] opacity 0.8
+for_window [class=".*"] opacity_inactive 0.6
+for_window [app_id="brave-browser"] opacity 1.0, floating enable, resize set width 1280 px height 960 px
 
 
 # █ █▄░█ █▀█ █░█ ▀█▀
