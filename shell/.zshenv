@@ -116,8 +116,9 @@ export GOBIN="$mystorage/workspace/goenv/bin"
 export GOCACHE="$mystorage/workspace/goenv/cache"
 
 # Android & Flutter
-export FLUTTER_ROOT="$mystorage/programs/appdev/flutter"
-export ANDROID_AVD_HOME="$mystorage/programs/appdev/android-avd"
+# export FLUTTER_ROOT="$mystorage/programs/appdev/flutter"
+# export ANDROID_AVD_HOME="$mystorage/programs/appdev/android-avd"
+# export JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 export JAVA_HOME="$mystorage/programs/appdev/android-studio/jbr"
 export ANDROID_HOME="$mystorage/programs/appdev/android-studio-sdk"
 
@@ -162,9 +163,9 @@ export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
 # Flutter, Java And Android 
-export PATH="$PATH:$FLUTTER_ROOT/bin"
-export PATH="$PATH:$JAVA_HOME/bin:$ANDROID_HOME/tools/bin"
-export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools"
+# export PATH="$PATH:$FLUTTER_ROOT/bin"
+export PATH="$PATH:$JAVA_HOME/bin:$JAVA_HOME/../bin"
+export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin"
 
 # Android Studio
 export PATH="$PATH:$mystorage/programs/appdev/android-studio/bin"

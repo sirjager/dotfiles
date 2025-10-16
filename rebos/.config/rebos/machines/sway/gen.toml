@@ -19,6 +19,8 @@ imports = [
 [managers.packages]
 items = [
   #add-user-pkgs-here
+	 "appimagelauncher",
+	 "warpd-wayland",
 	 "visual-studio-code-bin",
   "light",
   "auto-cpufreq",

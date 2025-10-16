@@ -1,0 +1,52 @@
+#!/bin/sh
+
+MAX_BATTERY=95
+LOW_BATTERY=30
+NOTIFY_DURATION=10000  # time in ms
+
+NOTIFY_AGAIN_IN_LOW_BATTERY=60
+NOTIFY_AGAIN_IN_MAX_BATTERY=240
+CHECK_AGAIN_BATTERY=240         # in seconds
+
+PROCESS_NAME="Battery Monitor"
+NOTIFICATION_ID=91239923
+
+STATE_CHARGING_NAME="charging"
+STATE_DISCHARGING_NAME="discharging"
+
+while true; do
+	CURRENT_DEVICE=$(upower -e | grep "battery_")
+	CURRENT_STATE=$(upower -i "$CURRENT_DEVICE" | awk -F: '/state:/ {print $2}' | xargs)
+	CURRENT_BATTERY=$(upower -i "$CURRENT_DEVICE" | grep -E "percentage" | awk '{print $2}' | tr -d '%')
+	CURRENT_ICON=$(upower -i "$CURRENT_DEVICE" | awk -F: '/icon-name:/ {print $2}' | xargs | tr -d "'")
+
+	# If low battery and discharging
+	if [ "$CURRENT_BATTERY" -le "$LOW_BATTERY" ] && [ "$CURRENT_STATE" = "$STATE_DISCHARGING_NAME" ]; then
+		notify-send \
+			-t $NOTIFY_DURATION \
+			-i "$CURRENT_ICON" \
+			-a "$PROCESS_NAME" \
+			-r $NOTIFICATION_ID \
+			-h int:value:"$CURRENT_BATTERY" \
+			-h string:synchronous:"battery_monitor" \
+			"⚠️ Low Battery: ${CURRENT_BATTERY}%" \
+			"\nBattery level is below ${CURRENT_BATTERY}%"
+
+		sleep $NOTIFY_AGAIN_IN_LOW_BATTERY
+
+		# High battery and still charging
+	elif [ "$CURRENT_BATTERY" -ge "$MAX_BATTERY" ] && [ "$CURRENT_STATE" = "$STATE_CHARGING_NAME" ]; then
+		notify-send \
+			-t $NOTIFY_DURATION \
+			-i "$CURRENT_ICON" \
+			-a "$PROCESS_NAME" \
+			-r $NOTIFICATION_ID \
+			-h int:value:"$CURRENT_BATTERY" \
+			-h string:synchronous:"battery_monitor" \
+			"⚠️ Enough Battery: ${CURRENT_BATTERY}%" \
+			"\nBattery is charged enough."
+		sleep $NOTIFY_AGAIN_IN_MAX_BATTERY
+	else
+		sleep "$CHECK_AGAIN_BATTERY"
+	fi
+done

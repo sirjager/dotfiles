@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Background
+exec_always --no-startup-id pidof -x lowbatmon >/dev/null || lowbatmon >/dev/null 2>&1 &
+
 # Desktop
 exec_always --no-startup-id pgrep -x swww-daemon >/dev/null || swww-daemon &
 exec_always --no-startup-id pgrep -x waybar >/dev/null || waybar &
@@ -21,4 +24,4 @@ exec_always --no-startup-id pgrep -x brave >/dev/null || brave --profile-directo
 
 # Open Kitty in workspace 2;
 # exec_always --no-startup-id pgrep -x kitty >/dev/null || current=$(swaymsg -t get_workspaces \
-	# jq -r '.[] | select(.focused==true).name') && swaymsg "workspace 2; exec kitty; workspace $current" >/dev/null 2>&1 &
+# jq -r '.[] | select(.focused==true).name') && swaymsg "workspace 2; exec kitty; workspace $current" >/dev/null 2>&1 &

@@ -30,7 +30,7 @@ $docker_context\
 $cmd_duration
 [└─>](bold green) """
 
-right_format = """${custom.filescount}"""
+# right_format = """${custom.filescount}"""
 
 palette = 'colors'
 

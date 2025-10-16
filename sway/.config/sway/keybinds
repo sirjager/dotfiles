@@ -185,6 +185,9 @@ bindsym $super+r mode "resize"
   ## Notifiction Center | Overwatch
   bindsym $super+Shift+n exec swaync-client -t -sw
 
+## Show Application IDS
+bindsym $super+Shift+i exec bash -c 'notify-send -t 5000 "Running Applications:\n\n$(swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id") and .app_id != null then "id:" + .app_id elif has("class") and .class != null then "cl:" + .class else empty end'"'"' | sort -u)"'
+
 
 
 # ▄▀█ █▀█ █▀█ █▀
@@ -221,6 +224,12 @@ mode "Browser" {
  bindsym b exec brave --profile-directory=sirjager; mode "default"
  ## Brave Browser Profile - 5321ankur
  bindsym n exec brave --profile-directory=5321ankur; mode "default"
+
+ ## Bookmark | Visit
+ bindsym o exec $myscripts/bookman --brave --visit; mode "default"
+ ## Bookmark | Copy Link
+ bindsym c exec $myscripts/bookman --brave --visit; mode "default"
+
  # Return to default mode
  bindsym Return mode "default"
  bindsym Escape mode "default"
@@ -229,21 +238,15 @@ mode "Browser" {
 bindsym $super+b mode "Browser"
 
 
-mode "Bookmarks" {
- ## Bookmark | Visit
- bindsym b exec $myscripts/bookman --brave --visit; mode "default"
- ## Bookmark | Copy Link
- bindsym c exec $myscripts/bookman --brave --visit; mode "default"
+mode "Mouseless" {
+ bindsym m exec warpd --grid; mode "default"
+ bindsym h exec warpd --hint; mode "default"
+ bindsym n exec warpd --normal; mode "default"
+ ## XMouseless
+ bindsym x exec xmouseless; mode "default"
  # Return to default mode
  bindsym Return mode "default"
  bindsym Escape mode "default"
 }
-## Bookmark manager
-bindsym $super+m mode "Bookmarks"
-
-## Show Application IDS
-bindsym $super+Shift+i exec bash -c 'notify-send -t 5000 "Running Applications:\n\n$(swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id") and .app_id != null then "id:" + .app_id elif has("class") and .class != null then "cl:" + .class else empty end'"'"' | sort -u)"'
-
-
-
-
+## Mouseless Mode
+bindsym $super+m mode "Mouseless"
