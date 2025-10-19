@@ -1,5 +1,4 @@
 ---
-
 require "blaze.options"
 require "blaze.autocmds"
 require "blaze.lazy"
