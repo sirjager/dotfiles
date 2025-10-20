@@ -1,6 +1,9 @@
-vim.pack.add { { src = 'folke/snacks.nvim' } }
-
-local M = {}
+local M = {
+  'folke/snacks.nvim',
+  lazy = false,
+  priority = 1000,
+  event = { 'VimEnter' },
+}
 
 M.opts = {
   bigfile = { enabled = true },
@@ -86,12 +89,11 @@ M.opts.picker = {
 }
 
 M.opts.dashboard = {
-  enabled = false,
+  enabled = true,
   preset = {
     header = require('globals.banners').threeskulls_v1,
     -- stylua: ignore start
     keys = {
-      { icon = " ",key = "c", desc = "Config",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('~/dotfiles/nvim/.config/nvim')})"},
       { icon = " ",key = "d", desc = "Dotfiles",action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('~/dotfiles')})"},
       { icon = " ", key = "s", desc = "Restore Session", section = "session" },
       { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
@@ -106,4 +108,8 @@ M.opts.lazygit = {
   enabled = true,
 }
 
-require('snacks').setup(M.opts)
+M.config = function(_, opts)
+  require('snacks').setup(opts)
+end
+
+return M

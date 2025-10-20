@@ -1,9 +1,13 @@
-vim.pack.add {
-  { src = 'echasnovski/mini.files' },
-  { src = 'rafamadriz/friendly-snippets' },
+local M = {
+  'echasnovski/mini.files',
+  version = '*',
+  event = 'VeryLazy',
+  dependencies = {
+    { 'echasnovski/mini.icons' },
+  },
 }
 
-local opts = {
+M.opts = {
   content = {
     filter = nil,
     prefix = nil,
@@ -46,4 +50,9 @@ local opts = {
   },
 }
 
-require('mini.files').setup(opts)
+M.config = function(_, opts)
+  require('mini.icons').setup {}
+  require('mini.files').setup(opts)
+end
+
+return M

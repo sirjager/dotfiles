@@ -1,15 +1,22 @@
-vim.pack.add {
-  { src = 'saghen/blink.cmp', version = 'v1.7.0' },
-  { src = 'moyiz/blink-emoji.nvim' },
-  { src = 'andersevenrud/cmp-tmux' },
-  { src = 'mgalliou/blink-cmp-tmux' },
-  { src = 'saghen/blink.compat' },
-  { src = 'rafamadriz/friendly-snippets' },
-  { src = 'roobert/tailwindcss-colorizer-cmp.nvim' },
-  { src = 'L3MON4D3/LuaSnip', version = 'v2.4.0' },
+local M = {
+  'saghen/blink.cmp',
+  event = 'InsertEnter',
+  version = '*',
+  enabled = function()
+    return not vim.tbl_contains({}, vim.bo.filetype)
+  end,
+  dependencies = {
+    { 'moyiz/blink-emoji.nvim', event = 'InsertEnter' },
+    { 'andersevenrud/cmp-tmux', event = 'InsertEnter' },
+    { 'mgalliou/blink-cmp-tmux', event = 'InsertEnter' },
+    { 'saghen/blink.compat', event = 'InsertEnter' },
+    { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
+    { 'roobert/tailwindcss-colorizer-cmp.nvim', event = 'InsertEnter' },
+    { 'L3MON4D3/LuaSnip', version = 'v2.*', build = 'make install_jsregexp', event = 'InsertEnter' },
+    { 'kirasok/cmp-hledger', ft = { 'ledger' } }, -- yay -S hledger
+    { 'phenax/cmp-graphql' },
+  },
 }
-
-local M = {}
 
 M.opts = {
   snippets = { preset = 'luasnip' },
@@ -134,7 +141,16 @@ M.opts.keymap = {
 
   -- ['<S-k>'] = { 'scroll_documentation_up' },
   -- ['<S-j>'] = { 'scroll_documentation_down' },
+
 }
 -- stylua: ignore end
 
-require('blink.cmp').setup(M.opts)
+M.config = function(_, opts)
+  require('tailwindcss-colorizer-cmp').setup { color_square_width = 2 }
+  require('cmp-graphql').setup { schema_path = 'graphql.schema.json' }
+  require('blink.cmp').setup(opts)
+  require('luasnip').setup()
+  require('luasnip.loaders.from_vscode').lazy_load()
+end
+
+return M

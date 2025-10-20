@@ -1,13 +1,13 @@
-vim.pack.add { {
-  src = 'https://github.com/catppuccin/nvim',
+local M = {
+  'catppuccin/nvim',
   name = 'catppuccin',
-} }
+}
 
-local opts = {
+M.opts = {
   flavour = 'auto', -- latte, frappe, macchiato, mocha
   background = { -- :h background
     light = 'latte',
-    dark = 'mocha',
+    dark = 'mocha', -- mocha
   },
   transparent_background = true, -- disables setting the background color.
   show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
@@ -53,6 +53,10 @@ local opts = {
   },
 }
 
-require('catppuccin').setup(opts)
-vim.cmd 'colorscheme catppuccin'
-vim.cmd 'hi LineNr guibg=none guifg=#8294C4'
+function M.config()
+  require('catppuccin').setup(M.opts)
+  vim.cmd 'colorscheme catppuccin'
+  vim.cmd 'hi LineNr guibg=none guifg=#8294C4'
+end
+
+return M

@@ -1,13 +1,20 @@
-vim.pack.add { {
-  src = 'nvim-treesitter/nvim-treesitter',
-} }
+local M = {
+  'nvim-treesitter/nvim-treesitter',
+  branch = 'master',
+  build = ':TSUpdate',
+  lazy = false,
+  dependencies = {
+    -- "nvim-treesitter/nvim-treesitter-context"
+  },
+}
 
 local servers = {
+  'diff',
   'bash',
   'jq',
   'lua',
   'html',
-  'latex',
+  -- "latex",
   'typst',
   'yaml',
   'markdown',
@@ -27,19 +34,10 @@ local servers = {
   'python',
 }
 
-vim.filetype.add { extension = { rasi = 'rasi' } }
-vim.treesitter.language.register('css', 'rasi')
-
-vim.filetype.add { extension = { mdx = 'mdx' } }
-vim.treesitter.language.register('markdown', 'mdx')
-
-vim.filetype.add { extension = { astro = 'astro' } }
-
-require('nvim-treesitter.configs').setup {
+M.opts = {
   ensure_installed = servers,
   sync_install = false,
   auto_install = true,
-
   markid = { enable = true },
   playground = { enable = false },
   matchup = { enable = true, disable = { 'c', 'ruby', 'rust' } },
@@ -74,3 +72,15 @@ require('nvim-treesitter.configs').setup {
     select = { enable = true, lookahead = true },
   },
 }
+
+function M.config(_, opts)
+  vim.filetype.add { extension = { rasi = 'rasi' } }
+  vim.treesitter.language.register('css', 'rasi')
+  vim.filetype.add { extension = { mdx = 'mdx' } }
+  vim.treesitter.language.register('markdown', 'mdx')
+  vim.filetype.add { extension = { astro = 'astro' } }
+  require('nvim-treesitter.configs').setup(opts)
+  -- require'treesitter-context'.setup{}
+end
+
+return M

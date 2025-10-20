@@ -1,11 +1,13 @@
-vim.pack.add { {
-  src = 'folke/which-key.nvim',
-} }
-
-local M = {}
+local M = {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  dependencies = {
+    -- { "gbprod/none-ls-shellcheck.nvim" },
+  }
+}
 
 M.opts = {
-  spec = require 'config.whichkeys',
+  spec = require("config.whichkeys"),
   show_help = true, -- show a help message in the command line for using WhichKey
   show_keys = true, -- show the currently pressed key and its label as a message in the command line
   plugins = {
@@ -26,53 +28,53 @@ M.opts = {
     },
   },
   icons = {
-    breadcrumb = '»',
-    separator = '➜',
-    group = ' ',
-    ellipsis = '...',
+    breadcrumb = "»",
+    separator = "➜",
+    group = " ",
+    ellipsis = "...",
     keys = {
-      Up = ' ',
-      Down = ' ',
-      Left = ' ',
-      Right = ' ',
-      C = '󰘴 ',
-      M = '󰘵 ',
-      D = '󰘳 ',
-      S = '󰘶 ',
-      CR = '󱞦 ',
-      Esc = '󱊷 ',
-      ScrollWheelDown = '󱕐 ',
-      ScrollWheelUp = '󱕑 ',
-      NL = '󱞦 ',
-      BS = '󰁮 ',
-      Space = '󱁐 ',
-      Tab = '󰌒 ',
-      F1 = '󱊫 ',
-      F2 = '󱊬 ',
-      F3 = '󱊭 ',
-      F4 = '󱊮 ',
-      F5 = '󱊯 ',
-      F6 = '󱊰 ',
-      F7 = '󱊱 ',
-      F8 = '󱊲 ',
-      F9 = '󱊳 ',
-      F10 = '󱊴 ',
-      F11 = '󱊵 ',
-      F12 = '󱊶 ',
+      Up = " ",
+      Down = " ",
+      Left = " ",
+      Right = " ",
+      C = "󰘴 ",
+      M = "󰘵 ",
+      D = "󰘳 ",
+      S = "󰘶 ",
+      CR = "󱞦 ",
+      Esc = "󱊷 ",
+      ScrollWheelDown = "󱕐 ",
+      ScrollWheelUp = "󱕑 ",
+      NL = "󱞦 ",
+      BS = "󰁮 ",
+      Space = "󱁐 ",
+      Tab = "󰌒 ",
+      F1 = "󱊫 ",
+      F2 = "󱊬 ",
+      F3 = "󱊭 ",
+      F4 = "󱊮 ",
+      F5 = "󱊯 ",
+      F6 = "󱊰 ",
+      F7 = "󱊱 ",
+      F8 = "󱊲 ",
+      F9 = "󱊳 ",
+      F10 = "󱊴 ",
+      F11 = "󱊵 ",
+      F12 = "󱊶 ",
     },
   },
   layout = {
     height = { min = 4, max = 25 }, -- min and max height of the columns
     width = { min = 20, max = 50 }, -- min and max width of the columns
     spacing = 2, -- spacing between columns
-    align = 'center', -- align columns left, center or right
+    align = "center", -- align columns left, center or right
   },
   win = {
-    border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' }, -- single | double | shadow etc.
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- single | double | shadow etc.
     wo = {
       winblend = 0,
     },
   },
 }
 
-require('which-key').setup(M.opts)
+return M
