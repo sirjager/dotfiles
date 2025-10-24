@@ -84,7 +84,7 @@ return {
   {"<leader>sM",function()require('snacks').picker.man()end,icon="󱔗 ",desc = "[m]an pages" },
   {"<leader>sR",function()require('snacks').picker.registers({layout="ivy"})end, icon=" ", desc = "[R]egisters" },
   {"<leader>sj",function()require('snacks').picker.jumps()end,icon="󱔕", desc = "[j]umps" },
-  {"<leader>sc",function()require('snacks').picker.command_history()end,icon=" ", desc = "[h]istory" },
+  {"<leader>sh",function()require('snacks').picker.command_history()end,icon=" ", desc = "[h]istory" },
   {"<leader>st",function()require('snacks').picker.todo_comments({layout="ivy"})end,icon=" ", desc = "[t]odos" },
   {"<leader>sT",function()require('snacks').picker.todo_comments({keywords=todo_keywords}) end, desc = "[T]odo comments" },
   {"<leader>si",function()require('snacks').picker.icons({layout="ivy"}) end, desc = "icons emojis" },

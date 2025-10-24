@@ -34,7 +34,11 @@ return {
       diagnostics = {
         globals = { 'vim', 'require', 'spec', 'bit', 'it', 'describe', 'before_each', 'after_each' },
         unusedLocalExclude = { '_*' },
-        disable = { 'incomplete-signature-doc', 'trailing-space' },
+        disable = {
+          'incomplete-signature-doc',
+          'trailing-space',
+          'no-unknown',
+        },
         groupSeverity = {
           strong = 'Warning',
           strict = 'Warning',

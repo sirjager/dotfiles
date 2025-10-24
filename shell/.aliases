@@ -103,3 +103,4 @@ alias n="NVIM_APPNAME=JagerVim nvim"
 alias nb="NVIM_APPNAME=BlazeVim nvim"
 alias vi="NVIM_APPNAME=JagerVim nvim"
 alias snv="sudo -E -s NVIM_APPNAME=JagerVim nvim"
+

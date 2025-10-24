@@ -1,17 +1,20 @@
-vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+local autocmd = vim.api.nvim_create_autocmd
+local usercmd = vim.api.nvim_create_user_command
+
+autocmd({ 'BufEnter' }, {
   callback = function()
     vim.cmd 'set formatoptions-=cro'
   end,
 })
 
 -- text highlight when yanking
-vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
+autocmd({ 'TextYankPost' }, {
   callback = function()
     vim.highlight.on_yank { higroup = 'Visual', timeout = 120 }
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
+autocmd({ 'FileType' }, {
   pattern = { 'gitcommit', 'markdown', 'NeogitCommitMessage', 'ledger' },
   callback = function()
     vim.opt_local.wrap = true
@@ -22,7 +25,7 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 -- close Lazy and re-open when the dashboard is ready
 if vim.o.filetype == 'lazy' then
   vim.cmd.close()
-  vim.api.nvim_create_autocmd('User', {
+  autocmd('User', {
     pattern = 'DashboardLoaded',
     callback = function()
       require('lazy').show()
@@ -31,8 +34,20 @@ if vim.o.filetype == 'lazy' then
   })
 end
 
-vim.api.nvim_create_user_command('ToggleSpellChecker', function()
+usercmd('ToggleSpellChecker', function()
   vim.opt.spell = not vim.opt.spell:get()
   local status = vim.opt.spell:get() and 'enabled' or 'disabled'
   vim.notify('Spell Checker ' .. status, vim.log.levels.INFO)
 end, {})
+
+autocmd('InsertEnter', {
+  callback = function()
+    vim.g.snacks_scroll = false
+  end,
+})
+
+autocmd('InsertLeave', {
+  callback = function()
+    vim.g.snacks_scroll = true
+  end,
+})

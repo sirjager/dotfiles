@@ -1,6 +1,6 @@
 #!/bin/sh
 
-violet() { adb connect "192.168.0.101:$1" } 
+violet() { adb connect "192.168.0.101:$1" }
 
 # Directory Navigation ============================================
 mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
@@ -13,16 +13,16 @@ list() {
         /^\[managers\./ {
             # Extract manager name, e.g., [managers.packages] → packages
             if (match($0, /\[managers\.([^\]]+)\]/, m)) manager=m[1];
-            in_section=1; 
+            in_section=1;
             next
         }
-        in_section && /items\s*=\s*\[/ {flag=1; next} 
+        in_section && /items\s*=\s*\[/ {flag=1; next}
         flag {
-            gsub(/"|,/, ""); 
-            sub(/#.*/,""); 
-            line=$0; 
-            gsub(/^[ \t]+|[ \t]+$/,"",line); 
-            if(line!="" && line!="]"){print manager ":" line} 
+            gsub(/"|,/, "");
+            sub(/#.*/,"");
+            line=$0;
+            gsub(/^[ \t]+|[ \t]+$/,"",line);
+            if(line!="" && line!="]"){print manager ":" line}
             if($0 ~ /\]/){flag=0}
         }
    ' "$file" | fzf | awk -F: '{print $2}' | xargs | wl-copy
@@ -137,3 +137,16 @@ function .nvim() {
   NVIM_APPNAME=$config nvim $@
 }
 bindkey -s ^n ".nvim\n"
+
+
+
+function connect() {
+  port=$(printf "%s\n" | fzf --prompt="  Enter Device Port  " --height=~50% --layout=reverse --border --exit-0 --print-query | head -n1)
+  if ! [[ $port =~ ^[0-9]+$ ]]; then
+    echo "Invalid port '$port'. Port should only contain numbers"
+    return 0
+  else
+   adb connect 192.168.0.101:$port
+  fi
+}
+bindkey -s ^p "connect\n"

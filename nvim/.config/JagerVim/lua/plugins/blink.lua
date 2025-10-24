@@ -1,7 +1,7 @@
 local M = {
   'saghen/blink.cmp',
   event = 'InsertEnter',
-  version = '*',
+  version = 'v1.7.0',
   enabled = function()
     return not vim.tbl_contains({}, vim.bo.filetype)
   end,
@@ -136,6 +136,7 @@ M.opts.keymap = {
 
   ["<C-b>"] = { "select_prev"},
   ["<C-n>"] = { "select_next" },
+  ["<C-p>"] = { "select_prev" },
   -- ["<C-k>"] = { "select_prev" },
   -- ["<C-j>"] = { "select_next" },
 
@@ -148,7 +149,7 @@ M.opts.keymap = {
 M.config = function(_, opts)
   require('tailwindcss-colorizer-cmp').setup { color_square_width = 2 }
   require('cmp-graphql').setup { schema_path = 'graphql.schema.json' }
-  require('blink.cmp').setup(opts)
+  require('blink.cmp').setup(M.opts)
   require('luasnip').setup()
   require('luasnip.loaders.from_vscode').lazy_load()
 end

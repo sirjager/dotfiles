@@ -15,7 +15,7 @@ local exclude_filetypes = {
 
 M.opts = {
   chunk = {
-    enable = true,
+    enable = false,
     style = '#FFBE98',
     exclude_filetypes = exclude_filetypes,
   },

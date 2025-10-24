@@ -66,7 +66,7 @@ local keymaps = {
     -- ['<A-o>'] = { ':Outline<CR>', 'Toggle LSP Outline' },
     ['<A-u>'] = { ':BufferLinePick<CR>', 'focus any active buffers' },
     ['<A-w>'] = { ':BufferLineCloseOthers<CR>', 'close other buffers' },
-    ['<A-o>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
+    ['<C-p>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
     ['<A-p>'] = { ":lua require('conform').format()<CR>", 'format without saving' },
     -- ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 5000})<CR>", "format without saving" },
 
@@ -98,8 +98,7 @@ local keymaps = {
     ['<C-l>'] = { '<Right>', 'Move right' },
 
     ['<C-s>'] = { '<ESC><ESC>:w<CR>i<Right>', 'save buffer' }, -- save buffer
-
-    ['<A-o>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
+    ['<C-p>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
   },
 
   -- visual mode
