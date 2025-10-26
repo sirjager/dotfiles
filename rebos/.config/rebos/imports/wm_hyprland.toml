@@ -1,0 +1,5 @@
+# Hyprland Window Manager
+[managers.packages]
+items = [
+  "hyprland",       # Hyprland window manager
+]

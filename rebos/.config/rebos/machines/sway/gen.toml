@@ -9,6 +9,7 @@ imports = [
   "gpu_pkgs",     # amd graphics drivers, mesa, etc
   "login_man",    # login managers like sddm, gdm, lightdm etc
   "wayland_pkgs", # wayland utils like rofi-wayland etc
+  "wm_sway",    # sway window manager and sway speicific packages
   "theme_pkgs",   # themes, icons, cursors, etc
   "go_pkgs",      # downloading go projects from git and building them
   "fonts_dl",     # fonts downloader from arch repo, google fonts

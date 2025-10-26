@@ -3,6 +3,15 @@ command = "swww"
 arguments = ["img", "--transition-type", "center", "--transition-step", "15", "--transition-fps", "60"]
 set = true
 
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprcolors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook = 'hyprctl reload'
+
+[templates.hyprlock]
+input_path = '~/.config/matugen/templates/hyprlock.conf'
+output_path = '~/.config/hypr/config/hyprlock.conf'
+
 [templates.sway]
 input_path = '~/.config/matugen/templates/sway.conf'
 output_path = '~/.config/sway/colors'

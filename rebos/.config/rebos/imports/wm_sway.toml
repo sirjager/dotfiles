@@ -1,0 +1,7 @@
+# Sway Window Manager
+[managers.packages]
+items = [
+  # "sway",       # Tiling Wayland compositor (commented out)
+  "swayfx",       # Blur and visual effects daemon for Sway
+  "swaync",       # Notification daemon for Sway
+]
