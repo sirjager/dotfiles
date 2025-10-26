@@ -16,6 +16,7 @@ local M = {
     { 'echasnovski/mini.icons' },
 
     { 'j-hui/fidget.nvim' },
+
   },
 }
 

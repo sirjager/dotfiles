@@ -23,6 +23,14 @@ return {
   { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
   { "<leader>ov", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
 
+  -- NOTE: Base
+  { "<leader>b", group = "[B]ase", icon = "" },
+  { "<leader>bb", ":lua require('dbee').toggle()<CR>", icon = " ", desc = "[U]i Toggle" },
+  { "<leader>bo", ":lua require('dbee').open()<CR>", icon = "", desc = "[O]pen Ui" },
+  { "<leader>bc", ":lua require('dbee').close()<CR>", icon = " ", desc = "[C]lose Ui" },
+  { "<leader>br", ":lua require('dbee').execute(", icon = "󱂅 ", desc = "[R]un query" },
+  { "<leader>be", ":lua require('dbee').execute(", icon = "󱂅 ", desc = "[E]xecute query" },
+
   -- NOTE: Debugging
   { "<leader>d", group = "[D]ebugging", icon = " " },
   { "<leader>du", ":lua require('dapui').toggle()<CR>", icon = " ", desc = "[U]i Toggle" },

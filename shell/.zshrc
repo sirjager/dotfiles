@@ -64,4 +64,4 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 
 [ -f "$HOME/dotfiles/shell/.aliases" ] && . "$HOME/dotfiles/shell/.aliases"
-[ -f "$HOME/dotfiles/shell/.func" ] && . "$HOME/dotfiles/shell/.func"
+# [ -f "$HOME/dotfiles/shell/.func" ] && . "$HOME/dotfiles/shell/.func"

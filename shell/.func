@@ -29,7 +29,7 @@ list() {
 }
 
 rebos-delete() {
-	selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
+local selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
 	[ -z "$selected" ] && return
 	selected_num="$(echo "$selected" | awk '{print $1}')"
 	gum confirm \
@@ -126,8 +126,9 @@ ledger() {
 }
 
 function .nvim() {
-  items=("default" $(command ls ~/.config | grep 'Vim' | xargs ))
-  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Use Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  local prompt=" Use Neovim Config  "
+  local items=("default" $(command ls ~/.config | grep 'Vim' | xargs ))
+  local config=$(printf "%s\n" "${items[@]}" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
     return 0
@@ -141,12 +142,34 @@ bindkey -s ^n ".nvim\n"
 
 
 function connect() {
-  port=$(printf "%s\n" | fzf --prompt="  Enter Device Port  " --height=~50% --layout=reverse --border --exit-0 --print-query | head -n1)
-  if ! [[ $port =~ ^[0-9]+$ ]]; then
-    echo "Invalid port '$port'. Port should only contain numbers"
+  local prompt="  Enter Device Port  "
+  local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
+  if ! [[ $input =~ ^[0-9]+$ ]]; then
+    echo "Invalid port '$input'. Port should only contain numbers"
     return 0
   else
-   adb connect 192.168.0.101:$port
+   adb connect 192.168.0.101:$input
   fi
 }
 bindkey -s ^p "connect\n"
+
+
+function rebos-add() {
+  local prompt="󱧘 Install packages: "
+  local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
+  if [[ -z "$input" ]]; then
+    return 0
+  fi
+  .rebos add -b -c "$input"
+}
+bindkey -s ^i "rebos-add\n"
+
+function rebos-remove() {
+  local prompt="󱧔 Uninstall packages: "
+  local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
+  if [[ -z "$input" ]]; then
+    return 0
+  fi
+  .rebos remove -b -c "$input"
+}
+bindkey -s ^u "rebos-remove\n"
