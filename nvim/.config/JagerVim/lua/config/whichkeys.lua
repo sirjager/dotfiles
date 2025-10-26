@@ -82,7 +82,7 @@ return {
   {"<leader>so",function()require('snacks').picker.recent({layout="ivy"})end,icon = " ",desc = "[o]pen recent"},
   {"<leader>sw",function()require('snacks').picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
   {"<leader>sW",function()require('snacks').picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
-  {"<leader>sk",function()require('snacks').picker.keymaps()end, icon = " ", desc = "[k]eymaps" },
+  {"<leader>sk",function()require('snacks').picker.keymaps({layout='default'})end, icon = " ", desc = "[k]eymaps" },
   {"<leader>sg",function()require('snacks').lazygit.open()end, icon = " ", desc = "Lazy[g]it" },
   {"<leader>sG",function()require('snacks').lazygit.log()end, icon = " ", desc = "[G]itlog" },
   {"<leader>sm",function()require('snacks').picker.marks()end, icon=" ", desc = "[m]arks" },
@@ -93,9 +93,9 @@ return {
   {"<leader>sR",function()require('snacks').picker.registers({layout="ivy"})end, icon=" ", desc = "[R]egisters" },
   {"<leader>sj",function()require('snacks').picker.jumps()end,icon="󱔕", desc = "[j]umps" },
   {"<leader>sh",function()require('snacks').picker.command_history()end,icon=" ", desc = "[h]istory" },
-  {"<leader>st",function()require('snacks').picker.todo_comments({layout="ivy"})end,icon=" ", desc = "[t]odos" },
-  {"<leader>sT",function()require('snacks').picker.todo_comments({keywords=todo_keywords}) end, desc = "[T]odo comments" },
-  {"<leader>si",function()require('snacks').picker.icons({layout="ivy"}) end, desc = "icons emojis" },
+  {"<leader>st",function()require('snacks').picker.todo_comments({layout="default"})end,icon=" ", desc = "[t]odos" },
+  {"<leader>sT",function()require('snacks').picker.todo_comments({keywords=require('plugins.comments').todo_keywords()}) end, desc = "[T]odo comments" },
+  {"<leader>si",function()require('snacks').picker.icons({layout="default"}) end, desc = "icons emojis" },
 
   -- NOTE: LSP & Diagnostic
   { "<leader>l", group = "[L]SP [D]iagnostic", icon = " " },

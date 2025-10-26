@@ -19,6 +19,8 @@ imports = [
 [managers.packages]
 items = [
   #add-user-pkgs-here
+	 "lutris",
+	 "rtorrent",
 	 "appimagelauncher",
 	 "warpd-wayland",
 	 "visual-studio-code-bin",
@@ -42,7 +44,6 @@ items = [
 [managers.flatpak]
 items = [
   #add-flatpaks-here
-  "bazaar",
 ]
 
 [managers.cargo]

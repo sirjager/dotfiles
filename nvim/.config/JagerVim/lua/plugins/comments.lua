@@ -1,6 +1,7 @@
 local M = {
   'numToStr/Comment.nvim',
-  event = 'BufReadPost',
+  lazy = false,
+  priority = 1,
   dependencies = {
     'folke/todo-comments.nvim',
     'JoosepAlviste/nvim-ts-context-commentstring',
@@ -99,11 +100,11 @@ M.todo_comments_opts = {
 }
 
 M.todo_keywords = function()
-  if not M.opts or not M.opts.keywords then
+  if not M.todo_comments_opts or not M.todo_comments_opts.keywords then
     return {}
   end
   local keys_set = {}
-  for k, v in pairs(M.opts.keywords) do
+  for k, v in pairs(M.todo_comments_opts.keywords) do
     keys_set[k] = true
     if v.alt then
       for _, alt in ipairs(v.alt) do
