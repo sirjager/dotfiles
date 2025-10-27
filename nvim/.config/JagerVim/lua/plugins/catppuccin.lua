@@ -56,7 +56,7 @@ M.opts = {
 function M.config()
   require('catppuccin').setup(M.opts)
   vim.cmd 'colorscheme catppuccin'
-  vim.cmd 'hi LineNr guibg=none guifg=#8294C4'
+  -- vim.cmd 'hi LineNr guibg=none guifg=#8294C4'
 end
 
 return M

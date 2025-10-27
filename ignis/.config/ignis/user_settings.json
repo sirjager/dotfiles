@@ -1,1 +1,54 @@
-{}
+{
+    "appearance": {
+        "wallcolors": {
+            "wallpaper_path": "/mnt/storage/wallpaper/anime/36.jpg",
+            "color_scheme": "expressive",
+            "quickselect_path": "/mnt/storage/wallpaper/anime",
+            "auto_dark": {}
+        }
+    },
+    "interface": {
+        "modules": {
+            "location": {
+                "workspaces": 0,
+                "recording_indicator": 1,
+                "clock": 1
+            },
+            "visibility": {},
+            "bar_id": {},
+            "options": {
+                "workspaces_style": "windows",
+                "fixed_workspaces_amount": 3,
+                "recording_indicator": "always"
+            }
+        },
+        "bar": {
+            "side": "left",
+            "vertical": true,
+            "separation": true,
+            "floating": false
+        },
+        "bar2": {
+            "enabled": false,
+            "floating": false,
+            "side": "top",
+            "vertical": false
+        },
+        "notifications": {
+            "compact_popup": true
+        },
+        "launcher": {},
+        "misc": {
+            "screen_corners": "always"
+        }
+    },
+    "services": {
+        "recorder": {},
+        "osd": {
+            "anchor": [
+                "top"
+            ],
+            "vertical": true
+        }
+    }
+}

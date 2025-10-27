@@ -2,28 +2,28 @@
 -- check all highlight groups using :hi
 local M = {}
 
-local none = "nil" -- to nil / transparent
-local fg = "#B4BEFE" -- for text
-local bg = "nil" -- for bg
+local none = 'NONE' -- to nil / transparent
+local fg = '#B4BEFE' -- for text
+local bg = 'NONE' -- for bg
 
-local primary = "#f5a97f" -- controls the majoriry of ui color
-local secondary = "#4635B1"
-local accent = "#FFDAB3" -- similar to primary with lit tweak
+local primary = '#f5a97f' -- controls the majoriry of ui color
+local secondary = '#4635B1'
+local accent = '#FFDAB3' -- similar to primary with lit tweak
 
-local info = "#2973B2"
+local info = '#2973B2'
 
 local border = primary
-local lineNr = "#525280"
+local lineNr = '#525280'
 
-local dimtext = "#B4BEFE"
-local cursorline_bg = "#292c3c"
+local dimtext = '#B4BEFE'
+local cursorline_bg = '#292c3c'
 local cursorline_fg = primary
 
-M.Normal = { bg = none }
-M.HoverNormal = { fg = fg, bg = none }
-M.HoverBorder = { fg = border, bg = none }
+M.Normal = { bg = none, ctermbg = none }
+M.HoverNormal = { fg = fg, bg = none, ctermbg = none }
+M.HoverBorder = { fg = border, bg = none, ctermbg = none }
 
-M.LineNr = { fg = lineNr, bg = none } -- line numbers
+M.LineNr = { fg = lineNr, bg = none, ctermbg = none } -- line numbers
 
 M.Visual = { fg = bg, bg = primary } -- visual mode selection bg
 
@@ -41,7 +41,7 @@ M.FloatShadow = { bg = bg }
 
 -- mini.files
 M.MiniFilesNormal = M.NormalFloat
-M.MiniFilesBorder = { fg = border, bg = none }
+M.MiniFilesBorder = { fg = primary, bg = none }
 M.MiniFilesFile = { fg = dimtext }
 M.MiniFilesDirectory = { fg = dimtext }
 M.MiniFilesCursorLine = { fg = cursorline_fg, bg = cursorline_bg }
