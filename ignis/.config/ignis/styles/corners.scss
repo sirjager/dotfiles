@@ -1,0 +1,13 @@
+@use "../colors";
+
+.screen-corner {
+    widget {
+        color: black;
+    }
+}
+
+.bar-corner {
+    widget {
+        color: colors.$background;
+    }
+}

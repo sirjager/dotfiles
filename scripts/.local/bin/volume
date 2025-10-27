@@ -68,4 +68,4 @@ mic)
   ;;
 esac
 
-send_notification
+# send_notification

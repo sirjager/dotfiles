@@ -1,0 +1,190 @@
+@use "../colors";
+
+// Settings Window
+.settings-window {
+    padding: 0px;
+    background-color: colors.$surface_container;
+    color: colors.$on_background;
+    min-width: 950px;
+
+    .header-bar {
+        padding: 5px 1rem;
+        color: colors.$on_surface;
+        .header-title-icon {
+            font-family: "Material Symbols Outlined", "Material Icons Outlined";
+            font-variation-settings: "FILL" 1;
+            font-size: 2rem;
+        }
+        .header-title {
+            font-size: 12pt;
+            font-weight: 600;
+        }
+    }
+
+    scrolledwindow viewport {
+        margin: 0px 0px 0px 0px;
+        border-radius: 16px 0px 0px 0px;
+        background-color: colors.$surface;
+    }
+
+    .settings-body {
+        padding: 1rem 10px;
+        .settings-category {
+            margin: 0px;
+            border-radius: 24px;
+            background-color: colors.$surface_container;
+            padding: 8px;
+            separator {
+                background-color: colors.$outline_variant;
+                margin: 0px 1rem;
+            }
+        }
+
+        .wallpaper-preview {
+            border-radius: 16px;
+        }
+
+        .wallpaper-button-overlay {
+            color: transparent;
+            transition: 100ms;
+            border-radius: 16px;
+            outline-offset: 2px;
+
+            &:hover {
+                background-color: rgba(colors.$surface_container, 0.2);
+            }
+        }
+
+        .wallpaper-filename-label {
+            background-color: colors.$surface_container;
+            color: colors.$on_surface;
+            padding: 5px 1rem;
+            border-radius: 50rem;
+        }
+
+        .folder-chooser-button {
+            background-color: colors.$surface_container_high;
+            border-radius: 16px;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .wallpaper-gallery-container {
+            padding: 0px;
+            border-radius: 16px;
+
+            .wallpaper-thumbnail {
+                padding: 0px;
+                border-radius: 8px;
+            }
+        }
+
+        scrolledwindow viewport {
+            margin: 0px;
+            border-radius: 12px;
+        }
+    }
+
+    .network-list-container,
+    .status-label,
+    .no-networks-label {
+        background-color: colors.$surface_container_high;
+        border-radius: 20px;
+        padding: 5px;
+        min-height: 40px;
+        .network-row {
+            background-color: transparent;
+            border-radius: 8px;
+            min-height: 30px;
+            font-weight: 400;
+            &:first-child {
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+            }
+            &:last-child {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+
+            &:hover {
+                background-color: colors.$surface_container_highest;
+            }
+            padding: 5px;
+
+            .connected-status-label,
+            .status-label {
+                background-color: transparent;
+                padding: 0px 16px;
+            }
+
+            .icon-label {
+                font-family:
+                    "Material Symbols Outlined", "Material Icons Outlined";
+                font-size: 14pt;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+.settings-category-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 0.2rem 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.settings-row,
+.row-button {
+    min-width: 800px;
+    padding: 0.6rem 1rem;
+    /* background-color: colors.$surface_container; */
+    border-radius: 16px;
+
+    .settings-row-header {
+        .settings-row-title {
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 16px;
+            color: colors.$on_surface;
+        }
+        .settings-row-description {
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 16px;
+            color: colors.$on_surface_variant;
+            opacity: 0.8;
+        }
+    }
+
+    &.row-button {
+        transition: 100ms;
+        &:hover {
+            background-color: colors.$surface_container_highest;
+        }
+        .row-button {
+            padding-right: 10px;
+        }
+    }
+
+    :not(:last-child) {
+        margin: -1px 0px;
+    }
+
+    &.module-options {
+        separator {
+            margin: 5px 0.5rem;
+            background-color: colors.$surface_container_highest;
+            min-width: 2px;
+            border-radius: 20px;
+        }
+    }
+
+    &.wallcolors-row {
+        padding-bottom: 16px;
+    }
+
+    &.wall-row {
+        padding-bottom: 10px;
+    }
+}

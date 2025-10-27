@@ -27,9 +27,11 @@ items = [
   "i3lock",                 # Screen locker
   "brightnessctl",          # Command-line screen brightness control
   "udiskie",                # Automounting and removable drive management
+  "power-profiles-daemon",  # Power Profile Daemon (e.g. balanced, performance)
 ]
 
 [managers.serv_enable]
 items = [
-  "NetworkManager", # Enable NetworkManager service at startup
+  "NetworkManager",        # Enable NetworkManager service at startup
+  "power-profiles-daemon", # Enable Power Profile Daemon
 ]

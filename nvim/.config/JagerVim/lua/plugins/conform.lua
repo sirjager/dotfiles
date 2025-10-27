@@ -21,6 +21,7 @@ M.opts = {
     yaml = { 'prettierd' },
     markdown = { 'prettierd' },
     graphql = { 'prettierd' },
+    toml = { 'taplo' },
     python = { 'isort', 'black' },
     ['*'] = { 'codespell' },
     ['_'] = { 'trim_whitespace' },

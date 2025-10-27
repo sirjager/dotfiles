@@ -2,4 +2,5 @@
 [managers.packages]
 items = [
   "hyprland",       # Hyprland window manager
+  "hyprlock",       # Hyprland's simple, yet multi-threaded and GPU-accelerated screen locking utility
 ]

@@ -58,4 +58,4 @@ down)
   ;;
 esac
 
-send_notification "$(get_icon "$arg")"
+# send_notification "$(get_icon "$arg")"

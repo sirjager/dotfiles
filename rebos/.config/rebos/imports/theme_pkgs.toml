@@ -2,6 +2,7 @@
 [managers.packages]
 items = [
   # utility tools for appearance
+  "python-ignis-git",   # Widget framework for building desktop shells, written and configurable in Python.
   "nwg-look",           # GTK theme and appearance configuration tool for Wayland
   "qt5ct",              # Qt5 theme and style configuration tool
   "qt6ct",              # Qt6 theme and style configuration tool
@@ -25,8 +26,9 @@ items = [
   # "tela-circle-icon-theme-all",      # Tela Circle icon theme (commented out) - https://github.com/vinceliuice/Tela-circle-icon-theme
 
   # themes
-  # "orchis-theme-git",                # Orchis GTK theme (commented out) - https://github.com/vinceliuice/Orchis-theme
+  "adw-gtk-theme",        # Required as default by many appications
   "mojave-gtk-theme-git", # macOS Mojave GTK theme - https://github.com/vinceliuice/Mojave-gtk-theme
   "whitesur-gtk-theme",   # macOS WhiteSur GTK theme - https://github.com/vinceliuice/WhiteSur-gtk-theme
+  # "orchis-theme-git",     # Orchis GTK theme (commented out) - https://github.com/vinceliuice/Orchis-theme
 
 ]

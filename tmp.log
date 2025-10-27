@@ -1,0 +1,410 @@
+python3 exoinstall.py
+
+==================================================
+ Welcome to the Exo Installer
+==================================================
+Cloning 'https://github.com/debuggyo/Exo.git' into a temporary directory...
+1: Full Installation
+2: Update Existing Installation
+3: Run in Test Mode (Dry Run)
+4: Uninstall Exo
+q: Quit
+Select an option: 1
+
+==================================================
+ Installing as Command
+==================================================
+Copied script to: /usr/local/bin/exoupdate
+Made script executable.
+Installation as command complete. You can now run 'exoupdate' from anywhere.
+
+==================================================
+ Starting Full Exo Installation
+==================================================
+
+==================================================
+ Distro Check
+==================================================
+Detected Arch-based distribution.
+
+==================================================
+ Checking for AUR Helper
+==================================================
+Found AUR helper: paru
+
+==================================================
+ Installing Dependencies
+==================================================
+Do you want to automatically install dependencies? (y/n): y
+                                                           Attempting to install the following packages: python-ignis-git, ignis-gvc, ttf-material-symbols-variable-git, matugen-bin, swww, gnome-bluetooth-3.0, adw-gtk-theme, dart-sass
+warning: swww-0.11.2-1.1 is up to date -- reinstalling
+warning: gnome-bluetooth-3.0-47.1-2.1 is up to date -- reinstalling
+warning: adw-gtk-theme-6.3-1 is up to date -- reinstalling
+warning: dart-sass-1.93.2-1.1 is up to date -- reinstalling
+resolving dependencies...
+looking for conflicting packages...
+
+warning: insufficient columns available for table display
+Packages (4) adw-gtk-theme-6.3-1  dart-sass-1.93.2-1.1
+             gnome-bluetooth-3.0-47.1-2.1  swww-0.11.2-1.1
+
+Total Installed Size:  23.00 MiB
+Net Upgrade Size:       0.00 MiB
+
+:: Proceed with installation? [Y/n]
+(4/4) checking keys in keyring                     [----] 100%
+(4/4) checking package integrity                   [----] 100%
+(4/4) loading package files                        [----] 100%
+(4/4) checking for file conflicts                  [----] 100%
+:: Running pre-transaction hooks...
+(1/1) Performing snapper pre snapshots for the following configurations...
+==> root: 340
+:: Processing package changes...
+(1/4) reinstalling swww                                                     [-------------------------------------------] 100%
+(2/4) reinstalling gnome-bluetooth-3.0                                      [-------------------------------------------] 100%
+(3/4) reinstalling adw-gtk-theme                                            [-------------------------------------------] 100%
+(4/4) reinstalling dart-sass                                                [-------------------------------------------] 100%
+:: Running post-transaction hooks...
+(1/4) Arming ConditionNeedsUpdate...
+(2/4) Checking which packages need to be rebuilt
+(3/4) Updating the desktop file MIME type cache...
+(4/4) Performing snapper post snapshots for the following configurations...
+==> root: 341
+:: Resolving dependencies...
+:: Calculating conflicts...
+:: Calculating inner conflicts...
+:: marked out of date: matugen-bin
+:: insufficient columns available for table display
+
+Aur (4) python-ignis-git-0.5.r123.g2cf7e62-1
+        ignis-gvc-0.1.0.r1.g03e1dde-1
+        material-symbols-git-4.0.0.r119.gc51274e9-1 (ttf-material-symbols-variable-git)
+        matugen-bin-2.4.1-1
+
+:: Proceed to review? [Y/n]:
+
+:: Downloading PKGBUILDs...
+ PKGBUILDs up to date
+fetching devel info...
+==> Making package: python-ignis-git 0.5.r123.g2cf7e62-1 (Mon 27 Oct 2025 07:37:57 AM IST)
+==> Retrieving sources...
+  -> Updating ignis git repo...
+==> Validating source files with sha256sums...
+    ignis ... Skipped
+==> Making package: python-ignis-git 0.5.r123.g2cf7e62-1 (Mon 27 Oct 2025 07:37:59 AM IST)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Retrieving sources...
+  -> Updating ignis git repo...
+==> Validating source files with sha256sums...
+    ignis ... Skipped
+==> Removing existing $srcdir/ directory...
+==> Extracting sources...
+  -> Creating working copy of ignis git repo...
+Cloning into 'ignis'...
+done.
+==> Starting pkgver()...
+==> Updated version: python-ignis-git 0.5.r149.g57017f8-1
+==> Sources are ready.
+python-ignis-git-0.5.r123.g2cf7e62-1: parsing pkg list...
+:: python-ignis-git-0.5.r123.g2cf7e62-1 is up to date -- skipping build
+loading packages...
+warning: python-ignis-git-0.5.r149.g57017f8-1 is up to date -- reinstalling
+resolving dependencies...
+looking for conflicting packages...
+
+Package (1)       Old Version          New Version          Net Change
+
+python-ignis-git  0.5.r149.g57017f8-1  0.5.r149.g57017f8-1    0.00 MiB
+
+Total Installed Size:  2.18 MiB
+Net Upgrade Size:      0.00 MiB
+
+:: Proceed with installation? [Y/n]
+(1/1) checking keys in keyring                                              [-------------------------------------------] 100%
+(1/1) checking package integrity                                            [-------------------------------------------] 100%
+(1/1) loading package files                                                 [-------------------------------------------] 100%
+(1/1) checking for file conflicts                                           [-------------------------------------------] 100%
+:: Running pre-transaction hooks...
+(1/1) Performing snapper pre snapshots for the following configurations...
+==> root: 342
+:: Processing package changes...
+(1/1) reinstalling python-ignis-git                                         [-------------------------------------------] 100%
+:: Running post-transaction hooks...
+(1/3) Arming ConditionNeedsUpdate...
+(2/3) Checking which packages need to be rebuilt
+(3/3) Performing snapper post snapshots for the following configurations...
+==> root: 343
+==> Making package: ignis-gvc 0.1.0-1 (Mon 27 Oct 2025 07:38:05 AM IST)
+==> Retrieving sources...
+  -> Found ignis-gvc-v0.1.0.tar.gz
+==> Validating source files with sha256sums...
+    ignis-gvc-v0.1.0.tar.gz ... Passed
+==> Making package: ignis-gvc 0.1.0-1 (Mon 27 Oct 2025 07:38:06 AM IST)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Retrieving sources...
+  -> Found ignis-gvc-v0.1.0.tar.gz
+==> Validating source files with sha256sums...
+    ignis-gvc-v0.1.0.tar.gz ... Passed
+==> Removing existing $srcdir/ directory...
+==> Extracting sources...
+  -> Extracting ignis-gvc-v0.1.0.tar.gz with bsdtar
+==> Sources are ready.
+ignis-gvc-0.1.0.r1.g03e1dde-1: parsing pkg list...
+:: ignis-gvc-0.1.0.r1.g03e1dde-1 is up to date -- skipping build
+loading packages...
+warning: ignis-gvc-0.1.0-1 is up to date -- reinstalling
+resolving dependencies...
+looking for conflicting packages...
+
+Package (1)  Old Version  New Version  Net Change
+
+ignis-gvc    0.1.0-1      0.1.0-1        0.00 MiB
+
+Total Installed Size:  0.29 MiB
+Net Upgrade Size:      0.00 MiB
+
+:: Proceed with installation? [Y/n]
+(1/1) checking keys in keyring                     [----] 100%
+(1/1) checking package integrity                   [----] 100%
+(1/1) loading package files                        [----] 100%
+(1/1) checking for file conflicts                  [----] 100%
+:: Running pre-transaction hooks...
+(1/1) Performing snapper pre snapshots for the following configurations...
+==> root: 344
+:: Processing package changes...
+(1/1) reinstalling ignis-gvc                       [----] 100%
+:: Running post-transaction hooks...
+(1/3) Arming ConditionNeedsUpdate...
+(2/3) Checking which packages need to be rebuilt
+(3/3) Performing snapper post snapshots for the following configurations...
+==> root: 345
+==> Making package: material-symbols-git 4.0.0.r119.gc51274e9-1 (Mon 27 Oct 2025 07:38:15 AM IST)
+==> Retrieving sources...
+  -> Found MaterialIcons-Regular-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialIconsOutlined-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsRound-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsSharp-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsTwoTone-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+  -> Found MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+  -> Found MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+==> Validating source files with sha256sums...
+    MaterialIcons-Regular-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialIconsOutlined-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsRound-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsSharp-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsTwoTone-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+    MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+    MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+==> Making package: material-symbols-git 4.0.0.r119.gc51274e9-1 (Mon 27 Oct 2025 07:38:19 AM IST)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Retrieving sources...
+  -> Found MaterialIcons-Regular-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialIconsOutlined-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsRound-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsSharp-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialIconsTwoTone-Regular-4.0.0.r142.gbb04090f.otf
+  -> Found MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+  -> Found MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+  -> Found MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf
+  -> Found MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2
+==> Validating source files with sha256sums...
+    MaterialIcons-Regular-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialIconsOutlined-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsRound-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsSharp-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialIconsTwoTone-Regular-4.0.0.r142.gbb04090f.otf ... Skipped
+    MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsOutlined[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+    MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsRounded[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+    MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.ttf ... Skipped
+    MaterialSymbolsSharp[FILL,GRAD,opsz,wght]-4.0.0.r142.gbb04090f.woff2 ... Skipped
+==> Removing existing $srcdir/ directory...
+==> Extracting sources...
+==> Starting pkgver()...
+==> Updated version: material-symbols-git 4.0.0.r142.gbb04090f-1
+==> Sources are ready.
+material-symbols-git-4.0.0.r119.gc51274e9-1 (ttf-material-symbols-variable-git): parsing pkg list...
+:: material-symbols-git-4.0.0.r119.gc51274e9-1 is up to date -- skipping build
+loading packages...
+warning: ttf-material-symbols-variable-git-4.0.0.r142.gbb04090f-1 is up to date -- reinstalling
+resolving dependencies...
+looking for conflicting packages...
+
+warning: insufficient columns available for table display
+Packages (1) ttf-material-symbols-variable-git-4.0.0.r142.gbb04090f-1
+
+Total Installed Size:  31.66 MiB
+Net Upgrade Size:       0.00 MiB
+
+:: Proceed with installation? [Y/n]
+(1/1) checking keys in keyring                     [----] 100%
+(1/1) checking package integrity                   [----] 100%
+(1/1) loading package files                        [----] 100%
+(1/1) checking for file conflicts                  [----] 100%
+:: Running pre-transaction hooks...
+(1/1) Performing snapper pre snapshots for the following configurations...
+==> root: 346
+:: Processing package changes...
+(1/1) reinstalling ttf-material-symbols-variab...  [----] 100%
+:: Running post-transaction hooks...
+(1/4) Arming ConditionNeedsUpdate...
+(2/4) Updating fontconfig cache...
+(3/4) Checking which packages need to be rebuilt
+(4/4) Performing snapper post snapshots for the following configurations...
+==> root: 347
+==> Making package: matugen-bin 2.4.1-1 (Mon 27 Oct 2025 07:38:28 AM IST)
+==> Retrieving sources...
+  -> Found matugen-2.4.1-x86_64.tar.gz
+==> Validating source files with sha256sums...
+    matugen-2.4.1-x86_64.tar.gz ... Passed
+==> Making package: matugen-bin 2.4.1-1 (Mon 27 Oct 2025 07:38:29 AM IST)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Retrieving sources...
+  -> Found matugen-2.4.1-x86_64.tar.gz
+==> Validating source files with sha256sums...
+    matugen-2.4.1-x86_64.tar.gz ... Passed
+==> Removing existing $srcdir/ directory...
+==> Extracting sources...
+  -> Extracting matugen-2.4.1-x86_64.tar.gz with bsdtar
+==> Sources are ready.
+matugen-bin-2.4.1-1: parsing pkg list...
+:: matugen-bin-2.4.1-1 is up to date -- skipping build
+loading packages...
+warning: matugen-bin-2.4.1-1 is up to date -- reinstalling
+resolving dependencies...
+looking for conflicting packages...
+
+Package (1)  Old Version  New Version  Net Change
+
+matugen-bin  2.4.1-1      2.4.1-1        0.00 MiB
+
+Total Installed Size:  5.37 MiB
+Net Upgrade Size:      0.00 MiB
+
+:: Proceed with installation? [Y/n]
+(1/1) checking keys in keyring                     [----] 100%
+(1/1) checking package integrity                   [----] 100%
+(1/1) loading package files                        [----] 100%
+(1/1) checking for file conflicts                  [----] 100%
+:: Running pre-transaction hooks...
+(1/1) Performing snapper pre snapshots for the following configurations...
+==> root: 348
+:: Processing package changes...
+(1/1) reinstalling matugen-bin                     [----] 100%
+:: Running post-transaction hooks...
+(1/3) Arming ConditionNeedsUpdate...
+(2/3) Checking which packages need to be rebuilt
+(3/3) Performing snapper post snapshots for the following configurations...
+==> root: 349
+
+Installing ignis-gvc from source...
+Cloning into '/tmp/tmpcc3ia43v/ignis-gvc'...
+remote: Enumerating objects: 28, done.
+remote: Counting objects: 100% (28/28), done.
+remote: Compressing objects: 100% (18/18), done.
+remote: Total 28 (delta 7), reused 23 (delta 4), pack-reused 0 (from 0)
+Receiving objects: 100% (28/28), 5.77 KiB | 5.77 MiB/s, done.
+Resolving deltas: 100% (7/7), done.
+The Meson build system
+Version: 1.9.1
+Source dir: /tmp/tmpcc3ia43v/ignis-gvc
+Build dir: /tmp/tmpcc3ia43v/ignis-gvc/build
+Build type: native build
+Project name: ignis-gvc
+Project version: undefined
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Cloning into 'gvc'...
+remote: Enumerating objects: 397, done.
+remote: Counting objects: 100% (93/93), done.
+remote: Compressing objects: 100% (37/37), done.
+remote: Total 397 (delta 61), reused 83 (delta 56), pack-reused 304 (from 1)
+Receiving objects: 100% (397/397), 197.29 KiB | 214.00 KiB/s, done.
+Resolving deltas: 100% (267/267), done.
+Already on 'master'
+Your branch is up to date with 'origin/master'.
+
+Executing subproject gvc
+
+gvc| Project name: gvc
+gvc| Project version: undefined
+gvc| C compiler for the host machine: cc (gcc 15.2.1 "cc (GCC) 15.2.1 20250813")
+gvc| C linker for the host machine: cc ld.bfd 2.45.0
+gvc| Found pkg-config: YES (/usr/bin/pkg-config) 2.5.1
+gvc| Build-time dependency glib-2.0 found: YES 2.86.1
+gvc| Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+gvc| Dependency glib-2.0 found: YES 2.86.1 (cached)
+gvc| Program /usr/bin/glib-mkenums found: YES (/usr/bin/glib-mkenums)
+gvc| Run-time dependency gio-2.0 found: YES 2.86.1
+gvc| Run-time dependency gobject-2.0 found: YES 2.86.1
+gvc| Run-time dependency libpulse found: YES 17.0-88-geee0
+gvc| Run-time dependency libpulse-mainloop-glib found: YES 17.0-88-geee0
+gvc| Run-time dependency gobject-introspection-1.0 found: YES 1.86.0
+gvc| Dependency gobject-introspection-1.0 found: YES 1.86.0 (cached)
+gvc| Program /usr/bin/g-ir-scanner found: YES (/usr/bin/g-ir-scanner)
+gvc| Dependency gobject-introspection-1.0 found: YES 1.86.0 (cached)
+gvc| Program /usr/bin/g-ir-compiler found: YES (/usr/bin/g-ir-compiler)
+gvc| Configuring config.h using configuration
+gvc| Build targets in project: 5
+gvc| Subproject gvc finished.
+
+Build targets in project: 5
+
+ignis-gvc undefined
+
+  Subprojects
+    gvc   : YES
+
+  User defined options
+    prefix: /usr
+
+Found ninja-1.13.1 at /usr/bin/ninja
+INFO: autodetecting backend as ninja
+INFO: calculating backend command to run: /usr/bin/ninja -C /tmp/tmpcc3ia43v/ignis-gvc/build
+ninja: Entering directory `/tmp/tmpcc3ia43v/ignis-gvc/build'
+[16/16] Generating subproject....typelib with a custom command
+Dropping privileges to 'jager' before running ninja...
+ninja: Entering directory `/tmp/tmpcc3ia43v/ignis-gvc/build'
+ninja: no work to do.
+Installing subprojects/gvc/libgvc.so to /usr/lib/ignis-gvc
+Installing subprojects/gvc/Gvc-1.0.gir to /usr/share/ignis-gvc
+Installing subprojects/gvc/Gvc-1.0.typelib to /usr/lib/ignis-gvc
+Installed ignis-gvc from source using meson.
+swww found in PATH.
+
+==================================================
+ Checking Desktop Environment
+==================================================
+Found existing desktop: hyprland
+Copied '/tmp/tmprk755724/ignis' to '/home/jager/.config/ignis'.
+Copied '/tmp/tmprk755724/matugen' to '/home/jager/.config/matugen'.
+Copying Hyprland config...
+
+==================================================
+ Final Setup
+==================================================
+Copying default wallpaper...
+Default wallpaper placed in /home/jager/Pictures/Wallpapers
+Wallpaper will be set on first desktop launch.
+
+Generating initial color scheme with Matugen...
+Initial color scheme generated.
+Creating default user_settings.json...
+Copying default preview-colors.scss...
+
+Installation complete.

@@ -1,0 +1,35 @@
+@use "../colors";
+@use "bar.scss";
+@use "dock.scss";
+@use "corners.scss";
+@use "settings.scss";
+@use "launcher.scss";
+@use "powermenu.scss";
+@use "quickcenter.scss";
+@use "notifications.scss";
+@use "osd.scss";
+@use "m3.scss";
+@use "previews.scss";
+
+* {
+    outline: unset;
+    border: unset;
+    background: unset;
+    box-shadow: unset;
+    color: unset;
+    border-radius: unset;
+}
+
+*:focus {
+    outline-color: colors.$secondary;
+}
+
+.popup-close,
+.popup-close button,
+.popup-close .background {
+    background-color: transparent;
+}
+
+separator {
+    background-color: colors.$surface_container_highest;
+}

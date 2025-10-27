@@ -10,7 +10,8 @@ usage() {
 
 [ $# -lt 3 ] && usage
 
-GEN_FILE="$HOME/dotfiles/rebos/.config/rebos/machines/$(hostname)/gen.toml"
+# GEN_FILE="$HOME/dotfiles/rebos/.config/rebos/machines/$(hostname)/gen.toml"
+GEN_FILE="$HOME/dotfiles/rebos/.config/rebos/gen.toml"
 
 USER_PACKAGE_MANAGER_ID="add-user-pkgs-here"
 FONT_MANAGER_ID="add-fonts-pkgs-here"

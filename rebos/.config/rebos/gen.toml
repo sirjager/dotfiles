@@ -9,25 +9,22 @@ imports = [
   "gpu_pkgs",     # amd graphics drivers, mesa, etc
   "login_man",    # login managers like sddm, gdm, lightdm etc
   "wayland_pkgs", # wayland utils like rofi-wayland etc
-  "wm_sway",      # sway window manager and sway speicific packages
+  # "wm_sway",      # sway window manager and sway speicific packages
   "wm_hyprland",  # hyprland window manager and hypr speicific packages
   "theme_pkgs",   # themes, icons, cursors, etc
   "go_pkgs",      # downloading go projects from git and building them
   "fonts_dl",     # fonts downloader from arch repo, google fonts
   "work_pkgs",    # work related packages, docker, vscode etc
-  "symlinks",     # automatically manage symlinks 
+  "symlinks",     # automatically manage symlinks
 ]
 
 [managers.packages]
 items = [
   #add-user-pkgs-here
-	 "lutris",
-	 "rtorrent",
-	 "appimagelauncher",
-	 "warpd-wayland",
-	 "visual-studio-code-bin",
+  "lutris",
+  "appimagelauncher",
+  "visual-studio-code-bin",
   "light",
-  "auto-cpufreq",
   "qbittorrent",
   "obsidian",
   "vlc",
@@ -71,5 +68,4 @@ items = [
 [managers.serv_start]
 items = [
   #add-enable-service-now
-  "auto-cpufreq",
 ]
