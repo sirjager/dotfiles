@@ -1,13 +1,22 @@
 #!/bin/sh
+# IMPORTANT: =======[ Read More in ~/.config/zsh/zlewrapper.zsh for custom keybindings ]========
 
-violet() { adb connect "192.168.0.101:$1" }
+# =================================================================================================================================
+# Directory Navigation
+function _mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
+# =================================================================================================================================
 
-# Directory Navigation ============================================
-mkcd() { mkdir -p -- "$1" && cd -- "$1" || return 1;} # usage: mkcd dir1/dir2
-cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # usage: cdup | cdup 3
 
+
+# =================================================================================================================================
+function _cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # usage: cdup | cdup 3
+# =================================================================================================================================
+
+
+
+# =================================================================================================================================
 # Reproducable package management using rebos : gitlab.com/Oglo12/rebos
-list() {
+function _rebosListGen() {
   file="$HOME/.config/rebos/machines/$(hostname)/gen.toml"
     awk '
         /^\[managers\./ {
@@ -27,8 +36,12 @@ list() {
         }
    ' "$file" | fzf | awk -F: '{print $2}' | xargs | wl-copy
 }
+# =================================================================================================================================
 
-rebos-delete() {
+
+
+# =================================================================================================================================
+function _rebosDeleteGen() {
 local selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
 	[ -z "$selected" ] && return
 	selected_num="$(echo "$selected" | awk '{print $1}')"
@@ -40,21 +53,25 @@ local selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
 		rebos gen delete "$selected_num" ||
 		return 0
 }
+# =================================================================================================================================
 
-font-preview() {                                                                   # Preview Fonts
+
+
+# =================================================================================================================================
+# Preview Fonts
+function _fontPreview() {  
 	selected=$(fc-list | awk '{print $1}' | sed 's/://g' | rofi -dmenu -theme ~/.config/sxhkd/rofi/vertical.rasi -p "Preview Font")
 	[ -z "$selected" ] && return 0
 	floatwin display "$selected"
 }
-
-kill-port() {
-	lsof -ti :"$1" | xargs kill -9
-}
+# =================================================================================================================================
 
 
+
+# =================================================================================================================================
 # ex: Extracts various compressed archive formats.
 # Example: ex archive.tar.gz → Extracts using `tar xzf`
-ex() {
+function _extract() {
 	if [ -f "$1" ]; then
 		case $1 in
 		*.tar.bz2) tar xjf "$1" ;;
@@ -77,8 +94,11 @@ ex() {
 		echo "'$1' is not a valid file"
 	fi
 }
+# =================================================================================================================================
 
 
+
+# =================================================================================================================================
 # ledger function: A wrapper around the `ledger` command to manage ledger files efficiently.
 #
 # Usage:
@@ -94,7 +114,7 @@ ex() {
 # Error Handling:
 # - Exits if `$myledger` is not set and `-f` is not provided.
 # - Ensures `$EDITOR` has access to related files by changing to the ledger's directory before opening.
-ledger() {
+function _ledger() {
 	# check $myledger variable, throw error if does not exists
 	local ledgerfile
 
@@ -124,8 +144,12 @@ ledger() {
 		command ledger -f "$ledgerfile" "$@"
 	fi
 }
+# =================================================================================================================================
 
-function .nvim() {
+
+
+# =================================================================================================================================
+function _nvim() {
   local prompt=" Use Neovim Config  "
   local items=("default" $(command ls ~/.config | grep 'Vim' | xargs ))
   local config=$(printf "%s\n" "${items[@]}" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --exit-0)
@@ -137,24 +161,27 @@ function .nvim() {
   fi
   NVIM_APPNAME=$config nvim $@
 }
-bindkey -s ^n ".nvim\n"
+# =================================================================================================================================
 
 
 
-function connect() {
+# =================================================================================================================================
+function _connect() {
   local prompt="  Enter Device Port  "
   local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
   if ! [[ $input =~ ^[0-9]+$ ]]; then
     echo "Invalid port '$input'. Port should only contain numbers"
     return 0
   else
-   adb connect 192.168.0.101:$input
+   adb connect 192.168.0.101:$input && return 0
   fi
 }
-bindkey -s ^p "connect\n"
+# =================================================================================================================================
 
 
-function rebos-add() {
+
+# =================================================================================================================================
+function _rebosAddPkg() {
   local prompt="󱧘 Install packages: "
   local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
   if [[ -z "$input" ]]; then
@@ -162,9 +189,12 @@ function rebos-add() {
   fi
   .rebos add -b -c "$input"
 }
-bindkey -s ^i "rebos-add\n"
+# =================================================================================================================================
 
-function rebos-remove() {
+
+
+# =================================================================================================================================
+function _rebosRemovePkg() {
   local prompt="󱧔 Uninstall packages: "
   local input=$(printf "%s\n" | fzf --prompt="$prompt" --height=~50% --layout=reverse --border --print-query --exit-0 | head -n1)
   if [[ -z "$input" ]]; then
@@ -172,4 +202,6 @@ function rebos-remove() {
   fi
   .rebos remove -b -c "$input"
 }
-bindkey -s ^u "rebos-remove\n"
+# =================================================================================================================================
+
+

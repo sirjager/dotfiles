@@ -1,0 +1,176 @@
+#!/bin/sh
+
+# mp4_to_gif.sh — Convert MP4 → GIF with optional FPS, progress bar, verbose, and overwrite options
+# Usage:
+#   ./mp4_to_gif.sh [--fps <number>] [--progress] [--verbose] [--overwrite] <file1.mp4> [file2.mp4 ...]
+
+set -e
+
+# =============================
+# Defaults
+# =============================
+FPS=60
+VERBOSE=false
+SHOW_PROGRESS=false
+OVERWRITE=false
+
+# =============================
+# Helper Functions
+# =============================
+
+print_usage() {
+  echo "Usage: $0 [options] <file1.mp4> [file2.mp4 ...]"
+  echo
+  echo "Options:"
+  echo "  --fps, -fps, -f <n>         Set frames per second (default: 30)"
+  echo "  --progress, -progress, -p    Show progress bar during conversion"
+  echo "  --verbose, -verbose, -v      Show full ffmpeg logs"
+  echo "  --overwrite, -overwrite, -o, --replace, -replace, -r"
+  echo "                               Overwrite existing GIF files if they exist"
+  echo "  -h, --help                   Show this help message"
+}
+
+log() { echo -e "$1"; }
+error() { echo "❌ Error: $1" >&2; exit 1; }
+
+# =============================
+# Argument Parsing
+# =============================
+INPUTS=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --fps|-fps|-f)
+      if [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
+        FPS="$2"
+        shift 2
+      else
+        error "Invalid FPS value after $1"
+      fi
+      ;;
+    --verbose|-verbose|-v)
+      VERBOSE=true
+      shift
+      ;;
+    --progress|-progress|-p)
+      SHOW_PROGRESS=true
+      shift
+      ;;
+    --overwrite|-overwrite|-o|--replace|-replace|-r)
+      OVERWRITE=true
+      shift
+      ;;
+    -h|--help)
+      print_usage
+      exit 0
+      ;;
+    -*)
+      error "Unknown option: $1"
+      ;;
+    *)
+      INPUTS+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ ${#INPUTS[@]} -lt 1 ]]; then
+  print_usage
+  exit 1
+fi
+
+# =============================
+# Core Conversion Function
+# =============================
+convert_mp4_to_gif() {
+  local input="$1"
+  local fps="$2"
+  local show_progress="$3"
+  local verbose="$4"
+  local overwrite="$5"
+
+  if [[ ! -f "$input" ]]; then
+    log "❌ File not found: $input"
+    return
+  fi
+
+  local base="${input%.*}"
+  local output="${base}@${fps}fps.gif"
+  local palette="/tmp/palette_$$.png"
+
+  if [[ -f "$output" ]]; then
+    if [[ "$overwrite" == true ]]; then
+      log "🗑️  Removing existing file: $(basename "$output")"
+      rm -f "$output"
+    else
+      log "⚠️  File exists: $(basename "$output") — skipping (use --overwrite to replace)"
+      return
+    fi
+  fi
+
+
+  log "🎬 Converting: $(basename "$input") → $(basename "$output") (FPS: $fps)"
+
+  local loglevel="error"
+  [[ "$verbose" == true ]] && loglevel="info"
+
+  # Step 1: Generate palette
+  ffmpeg -loglevel "$loglevel" -y -i "$input" \
+    -vf "fps=$fps,scale=iw:ih:flags=lanczos,palettegen" "$palette"
+
+  # Step 2: Convert to GIF (with or without progress)
+  if [[ "$show_progress" == true ]]; then
+    local duration
+    duration=$(ffprobe -v error -select_streams v:0 -show_entries stream=duration \
+      -of default=noprint_wrappers=1:nokey=1 "$input")
+    duration=${duration%.*}
+
+    ffmpeg -loglevel "$loglevel" -y -i "$input" -i "$palette" \
+      -lavfi "fps=$fps,scale=iw:ih:flags=lanczos[x];[x][1:v]paletteuse" \
+      -progress pipe:1 -nostats "$output" 2>/dev/null | \
+      awk -v duration="$duration" '
+      BEGIN {
+        bar_len = 40
+        printf "⏳ Progress: ["
+        for (i=0; i<bar_len; i++) printf " "
+        printf "] 0%%\r"
+        fflush()
+      }
+      /^out_time_ms=/ {
+        split($0, a, "=")
+        t = a[2] / 1000000
+        pct = (t / duration) * 100
+        if (pct > 100) pct = 100
+        filled = int((pct / 100) * bar_len)
+        bar = ""
+        for (i=0; i<filled; i++) bar = bar "█"
+        for (i=filled; i<bar_len; i++) bar = bar "░"
+        printf "⏳ Progress: [%s] %3d%%\r", bar, pct
+        fflush()
+      }
+      END {
+        printf "✅ Progress: ["
+        for (i=0; i<bar_len; i++) printf "█"
+        printf "] 100%%\n"
+      }'
+  else
+    ffmpeg -loglevel "$loglevel" -y -i "$input" -i "$palette" \
+      -lavfi "fps=$fps,scale=iw:ih:flags=lanczos[x];[x][1:v]paletteuse" "$output"
+  fi
+
+  rm -f "$palette"
+  log "✅ Done: $(basename "$output")"
+}
+
+# =============================
+# Process All Inputs
+# =============================
+for input in "${INPUTS[@]}"; do
+  convert_mp4_to_gif "$input" "$FPS" "$SHOW_PROGRESS" "$VERBOSE" "$OVERWRITE"
+done
+
+
+
+
+
+

@@ -49,9 +49,22 @@ color9 = '#c6c2ea'
 [custom.filescount]
 style = "dimmed"
 command = "ls -a | wc -l"
-detect_extensions = ["md","mdx",'ts',"tsx","js","jsx","jpg","png","webp","avif","mp4","mkv"]
+detect_extensions = [
+  "md",
+  "mdx",
+  'ts',
+  "tsx",
+  "js",
+  "jsx",
+  "jpg",
+  "png",
+  "webp",
+  "avif",
+  "mp4",
+  "mkv",
+]
 detect_files = [".bashrc"]
-detect_folders = ["/mnt/storage","/"]
+detect_folders = ["/mnt/storage", "/"]
 format = "[$output]($style)"
 
 [username]
@@ -71,7 +84,7 @@ vicmd_symbol = "[🞈](#f9e2af)"
 
 [time]
 disabled = false
-time_format = "%r" # Hour:Minute Format
+time_format = "%r"   # Hour:Minute Format
 style = "bg:#1d2230"
 # format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
 format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $time](fg:color3 bg:color4)[](fg:color4) "
@@ -104,7 +117,7 @@ ssh_symbol = " "
 # Shows current directory
 [directory]
 truncation_length = 3
-fish_style_pwd_dir_length=2
+fish_style_pwd_dir_length = 2
 home_symbol = '󰋜 '
 read_only_style = '197'
 read_only = '  '
@@ -117,16 +130,16 @@ format = 'at [$path]($style)[$read_only]($read_only_style) '
 "Music" = " "
 "Pictures" = " "
 '/mnt/storage/workspace/goenv/src/github.com/sirjager' = ' ' #  
-'/mnt/storage/workspace/apps' = ' ' #  
+'/mnt/storage/workspace/apps' = ' '                          #  
 '/mnt/storage/workspace/rust' = ' '
 '/mnt/storage/workspace/web' = ' '
 '/mnt/storage/workspace/projects' = ' '
 '/mnt/storage/workspace/cli' = ' '
 '/mnt/storage/workspace/scripts' = ' '
-'/mnt/storage/workspace/notes' = ' ' # 
+'/mnt/storage/workspace/notes' = ' '                         # 
 '/mnt/storage/workspace/api' = ' '
-'/mnt/storage/workspace/stacks' = ' '  # 
-'/mnt/storage/workspace' = ' ' # 
+'/mnt/storage/workspace/stacks' = ' '                        # 
+'/mnt/storage/workspace' = ' '                               # 
 '/mnt/storage/wallpaper' = ' '
 '/mnt/storage/programs' = ' '
 '/mnt/storage/softwares' = ' '
@@ -156,7 +169,6 @@ modified = ' '
 staged = '[++\($count\)](green)'
 renamed = '襁 '
 deleted = ' '
-
 
 
 [aws]
@@ -189,7 +201,7 @@ symbol = " "
 [memory_usage]
 symbol = "󰍛 "
 disabled = true
-style='bold dimmed white'
+style = 'bold dimmed white'
 threshold = 1
 format = "$symbol [${ram}(|${swap})]($style) "
 
@@ -220,3 +232,7 @@ symbol = " "
 [scala]
 symbol = " "
 
+[custom.zsh_load_time]
+command = "echo $STARSHIP_SHELL_LOAD_TIME"
+when = "true"
+format = " 󰔚 [$output](bold yellow) "
