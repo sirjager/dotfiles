@@ -48,13 +48,13 @@ zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 
-# Carapace completions
-source <(carapace _carapace)
-
 # Add custom completions
 fpath=(~/.local/bin/completions $fpath)
 
 # Use cached compinit
 autoload -Uz compinit
-: "${ZSH_COMPDUMP:=${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump}"
 compinit -C
+
+# Carapace completions
+source <(carapace _carapace)
+

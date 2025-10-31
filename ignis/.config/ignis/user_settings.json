@@ -18,7 +18,7 @@
             "bar_id": {},
             "options": {
                 "workspaces_style": "windows",
-                "fixed_workspaces_amount": 3,
+                "fixed_workspaces_amount": 4,
                 "recording_indicator": "always"
             }
         },

@@ -1,5 +1,23 @@
 # ~/.zprofile
 
+# Global Environment Variables
+export GPG_TTY="$(tty)"
+export EDITOR="NVIM_APPNAME=JagerVim nvim"
+export DIRENV_LOG_FORMAT=""
+export TERMINAL="kitty"
+export BROWSER="brave"
+export PG_COLOR="always"                     # postgres
+export _JAVA_AWT_WM_NONREPARENTING=1         # For Java Applications
+export XMODIFIERS='@im=fcitx'                # multilang keyboard
+export GTK_IM_MODULE='fcitx'                 # multilang keyboard
+export SDL_IM_MODULE='fcitx'                 # multilang keyboard
+export QT_IM_MODULE='fcitx'                  # multilang keyboard
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
+export CHROME_EXECUTABLE='/usr/bin/brave'    # Chrome executable path
+export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
+export CARAPACE_BRIDGES='zsh,inshellisense'  # optional
+
+
 # Wayland/X11 handling
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   export GDK_BACKEND="wayland"
@@ -62,3 +80,6 @@ export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
 
+
+# Custom Scripts Directory
+export PATH="$PATH:$HOME/.local/bin"
