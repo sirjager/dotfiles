@@ -1,0 +1,5 @@
+# Niri Window Manager
+[managers.packages]
+items = [
+  "niri",       # A scrollable-tiling Wayland compositor 
+]

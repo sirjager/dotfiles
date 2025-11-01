@@ -10,6 +10,7 @@ imports = [
   "login_man",    # login managers like sddm, gdm, lightdm etc
   "wayland_pkgs", # wayland utils like rofi-wayland etc
   # "wm_sway",      # sway window manager and sway speicific packages
+  "wm_niri",      # niri window manager and niri speicific packages
   "wm_hyprland",  # hyprland window manager and hypr speicific packages
   "theme_pkgs",   # themes, icons, cursors, etc
   "go_pkgs",      # downloading go projects from git and building them

@@ -1,1 +1,4 @@
-/usr/share/themes/Mojave-Dark/gtk-4.0/gtk.css
+@import url("dank-colors.css");
+@import url("resource:///org/gnome/theme/gtk.css");
+@import 'colors.css';
+

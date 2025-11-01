@@ -45,6 +45,10 @@ items = [
   "parallel",               # Execute jobs in parallel
   "gnome-keyring",          # Secure storage for passwords and keys
   "seahorse",               # GUI to manage keys and passwords
+  "accountsservice",        # User account information management service
+  "qt6-multimedia",         # Qt6 module for multimedia support (audio/video)
+  "cliphist",               # Clipboard history manager for Wayland/X11
+  "cava",                   # Console-based audio visualizer
 ]
 
 [managers.serv_start]
