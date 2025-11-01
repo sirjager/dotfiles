@@ -1,6 +1,5 @@
 local M = {
   'rcarriga/nvim-dap-ui',
-  event = 'VeryLazy',
   dependencies = {
     { 'ray-x/guihua.lua' }, -- gui lib
     { 'folke/neodev.nvim' },
