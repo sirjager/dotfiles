@@ -49,6 +49,7 @@ alias newtag="git tag -a"                                 # Git new tag
 alias tags="git tag"                                      # Git tags
 alias gitlog="git log --outline --graph --decorate --all" # Git Log
 
+
 # Youtube DL =====================================================
 alias yta-acc="youtube-dl --extract-audio --audio-format mp3"
 alias yta-best="youtube-dl --extract-audio --audio-format best"

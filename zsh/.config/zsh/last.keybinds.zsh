@@ -11,5 +11,6 @@ bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^u' history-search-forward
 
+_bindkey '^n' _nvim
 
 

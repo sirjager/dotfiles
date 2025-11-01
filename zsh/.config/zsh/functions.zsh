@@ -73,7 +73,7 @@ local selected="$(rebos gen list | awk '{print $2, $(4), $(NF)}' | tac | fzf)"
 
 # =================================================================================================================================
 # Preview Fonts
-function _fontPreview() {  
+function _fontPreview() {
 	selected=$(fc-list | awk '{print $1}' | sed 's/://g' | rofi -dmenu -theme ~/.config/sxhkd/rofi/vertical.rasi -p "Preview Font")
 	[ -z "$selected" ] && return 0
 	floatwin display "$selected"
@@ -215,6 +215,25 @@ function _rebosRemovePkg() {
     return 0
   fi
   .rebos remove -b -c "$input"
+}
+# =================================================================================================================================
+
+
+
+
+# =================================================================================================================================
+function clone() {
+  [ -z "$1" ] && exit 1
+  u="$1"
+  [[ "$u" != http* ]] && u="https://github.com/$u"
+  if [ -z "$2" ]; then
+    dir="$(basename "$u")"
+  elif [ "$2" = "." ]; then
+    dir="."
+  else
+    dir="$2"
+  fi
+  git clone "$u" "$dir"
 }
 # =================================================================================================================================
 

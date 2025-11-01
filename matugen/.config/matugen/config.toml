@@ -1,0 +1,72 @@
+[config]
+command = "swww"
+arguments = ["img", "--transition-type", "center", "--transition-step", "15", "--transition-fps", "60"]
+set = true
+
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprcolors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook = 'hyprctl reload'
+
+[templates.hyprlock]
+input_path = '~/.config/matugen/templates/hyprlock.conf'
+output_path = '~/.config/hypr/config/hyprlock.conf'
+
+[templates.sway]
+input_path = '~/.config/matugen/templates/sway.conf'
+output_path = '~/.config/sway/colors'
+# post_hook = "swaymsg reload >/dev/null 2>&1"
+
+[templates.swaync]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/swaync/colors.css'
+post_hook = "swaync-client -R >/dev/null 2>&1"
+
+[templates.waybar]
+input_path = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/waybar/colors.css'
+post_hook = 'pkill -SIGUSR2 waybar >/dev/null 2>&1'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+# post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+post_hook = "gsettings set org.gnome.desktop.interface gtk-theme ''; gsettings set org.gnome.desktop.interface gtk-theme $(awk -F= '/gtk-theme-name/ {print $2}' ~/.config/gtk-3.0/settings.ini)"
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/colors.conf'
+post_hook = 'pkill -SIGUSR1 kitty >/dev/null 2>&1'
+
+# [templates.dunst]
+# input_path = '~/.config/matugen/templates/dunst'
+# output_path = '~/.config/dunst/dunstrc'
+# post_hook = 'pkill -SIGUSR2 dunst >/dev/null 2>&1'
+
+[templates.rofi]
+input_path = '~/.config/matugen/templates/rofi.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+[templates.qt5ct]
+input_path = '~/.config/matugen/templates/qt.conf'
+output_path = '~/.config/qt5ct/colors/matugen.conf'
+
+[templates.starship]
+input_path = '~/.config/matugen/templates/starship.toml'
+output_path = '~/.config/starship/starship.toml'
+
+[templates.yazi]
+input_path = '~/.config/matugen/templates/yazi.toml'
+output_path = '~/.config/yazi/theme.toml'
+
+[templates.zathura]
+input_path = '~/.config/matugen/templates/zathura'
+output_path = '~/.config/zathura/zathurarc'
+
+[templates.alacritty]
+input_path = '~/.config/matugen/templates/alacritty.toml'
+output_path = '~/.config/alacritty/colors.toml'
