@@ -50,6 +50,8 @@ items = [
   "cliphist",               # Clipboard history manager for Wayland/X11
   "cava",                   # Console-based audio visualizer
   "inotify-tools",          # CLI utilities to monitor filesystem events (create, modify, delete, etc.) using Linux inotify API
+  "imagemagick",             # ImageMagick: convert, scale, and crop images etc
+  "yt-dlp",                 # Youtube dl
 ]
 
 [managers.serv_start]

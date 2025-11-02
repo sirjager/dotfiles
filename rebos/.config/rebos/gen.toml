@@ -63,6 +63,8 @@ items = [
 items = [
   #add-symlinks-here
   "--overwrite --src /mnt/storage/programs/brave/Brave-Browser --dest ~/.config/BraveSoftware",
+  "--overwrite --src /mnt/storage/downloads --dest ~/Downloads",
+  "--overwrite --src /mnt/storage/downloads/Pictures --dest ~/Pictures",
 ]
 
 

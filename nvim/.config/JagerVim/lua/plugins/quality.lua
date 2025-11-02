@@ -16,7 +16,6 @@ local M = {
     { 'echasnovski/mini.icons' },
 
     { 'j-hui/fidget.nvim' },
-
   },
 }
 
@@ -32,7 +31,9 @@ M.fidget_opts = {
 }
 
 M.config = function(_, __)
-  require('luarocks-nvim').setup()
+  require('luarocks-nvim').setup {
+    rocks = { 'magick' },
+  }
   require('maximize').setup()
   require('illuminate').configure()
   require('fidget').setup(M.fidget_opts)

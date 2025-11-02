@@ -17,7 +17,7 @@ hotkey-overlay {
 animations {
     slowdown 2.0
 }
-screenshot-path "/mnt/storage/downloads/Pictures/Screenshots/Screenshot-from-%Y-%m-%d %H-%M-%S.png"
+screenshot-path "/mnt/storage/downloads/Pictures/Screenshots/screenshot-from-%Y-%m-%d-%H-%M-%S.png"
 //==============================================================================
 // Input Devices | Keyboard | Mouse | Touchpad
 //==============================================================================
@@ -37,6 +37,21 @@ input {
     warp-mouse-to-focus
  // focus-follows-mouse
 }
+gestures {
+    dnd-edge-view-scroll {
+        trigger-width 30
+        delay-ms 100
+        max-speed 1500
+    }
+    dnd-edge-workspace-switch {
+        trigger-height 50
+        delay-ms 100
+        max-speed 1500
+    }
+    hot-corners {
+        off
+    }
+}
 //==============================================================================
 // Environment Variables
 //==============================================================================
@@ -53,36 +68,7 @@ environment {
     // chose either gtk or qt6ct
     QT_QPA_PLATFORMTHEME "qt6ct"
     QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
-}
-//==============================================================================
-// Niri Layouts
-//==============================================================================
-layout {
-    gaps 18
-    center-focused-column "never"
-    preset-column-widths {
-        proportion 0.33333
-        proportion 0.5
-        proportion 0.66667
-    }
-    default-column-width {
-        proportion 0.7
-    }
-    focus-ring {
-        off
-    }
-    border {
-        width 2
-        active-color "#ffc87f"
-    }
-    shadow {
-        on
-        softness 30
-        spread 5
-        offset x=0 y=5
-        color "#0007"
-        draw-behind-window true
-    }
+    ELECTRON_OZONE_PLATFORM_HINT "wayland"
 }
 //==============================================================================
 // Layout Rules
@@ -96,11 +82,45 @@ layer-rule {
     place-within-backdrop true
 }
 //==============================================================================
+// Niri Layouts
+//==============================================================================
+layout {
+    gaps 18
+    // always-center-single-column
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width {
+        proportion 0.7
+    }
+    focus-ring {
+        off
+        width 2
+        active-color "#ffc87f"
+        inactive-color "#7d0d2d"
+    }
+    border {
+        off
+        width 2
+        active-color "#f38ba8"
+    }
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+        draw-behind-window true
+    }
+}
+//==============================================================================
 // Autostart: Quick Shell, Bars, Wallpapers
 //==============================================================================
 spawn-at-startup "dms" "run"
-spawn-at-startup "walsync" // syncs wallpaper set by dms with swww
-// spawn-sh-at-startup "pgrep -x ignis >/dev/null || ignis init"
+spawn-at-startup "walsync"
+// syncs wallpaper set by dms with swww// spawn-sh-at-startup "pgrep -x ignis >/dev/null || ignis init"
 //==============================================================================
 // Autostart: auth-agent, gnome-keyring
 //==============================================================================
@@ -124,19 +144,37 @@ spawn-sh-at-startup "pgrep -x udiskie >/dev/null || udiskie --no-automount --sma
 //==============================================================================
 spawn-sh-at-startup "pgrep -x brave >/dev/null || brave --profile-directory=sirjager >/dev/null 2>&1"
 //==============================================================================
-// Key binds
+// Named Workspaces Rules
 //==============================================================================
+workspace "overview" {
+
+}
+workspace "browsers" {
+
+}
+//==============================================================================
+// Window Rules
+//==============================================================================
+window-rule {
+    // Rule for all windows
+    geometry-corner-radius 20
+    clip-to-geometry true
+}
 window-rule {
     // Rule for floating windows
     match app-id="scrcpy"
+    match app-id="nwg-look"
     match app-id="udiskie"
+    match app-id="lxappearance"
     match app-id="blueman-manager"
     match app-id="lxqt-policykit-agent"
     match app-id="nm-connection-editor"
+    match app-id="org.gnome.Nautilus"
+    match app-id="org.gnome.Loupe"
     match app-id="org.pulseaudio.pavucontrol"
     match app-id="polkit-gnome-authentication-agent-1"
     match app-id="org.telegram.desktop"
-    match app-id="org.manjaro.pamac.manager"
+    match app-id="xdg-desktop-portal-gtk"
     match app-id="firefox$" title="^Picture-in-Picture$"
     match app-id="brave-browser$" title="^Picture-in-Picture$"
     open-floating true
@@ -145,12 +183,18 @@ window-rule {
     // Rule for browsers
     match app-id="firefox$"
     match app-id="brave-browser$"
-    open-maximized true
+    open-on-workspace "browsers"
+    match app-id="org.qutebrowser.qutebrowser"
+    default-column-display "tabbed"
 }
 window-rule {
-    // Rule for all windows
-    geometry-corner-radius 20
-    clip-to-geometry true
+    match app-id="org.qutebrowser.qutebrowser"
+    default-column-width {
+        fixed 900
+    }
+    default-window-height {
+        fixed 700
+    }
 }
 //==============================================================================
 // Key binds
@@ -168,7 +212,7 @@ binds {
     Mod+Ctrl+W hotkey-overlay-title="Browse Wallpapers" {
         spawn-sh "dms ipc call dankdash wallpaper"
     }
-    Mod+Ctrl+I hotkey-overlay-title="Notepad" {
+    Mod+Ctrl+P hotkey-overlay-title="Notepad" {
         spawn-sh "dms ipc call notepad toggle"
     }
     Mod+Ctrl+O hotkey-overlay-title="Lock Screen" {
@@ -199,10 +243,16 @@ binds {
     Mod+B hotkey-overlay-title="Browser | Brave | SirJager" {
         spawn "brave" "--profile-directory=sirjager"
     }
+    Mod+Q hotkey-overlay-title="Browser | Qutebrowser" {
+        spawn "qutebrowser"
+    }
+    Mod+Shift+C hotkey-overlay-title="Browser | Qutebrowser" {
+        spawn "qutebrowser" "https://chatgpt.com"
+    }
     Mod+E hotkey-overlay-title="FileManager | Nautilus" {
         spawn "nautilus" "--new-window"
     }
-    Mod+Ctrl+P hotkey-overlay-title="Session Menu | Power Menu" {
+    Mod+Shift+P hotkey-overlay-title="Session Menu | Power Menu" {
         spawn-sh "~/.config/rofi/powermenu/type-6/powermenu.sh"
     }
     //==============================================================================
@@ -261,6 +311,9 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     //==============================================================================
+    Mod+G repeat=false {
+        toggle-column-tabbed-display
+    }
     Mod+Tab repeat=false {
         toggle-overview
     }
@@ -274,16 +327,16 @@ binds {
         focus-column-right
     }
     Mod+J {
-        focus-window-or-workspace-down
+        focus-window-down
     }
     Mod+K {
-        focus-window-or-workspace-up
+        focus-window-up
     }
-    Mod+I {
-        focus-workspace-up
-    }
-    Mod+U {
+    Mod+Ctrl+J {
         focus-workspace-down
+    }
+    Mod+Ctrl+K {
+        focus-workspace-up
     }
     //==============================================================================
     // Windows Movement And Management
@@ -407,10 +460,10 @@ binds {
         set-column-width "+10%"
     }
     // Finer height adjustments when in column with other windows.
-    Mod+Ctrl+J {
+    Mod+Ctrl+Space cooldown-ms=150 {
         set-window-height "-10%"
     }
-    Mod+Ctrl+K {
+    Mod+Shift+Space cooldown-ms=150 {
         set-window-height "+10%"
     }
     // Move the focused window between the floating and the tiling layout.
@@ -450,14 +503,17 @@ binds {
     Mod+Shift+Q {
         quit
     }
-    Mod+Shift+P {
+    Mod+Ctrl+U {
         power-off-monitors
     }
     //==============================================================================
     // Scripts | Shortcuts | Helpers
     //==============================================================================
-    Mod+O hotkey-overlay-title="Open Copied Link" {
+    Mod+O repeat=false hotkey-overlay-title="Open Copied Link" {
         spawn-sh "url=$(wl-paste | grep -oE 'https?://[^[:space:]]+' | head -n1 | sed 's/[[:punct:]]*$//') && [[ \"$url\" =~ ^https?:// ]] && xdg-open \"$url\" && notify-send \"Opening link in $BROWSER\" \"$url\" || notify-send \"Clipboard does not contain a valid link.\" \"$url\" "
+    }
+    Mod+Ctrl+I repeat=false hotkey-overlay-title="Show Windows App IDs" {
+        spawn-sh "notify-send -r 20000 \"🪟 Niri Windows\" \"$(niri msg windows | awk -F'\\\"' '/App ID/ {print $2}' | paste -sd '\n' -)\""
     }
     //==============================================================================
     // Mouse Keybindings

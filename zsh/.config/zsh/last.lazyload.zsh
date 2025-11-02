@@ -31,6 +31,16 @@ _init_tools_lazy() {
   # echo -e "\e[2m✨Lazy-loaded Zsh integrations\e[0m"
   # Remove this hook after first run
   add-zsh-hook -D precmd _init_tools_lazy
+
+  cd() {
+      __zoxide_z "$@" || return
+      # If inside tmux, rename the window to the new directory
+      if [[ -n "$TMUX" ]]; then
+        # tmux rename-window "$PWD"
+        tmux rename-window "$(basename "$PWD")"
+      fi
+  }
+
 }
 
 # Add hook to run before the first prompt draw
@@ -57,4 +67,6 @@ compinit -C
 
 # Carapace completions
 source <(carapace _carapace)
+
+
 

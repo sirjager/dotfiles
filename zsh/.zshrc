@@ -18,9 +18,13 @@ for f in "$ZSH_CONFIG_DIR"/*.zsh(Nn); do
   source "$f"
 done
 
+# ==================[ Configurations Start ] =====================
+# ==================[ Configurations Start ] =====================
 
-# ==================[ Configurations Start ] =====================
-# ==================[ Configurations Start ] =====================
+# 🪄 Auto-detect Niri socket dynamically
+if [ -z "$NIRI_SOCKET" ]; then
+  export NIRI_SOCKET=$(find /run/user/$UID -maxdepth 1 -type s -name "niri.$WAYLAND_DISPLAY*.sock" | head -n 1)
+fi
 
 # Attach existing tmux session if not attached, else new session
 if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
@@ -43,3 +47,6 @@ for f in "$ZSH_CONFIG_DIR"/last.*.zsh(Nn); do
 done
 
 _zshrc_timer end
+
+
+

@@ -105,5 +105,8 @@ alias nb="NVIM_APPNAME=BlazeVim nvim"
 alias vi="NVIM_APPNAME=JagerVim nvim"
 alias snv="sudo -E -s NVIM_APPNAME=JagerVim nvim"
 
+# Applications
+alias obsidian="command obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland"
+
 #
 alias myscriptPerms="chmod +x $myscripts/*"
