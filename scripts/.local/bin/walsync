@@ -32,7 +32,7 @@ while true; do
 
   if [[ "$new_wall" != "$last_wall" ]]; then
     echo "🎨 Wallpaper changed → $new_wall"
-    swww img "$new_wall" --transition-type fade --transition-duration 1
+    walset -p "$new_wall" -t random
     last_wall="$new_wall"
   fi
 done

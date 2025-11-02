@@ -28,7 +28,7 @@ alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Sh
 alias violet-scrcpy="scrcpy --no-audio -s $(adb devices | grep .101: | awk '{print $1}')"
 
 # General Aliases ================================================
-alias so="source ~/.zshenv; source ~/.zshrc;" # Source Zsh Env And Configs
+alias so="source ~/.zshenv && source ~/.zprofile && source ~/.zshrc;" # Source Zsh Env And Configs
 alias cp="cp -i"                              # confirm before overwriting something
 
 # LS ============================================
@@ -105,3 +105,5 @@ alias nb="NVIM_APPNAME=BlazeVim nvim"
 alias vi="NVIM_APPNAME=JagerVim nvim"
 alias snv="sudo -E -s NVIM_APPNAME=JagerVim nvim"
 
+#
+alias myscriptPerms="chmod +x $myscripts/*"

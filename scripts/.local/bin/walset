@@ -2,7 +2,9 @@
 
 PROVIDED_PATH=""
 NOTIFY=""
-ECHO=""
+ECHO_WALLPATH=""
+UPDATE_DMS=""
+TRANSITION=""
 
 # Parse arguments
 while [ $# -gt 0 ]; do
@@ -16,8 +18,16 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     --echo | echo | --e | -e)
-      ECHO="true"
+      ECHO_WALLPATH="true"
       shift
+      ;;
+   --dms | -dms)
+      UPDATE_DMS="true"
+      shift
+      ;;
+  --transition | -transition | --t | -t)
+      TRANSITION="$2"
+      shift 2
       ;;
     *)
       shift
@@ -51,7 +61,7 @@ set_wallpaper_on_wayland() {
   pgrep -x swww-daemon &>/dev/null || swww-daemon & disown
 
   swww img "$1" \
-    --transition-type=grow \
+    --transition-type="${TRANSITION:-any}" \
     --transition-pos=bottom-left \
     --transition-step=30 \
     --transition-fps=120 >/dev/null 2>&1
@@ -60,11 +70,10 @@ set_wallpaper_on_wayland() {
   wal -i "$1" -q -t -e -s -n >/dev/null 2>&1
   matugen image "$1" >/dev/null 2>&1
 
-  post_hook "$1"
-}
-
-post_hook() {
-  update_dms_wallpaper "$1"
+  # run post hook here
+[ "$NOTIFY" = "true" ] && notify-send "Wallpaper Updated" "$1"
+[ "$ECHO_WALLPATH" = "true" ] && echo "$1"
+[ "$UPDATE_DMS" = "true" ] && update_dms_wallpaper "$1"
 }
 
 update_dms_wallpaper() {

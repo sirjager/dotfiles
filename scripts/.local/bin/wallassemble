@@ -1,0 +1,64 @@
+#!/bin/bash
+# Symlink all image wallpapers into $XDG_PICTURES/wallpapers
+
+# Exit on error, undefined vars, or failed pipes
+set -euo pipefail
+
+# Print the line and command on error
+trap 'echo "❌ Error on line $LINENO: $BASH_COMMAND" >&2' ERR
+
+# Root directory
+ROOT_DIR="$mystorage/wallpaper"
+
+# Validate root directory
+if [[ ! -d "$ROOT_DIR" ]]; then
+  echo "❌ Error: $ROOT_DIR is not a valid directory." >&2
+  exit 1
+fi
+
+# Destination directory
+DEST_DIR="${XDG_PICTURES:-$HOME/Pictures}/wallpapers"
+mkdir -p "$DEST_DIR"
+
+# Initialize counters explicitly (declare ensures existence in current shell)
+declare -i new_links=0
+declare -i updated_links=0
+declare -i skipped_links=0
+
+# Iterate safely over found files (no subshell)
+while IFS= read -r file; do
+  [[ "$file" == "$DEST_DIR"* ]] && continue
+
+  base_dir=$(basename "$(dirname "$file")")
+  base_name=$(basename "$file")
+  link_name="${base_dir}_${base_name}"
+  link_path="$DEST_DIR/$link_name"
+
+  if [[ -L "$link_path" ]]; then
+    target=$(readlink "$link_path" || true)
+    if [[ "$target" == "$file" ]]; then
+      ((skipped_links+=1))
+    else
+      rm -f "$link_path"
+      ln -s "$file" "$link_path"
+      ((updated_links+=1))
+    fi
+  elif [[ -e "$link_path" ]]; then
+    echo "⚠️  Skipping (exists, not symlink): $link_path"
+    ((skipped_links+=1))
+  else
+    ln -s "$file" "$link_path"
+    ((new_links+=1))
+  fi
+done < <(
+  find "$ROOT_DIR" -mindepth 2 -type f \
+    \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' \
+       -o -iname '*.bmp' -o -iname '*.webp' -o -iname '*.avif' -o -iname '*.tiff' \)
+)
+
+echo "✅ Done!"
+echo "🆕 New links: $new_links"
+echo "🔁 Updated links: $updated_links"
+echo "⏭️  Skipped: $skipped_links"
+echo "📁 Linked in: $DEST_DIR"
+

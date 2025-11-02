@@ -4,10 +4,16 @@
 export mystorage="/mnt/storage"
 export mygithub="github.com/sirjager"
 export mydotfiles="$HOME/dotfiles"
+#
 export mydownloads="$mystorage/downloads"
-export myscripts="$HOME/.local/bin"
-export myrecentedits="$HOME/.local/state/recentedits.log"
-export myledger="$mystorage/personal/ledgers/main.ledger"
+export mymusic="$mystorage/downloads/Music"
+export myvideos="$mystorage/downloads/Videos"
+export mypictures="$mystorage/downloads/Pictures"
+export mydocuments="$mystorage/downloads/Documents"
+#
+export mywallpapers="$mystorage/wallpaper"
+export myscripts="$mydotfiles/scripts/.local/bin"
+
 
 
 # XDG Directories

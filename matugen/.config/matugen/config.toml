@@ -70,9 +70,9 @@ output_path = '~/.config/qt6ct/colors/matugen.conf'
 input_path = '~/.config/matugen/templates/starship.toml'
 output_path = '~/.config/starship/starship.toml'
 
-# [templates.yazi]
-# input_path = '~/.config/matugen/templates/yazi.toml'
-# output_path = '~/.config/yazi/theme.toml'
+[templates.yazi]
+input_path = '~/.config/matugen/templates/yazi.toml'
+output_path = '~/.config/yazi/theme.toml'
 
 # [templates.zathura]
 # input_path = '~/.config/matugen/templates/zathura'

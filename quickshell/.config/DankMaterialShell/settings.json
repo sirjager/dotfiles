@@ -210,7 +210,7 @@
   "maxFprintTries": 3,
   "hideBrightnessSlider": false,
   "widgetBackgroundColor": "sch",
-  "surfaceBase": "s",
+  "surfaceBase": "sc",
   "wallpaperFillMode": "Fill",
   "blurredWallpaperLayer": true,
   "blurWallpaperOnOverview": true,
