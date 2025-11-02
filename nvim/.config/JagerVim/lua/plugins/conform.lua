@@ -23,6 +23,7 @@ M.opts = {
     graphql = { 'prettierd' },
     toml = { 'taplo' },
     python = { 'isort', 'black' },
+    kdl = { 'kdlfmt' },
     ['*'] = { 'codespell' },
     ['_'] = { 'trim_whitespace' },
   },

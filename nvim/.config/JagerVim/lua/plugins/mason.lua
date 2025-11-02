@@ -60,6 +60,7 @@ M.servers = {
     'black',
     'prettierd',
     'shfmt',
+    'kdlfmt',
     'sqlfmt',
     'jq',
     'prettierd',
