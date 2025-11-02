@@ -36,15 +36,15 @@ palette = 'colors'
 
 [palettes.colors]
 mustard = '#af8700' # example
-color1 = '#ddc663'
-color2 = '#3a3000'
-color3 = '#bbc8d2'
-color4 = '#192125'
-color5 = '#3a3000'
-color6 = '#0d1418'
-color7 = '#0d1418'
-color8 = '#ddc663'
-color9 = '#97ceec'
+color1 = '#ffb1c0'
+color2 = '#59192b'
+color3 = '#bfcab7'
+color4 = '#1c2119'
+color5 = '#59192b'
+color6 = '#10150d'
+color7 = '#10150d'
+color8 = '#ffb1c0'
+color9 = '#93d4ba'
 
 [custom.filescount]
 style = "dimmed"

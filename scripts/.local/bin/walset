@@ -1,0 +1,99 @@
+#!/bin/bash
+
+PROVIDED_PATH=""
+NOTIFY=""
+ECHO=""
+
+# Parse arguments
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --path | -path | --p | -p)
+      PROVIDED_PATH="$2"
+      shift 2
+      ;;
+    --notify | notify | --n | -n)
+      NOTIFY="true"
+      shift
+      ;;
+    --echo | echo | --e | -e)
+      ECHO="true"
+      shift
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+# Pick random wallpaper
+random_file() {
+  local path="$1"
+  while true; do
+    if [[ -f "$path" ]]; then
+      echo "$path"
+      return 0
+    elif [[ -d "$path" ]]; then
+      path=$(find "$path" -mindepth 1 -maxdepth 1 | shuf -n 1 2>/dev/null)
+      [[ -z "$path" ]] && { echo "Error: no files found" >&2; return 1; }
+    else
+      echo "Error: $1 is not a valid file or directory" >&2
+      return 1
+    fi
+  done
+}
+
+IMAGE="$(random_file "$PROVIDED_PATH")"
+
+set_wallpaper_on_wayland() {
+  set -e
+
+  # Ensure swww-daemon running
+  pgrep -x swww-daemon &>/dev/null || swww-daemon & disown
+
+  swww img "$1" \
+    --transition-type=grow \
+    --transition-pos=bottom-left \
+    --transition-step=30 \
+    --transition-fps=120 >/dev/null 2>&1
+
+  # Generate color schemes
+  wal -i "$1" -q -t -e -s -n >/dev/null 2>&1
+  matugen image "$1" >/dev/null 2>&1
+
+  post_hook "$1"
+}
+
+post_hook() {
+  update_dms_wallpaper "$1"
+}
+
+update_dms_wallpaper() {
+  local img="$1"
+  local DMS_SESSION="$HOME/.local/state/DankMaterialShell/session.json"
+  if command -v dms &>/dev/null && pgrep -x dms &>/dev/null; then
+    if [ -f "$DMS_SESSION" ] && [ -f "$img" ]; then
+      local tmp
+      tmp=$(mktemp)
+      jq --arg p "$img" '
+        .wallpaperPath = $p
+        | .wallpaperPathLight = $p
+        | .wallpaperPathDark = $p
+      ' "$DMS_SESSION" >"$tmp" && mv "$tmp" "$DMS_SESSION"
+      sleep 0.2
+      dms restart >/dev/null 2>&1
+    fi
+  fi
+}
+
+set_wallpaper_on_x11() {
+  echo "$1"
+}
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  set_wallpaper_on_wayland "$IMAGE" || notify-send "Set Wallpaper Failed" --error
+elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  set_wallpaper_on_x11 "$IMAGE"
+else
+  echo "Unknown session type: $XDG_SESSION_TYPE"
+fi
+

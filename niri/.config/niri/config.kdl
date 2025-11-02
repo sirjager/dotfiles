@@ -58,7 +58,7 @@ environment {
 // Niri Layouts
 //==============================================================================
 layout {
-    gaps 24
+    gaps 18
     center-focused-column "never"
     preset-column-widths {
         proportion 0.33333
@@ -96,9 +96,10 @@ layer-rule {
     place-within-backdrop true
 }
 //==============================================================================
-// Autostart: Quick Shell, Bars
+// Autostart: Quick Shell, Bars, Wallpapers
 //==============================================================================
 spawn-at-startup "dms" "run"
+spawn-at-startup "walsync" // syncs wallpaper set by dms with swww
 // spawn-sh-at-startup "pgrep -x ignis >/dev/null || ignis init"
 //==============================================================================
 // Autostart: auth-agent, gnome-keyring
@@ -176,7 +177,7 @@ binds {
     Mod+Ctrl+T hotkey-overlay-title="Task Manager" {
         spawn-sh "dms ipc call processlist toggle"
     }
-    Mod+Ctrl+V hotkey-overlay-title="Clipboard Manager" {
+    Mod+V hotkey-overlay-title="Clipboard Manager" {
         spawn-sh "dms ipc call clipboard toggle"
     }
     Mod+Ctrl+Y hotkey-overlay-title="Settings Manager" {
@@ -185,6 +186,9 @@ binds {
     //==============================================================================
     // Application Launcher | Kitty | Brave | Nautilus
     //==============================================================================
+    Mod+Space hotkey-overlay-title="Application Launcher" {
+        spawn-sh "dms ipc call spotlight toggle"
+    }
     Alt+Space hotkey-overlay-title="Application Launcher" {
         spawn-sh "rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi"
     }
@@ -419,10 +423,10 @@ binds {
     //==============================================================================
     // Screenshot Utility
     //==============================================================================
-    Mod+V repeat=false {
+    Mod+Shift+V repeat=false {
         screenshot
     }
-    Mod+Shift+V repeat=false {
+    Mod+Ctrl+V repeat=false {
         screenshot-window
     }
     Mod+Alt+V repeat=false {

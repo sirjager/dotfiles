@@ -49,6 +49,7 @@ items = [
   "qt6-multimedia",         # Qt6 module for multimedia support (audio/video)
   "cliphist",               # Clipboard history manager for Wayland/X11
   "cava",                   # Console-based audio visualizer
+  "inotify-tools",          # CLI utilities to monitor filesystem events (create, modify, delete, etc.) using Linux inotify API
 ]
 
 [managers.serv_start]

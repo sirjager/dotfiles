@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DMS_SESSION="$HOME/.local/state/DankMaterialShell/session.json"
+last_wall=""
+
+[ -f "$DMS_SESSION" ] || {
+  echo "❌ DMS session file not found: $DMS_SESSION"
+  exit 1
+}
+
+for cmd in jq swww inotifywait; do
+  command -v "$cmd" >/dev/null 2>&1 || {
+    echo "❌ Missing dependency: $cmd"
+    exit 1
+  }
+done
+
+pgrep -x swww-daemon >/dev/null || swww-daemon & disown
+
+echo "📡 Watching $DMS_SESSION for wallpaper changes..."
+
+while true; do
+  # Watch the directory instead of the file
+  inotifywait -e close_write -e moved_to "$(dirname "$DMS_SESSION")" &>/dev/null || sleep 1
+
+  # Only continue if the session file exists
+  [ -f "$DMS_SESSION" ] || continue
+
+  new_wall=$(jq -r '.wallpaperPath' "$DMS_SESSION")
+
+  [[ "$new_wall" == "null" || ! -f "$new_wall" ]] && continue
+
+  if [[ "$new_wall" != "$last_wall" ]]; then
+    echo "🎨 Wallpaper changed → $new_wall"
+    swww img "$new_wall" --transition-type fade --transition-duration 1
+    last_wall="$new_wall"
+  fi
+done
+
