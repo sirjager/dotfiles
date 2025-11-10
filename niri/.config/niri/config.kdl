@@ -100,10 +100,9 @@ layout {
     }
     focus-ring {
         //::toggle::focus-ring
-// off
+        // off
         width 2
         active-color "#ffc87f"
- // inactive-color "#7d0d2d"
     }
     border {
         //::toggle::border
@@ -163,7 +162,8 @@ window-rule {
 }
 window-rule {
     // Rule for floating windows
-    match app-id="yad"
+    match app-id="runcmd"
+    // script name    match app-id="yad"
     match app-id="scrcpy"
     match app-id="nwg-look"
     match app-id="udiskie"

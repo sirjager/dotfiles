@@ -26,7 +26,6 @@ config.bind('<Ctrl+n>', 'open -w https://duckduckgo.com ;; mode-enter insert')  
 
 config.bind('<Ctrl+y>', 'open -t https://youtube.com')
 config.bind('<Ctrl+g>', 'open -t https://github.com/sirjager')
-config.bind('<Ctrl+c>', 'open -t https://chatgpt.com')
 
 config.bind('<Ctrl+o>c', 'open -t https://chatgpt.com')
 config.bind('<Ctrl+o>g', 'cmd-set-text -s :open -t https://github.com/')
