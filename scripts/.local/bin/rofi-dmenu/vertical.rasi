@@ -6,9 +6,10 @@
  **/
 
 
-@theme "~/.local/bin/rofi-dmenu/colors.rasi"
+@theme "~/.cache/wal/colors-rofi-dark.rasi"
 
 * {
+    font:                        "JetbrainsMono Nerd Font 13";
     spacing:                     2;
     screen-margin:               4px 4px;
     box-spacing:                 0px;
@@ -27,10 +28,11 @@ window {
     height:                      25%;
     x-offset:                    0px;
     y-offset:                    -10px;
-    background-color:            @main-bg;
-    border-radius:               @border-radius;
+    background-color:            @normal-background;
+    border-radius:               10px;
     border:                      2px solid;
     border-color:                @border-color;
+    padding: 0px;
 }
 
 element {
@@ -41,17 +43,17 @@ element {
 }
 
 element normal.normal {
-    text-color:            @main-fg;
+    text-color:            @normal-foreground;
     background-color:      transparent;
 }
 
 element selected.normal {
-    text-color:           @selected-fg;
-    background-color:     @selected-bg;
+    text-color:           @active-foreground;
+    background-color:     @active-background;
 }
 
 element alternate.normal {
-    text-color:           @alt-fg;
+    text-color:           @alternate-active-foreground;
     background-color:     transparent;
 }
 
@@ -80,18 +82,18 @@ message {
 }
 
 textbox {
-    text-color: @main-fg;
+    text-color: @normal-foreground;
     padding: 10px;
     background-color: transparent;
 }
 
 prompt {
-    text-color: @main-fg;
+    text-color: @normal-foreground;
     margin: 0px 10px 0px 0px;
 }
 
 entry {
-    text-color: @selected-bg;
+    text-color: @active-background;
 }
 
 
@@ -107,8 +109,8 @@ scrollbar {
     padding:        0;
     handle-width:   15px;
     border:         0;
-    handle-color:         @scrollbar-color;
-    background-color:     @main-bg;
+    handle-color:         @selected-active-background;
+    background-color:     @normal-background;
 }
 
 inputbar {
@@ -116,6 +118,6 @@ inputbar {
     margin:                      0px;
     padding:                     12px;
     border:                      0px solid;
-    text-color:                  @main-fg;
+    text-color:                  @normal-foreground;
 }
 

@@ -1,5 +1,7 @@
 # ~/.zprofile
 
+export DRI_PRIME="1"
+
 # Global Environment Variables
 export GPG_TTY="$(tty)"
 export EDITOR="NVIM_APPNAME=JagerVim nvim"

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+
+CONFIG="$HOME/.config/niri/config.kdl"
+TEMP_FILE=$(mktemp /tmp/niri_keybinds.XXXXXX)  # create a temp file
+ROFI_THEME="${ROFI_THEME:-$HOME/.local/bin/rofi-dmenu/vertical.rasi}"
+
+PROMPT="Niri Keybindings"
+USE_FZF=false
+USE_ROFI=false
+USE_YAD=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dmenu | -dmenu | -d | --rofi | -rofi | -r) USE_ROFI=true ;;
+    --notify | -notify | -n) NOTIFY=true ;;
+    --echo | -echo | -e) SHOW_IN_TERMINAL=true ;;
+    --yad | -yad | -y | --dialog | -dialog | -d) USE_YAD=true ;;
+    --prompt=*) PROMPT="${1#*=}" ;;
+    --config=*) CONFIG="${1#*=}" ;;
+    *) echo "⚠️ Unknown flag ignored: $1" ;;
+  esac
+  shift
+done
+
+
+# Validation
+if ! $USE_YAD && ! $USE_ROFI && ! $USE_FZF; then
+  echo "⚠️  Choose a display method: --fzf | --yad | --rofi"
+  exit 1
+fi
+
+yad_args=()
+
+# Track if we are inside the first binds { ... } block
+in_binds=0
+brace_level=0
+
+while IFS= read -r line; do
+    # Skip comment lines
+    [[ "$line" =~ ^[[:space:]]*// ]] && continue
+    [[ -z "$line" ]] && continue
+
+    # Check for the start of binds block
+    if [[ $in_binds -eq 0 && "$line" =~ ^[[:space:]]*binds[[:space:]]*\{ ]]; then
+        in_binds=1
+        brace_level=1
+        continue
+    fi
+
+    # Only parse inside binds
+    if [[ $in_binds -eq 1 ]]; then
+        # Update brace level
+        open=$(grep -o "{" <<< "$line" | wc -l)
+        close=$(grep -o "}" <<< "$line" | wc -l)
+        brace_level=$((brace_level + open - close))
+        # Exit after first binds block ends
+        [[ $brace_level -le 0 ]] && break
+
+        # Only process the binding line (skip inner spawn-sh)
+        if [[ "$line" =~ \{$ ]]; then
+            # Extract key (first token)
+            key=$(awk '{print $1}' <<< "$line")
+            # Extract hotkey-overlay-title if present
+            desc=$(grep -oP 'hotkey-overlay-title="\K[^"]+' <<< "$line")
+            yad_args+=("$key" "$desc")
+
+            # Save to temp file
+            # echo -e "$key\t$desc" >> "$TEMP_FILE"
+            printf "%-25s\t%s\n" "$key" "$desc" >> "$TEMP_FILE"
+
+        fi
+    fi
+done < "$CONFIG"
+
+show_in_yad(){
+  yad --list \
+      --height=600 \
+      --width=600 \
+      --title="Niri Keybindings" \
+      --column="Keybind" \
+      --column="Description" \
+      "${yad_args[@]}"
+}
+
+show_in_rofi(){
+  command cat "$TEMP_FILE" | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME"
+}
+
+show_in_fzf(){
+  command cat "$TEMP_FILE" | fzf --height=~50% --layout=reverse --border
+}
+
+if [[ "${USE_YAD,,}" == "true" ]]; then   # ,, converts to lowercase
+    show_in_yad
+elif [[ "${USE_ROFI,,}" == "true" ]]; then
+    show_in_rofi
+elif [[ "${USE_FZF,,}" == "true" ]]; then
+    show_in_fzf
+else
+    echo "Choose display method: --fzf | --yad | --rofi"
+fi
+
+
+# Cleanup
+[ -f "$TEMP_FILE" ] && rm -f "$TEMP_FILE"
+
+exit 0

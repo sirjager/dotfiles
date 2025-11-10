@@ -5,7 +5,7 @@
 
 BROHISTORY_DIR="$HOME/.cache/brohistory"
 BROHISTORY_FILE="$BROHISTORY_DIR/browsers.brohistory"
-ROFI_THEME="$HOME/.config/sxhkd/rofi/vertical.rasi"
+ROFI_THEME="$HOME/.local/bin/rofi-dmenu/vertical.rasi"
 
 [ ! -d "$BROHISTORY_DIR" ] && mkdir -p "$BROHISTORY_DIR"
 echo "" >"$BROHISTORY_FILE"    # clean file

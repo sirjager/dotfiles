@@ -8,7 +8,7 @@
   "dankBarWidgetTransparency": 1,
   "popupTransparency": 1,
   "dockTransparency": 1,
-  "use24HourClock": true,
+  "use24HourClock": false,
   "showSeconds": false,
   "useFahrenheit": false,
   "nightModeEnabled": false,

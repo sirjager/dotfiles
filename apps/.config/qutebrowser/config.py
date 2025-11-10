@@ -2,7 +2,7 @@
 import importlib.util
 import os
 
-
+# pyright: ignore
 def load_module(name):
     path = os.path.expanduser(f"~/.config/qutebrowser/{name}")
     spec = importlib.util.spec_from_file_location(name, path)
@@ -15,6 +15,9 @@ def load_module(name):
 
 
 # Load your modules
+# Can be used to keep modular config
 load_module("defaults.py")
 load_module("myoptions.py")
 load_module("mykeybindings.py")
+
+

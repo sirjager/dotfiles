@@ -1,34 +1,188 @@
 #!/usr/bin/env bash
-
+#
 ## Author : Ankur Kumar (SirJager)
 ## Github : @SirJager
+#
+# Usage:
+#   toggle.sh --name <id> [--on "Enabled"] [--off "Disabled"]
+#              [--echo] [--notify] [--remove] [--skip]
+#
+# Example:
+#   toggle.sh -n mic --on "🎤 Mic ON" --off "🔇 Mic OFF" --notify
+#   toggle.sh -n vpn --echo --skip
+#   toggle.sh -n mic --remove
+#   toggle.sh --help
 
-# Check if ID is passed as a parameter
-if [ -z "$1" ]; then
-  echo "Usage: $0 <ID>"
-  exit 1
+# ------------------------
+# Globals
+# ------------------------
+TOGGLE=""
+ECHO=""
+NOTIFY=""
+REMOVE=""
+SKIP=""
+ON_VALUE="on"
+OFF_VALUE="off"
+EXIT_CODE=1
+FILE=""
+
+# ------------------------
+# Functions
+# ------------------------
+
+show_help() {
+	cat <<EOF
+Usage: $(basename "$0") --name <ID> [options]
+
+Options:
+  -n,  --name <ID>       Toggle identifier (required)
+       --on <text>       Custom ON message/value
+       --off <text>      Custom OFF message/value
+  -e,  --echo            Print state message to terminal
+       --notify, -nfy    Show notification for state
+  -r,  --remove          Remove toggle state file
+  -x,  --skip            Skip toggling, only display current state
+  -h,  --help            Show this help message
+
+Exit codes:
+  0 = ON
+  1 = OFF
+
+Examples:
+  toggle.sh -n mic --on "🎤 Mic ON" --off "🔇 Mic OFF" -e
+  toggle.sh -n vpn --skip --notify
+EOF
+	exit 0
+}
+
+notify() {
+	local title="$1"
+	local msg="$2"
+	[ "$NOTIFY" = "true" ] && notify-send -r 92133 "🔘 $title" "$msg"
+}
+
+echo_out() {
+	[ "$ECHO" = "true" ] && echo "$1"
+}
+
+get_state() {
+	if [ -f "$FILE" ]; then
+		echo "on"
+	else
+		echo "off"
+	fi
+}
+
+set_state() {
+	local new_state="$1"
+	if [ "$new_state" = "on" ]; then
+		echo "on" > "$FILE"
+	else
+		rm -f "$FILE"
+	fi
+}
+
+# ------------------------
+# Argument parsing
+# ------------------------
+while [ $# -gt 0 ]; do
+	case "$1" in
+		--show | -s | --state | --echo | -e)
+			ECHO="true"
+			;;
+		--notify | -notify | --nfy | -nfy)
+			NOTIFY="true"
+			;;
+		--delete | --remove | -r | -d | --clear | -c)
+			REMOVE="true"
+			;;
+		--name | -n)
+			shift
+			TOGGLE="$1"
+			;;
+		--on)
+			shift
+			ON_VALUE="$1"
+			;;
+		--off)
+			shift
+			OFF_VALUE="$1"
+			;;
+		--skip | -x)
+			SKIP="true"
+			;;
+		--help | -h)
+			show_help
+			;;
+		*)
+			[ -z "$TOGGLE" ] && TOGGLE="$1"
+			;;
+	esac
+	shift
+done
+
+# ------------------------
+# Validation
+# ------------------------
+if [ -z "$TOGGLE" ]; then
+	echo "❌ Error: Toggle name required."
+	echo "Use --help for usage info."
+	exit 1
 fi
 
-ID=$1
+FILE="$HOME/.cache/zzz_${TOGGLE}.toggle"
+mkdir -p "$(dirname "$FILE")"
 
-FILE="$HOME/.cache/zzz_$ID.toggle"
-
-# Check if --state argument is passed
-if [ "$2" = "--state" ]; then
-  if [ -f "$FILE" ]; then
-    echo "true"
-    exit 0
-  else
-    echo "false"
-    exit 1
-  fi
+# ------------------------
+# Remove mode
+# ------------------------
+if [ "$REMOVE" = "true" ]; then
+	rm -f "$FILE"
+	echo_out "🗑️ Removed toggle '$TOGGLE'"
+	notify "Removed" "$TOGGLE"
+	exit 0
 fi
 
-# Check if the toggle file exists
-if [ -f "$FILE" ]; then
-  rm -f "$FILE"
-  exit 1
+# ------------------------
+# Current state
+# ------------------------
+CURRENT_STATE=$(get_state)
+
+# ------------------------
+# Skip (bypass) mode
+# ------------------------
+if [ "$SKIP" = "true" ]; then
+	if [ "$CURRENT_STATE" = "on" ]; then
+		MSG="$ON_VALUE"
+		EXIT_CODE=0
+	else
+		MSG="$OFF_VALUE"
+		EXIT_CODE=1
+	fi
+	echo_out "$MSG"
+	notify "$TOGGLE" "$MSG"
+	exit $EXIT_CODE
+fi
+
+# ------------------------
+# Toggle logic
+# ------------------------
+if [ "$CURRENT_STATE" = "on" ]; then
+	set_state "off"
+	STATE="off"
+	MSG="$OFF_VALUE"
+	EXIT_CODE=1
 else
-  touch "$FILE"
-  exit 0
+	set_state "on"
+	STATE="on"
+	MSG="$ON_VALUE"
+	EXIT_CODE=0
 fi
+
+# ------------------------
+# Output and exit
+# ------------------------
+echo_out "$MSG"
+notify "$TOGGLE" "$MSG"
+exit $EXIT_CODE
+

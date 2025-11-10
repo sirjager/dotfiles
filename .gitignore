@@ -1,3 +1,47 @@
+#### Python ignores: start
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# SQLite DB files
+*.sqlite3
+*.db
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Env files
+*.env
+env.*
+*.envrc
+#### Python ignores: end
+
+### Custom ignores: start
 # Encrypted files only
 encrypted/*
 encrypted/**/*
@@ -7,4 +51,4 @@ encrypted/**/*
 
 **/gtk-3.0/bookmarks
 **/gtk-4.0/bookmarks
-
+### Custom ignores: end

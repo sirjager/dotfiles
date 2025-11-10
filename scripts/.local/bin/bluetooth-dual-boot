@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# Not yet completed
+# Sync Bluetooth pairing keys between Windows and Linux
+# Works in dual-boot setups with Ubuntu & Windows 10/11
+# ⚠️ Run as root
+
+set -euo pipefail
+
+# === CONFIG ===
+WIN_MOUNT_DEFAULT="/mnt/windows"
+SYSTEM_REG_PATH="Windows/System32/config/SYSTEM"
+BT_PATH="/var/lib/bluetooth"
+
+# === FUNCTIONS ===
+err() { echo "❌ $*" >&2; exit 1; }
+info() { echo "👉 $*"; }
+
+install_deps() {
+    if ! command -v chntpw >/dev/null 2>&1; then
+        info "Installing chntpw..."
+        yay --needed -S chntpw
+    fi
+}
+
+detect_bt_adapter() {
+    local adapter
+    adapter=$(basename "$(sudo find "$BT_PATH" -maxdepth 1 -type d -iname '??:??:??:??:??:??' | head -n1)" || true)
+    [[ -z "$adapter" ]] && err "No Bluetooth adapter found under $BT_PATH"
+    echo "$adapter"
+}
+
+detect_paired_devices() {
+    local adapter="$1"
+    sudo find "$BT_PATH/$adapter" -maxdepth 1 -type d -iname '??:??:??:??:??:??' | xargs -n1 basename
+}
+
+get_windows_mount() {
+    read -rp "Enter Windows partition mount path [${WIN_MOUNT_DEFAULT}]: " WIN_MOUNT
+    WIN_MOUNT="${WIN_MOUNT:-$WIN_MOUNT_DEFAULT}"
+    [[ ! -d "$WIN_MOUNT/$SYSTEM_REG_PATH" ]] && err "Invalid Windows mount: $WIN_MOUNT"
+    echo "$WIN_MOUNT"
+}
+
+read_windows_key() {
+    local win_sys="$1/$SYSTEM_REG_PATH"
+    info "Extracting pairing key from Windows registry..."
+    chntpw -e "$win_sys" <<'EOF' | grep -A1 'ControlSet001\Services\BTHPORT\Parameters\Keys' || true
+ls \ControlSet001\Services\BTHPORT\Parameters\Keys
+EOF
+}
+
+update_linux_key() {
+    local adapter="$1"
+    local device="$2"
+    local new_key="$3"
+
+    local info_path="$BT_PATH/$adapter/$device/info"
+    [[ ! -f "$info_path" ]] && err "Linux info file not found: $info_path"
+
+    info "Updating LinkKey in $info_path"
+    if grep -q '^\[LinkKey\]' "$info_path"; then
+        sed -i "s/^Key=.*/Key=$new_key/" "$info_path"
+    else
+        echo -e "\n[LinkKey]\nKey=$new_key\nType=4\nPINLength=0" >>"$info_path"
+    fi
+}
+
+restart_bt() {
+    info "Restarting Bluetooth service..."
+    systemctl restart bluetooth || service bluetooth restart
+    info "✅ Done! Reboot both OS once and test the device."
+}
+
+# === MAIN ===
+install_deps
+
+ADAPTER=$(detect_bt_adapter)
+info "Detected Bluetooth adapter: $ADAPTER"
+
+DEVICES=($(detect_paired_devices "$ADAPTER"))
+[[ ${#DEVICES[@]} -eq 0 ]] && err "No paired devices found in Linux."
+
+echo "Found devices:"
+printf '  %s\n' "${DEVICES[@]}"
+read -rp "Enter target device MAC (e.g. 12:34:56:78:9A:BC): " TARGET_DEVICE
+
+# WIN_MOUNT=$(get_windows_mount)
+# read_windows_key
+#
+# read -rp "Enter pairing key (hex string) from Windows for $TARGET_DEVICE: " PAIR_KEY
+# update_linux_key "$ADAPTER" "$TARGET_DEVICE" "$PAIR_KEY"
+#
+# restart_bt

@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+#
+# ──────────────────────────────────────────────
+#  brohistory – Unified Browser History Fetcher
+# ──────────────────────────────────────────────
+#
+#  Author   : Ankur Kumar (SirJager)
+#  GitHub   : @SirJager
+#  Version  : 2.0 (modular rewrite)
+#
+#  Description:
+#    brohistory collects and displays recent browsing history from
+#    multiple browsers (Brave, Chromium, Firefox) into one unified list.
+#    Results can be shown in rofi/dmenu or echoed to terminal.
+#
+# ──────────────────────────────────────────────
+
+
+# ──────────────────────────────────────────────
+#  SECTION 2: VARIABLE DECLARATION & DEFAULTS
+# ──────────────────────────────────────────────
+
+BROHISTORY_DIR="${BROHISTORY_DIR:-/tmp/brohistory}"
+BROHISTORY_FILE="$BROHISTORY_DIR/brohistory"
+ROFI_THEME="${ROFI_THEME:-$HOME/.local/bin/rofi-dmenu/vertical.rasi}"
+
+PROMPT="${PROMPT:-HISTORY}"
+
+SHOW_AS_DMENU=false
+SHOW_IN_TERMINAL=false
+
+NOTIFY=false
+COPY=false
+VISIT=false
+VISIT_IN_BROWSER="${BROWSER:-brave-browser}"
+
+SEARCH_BOOKMARKS=false
+
+CHROMIUM_HISTORY_LIMIT=5000
+FIREFOX_HISTORY_LIMIT=5000
+
+CHROMIUM_HISTORY=false
+FIREFOX_HISTORY=false
+
+
+# ──────────────────────────────────────────────
+#  Browser History Locations (Lists of Paths)
+# Syntax; "<history-path>;<browser-name-to-display>;<profile-name-to-display>;"
+# browser-name-to-display and profile-name-to-display are only for rofi menu
+# it does not affects fetching of history
+# ──────────────────────────────────────────────
+
+CHROMIUM_HISTORY_PATHS=(
+  "$HOME/.config/BraveSoftware/Brave-Browser/sirjager/History;brave;sirjager"
+  "$HOME/.config/BraveSoftware/Brave-Browser/5321ankur/History;brave;5321ankur"
+)
+
+FIREFOX_HISTORY_PATHS=(
+  "$mystorage/programs/firefox/sirjager/places.sqlite;firefox;sirjager"
+)
+
+# ──────────────────────────────────────────────
+#  SECTION 3: FLAG PARSING (COMMAND-LINE OPTIONS)
+# ──────────────────────────────────────────────
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dmenu | -dmenu | -d | --rofi | -rofi | -r) SHOW_AS_DMENU=true ;;
+    --notify | -notify | -n) NOTIFY=true ;;
+    --echo | -echo | -e) SHOW_IN_TERMINAL=true ;;
+    --prompt=*) PROMPT="${1#*=}" ;;
+    --copy | -copy | -c) COPY=true ;;
+    --visit | -visit | -v | --open | -open | -o) VISIT=true ;;
+    --visit-in=*) VISIT_IN_BROWSER="${1#*=}" ;;
+    --bookmark | -bookmark | -b) SEARCH_BOOKMARKS=true ;;
+    --bro=*)
+      IFS=',' read -ra BRO_LIST <<< "${1#*=}"
+      for bro in "${BRO_LIST[@]}"; do
+        case "$bro" in
+          chromium) CHROMIUM_HISTORY=true ;;
+          firefox) FIREFOX_HISTORY=true ;;
+        esac
+      done ;;
+    --chromium) CHROMIUM_HISTORY=true ;;
+    --firefox) FIREFOX_HISTORY=true ;;
+    --limit=*)
+      CHROMIUM_HISTORY_LIMIT="${1#*=}"
+      FIREFOX_HISTORY_LIMIT="${1#*=}" ;;
+    --chromium-limit=*) CHROMIUM_HISTORY_LIMIT="${1#*=}" ;;
+    --firefox-limit=*) FIREFOX_HISTORY_LIMIT="${1#*=}" ;;
+    *) echo "⚠️ Unknown flag ignored: $1" ;;
+  esac
+  shift
+done
+
+# Map internal include flags for collect_history
+INCLUDE_CHROMIUM="$CHROMIUM_HISTORY"
+INCLUDE_FIREFOX="$FIREFOX_HISTORY"
+
+
+# ──────────────────────────────────────────────
+#  SECTION 4: VALIDATION & PRE-CHECKS
+# ──────────────────────────────────────────────
+
+REQUIRED_CMDS=("sqlite3" "awk")
+
+for cmd in "${REQUIRED_CMDS[@]}"; do
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "❌ Error: Required command not found: $cmd"
+    exit 1
+  fi
+done
+
+mkdir -p "$BROHISTORY_DIR" || {
+  echo "❌ Error: Failed to create cache directory: $BROHISTORY_DIR"
+  exit 1
+}
+
+: >"$BROHISTORY_FILE"
+
+if [[ "$CHROMIUM_HISTORY" != true && "$FIREFOX_HISTORY" != true ]]; then
+  echo "⚠️  No browser selected. Use --chromium and/or --firefox"
+  exit 0
+fi
+
+check_history_paths() {
+   local label="$1"
+    shift
+    local paths=("$@")
+    local found_any=false
+
+    for entry in "${paths[@]}"; do
+        # Extract the actual history DB path (first value before ;)
+        local file="${entry%%;*}"
+
+        [[ -f "$file" ]] && found_any=true
+    done
+    [[ "$found_any" == false ]] && echo "⚠️  No valid $label history files found."
+}
+
+
+[[ "$CHROMIUM_HISTORY" == true ]] && check_history_paths "Chromium" "${CHROMIUM_HISTORY_PATHS[@]}"
+[[ "$FIREFOX_HISTORY" == true ]] && check_history_paths "Firefox" "${FIREFOX_HISTORY_PATHS[@]}"
+
+
+# ──────────────────────────────────────────────
+#  SECTION 5: FUNCTIONS (Optimized + Symlink-safe)
+# ──────────────────────────────────────────────
+notify() {
+	level="$3"
+	[ "$level" = "" ] && level="normal"
+	[ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+query_database() {
+    local database="$1"
+    local query="$2"
+    sqlite3 "$database" "$query"
+}
+
+# --- Collect Firefox histories across profiles ---
+get_firefox_history() {
+  echo "Firefox history is not implemented yet"
+  exit 1
+}
+
+# --- Collect Chromium-based histories across profiles ---
+# Reads directly in read-only mode to avoid interfering with open browsers
+get_chromium_history() {
+    # Temporary directory to hold per-profile copies
+    local tmp_dir
+    tmp_dir=$(mktemp -d /tmp/brohistory_chromium.XXXXXX)
+
+    # File to hold merged results
+    local export_file="$BROHISTORY_FILE.chromium"
+    : > "$export_file"  # clear previous export
+
+    # SQL query to fetch title and URL
+    local sql="
+        SELECT COALESCE(title,'title: Missing') AS title,
+               ' url: ' || url
+        FROM urls
+        ORDER BY last_visit_time DESC
+        LIMIT ${CHROMIUM_HISTORY_LIMIT};
+    "
+
+    for entry in "${CHROMIUM_HISTORY_PATHS[@]}"; do
+        # Split entry into path, browser, profile
+        IFS=';' read -r db_path browser profile <<< "$entry"
+
+        # Resolve symlinks and expand ~
+        local expanded_path
+        expanded_path=$(readlink -f "$(eval echo "$db_path")")
+
+        # Skip if file does not exist
+        [[ ! -f "$expanded_path" ]] && continue
+
+        # Create temp copy named per browser_profile
+        local tmp_db="$tmp_dir/${browser}_${profile}.db"
+        cp "$expanded_path" "$tmp_db"
+
+        if [[ ! -f "$tmp_db" ]]; then
+            echo "❌ Failed to copy $expanded_path" >&2
+            continue
+        fi
+        # Query the temp copy and prepend label for menu clarity
+        local label=" $browser: $profile:"
+        sqlite3 "$tmp_db" "$sql" | sed "s/^/$label/" >> "$export_file" 2>/dev/null
+    done
+
+    # Return the path to the merged history file
+    echo "$export_file"
+}
+
+
+# --- Merge all collected histories into one unified file ---
+collect_history() {
+  local OUTPUT_FILE="$1"
+    # Clear the main unified history file
+    : > "$OUTPUT_FILE"
+    # --- Chromium ---
+    if [[ "$INCLUDE_CHROMIUM" == true ]]; then
+        local chromium_export
+        chromium_export=$(get_chromium_history)
+        # Append to unified file if not empty
+        if [[ -s "$chromium_export" ]]; then
+            # Prepend browser label for clarity
+            cat "$chromium_export" >> "$OUTPUT_FILE"
+        else
+            echo "⚠️  No valid Chromium history files found." >&2
+        fi
+    fi
+
+    # --- Placeholder for Firefox ---
+    # You can implement similar logic for Firefox here
+}
+
+
+# ──────────────────────────────────────────────
+#  SECTION 7: CORE EXECUTION FLOW
+# ──────────────────────────────────────────────
+collect_history "$BROHISTORY_FILE"
+
+SELECTED_LINK=""
+
+if [[ "$SHOW_AS_DMENU" == true ]]; then
+  HISTORY_COUNT=$(command cat $BROHISTORY_FILE | wc -l)
+  selected_line=$(cat "$BROHISTORY_FILE" | rofi -dmenu -p "$PROMPT($HISTORY_COUNT)" -theme "$ROFI_THEME")
+	[ "$selected_line" = "" ] && exit 0
+  SELECTED_LINK=$(echo "$selected_line" | awk -F'http' '{print "http"$2}')
+fi
+
+[ "$SELECTED_LINK" = "" ] && exit 0
+
+[[ "$COPY" == true ]] && echo "$SELECTED_LINK" | wl-copy
+[[ "$COPY" == true ]] && notify "Link copied to clipboard" "$SELECTED_LINK"
+
+[[ "$VISIT" == true ]] && notify "Opening link in $VISIT_IN_BROWSER" "$SELECTED_LINK"
+[[ "$VISIT" == true ]] && "$VISIT_IN_BROWSER" "$SELECTED_LINK"
+
+exit 0
+

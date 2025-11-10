@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+# Generic toggle script for config files based on comment markers
+
+set -e
+
+# --- Default values ---
+COMMENT=""
+FILEPATH=""
+TOGGLE_ID=""
+ON_VALUE=""
+OFF_VALUE=""
+COMMENT_OUT=false
+SHOW_IN_TERMINAL=false
+SHOW_IN_NOTIFICATION=false
+
+
+# --- Parse args ---
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --file=*) FILEPATH="${1#*=}" ;;
+    --id=*) TOGGLE_ID="${1#*=}" ;;
+    --on=*) ON_VALUE="${1#*=}" ;;
+    --off=*) OFF_VALUE="${1#*=}" ;;
+    --comment=*) COMMENT="${1#*=}" ;;
+    --comment-out) COMMENT_OUT=true ;;
+    --echo|-e) SHOW_IN_TERMINAL=true ;;
+    --notify|-n) SHOW_IN_NOTIFICATION=true ;;
+    *)
+      echo "⚠️ Unknown flag: $1"
+      ;;
+  esac
+  shift
+done
+
+# --- Safety checks ---
+[[ -z "$FILEPATH" ]] && { echo "❌ Missing --file"; exit 1; }
+[[ -z "$TOGGLE_ID" ]] && { echo "❌ Missing --id"; exit 1; }
+[[ -z "$COMMENT" ]] && { echo "❌ Missing --comment"; exit 1; }
+
+
+# --- Normalize and expand FILEPATH ---
+if [[ -n "$FILEPATH" ]]; then
+  # Expand leading ~ to $HOME
+  FILEPATH="${FILEPATH/#\~/$HOME}"
+
+  # Convert to absolute path if not already
+  if [[ "$FILEPATH" != /* ]]; then
+    FILEPATH="$(realpath -m "$FILEPATH")"
+  fi
+fi
+
+TMP_FILE="$(mktemp)"
+
+# --- Regex to detect toggle marker line ---
+# Matches:
+#   <spaces><comment><optional spaces>::toggle::<id><optional text>
+MARKER_REGEX="^[[:space:]]*${COMMENT}[[:space:]]*.*::toggle::${TOGGLE_ID}([[:space:]]|\$)"
+
+found_marker=false
+toggled=false
+new_value=""
+comment_escaped=$(printf '%s\n' "$COMMENT" | sed 's/[^^]/[&]/g; s/\^/\\^/g')
+
+while IFS= read -r line; do
+  echo "$line" >> "$TMP_FILE"
+
+  if [[ $line =~ $MARKER_REGEX ]]; then
+    found_marker=true
+    read -r nextline || break
+
+    # Trim spaces for comparison
+    trimmed_next=$(echo "$nextline" | xargs)
+
+    if [[ "$trimmed_next" == "$ON_VALUE" ]]; then
+      # Current state is ON → turn OFF
+      if [[ "$COMMENT_OUT" == true ]]; then
+        echo "${COMMENT} ${nextline}" >> "$TMP_FILE"
+      elif [[ -n "$OFF_VALUE" ]]; then
+        echo "        ${OFF_VALUE}" >> "$TMP_FILE"
+      else
+        # skip line entirely (no replacement)
+        :
+      fi
+      toggled="off"
+      new_value="$ON_VALUE"
+    else
+      # Current state is OFF → turn ON
+      echo "        ${ON_VALUE}" >> "$TMP_FILE"
+      toggled="on"
+      new_value="$ON_VALUE"
+    fi
+  fi
+done < "$FILEPATH"
+
+if [[ "$found_marker" != true ]]; then
+  echo "❌ No toggle marker found for id: $TOGGLE_ID"
+  rm "$TMP_FILE"
+  exit 1
+fi
+
+mv "$TMP_FILE" "$FILEPATH"
+
+# --- Show feedback ---
+msg="✅ '$TOGGLE_ID' set to '${new_value}' in $(basename "$FILEPATH")"
+
+
+if [[ "$SHOW_IN_TERMINAL" == true ]]; then
+  echo "✅ Toggled '$TOGGLE_ID' to $toggled in $FILEPATH"
+fi
+
+if [[ "$SHOW_IN_NOTIFICATION" == true ]]; then
+  notify-send "Toggle:Line" "$msg"
+fi
