@@ -42,30 +42,30 @@ ENABLE_FIREFOX="false" # not yet implemented
 
 # To send notification to window managers
 notify() {
-	level="$3"
-	[ "$level" = "" ] && level="normal"
-	[ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+    level="$3"
+    [ "$level" = "" ] && level="normal"
+    [ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
 }
 
 copy_to_clipboard() {
-	echo "$1"
-	if command -v pbcopy >/dev/null 2>&1; then
-		echo "$1" | pbcopy
-	elif command -v xclip >/dev/null 2>&1; then
-		echo "$1" | xclip -selection clipboard
-	elif command -v xsel >/dev/null 2>&1; then
-		echo "$1" | xsel --clipboard --input
-	else
-		echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
-	fi
-	echo "Copied to clipboard"
+    echo "$1"
+    if command -v pbcopy >/dev/null 2>&1; then
+        echo "$1" | pbcopy
+    elif command -v xclip >/dev/null 2>&1; then
+        echo "$1" | xclip -selection clipboard
+    elif command -v xsel >/dev/null 2>&1; then
+        echo "$1" | xsel --clipboard --input
+    else
+        echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
+    fi
+    echo "Copied to clipboard"
 }
 
 get_bookmarks() {
-	[ -z "$1" ] && return 1 # bookmark file
-	browser_icon="$2"
-	bookmarks=$(
-		python3 <<EOF
+    [ -z "$1" ] && return 1 # bookmark file
+    browser_icon="$2"
+    bookmarks=$(
+        python3 <<EOF
 import json
 
 with open('$1', 'r') as json_file:
@@ -104,131 +104,133 @@ def process_bookmarks(bookmarks, folder_names=[]):
 root_bookmarks = data['roots']['bookmark_bar']['children']
 process_bookmarks(root_bookmarks)
 EOF
-	)
-	echo "$bookmarks"
+    )
+    echo "$bookmarks"
 }
 
 is_valid_link() {
-	# url_pattern='^(http|https)://([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
-	url_pattern='^(https?://)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
-	if echo "$1" | grep -qE "$url_pattern"; then
-		return 0
-	fi
-	return 1
+    # url_pattern='^(http|https)://([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    url_pattern='^(https?://)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    if echo "$1" | grep -qE "$url_pattern"; then
+        return 0
+    fi
+    return 1
 }
 
 copy_to_clipboard() {
-	if command -v pbcopy >/dev/null 2>&1; then
-		echo "$1" | pbcopy
-	elif command -v xclip >/dev/null 2>&1; then
-		echo "$1" | xclip -selection clipboard
-	elif command -v xsel >/dev/null 2>&1; then
-		echo "$1" | xsel --clipboard --input
-	else
-		echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
-		exit 1
-	fi
+    if command -v wl-copy >/dev/null 2>&1; then
+        echo "$1" | wl-copy 
+    elif command -v pbcopy >/dev/null 2>&1; then
+        echo "$1" | pbcopy
+    elif command -v xclip >/dev/null 2>&1; then
+        echo "$1" | xclip -selection clipboard
+    elif command -v xsel >/dev/null 2>&1; then
+        echo "$1" | xsel --clipboard --input
+    else
+        echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
+        exit 1
+    fi
 }
 
 # applying all flags and values
 while [ $# -gt 0 ]; do
-	case "$1" in
-	--notify)
-		NOTIFY="true"
-		shift
-		;;
-	--brave)
-		ENABLE_BRAVE="true"
-		shift
-		;;
-	--google)
-		ENABLE_GOOGLE="true"
-		shift
-		;;
-	--firefox)
-		ENABLE_FIREFOX="true"
-		shift
-		;;
-	--chromium)
-		ENABLE_CHROMIUM="true"
-		shift
-		;;
-	--copy)
-		COPY="true"
-		shift
-		;;
-	--type)
-		TYPE="true"
-		shift
-		;;
-	--visit)
-		VISIT="true"
-		shift
-		;;
-	--prompt=*)
-		PROMPT="${1#*=}"
-		shift
-		;;
-	--visit-in=*)
-		VISIT_IN_BROWSER="${1#*=}"
-		shift
-		;;
-	--type-delay=*)
-		TYPE_DELAY_IN_MS="${1#*=}"
-		[ "$TYPE_DELAY_IN_MS" = "" ] && TYPE_DELAY_IN_MS="20"
-		shift
-		;;
-	*)
-		shift
-		;;
-	esac
+    case "$1" in
+        --notify)
+            NOTIFY="true"
+            shift
+            ;;
+        --brave)
+            ENABLE_BRAVE="true"
+            shift
+            ;;
+        --google)
+            ENABLE_GOOGLE="true"
+            shift
+            ;;
+        --firefox)
+            ENABLE_FIREFOX="true"
+            shift
+            ;;
+        --chromium)
+            ENABLE_CHROMIUM="true"
+            shift
+            ;;
+        --copy)
+            COPY="true"
+            shift
+            ;;
+        --type)
+            TYPE="true"
+            shift
+            ;;
+        --visit)
+            VISIT="true"
+            shift
+            ;;
+        --prompt=*)
+            PROMPT="${1#*=}"
+            shift
+            ;;
+        --visit-in=*)
+            VISIT_IN_BROWSER="${1#*=}"
+            shift
+            ;;
+        --type-delay=*)
+            TYPE_DELAY_IN_MS="${1#*=}"
+            [ "$TYPE_DELAY_IN_MS" = "" ] && TYPE_DELAY_IN_MS="20"
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
 done
 
 ALL_BOOKMARKS=""
 
 if [ "$ENABLE_BRAVE" = "true" ]; then
-	if [ -f "$BRAVE_BOOKMARKS" ]; then
-		result=$(get_bookmarks "$BRAVE_BOOKMARKS" "brave: ")
-		ALL_BOOKMARKS="${ALL_BOOKMARKS}\n${result}"
-	fi
+    if [ -f "$BRAVE_BOOKMARKS" ]; then
+        result=$(get_bookmarks "$BRAVE_BOOKMARKS" "brave: ")
+        ALL_BOOKMARKS="${ALL_BOOKMARKS}\n${result}"
+    fi
 fi
 
 if [ "$ENABLE_GOOGLE" = "true" ]; then
-	if [ -f "$GOOGLE_CHROME_BOOKMARKS" ]; then
-		result=$(get_bookmarks "$GOOGLE_CHROME_BOOKMARKS" "google: ")
-		ALL_BOOKMARKS="${result}\n${ALL_BOOKMARKS}"
-	fi
+    if [ -f "$GOOGLE_CHROME_BOOKMARKS" ]; then
+        result=$(get_bookmarks "$GOOGLE_CHROME_BOOKMARKS" "google: ")
+        ALL_BOOKMARKS="${result}\n${ALL_BOOKMARKS}"
+    fi
 fi
 
 if [ "$ENABLE_CHROMIUM" = "true" ]; then
-	if [ -f "$CHROMIUM_BOOKMARKS" ]; then
-		result=$(get_bookmarks "$CHROMIUM_BOOKMARKS" "chromium: ")
-		ALL_BOOKMARKS="${result}\n${ALL_BOOKMARKS}"
-	fi
+    if [ -f "$CHROMIUM_BOOKMARKS" ]; then
+        result=$(get_bookmarks "$CHROMIUM_BOOKMARKS" "chromium: ")
+        ALL_BOOKMARKS="${result}\n${ALL_BOOKMARKS}"
+    fi
 fi
 
 SELECTED_LINE=$(echo "$ALL_BOOKMARKS" | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME")
 
 if [ -z "$SELECTED_LINE" ]; then
-	echo "nothing selected"
-	exit 1
+    echo "nothing selected"
+    exit 1
 fi
 
 SELECTED_LINK=$(echo "$SELECTED_LINE" | awk -F'http' '{print "http"$2}')
 
 if [ -z "$SELECTED_LINK" ]; then
-	echo "no link selected"
-	exit 1
+    echo "no link selected"
+    exit 1
 fi
 
 if [ "$COPY" = "true" ]; then
-	copy_to_clipboard "$SELECTED_LINK"
+    copy_to_clipboard "$SELECTED_LINK"
 fi
 
 if [ "$VISIT" = "true" ]; then
-	"$VISIT_IN_BROWSER" "$SELECTED_LINK"
+    "$VISIT_IN_BROWSER" "$SELECTED_LINK"
 fi
 
 if [ "$TYPE" = "true" ]; then
-	xdotool type --clearmodifiers --delay "$TYPE_DELAY_IN_MS" "$SELECTED_LINK"
+    xdotool type --clearmodifiers --delay "$TYPE_DELAY_IN_MS" "$SELECTED_LINK"
 fi

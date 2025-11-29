@@ -10,6 +10,9 @@ items = [
   "p7zip",        # 7z file compression tool
   "zip",          # Create zip archives
   "unzip",        # Extract zip archives
+  "dash",         # Dash is much faster,very small, POSIX standards,portability, good for simple scripts
+  "doas",         # Alternative to sudo, with much secure and faster performance
+  "doasedit",     # Safely edit config, check and then save
   "clang",        # C/C++ compiler
   "gcc",          # GNU C/C++ compiler
   "gvfs",         # Virtual filesystem for GTK
@@ -39,11 +42,11 @@ items = [
   "stow",                   # Symlink farm manager
   "luarocks",               # Lua package manager
   "trash-cli",              # Move files to trash from CLI
-  "xdg-desktop-portal-gtk", # GTK portal for file picker/dbus integration
+  "xdg-desktop-portal",     # XDG portal for dbus integration
+  "xdg-desktop-portal-gtk", # GTK portal for bus integration
   "xdg-user-dirs",          # Manage user directories like ~/Desktop
   "pacman-contrib",         # Extra pacman utilities
   "parallel",               # Execute jobs in parallel
-  "gnome-keyring",          # Secure storage for passwords and keys
   "seahorse",               # GUI to manage keys and passwords
   "accountsservice",        # User account information management service
   "qt6-multimedia",         # Qt6 module for multimedia support (audio/video)
@@ -52,6 +55,8 @@ items = [
   "inotify-tools",          # CLI utilities to monitor filesystem events (create, modify, delete, etc.) using Linux inotify API
   "imagemagick",            # ImageMagick: convert, scale, and crop images etc
   "yt-dlp",                 # Youtube dl
+  "superfile",              # superfile is a very fancy and modern terminal file manager
+  "exiftool",               # file file metadata
 ]
 
 [managers.serv_start]

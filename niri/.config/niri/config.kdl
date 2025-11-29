@@ -1,6 +1,7 @@
 //==============================================================================
-// Niri Configs
+// Niri Configs configured for AulaF75 Keyboard 75%
 // Appearance | Effects | Desktop UX/UI
+// #id aulaf75 ; do not remove this line, it helps toggle betweeb keyboard keybindings
 //==============================================================================
 prefer-no-csd
 // Removes window's decorations like title bars
@@ -15,21 +16,21 @@ hotkey-overlay {
     skip-at-startup
 }
 animations {
-    slowdown 2.0
+    slowdown 3.0
 }
-screenshot-path "/mnt/storage/downloads/Pictures/Screenshots/screenshot-from-%Y-%m-%d-%H-%M-%S.png"
-//==============================================================================
+screenshot-path "/mnt/storage/downloads/Pictures/Screenshots/screnshot-from-%Y-%m-%d-%H-%-%S.png"
+//=====================================================================
 // Input Devices | Keyboard | Mouse | Touchpad
 //==============================================================================
 input {
     keyboard {
         numlock
-        repeat-delay 170
-        repeat-rate 70
+        repeat-delay 150
+        repeat-rate 50
     }
     touchpad {
         //::toggle::touchpad
-        off
+        // off
         tap
         natural-scroll
         accel-speed 0.2
@@ -58,8 +59,8 @@ gestures {
 // Environment Variables
 //==============================================================================
 environment {
-    DRI_PRIME "1"
-    GDK_BACKEND "wayland,X11"
+    // DRI_PRIME "1"
+    GDK_BACKEND "wayland,x11"
     QT_QPA_PLATFORM "wayland;xcb"
     SDL_VIDEODRIVER "wayland"
     CLUTTER_BACKEND "wayland"
@@ -112,7 +113,7 @@ layout {
     }
     shadow {
         //::toggle::shadow
-        // on
+        on
         softness 30
         spread 5
         offset x=0 y=5
@@ -129,9 +130,9 @@ spawn-at-startup "walsync"
 //==============================================================================
 // Autostart: auth-agent, gnome-keyring
 //==============================================================================
-spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-spawn-sh-at-startup "dbus-update-activation-environment --systemd --all"
-spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-sh-at-startup "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-sh-at-startup "systemctl --user import-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+//
 spawn-sh-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -f gnome-keyring-daemon >/dev/null || /usr/bin/gnome-keyring-daemon --start --components=secrets"
 //==============================================================================
@@ -144,11 +145,12 @@ spawn-sh-at-startup "pgrep -x swww-daemon >/dev/null || swww-daemon"
 // spawn-sh-at-startup "pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -f kdeconnect-indicator >/dev/null || kdeconnect-indicator >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -x udiskie >/dev/null || udiskie --no-automount --smart-tray >/dev/null 2>&1"
+spawn-sh-at-startup "pidof -x niri-float-sticky >/dev/null || niri-float-sticky >/dev/null 2>&1"
 //==============================================================================
 // Autostart: brave
 //==============================================================================
 spawn-sh-at-startup "pgrep -x brave >/dev/null || brave --profile-directory=sirjager >/dev/null 2>&1"
-spawn-sh-at-startup "pgrep -x qutebrowser >/dev/null || qutebrowser 'https://chatgpt.com' >/dev/null 2>&1"
+// spawn-sh-at-startup "pgrep -x qutebrowser >/dev/null || qutebrowser 'https://chatgpt.com' >/dev/null 2>&1"
 //==============================================================================
 // Named Workspaces Rules
 //==============================================================================
@@ -163,7 +165,9 @@ window-rule {
 window-rule {
     // Rule for floating windows
     match app-id="runcmd"
-    // script name    match app-id="yad"
+    match title="Picture in picture"
+    match app-id="yad"
+    match app-id="wev"
     match app-id="scrcpy"
     match app-id="nwg-look"
     match app-id="udiskie"
@@ -199,118 +203,128 @@ binds {
     //==============================================================================
     // Dank Quick shell
     //==============================================================================
-    Mod+Shift+Slash hotkey-overlay-title="desktop:: show keybindings" {
+    Mod+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
         // show-hotkey-overlay
         spawn-sh "keybindings-niri --rofi"
     }
-    Mod+Ctrl+N hotkey-overlay-title="desktop:: notification center" {
+    Mod+Shift+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
+        // show-hotkey-overlay
+        spawn-sh "keybindings-niri --yad"
+    }
+    Mod+Ctrl+N repeat=false hotkey-overlay-title="desktop:: notification center" {
         spawn-sh "dms ipc call notifications toggle"
     }
-    Mod+Ctrl+W hotkey-overlay-title="desktop:: change wallpaper" {
+    Mod+Ctrl+W repeat=false hotkey-overlay-title="desktop:: change wallpaper" {
         spawn-sh "dms ipc call dankdash wallpaper"
     }
-    Mod+Ctrl+P hotkey-overlay-title="utility:: quick notepad or scratchpad" {
+    Mod+Ctrl+P repeat=false hotkey-overlay-title="utility:: quick notepad or scratchpad" {
         spawn-sh "dms ipc call notepad toggle"
     }
-    Mod+Ctrl+L hotkey-overlay-title="power:: lock screen" {
+    Mod+Ctrl+O repeat=false hotkey-overlay-title="power:: lockscreen" {
         spawn-sh "dms ipc call lock lock"
     }
-    Mod+V hotkey-overlay-title="utility:: clipboard manager" {
+    Mod+V repeat=false hotkey-overlay-title="utility:: clipboard manager" {
         spawn-sh "dms ipc call clipboard toggle"
     }
-    Mod+Ctrl+Y hotkey-overlay-title="launch:: dank settings manager" {
+    Mod+Ctrl+Y repeat=false hotkey-overlay-title="launch:: dank settings manager" {
         spawn-sh "dms ipc call settings toggle"
     }
-    Mod+Ctrl+T hotkey-overlay-title="toggle:: touchpad" {
+    Mod+Ctrl+Backslash repeat=false hotkey-overlay-title="toggle:: touchpad" {
         spawn-sh "toggle-line --id=touchpad --on=off --off=off --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
-    Mod+Ctrl+F hotkey-overlay-title="toggle:: focus rings" {
+    Mod+Ctrl+F repeat=false hotkey-overlay-title="toggle:: focus rings" {
         spawn-sh "toggle-line --id=focus-ring --on=off --off=off --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
-    Mod+Ctrl+B hotkey-overlay-title="toggle:: borders" {
+    Mod+Ctrl+B repeat=false hotkey-overlay-title="toggle:: borders" {
         spawn-sh "toggle-line --id=border --on=off --off=off --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
-    Mod+Ctrl+S hotkey-overlay-title="toggle:: shadows" {
+    Mod+Ctrl+S repeat=false hotkey-overlay-title="toggle:: shadows" {
         spawn-sh "toggle-line --id=shadow --on=on --off=on --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
-    Mod+Ctrl+C hotkey-overlay-title="utility:: color picker" {
+    Mod+Ctrl+C repeat=false hotkey-overlay-title="utility:: color picker" {
         spawn-sh "yad --color --alpha | wl-copy"
-    }
-    Mod+Ctrl+O hotkey-overlay-title="utility:: searchable browser history" {
-        spawn-sh "browser-history --firefox --chromium --rofi --copy --notify"
     }
     //==============================================================================
     // Application Launcher | Kitty | Brave | Nautilus
     //==============================================================================
-    Mod+Space hotkey-overlay-title="launch:: niri application launcher" {
+    Mod+Space repeat=false hotkey-overlay-title="launch:: niri application launcher" {
         spawn-sh "dms ipc call spotlight toggle"
     }
-    Alt+Space hotkey-overlay-title="launch:: rofi application launcher" {
+    Alt+Space repeat=false hotkey-overlay-title="launch:: rofi application launcher" {
         spawn-sh "rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi"
     }
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Alt+Return hotkey-overlay-title="launch:: terminal kitty" {
+    Alt+Return repeat=false hotkey-overlay-title="launch:: terminal kitty" {
         spawn-sh "kitty bash -c tmux attach"
     }
-    Mod+B hotkey-overlay-title="launch:: brave browser profile:: sirjager" {
+    Mod+B repeat=false hotkey-overlay-title="launch:: brave browser profile:: sirjager" {
         spawn "brave" "--profile-directory=sirjager"
     }
-    Mod+Q hotkey-overlay-title="launch:: qutebrowser" {
+    Mod+Q repeat=false hotkey-overlay-title="launch:: qutebrowser" {
         spawn "qutebrowser" "https://chatgpt.com"
     }
-    Mod+E hotkey-overlay-title="launch:: nautilus file manager" {
+    Mod+E repeat=false hotkey-overlay-title="launch:: nautilus file manager" {
         spawn "nautilus" "--new-window"
     }
-    Mod+Shift+P hotkey-overlay-title="launch:: session power menu" {
+    Mod+Shift+P repeat=false hotkey-overlay-title="launch:: session power menu" {
         spawn-sh "~/.config/rofi/powermenu/type-6/powermenu.sh"
     }
     //==============================================================================
     // Audio Controls | Media Volume
     //==============================================================================
-    Alt+KP_Add allow-when-locked=true hotkey-overlay-title="media:: volume increase" {
+    Mod+Equal allow-when-locked=true hotkey-overlay-title="audio:: volume increase" {
         spawn-sh "dms ipc call audio increment 5"
     }
-    Alt+KP_Subtract allow-when-locked=true hotkey-overlay-title="media:: volume decrease" {
+    Mod+Minus allow-when-locked=true hotkey-overlay-title="audio:: volume decrease" {
         spawn-sh "dms ipc call audio decrement 5"
     }
-    XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="media:: volume increase" {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"
+    XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="audio:: volume increase" {
+        spawn-sh "dms ipc call audio increment 5"
     }
-    XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="media:: volume decrease" {
-        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"
+    XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="audio:: volume decrease" {
+        spawn-sh "dms ipc call audio decrement 5"
     }
-    XF86AudioMute allow-when-locked=true hotkey-overlay-title="media:: volume toggle mute" {
+    XF86AudioMute allow-when-locked=true hotkey-overlay-title="audio:: volume toggle mute" {
         spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     }
-    XF86AudioMicMute allow-when-locked=true hotkey-overlay-title="media:: mic toggle mute" {
-        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    //==============================================================================
+    // Media Player Seek   | Play Pause | Next  5sec | Prev 5sec
+    //==============================================================================
+    Mod+Ctrl+XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="media:: seek next 5 seconds" {
+        spawn-sh "playerctl position 10+"
     }
-    XF86AudioPlay allow-when-locked=true hotkey-overlay-title="media:: player pause" {
+    Mod+Ctrl+XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="media:: seek prev 5 seeconds" {
+        spawn-sh "playerctl position 10-"
+    }
+    Mod+Ctrl+XF86AudioMute repeat=false allow-when-locked=true hotkey-overlay-title="media:: play pause" {
         spawn-sh "playerctl play-pause"
-    }
-    XF86AudioStop allow-when-locked=true hotkey-overlay-title="media:: player stop" {
-        spawn-sh "playerctl stop"
-    }
-    XF86AudioPrev allow-when-locked=true hotkey-overlay-title="media:: player previous" {
-        spawn-sh "playerctl previous"
-    }
-    XF86AudioNext allow-when-locked=true hotkey-overlay-title="media:: player next" {
-        spawn-sh "playerctl next"
     }
     //==============================================================================
     // Brightness Control
     //==============================================================================
-    Mod+KP_Add allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
+    Mod+Shift+Equal allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
         spawn-sh "dms ipc call brightness increment 5 \"\" "
     }
-    Mod+KP_Subtract allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
+    Mod+Shift+Minus allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
         spawn-sh "dms ipc call brightness decrement 5 \"\" "
     }
-    XF86MonBrightnessUp allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
-        spawn-sh "$myscripts/brightness up"
+    Mod+XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
+        spawn-sh "dms ipc call brightness increment 5 \"\" "
     }
-    XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
-        spawn-sh "$myscripts/brightness down"
+    Mod+XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
+        spawn-sh "dms ipc call brightness decrement 5 \"\" "
+    }
+    //==============================================================================
+    // Nightlight Control | Bluelight Filter | Sunset script
+    //==============================================================================
+    Mod+Alt+XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="nightlight:: increase" {
+        spawn-sh "sunset increase"
+    }
+    Mod+Alt+XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="nightlight:: decrease" {
+        spawn-sh "sunset decrease"
+    }
+    Mod+Alt+XF86AudioMute allow-when-locked=true hotkey-overlay-title="nightlight:: toggle night light | blue light filter" {
+        spawn-sh "sunset toggle"
     }
     //==============================================================================
     // Overview | Windows
@@ -360,58 +374,58 @@ binds {
     //==============================================================================
     // Workspace Management
     //==============================================================================
-    Mod+1 hotkey-overlay-title="workspace:: focus workspace 1" {
+    Mod+1 repeat=false hotkey-overlay-title="workspace:: focus workspace 1" {
         focus-workspace 1
     }
-    Mod+2 hotkey-overlay-title="workspace:: focus workspace 2" {
+    Mod+2 repeat=false hotkey-overlay-title="workspace:: focus workspace 2" {
         focus-workspace 2
     }
-    Mod+3 hotkey-overlay-title="workspace:: focus workspace 3" {
+    Mod+3 repeat=false hotkey-overlay-title="workspace:: focus workspace 3" {
         focus-workspace 3
     }
-    Mod+4 hotkey-overlay-title="workspace:: focus workspace 4" {
+    Mod+4 repeat=false hotkey-overlay-title="workspace:: focus workspace 4" {
         focus-workspace 4
     }
-    Mod+5 hotkey-overlay-title="workspace:: focus workspace 5" {
+    Mod+5 repeat=false hotkey-overlay-title="workspace:: focus workspace 5" {
         focus-workspace 5
     }
-    Mod+6 hotkey-overlay-title="workspace:: focus workspace 6" {
+    Mod+6 repeat=false hotkey-overlay-title="workspace:: focus workspace 6" {
         focus-workspace 6
     }
-    Mod+7 hotkey-overlay-title="workspace:: focus workspace 7" {
+    Mod+7 repeat=false hotkey-overlay-title="workspace:: focus workspace 7" {
         focus-workspace 7
     }
-    Mod+8 hotkey-overlay-title="workspace:: focus workspace 8" {
+    Mod+8 repeat=false hotkey-overlay-title="workspace:: focus workspace 8" {
         focus-workspace 8
     }
-    Mod+9 hotkey-overlay-title="workspace:: focus workspace 9" {
+    Mod+9 repeat=false hotkey-overlay-title="workspace:: focus workspace 9" {
         focus-workspace 9
     }
-    Mod+Shift+1 hotkey-overlay-title="workspace:: move column to workspace 1" {
+    Mod+Shift+1 repeat=false hotkey-overlay-title="workspace:: move column to workspace 1" {
         move-column-to-workspace 1
     }
-    Mod+Shift+2 hotkey-overlay-title="workspace:: move column to workspace 2" {
+    Mod+Shift+2 repeat=false hotkey-overlay-title="workspace:: move column to workspace 2" {
         move-column-to-workspace 2
     }
-    Mod+Shift+3 hotkey-overlay-title="workspace:: move column to workspace 3" {
+    Mod+Shift+3 repeat=false hotkey-overlay-title="workspace:: move column to workspace 3" {
         move-column-to-workspace 3
     }
-    Mod+Shift+4 hotkey-overlay-title="workspace:: move column to workspace 4" {
+    Mod+Shift+4 repeat=false hotkey-overlay-title="workspace:: move column to workspace 4" {
         move-column-to-workspace 4
     }
-    Mod+Shift+5 hotkey-overlay-title="workspace:: move column to workspace 5" {
+    Mod+Shift+5 repeat=false hotkey-overlay-title="workspace:: move column to workspace 5" {
         move-column-to-workspace 5
     }
-    Mod+Shift+6 hotkey-overlay-title="workspace:: move column to workspace 6" {
+    Mod+Shift+6 repeat=false hotkey-overlay-title="workspace:: move column to workspace 6" {
         move-column-to-workspace 6
     }
-    Mod+Shift+7 hotkey-overlay-title="workspace:: move column to workspace 7" {
+    Mod+Shift+7 repeat=false hotkey-overlay-title="workspace:: move column to workspace 7" {
         move-column-to-workspace 7
     }
-    Mod+Shift+8 hotkey-overlay-title="workspace:: move column to workspace 8" {
+    Mod+Shift+8 repeat=false hotkey-overlay-title="workspace:: move column to workspace 8" {
         move-column-to-workspace 8
     }
-    Mod+Shift+9 hotkey-overlay-title="workspace:: move column to workspace 9" {
+    Mod+Shift+9 repeat=false hotkey-overlay-title="workspace:: move column to workspace 9" {
         move-column-to-workspace 9
     }
     //==============================================================================
@@ -423,19 +437,19 @@ binds {
     Mod+Shift+U repeat=false hotkey-overlay-title="layout::consume or expel to right" {
         consume-or-expel-window-right
     }
-    Mod+Comma hotkey-overlay-title="layout::consume window into column" {
+    Mod+Comma repeat=false hotkey-overlay-title="layout::consume window into column" {
         consume-window-into-column
     }
-    Mod+Period hotkey-overlay-title="layout::expel window from column" {
+    Mod+Period repeat=false hotkey-overlay-title="layout::expel window from column" {
         expel-window-from-column
     }
-    Mod+R hotkey-overlay-title="layout::cycle window's width from preset" {
+    Mod+R repeat=false hotkey-overlay-title="layout::cycle window's width from preset" {
         switch-preset-column-width
     }
-    Mod+Shift+R hotkey-overlay-title="layout::cycle window's height from preset" {
+    Mod+Shift+R repeat=false hotkey-overlay-title="layout::cycle window's height from preset" {
         switch-preset-window-height
     }
-    Mod+Ctrl+R hotkey-overlay-title="layout::reset window's height" {
+    Mod+Ctrl+R repeat=false hotkey-overlay-title="layout::reset window's height" {
         reset-window-height
     }
     Mod+F repeat=false hotkey-overlay-title="layout::maximize column or window" {
@@ -444,19 +458,19 @@ binds {
     Mod+Shift+F repeat=false hotkey-overlay-title="layout::fullscreen window" {
         fullscreen-window
     }
-    // Mod+Ctrl+F hotkey-overlay-title="layout::expand window or column to available width" {
+    // Mod+Ctrl+F repeat=false hotkey-overlay-title="layout::expand window or column to available width" {
     // expand-column-to-available-width
     // }
-    Mod+C hotkey-overlay-title="layout::center column" {
+    Mod+C repeat=false hotkey-overlay-title="layout::center column" {
         center-column
     }
-    Mod+Shift+C hotkey-overlay-title="layout::center visible columns or window" {
+    Mod+Shift+C repeat=false hotkey-overlay-title="layout::center visible columns or window" {
         center-visible-columns
     }
-    Mod+Alt+H hotkey-overlay-title="layout::reduce column or window's width by 10%" {
+    Mod+Alt+H cooldown-ms=150 hotkey-overlay-title="layout::reduce column or window's width by 10%" {
         set-column-width "-10%"
     }
-    Mod+Alt+L hotkey-overlay-title="layout::increase column or window's width by 10%" {
+    Mod+Alt+L cooldown-ms=150 hotkey-overlay-title="layout::increase column or window's width by 10%" {
         set-column-width "+10%"
     }
     Mod+Ctrl+Space cooldown-ms=150 hotkey-overlay-title="layout::reduce window's height by 10%" {
@@ -465,10 +479,10 @@ binds {
     Mod+Shift+Space cooldown-ms=150 hotkey-overlay-title="layout::increase window's height by 10%" {
         set-window-height "+10%"
     }
-    Mod+P hotkey-overlay-title="layout::toggle floating window" {
+    Mod+P repeat=false hotkey-overlay-title="layout::toggle floating window" {
         toggle-window-floating
     }
-    Mod+Shift+Tab hotkey-overlay-title="layout::switch focus between floating and tiling window" {
+    Mod+Shift+Tab repeat=false hotkey-overlay-title="layout::switch focus between floating and tiling window" {
         switch-focus-between-floating-and-tiling
     }
     //==============================================================================
@@ -495,7 +509,7 @@ binds {
     //==============================================================================
     // Miscellaneous Utility
     //==============================================================================
-    Mod+Shift+Q hotkey-overlay-title="niri:: quit window niri manager" {
+    Mod+Shift+Q repeat=false hotkey-overlay-title="niri:: quit window niri manager" {
         quit
     }
     Mod+Ctrl+U hotkey-overlay-title="power:: turn off monitor display" {
@@ -504,7 +518,10 @@ binds {
     //==============================================================================
     // Scripts | Shortcuts | Helpers
     //==============================================================================
-    Mod+O repeat=false hotkey-overlay-title="utility::open copied link from clipboard" {
+    Mod+O repeat=false hotkey-overlay-title="utility:: open browser history in browser" {
+        spawn-sh "browser-history --bookmark --firefox --chromium --rofi --visit --notify"
+    }
+    Mod+Shift+O repeat=false hotkey-overlay-title="utility::open copied link in browser if any" {
         spawn-sh "url=$(wl-paste | grep -oE 'https?://[^[:space:]]+' | head -n1 | sed 's/[[:punct:]]*$//') && [[ \"$url\" =~ ^https?:// ]] && xdg-open \"$url\" && notify-send \"Opening link in $BROWSER\" \"$url\" || notify-send \"Clipboard does not contain a valid link.\" \"$url\" "
     }
     Mod+Ctrl+I repeat=false hotkey-overlay-title="utility::show running windows ids" {

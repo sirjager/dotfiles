@@ -7,3 +7,9 @@ items = [
   "neovim", # Modern Vim-based text editor
   "tmux",   # Terminal multiplexer
 ]
+
+# Everything that Rebos needs
+[managers.packages]
+items = [
+  "fnm", # Fast node version manager
+]

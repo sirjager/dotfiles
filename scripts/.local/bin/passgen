@@ -54,7 +54,7 @@ check_deps
 
 # ---------------- Help function ----------------------
 show_help() {
-  cat <<EOF
+    cat <<EOF
 Usage: $0 [options]
 
 Options:
@@ -92,27 +92,27 @@ calculate_entropy() {
 
 # ---------------- Parse CLI arguments -----------------
 while [ $# -gt 0 ]; do
-  case "$1" in
-    --numbers | --num | -N) INCLUDE_NUMBERS=true ;;
-    --no-numbers | --no-num) INCLUDE_NUMBERS=false ;;
-    --symbols | --sym | -S) INCLUDE_SYMBOLS=true ;;
-    --no-symbols | --no-sym) INCLUDE_SYMBOLS=false ;;
-    --capital | --caps | -C) INCLUDE_CAPITAL=true ;;
-    --no-capital | --no-caps) INCLUDE_CAPITAL=false ;;
-    --lowercase | --lows | -L) INCLUDE_LOWERCASE=true ;;
-    --no-lowercase | --no-lows) INCLUDE_LOWERCASE=false ;;
-    --length | --len | -l) shift; LENGTH="$1" ;;
-    --min-numbers) shift; MIN_NUMBERS="$1" ;;
-    --min-symbols) shift; MIN_SYMBOLS="$1" ;;
-    --min-caps) shift; MIN_CAPITAL="$1" ;;
-    --min-lowercase) shift; MIN_LOWERCASE="$1" ;;
-    --echo | --terminal | -e) ECHO_TO_TERMINAL=true ;;
-    --copy | --yank | -c | -y) COPY_TO_CLIPBOARD=true ;;
-    --entropy | --stats) SHOW_PASS_ENTROPY=true ;;
-    -h | --help) show_help; exit 0 ;;
-    *) echo "Unknown option: $1"; show_help; exit 1 ;;
-  esac
-  shift
+    case "$1" in
+        --numbers | --num | -N) INCLUDE_NUMBERS=true ;;
+        --no-numbers | --no-num) INCLUDE_NUMBERS=false ;;
+        --symbols | --sym | -S) INCLUDE_SYMBOLS=true ;;
+        --no-symbols | --no-sym) INCLUDE_SYMBOLS=false ;;
+        --capital | --caps | -C) INCLUDE_CAPITAL=true ;;
+        --no-capital | --no-caps) INCLUDE_CAPITAL=false ;;
+        --lowercase | --lows | -L) INCLUDE_LOWERCASE=true ;;
+        --no-lowercase | --no-lows) INCLUDE_LOWERCASE=false ;;
+        --length | --len | -l) shift; LENGTH="$1" ;;
+        --min-numbers) shift; MIN_NUMBERS="$1" ;;
+        --min-symbols) shift; MIN_SYMBOLS="$1" ;;
+        --min-caps) shift; MIN_CAPITAL="$1" ;;
+        --min-lowercase) shift; MIN_LOWERCASE="$1" ;;
+        --echo | --terminal | -e) ECHO_TO_TERMINAL=true ;;
+        --copy | --yank | -c | -y) COPY_TO_CLIPBOARD=true ;;
+        --entropy | --stats) SHOW_PASS_ENTROPY=true ;;
+        -h | --help) show_help; exit 0 ;;
+        *) echo "Unknown option: $1"; show_help; exit 1 ;;
+    esac
+    shift
 done
 
 # ---------------- Build charset -----------------------
@@ -145,22 +145,22 @@ PASSWORD=$(echo "$PW" | fold -w1 | shuf | tr -d '\n')
 # Output handling
 # ------------------------------------------------------
 if $ECHO_TO_TERMINAL; then
-  echo "$PASSWORD"
+    echo "$PASSWORD"
 fi
 
 if $SHOW_PASS_ENTROPY; then
-  CHARSET_SIZE=$(echo -n "$CHARSET" | fold -w1 | sort -u | wc -l)
-  calculate_entropy "$PASSWORD" "$CHARSET_SIZE"
+    CHARSET_SIZE=$(echo -n "$CHARSET" | fold -w1 | sort -u | wc -l)
+    calculate_entropy "$PASSWORD" "$CHARSET_SIZE"
 fi
 
 if $COPY_TO_CLIPBOARD; then
-  if command -v wl-copy >/dev/null 2>&1; then
-    printf "%s" "$PASSWORD" | wl-copy
-    echo "✅ Password copied to clipboard"
-  elif command -v xclip >/dev/null 2>&1; then
-    printf "%s" "$PASSWORD" | xclip -selection clipboard
-    echo "✅ Password copied to clipboard"
-  else
-    echo "⚠️ No clipboard utility found. Install 'wl-clipboard' or 'xclip'."
-  fi
+    if command -v wl-copy >/dev/null 2>&1; then
+        printf "%s" "$PASSWORD" | wl-copy
+        echo "✅ Password copied to clipboard"
+    elif command -v xclip >/dev/null 2>&1; then
+        printf "%s" "$PASSWORD" | xclip -selection clipboard
+        echo "✅ Password copied to clipboard"
+    else
+        echo "⚠️ No clipboard utility found. Install 'wl-clipboard' or 'xclip'."
+    fi
 fi

@@ -1,0 +1,311 @@
+#!/usr/bin/env bash
+#
+# ──────────────────────────────────────────────
+#  brohistory – Unified Browser History Fetcher
+# ──────────────────────────────────────────────
+#
+#  Author   : Ankur Kumar (SirJager)
+#  GitHub   : @SirJager
+#  Version  : 2.0 (modular rewrite)
+#
+#  Description:
+#    brohistory collects and displays recent browsing history from
+#    multiple browsers (Brave, Chromium, Firefox) into one unified list.
+#    Results can be shown in rofi/dmenu or echoed to terminal.
+#
+# ──────────────────────────────────────────────
+
+
+# ──────────────────────────────────────────────
+#  SECTION 2: VARIABLE DECLARATION & DEFAULTS
+# ──────────────────────────────────────────────
+
+HISTORY_DIR="${BROHISTORY_DIR:-/tmp/brohistory}"
+HISTORY_FILEE="$HISTORY_DIR/brohistory"
+BOOKMARKS_FILE="$HISTORY_DIR/bookmarks"
+ROFI_THEME="${ROFI_THEME:-$HOME/.local/bin/rofi-dmenu/vertical.rasi}"
+
+PROMPT="${PROMPT:-HISTORY}"
+
+SHOW_AS_DMENU=false
+SHOW_IN_TERMINAL=false
+
+NOTIFY=false
+COPY=false
+VISIT=false
+VISIT_IN_BROWSER="${BROWSER:-brave-browser}"
+
+SEARCH_BOOKMARKS=false
+
+CHROMIUM_HISTORY_LIMIT=5000
+FIREFOX_HISTORY_LIMIT=5000
+
+CHROMIUM_HISTORY=false
+FIREFOX_HISTORY=false
+
+# Change Icons or Clear to remove
+FOLDER_ICON="📂 "
+TITLE_ICON="🚩"
+URL_ICON="🔗 "
+
+# ──────────────────────────────────────────────
+#  Browser History Locations (Lists of Paths)
+# Syntax; "<profile-path>;<browser-name-to-display>;<profile-name-to-display>;"
+# browser-name-to-display and profile-name-to-display are only for rofi menu
+# it does not affects fetching of history or bookmarks
+# ──────────────────────────────────────────────
+CHROMIUM_PROFILES=(
+    "$HOME/.config/BraveSoftware/Brave-Browser/sirjager;brave;sirjager"
+    "$HOME/.config/BraveSoftware/Brave-Browser/5321ankur;brave;5321ankur"
+)
+
+FIREFOX_HISTORY_PATHS=(
+    "$mystorage/programs/firefox/sirjager/places.sqlite;firefox;sirjager"
+)
+
+
+# ──────────────────────────────────────────────
+#  SECTION 3: FLAG PARSING (COMMAND-LINE OPTIONS)
+# ──────────────────────────────────────────────
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dmenu | -dmenu | -d | --rofi | -rofi | -r) SHOW_AS_DMENU=true ;;
+        --notify | -notify | -n) NOTIFY=true ;;
+        --echo | -echo | -e) SHOW_IN_TERMINAL=true ;;
+        --prompt=*) PROMPT="${1#*=}" ;;
+        --copy | -copy | -c) COPY=true ;;
+        --visit | -visit | -v | --open | -open | -o) VISIT=true ;;
+        --visit-in=*) VISIT_IN_BROWSER="${1#*=}" ;;
+        --bookmark | -bookmark | --bookmarks  | -bookmarks | -b) SEARCH_BOOKMARKS=true ;;
+        --bro=*)
+            IFS=',' read -ra BRO_LIST <<< "${1#*=}"
+            for bro in "${BRO_LIST[@]}"; do
+                case "$bro" in
+                    chromium) CHROMIUM_HISTORY=true ;;
+                    firefox) FIREFOX_HISTORY=true ;;
+                esac
+            done ;;
+        --chromium) CHROMIUM_HISTORY=true ;;
+        --firefox) FIREFOX_HISTORY=true ;;
+        --limit=*)
+            CHROMIUM_HISTORY_LIMIT="${1#*=}"
+            FIREFOX_HISTORY_LIMIT="${1#*=}" ;;
+        --chromium-limit=*) CHROMIUM_HISTORY_LIMIT="${1#*=}" ;;
+        --firefox-limit=*) FIREFOX_HISTORY_LIMIT="${1#*=}" ;;
+        *) echo "⚠️ Unknown flag ignored: $1" ;;
+    esac
+    shift
+done
+
+# ──────────────────────────────────────────────
+#  SECTION 4: VALIDATION & PRE-CHECKS
+# ──────────────────────────────────────────────
+
+REQUIRED_CMDS=("sqlite3" "awk")
+
+for cmd in "${REQUIRED_CMDS[@]}"; do
+    if ! command -v "$cmd" &>/dev/null; then
+        echo "❌ Error: Required command not found: $cmd"
+        exit 1
+    fi
+done
+
+mkdir -p "$HISTORY_DIR" || {
+    echo "❌ Error: Failed to create cache directory: $HISTORY_DIR"
+    exit 1
+}
+
+: >"$HISTORY_FILEE"
+: >"$BOOKMARKS_FILE"
+
+if [[ "$CHROMIUM_HISTORY" != true && "$FIREFOX_HISTORY" != true ]]; then
+    echo "⚠️  No browser selected. Use --chromium and/or --firefox"
+    exit 0
+fi
+
+# ──────────────────────────────────────────────
+#  SECTION 5: HELPER FUNCTIONS
+# ──────────────────────────────────────────────
+
+check_history_paths() {
+    local label="$1"
+    shift
+    local paths=("$@")
+    local found_any=false
+
+    for entry in "${paths[@]}"; do
+        # Extract the actual history DB path (first value before ;)
+        local file="${entry%%;*}"
+
+        [[ -f "$file" ]] && found_any=true
+    done
+    [[ "$found_any" == false ]] && echo "⚠️  No valid $label history files found."
+}
+
+is_valid_link() {
+    # url_pattern='^(http|https)://([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    url_pattern='^(https?://)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(/\S*)?$'
+    if echo "$1" | grep -qE "$url_pattern"; then
+        return 0
+    fi
+    return 1
+}
+
+copy_to_clipboard() {
+    if command -v wl-copy >/dev/null 2>&1; then
+        echo "$1" | wl-copy
+    elif command -v pbcopy >/dev/null 2>&1; then
+        echo "$1" | pbcopy
+    elif command -v xclip >/dev/null 2>&1; then
+        echo "$1" | xclip -selection clipboard
+    elif command -v xsel >/dev/null 2>&1; then
+        echo "$1" | xsel --clipboard --input
+    else
+        echo "Clipboard tool not available. Please install pbcopy, xclip, or xsel." >&2
+        exit 1
+    fi
+}
+
+notify() {
+    level="$3"
+    [ "$level" = "" ] && level="normal"
+    [ "$NOTIFY" = "true" ] && notify-send -u "$level" -t 3000 "$1" "$2"
+}
+
+query_database() {
+    local database="$1"
+    local query="$2"
+    sqlite3 "$database" "$query"
+}
+
+
+# --- Merge all collected histories into one unified file ---
+collect_history() {
+    local OUTPUT_FILE="$1"
+    # Clear the main unified history file
+    : > "$OUTPUT_FILE"
+    # --- Chromium ---
+    if [[ "$INCLUDE_CHROMIUM" == true ]]; then
+        local chromium_export
+        chromium_export=$(get_chromium_history)
+        # Append to unified file if not empty
+        if [[ -s "$chromium_export" ]]; then
+            # Prepend browser label for clarity
+            cat "$chromium_export" >> "$OUTPUT_FILE"
+        else
+            echo "⚠️  No valid Chromium history files found." >&2
+        fi
+    fi
+
+    # --- Placeholder for Firefox ---
+    # You can implement similar logic for Firefox here
+}
+
+collect_bookmarks() {
+    local out="$1"
+    : > "$out"
+
+    local chromium_export
+    chromium_export=$(get_chromium_bookmarks)
+
+    [[ -f "$chromium_export" ]] && command cat "$chromium_export" >> "$out"
+
+
+    # --- Placeholder for Firefox ---
+    # You can implement similar logic for Firefox here
+}
+
+# --- Collect Firefox histories across profiles ---
+get_firefox_history() {
+    echo "Firefox history is not implemented yet"
+    notify "Firefox history is not implemented yet" "critical"
+    exit 1
+}
+
+# --- Collect Chromium-based histories across profiles ---
+# Reads directly in read-only mode to avoid interfering with open browsers
+get_chromium_bookmarks() {
+    local export_file="$BOOKMARKS_FILE.chromium"
+    : > "$export_file"
+
+    for entry in "${CHROMIUM_PROFILES[@]}"; do
+        IFS=';' read -r db_path browser profile <<< "$entry"
+        local bookmarks_json="$db_path/Bookmarks"
+
+        [[ ! -f "$bookmarks_json" ]] && continue
+
+        local label="bookmarks::"
+        local bookmarks
+        bookmarks=$(
+python3 <<EOF
+import json
+
+with open('$bookmarks_json', 'r') as f:
+    data = json.load(f)
+
+def print_item(item, folders):
+    name = item.get("name", "")
+    url  = item.get("url", "")
+    folder_path = ">".join(folders)
+
+    if url:
+        if folder_path:
+            print(f"${label}${FOLDER_ICON}{folder_path} ${TITLE_ICON}{name} ${URL_ICON}{url}")
+        else:
+            print(f"${label}${TITLE_ICON}{name} ${URL_ICON}{url}")
+
+def traverse(items, stack):
+    for it in items:
+        if it.get("type") == "folder":
+            traverse(it.get("children", []), stack + [it.get("name", "")])
+        else:
+            print_item(it, stack)
+
+roots = data.get("roots", {})
+if "bookmark_bar" in roots:
+    traverse(roots["bookmark_bar"].get("children", []), [])
+EOF
+)
+        # IMPORTANT: write to file
+        echo "$bookmarks" >> "$export_file"
+    done
+
+    echo "$export_file"
+}
+
+
+# ──────────────────────────────────────────────
+#  SECTION 7: CORE EXECUTION FLOW
+# ──────────────────────────────────────────────
+
+[[ "$CHROMIUM_HISTORY" == true ]] && check_history_paths "Chromium" "${CHROMIUM_PROFILES[@]}"
+[[ "$FIREFOX_HISTORY" == true ]] && check_history_paths "Firefox" "${FIREFOX_HISTORY_PATHS[@]}"
+
+collect_history "$HISTORY_FILEE"
+
+if [[ "$SEARCH_BOOKMARKS" == true ]]; then
+    collect_bookmarks "$BOOKMARKS_FILE"
+    command cat "$BOOKMARKS_FILE" >> "$HISTORY_FILEE"
+fi
+
+
+SELECTED_LINK=""
+
+if [[ "$SHOW_AS_DMENU" == true ]]; then
+    HISTORY_COUNT=$(command cat $HISTORY_FILEE | wc -l)
+    selected_line=$(cat "$HISTORY_FILEE" "" | rofi -dmenu -p "$PROMPT($HISTORY_COUNT)" -theme "$ROFI_THEME")
+    [ "$selected_line" = "" ] && exit 0
+    SELECTED_LINK=$(echo "$selected_line" | awk -F'http' '{print "http"$2}')
+fi
+
+[ "$SELECTED_LINK" = "" ] && exit 0
+
+[[ "$COPY" == true ]] && copy_to_clipboard "$SELECTED_LINK"
+[[ "$COPY" == true ]] && notify "Link copied to clipboard" "$SELECTED_LINK"
+
+[[ "$VISIT" == true ]] && notify "Opening link in $VISIT_IN_BROWSER" "$SELECTED_LINK"
+[[ "$VISIT" == true ]] && "$VISIT_IN_BROWSER" "$SELECTED_LINK"
+
+exit 0
+

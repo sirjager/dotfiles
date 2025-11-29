@@ -48,6 +48,7 @@ M.servers = {
     'golangci_lint_ls',
   },
   linters = {
+    'shellcheck',
     'mypy',
     'hadolint',
     'markdownlint',
@@ -58,6 +59,7 @@ M.servers = {
   },
   formatters = {
     'black',
+    "beautysh",
     'prettierd',
     'shfmt',
     'kdlfmt',

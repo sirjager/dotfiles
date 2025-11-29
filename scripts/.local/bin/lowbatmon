@@ -5,7 +5,7 @@ LOW_BATTERY=30
 NOTIFY_DURATION=10000  # time in ms
 
 NOTIFY_AGAIN_IN_LOW_BATTERY=60
-NOTIFY_AGAIN_IN_MAX_BATTERY=240
+NOTIFY_AGAIN_IN_MAX_BATTERY=600
 CHECK_AGAIN_BATTERY=240         # in seconds
 
 PROCESS_NAME="Battery Monitor"
@@ -45,7 +45,7 @@ while true; do
 			-h string:synchronous:"battery_monitor" \
 			"⚠️ Enough Battery: ${CURRENT_BATTERY}%" \
 			"\nBattery is charged enough."
-		sleep $NOTIFY_AGAIN_IN_MAX_BATTERY
+		[ "$CURRENT_BATTERY" -ge "$MAX_BATTERY" ] && sleep $NOTIFY_AGAIN_IN_MAX_BATTERY
 	else
 		sleep "$CHECK_AGAIN_BATTERY"
 	fi

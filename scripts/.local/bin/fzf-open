@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Search for files using fd (recommended). Ignores .git by default.
+# If fd is not installed, exit with message.
+if ! command -v fd >/dev/null 2>&1; then
+    echo "Error: fd is not installed. Install with: sudo pacman -S fd" >&2
+    exit 1
+fi
+
+# Run fd → fzf to select a file
+file="$(fd --type f --hidden --exclude .git | fzf)" || exit 0
+
+# If user pressed ESC in fzf
+[ -z "$file" ] && exit 0
+
+# Extract components
+dir="$(dirname "$file")"
+base="$(basename "$file")"
+
+# Open nvim in parent directory and edit file
+nvim "$dir" -c "edit $base"

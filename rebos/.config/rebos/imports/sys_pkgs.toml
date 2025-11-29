@@ -14,10 +14,11 @@
 
 [managers.packages]
 items = [
-  "polkit-gnome",           # PolicyKit authentication agent for GNOME
-  "lxqt-policykit",         # PolicyKit authentication agent for LXQt
-  "libnotify",              # Library for sending desktop notifications
-  "dunst",                  # Lightweight notification daemon
+  "polkit-gnome",              # PolicyKit authentication agent for GNOME
+  "gnome-keyring",             # Secure storage for passwords and keys
+  "lxqt-policykit",            # PolicyKit authentication agent for LXQt
+  "libnotify",                 # Library for sending desktop notifications
+  # "dunst",                  # Lightweight notification daemon
   "pamixer",                # Command-line volume control for PulseAudio
   "networkmanager",         # Network management daemon
   "network-manager-applet", # GUI applet for NetworkManager

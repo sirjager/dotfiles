@@ -34,6 +34,10 @@ _darcs
 \assets
 \assets\*
 
+# Data directory is to backup statsfile for apps and plugins like Typr(neovim plugin)
+\data
+\data\*
+
 # static configs
 \static
 \static\*

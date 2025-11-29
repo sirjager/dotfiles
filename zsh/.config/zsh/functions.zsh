@@ -187,7 +187,7 @@ function _connect() {
     echo "Invalid port '$input'. Port should only contain numbers"
     return 0
   else
-   adb connect 192.168.0.101:$input && return 0
+   adb connect 192.168.1.6:$input && return 0
   fi
 }
 # =================================================================================================================================

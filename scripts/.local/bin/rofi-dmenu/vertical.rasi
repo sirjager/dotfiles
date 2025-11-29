@@ -29,7 +29,7 @@ window {
     x-offset:                    0px;
     y-offset:                    -10px;
     background-color:            @normal-background;
-    border-radius:               10px;
+    border-radius:               12px;
     border:                      2px solid;
     border-color:                @border-color;
     padding: 0px;
@@ -50,6 +50,7 @@ element normal.normal {
 element selected.normal {
     text-color:           @active-foreground;
     background-color:     @active-background;
+    border-radius:        12px;
 }
 
 element alternate.normal {
@@ -63,7 +64,11 @@ element-text {
     cursor: inherit;
     highlight: inherit;
 }
-    
+element-text selected {
+    text-color: @normal-background;
+}
+
+
 element-icon {
     background-color: transparent;
     text-color: inherit;

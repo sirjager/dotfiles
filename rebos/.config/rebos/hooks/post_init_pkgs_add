@@ -5,3 +5,15 @@ rustup default stable >/dev/null 2>&1 || exit 1
 
 # Copies static configurations to their specific paths
 sh ~/dotfiles/static/execute.sh --sudo --overwrite
+
+## TODO: Update node version to upgrade
+fnm install v24.11.1 >/dev/null 2>&1 || exit 1
+fnm use v24.11.1 >/dev/null 2>&1 || exit 1
+
+if ! command -v pnpm >/dev/null 2>&1; then
+    npm install -g pnpm@latest-10 >/dev/null 2>&1 || exit 1
+  else
+    pnpm self-update >/dev/null 2>&1 || exit 1
+fi
+
+

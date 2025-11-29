@@ -11,7 +11,7 @@
 # ⚡ Load minimal FNM setup early (for completions)
 # ---------------------------------------------------------------------
 if command -v fnm &>/dev/null; then
-  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
 fi
 
 # ---------------------------------------------------------------------

@@ -6,6 +6,7 @@ begin = [
   "gobuilder",
   "fontsdl",
   "symbuilder",
+  "node_pkgs",
 ]
 
 end = [

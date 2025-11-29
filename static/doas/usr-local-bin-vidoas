@@ -1,0 +1,6 @@
+#!/bin/dash
+if [ "$(id -u)" != 0 ]; then
+        doas /root/script/vidoas
+else
+        /root/script/vidoas
+fi

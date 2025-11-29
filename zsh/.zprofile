@@ -1,6 +1,18 @@
 # ~/.zprofile
 
-export DRI_PRIME="1"
+# Wayland/X11 handling
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  # export GDK_BACKEND="wayland,x11"
+  export QT_QPA_PLATFORM="wayland;xcb"
+  export SDL_VIDEODRIVER="wayland"
+  export CLUTTER_BACKEND="wayland"
+  export QT_QPA_PLATFORMTHEME="gtk3"
+  export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+  export ELECTRON_OZONE_PLATFORM_HINT="wayland"
+else
+  # exportGDK_BACKEND="x11"
+  export QT_QPA_PLATFORM="xcb"
+fi
 
 # Global Environment Variables
 export GPG_TTY="$(tty)"
@@ -18,20 +30,6 @@ export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
 export CHROME_EXECUTABLE='/usr/bin/brave'    # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
 export CARAPACE_BRIDGES='zsh,inshellisense'  # optional
-
-
-# Wayland/X11 handling
-if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-  export GDK_BACKEND="wayland"
-  export QT_QPA_PLATFORM="wayland"
-  export SDL_VIDEODRIVER="wayland"
-  export CLUTTER_BACKEND="wayland"
-  export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-  export QT_QPA_PLATFORMTHEME=qt5ct
-else
-  export GDK_BACKEND="x11"
-  export QT_QPA_PLATFORM="xcb"
-fi
 
 # Android & Flutter
 # export FLUTTER_ROOT="$mystorage/programs/appdev/flutter"
@@ -59,16 +57,15 @@ export PATH="$PATH:$mystorage/programs/appdev/android-studio/jbr/bin"
 # Golang
 export GO111MODULE="on"
 export GOPRIVATE="$mygithub/*"
-export GOROOT="$mystorage/programs/go/sdk"
 export GOPATH="$mystorage/workspace/goenv"
-export GOMODCACHE="$mystorage/programs/go/mod"
 export GOBIN="$mystorage/workspace/goenv/bin"
-export GOCACHE="$mystorage/workspace/goenv/cache"
 
-export NVM_DIR="$mystorage/programs/nvm"
-export FNM_PATH="$mystorage/programs/fnm"
-export FNM_DIR="$mystorage/programs/fnm"
-export PNPM_HOME="$mystorage/programs/pnpm"
+# # using rebos to manage it
+# export NVM_DIR="$mystorage/programs/nvm"
+# export FNM_PATH="$mystorage/programs/fnm"
+# export FNM_DIR="$mystorage/programs/fnm"
+# export PNPM_HOME="$mystorage/programs/pnpm"
+
 export BUN_INSTALL="$mystorage/programs/bun"
 export CARGO_HOME="$mystorage/programs/cargo"
 export RUSTUP_HOME="$mystorage/programs/rustup"

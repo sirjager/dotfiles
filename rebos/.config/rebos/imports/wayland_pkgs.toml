@@ -1,13 +1,18 @@
 # X11 Display Server Packages
 [managers.packages]
 items = [
-  # "uwsm",                 # A standalone Wayland session manager
-  "wl-clipboard",         # Clipboard utilities for Wayland (wl-copy & wl-paste)
-  "xorg-xhost",           # X server access control utility
-  "xorg-server-xwayland", # XWayland server for running X apps on Wayland
-  "waybar",               # Highly customizable status bar for Sway/Wayland
-  "swww",                 # Wallpaper and lockscreen manager for Wayland
-  "rofi-wayland",         # Application launcher/menu for Wayland
-  "quickshell-git",       # Quickshell is a toolkit for building status bars, widgets, lockscreens, and other components
   # "noctalia-shell",       # A sleek, minimal, and thoughtfully crafted desktop shell for Wayland using Quickshell!
+  # "uwsm",                 # A standalone Wayland session manager
+  "wl-clipboard",           # Clipboard utilities for Wayland (wl-copy & wl-paste)
+  "xorg-xhost",             # X server access control utility
+  "xorg-server-xwayland",   # XWayland server for running X apps on Wayland
+  "waybar",                 # Highly customizable status bar for Sway/Wayland
+  "swww",                   # Wallpaper and lockscreen manager for Wayland
+  "rofi-wayland",           # Application launcher/menu for Wayland
+  "quickshell-git",         # Quickshell is a toolkit for building status bars, widgets, lockscreens, and other components
+  "slurp",                  # Select a region in a Wayland compositor and print it to the standard output
+  "grim",                   # Grab images from a Wayland compositor. Works great with slurp.
+  "wf-recorder",            # cli based screen recording, uses ffmpeg
+  "kooha-git",              # gui based screen recorder
+  "xdg-desktop-portal-wlr", # GTK portal for bus integration for wayland
 ]

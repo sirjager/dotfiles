@@ -1,5 +1,6 @@
 #!/bin/sh
 
+alias c="clear"
 alias cat="bat"
 
 # [ Custom Aliases  ]================================

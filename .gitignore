@@ -31,9 +31,7 @@ Thumbs.db
 
 # Temp files
 tmp/
-temp/
 *.tmp
-*.temp
 
 # Env files
 *.env

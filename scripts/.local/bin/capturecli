@@ -1,289 +1,174 @@
 #!/usr/bin/env bash
 
-TIMER_FILE="$HOME/.local/state/capturecli"
+# Exit on error, unset vars, or pipe failure
+set -euo pipefail
+# Safer word splitting
+IFS=$'\n\t'
 
-# Default OBS Profile name; should exists
-PROFILE="recording"
+# --- Helper: log message with color ---
+log()  { echo -e "\033[1;32m[+]\033[0m $*"; }
+warn() { echo -e "\033[1;33m[!]\033[0m $*"; }
+err()  { echo -e "\033[1;31m[✗]\033[0m $*" >&2; }
 
-# set using --<params>
+# Make bash print failing command and line number
+trap 'err "Command failed on line $LINENO: $BASH_COMMAND"' ERR
+
+
+# =============== step: variable initializations
+#
+FILE_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
+FILE_NAME="record_$(date +'%Y-%m-%d_%H-%M-%S').mp4"
+FILE_PATH="$FILE_DIR/$FILE_NAME"
+
+
+USE_MIC_AUDIO=false
+USE_MONITOR_AUDIO=true
+
+USE_NOTIFICATIONS=false
+
 ACTION=""
-
-# Delay in seconds for screen recording and screenshot
 DELAY="0"
 
-# set using --<params>
-ACTION=""
-
-# Delay in seconds for screen recording and screenshot
-DELAY="0"
-
-# OBS Icon
-OBS_ICON="com.obsproject.Studio"
-
-# Default directories
-SCREENSHOT_DIR="$mystorage/downloads/Screenshots"
-RECORDINGS_DIR="$mystorage/downloads/Recordings"
-
-NOTIFY_ID="92832" # id to keep replace old notifications
-
-# Rofi theme like dmneu
-ROFI_THEME="$myscripts/rofi-dmenu/horizontal.rasi"
-
-while [ $# -gt 0 ]; do
-  case "$1" in
-  --output | output | -o)
-    SCREENSHOT_DIR="$2"
-    RECORDINGS_DIR="$2"
-    shift 2
-    ;;
-  --profile | profile | -p)
-    PROFILE="$2"
-    shift 2
-    ;;
-  --start | start | -s)
-    ACTION="start"
+# =============== step: variable parsing
+#
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --filedir=*) FILE_DIR="${1#*=}" ;;
+        --filename=*) FILE_NAME="${1#*=}" ;;
+        --filepath=*) FILE_PATH="${1#*=}" ;;
+        --mic) USE_MIC_AUDIO=true ;;
+        --monitor|--display) USE_MONITOR_AUDIO=true ;;
+        --notify | -n) USE_NOTIFICATIONS=true ;;
+        --delay=*) DELAY="${1#*=}" ;;
+        --start|--begin) ACTION="start" ;;
+        --stop |--end) ACTION="stop" ;;
+        --timer) ACTION="timer" ;;
+        --help) ACTION="help" ;;
+        *) echo "⚠️ Unknown flag ignored: $1" ;;
+    esac
     shift
-    ;;
-  --stop | stop | -x)
-    ACTION="stop"
-    shift
-    ;;
-  --timer | timer | -t)
-    ACTION="timer"
-    shift
-    ;;
-  --window | window | -w)
-    ACTION="window"
-    shift
-    ;;
-  --screen | screen | -f)
-    ACTION="screen"
-    shift
-    ;;
-  --selection | selection | -c)
-    ACTION="selection"
-    shift
-    ;;
-  --delay | delay)
-    DELAY="$2"
-    shift 2
-    ;;
-  --notify | notify | --notification | notification | -n)
-    ACTION="notification"
-    shift
-    ;;
-  --help | help | -h)
-    ACTION="help"
-    shift
-    ;;
-  *)
-    shift
-    ;;
-  esac
 done
 
-# create screenshot dir if does not exiss
-[ ! -d "$SCREENSHOT_DIR" ] && mkdir -p "$SCREENSHOT_DIR"
 
-# create recordings dir if does not exiss
-[ ! -d "$RECORDINGS_DIR" ] && mkdir -p "$RECORDINGS_DIR"
+# =============== step: internal variables declaration
+FILE_NAME="${FILE_NAME%.*}" # remove extension if present
+TIMER_FILE="$HOME/.local/state/capturecli-$FILE_NAME"
 
-show_help() {
-  echo "Usage: $0 [OPTIONS]"
-  echo "Options:"
-  echo "  --profile, -p <profile>   Specify OBS profile (default: recording)"
-  echo "  --start, -s               Start recording"
-  echo "  --stop, -x                Stop recording"
-  echo "  --timer, -t               Show timer for current recording"
-  echo "Examples:"
-  echo "  $0 --start -p custom_profile"
-  echo "  $0 --stop"
-  echo "  $0 --timer"
-}
 
-is_notify_on() {
-  if [ -f "$TIMER_FILE.notify" ]; then
-    return 0
-  else
-    return 1
-  fi
-}
+# =============== step: create recordings dir if does not exiss
+[ ! -d "$FILE_DIR" ] && mkdir -p "$FILE_DIR"
 
-toggle_notify() {
-  if [ -z "$1" ]; then
-    if is_notify_on; then
-      rm -f "$TIMER_FILE.notify"
-      dunstify --close="$NOTIFY_ID"
-    else
-      touch "$TIMER_FILE.notify"
+
+# =============== step: audio and device setup
+#
+AUDIO_MONITOR="$(pactl get-default-sink).monitor"
+MIC_INPUT="$(pactl list short sources | grep input | awk '{print $2}')"
+
+# =============== step: Create a combined virtual sink
+#
+pactl load-module module-null-sink sink_name=combined_out sink_properties=device.description=CombinedOut >/dev/null
+pactl load-module module-loopback source="${AUDIO_MONITOR}" sink=combined_out latency_msec=1 >/dev/null
+pactl load-module module-loopback source="${MIC_INPUT}" sink=combined_out latency_msec=1 >/dev/null
+
+
+
+# =============== step: functions and helpers
+
+# --- Notification helper ---
+notify() {
+    if [[ "$USE_NOTIFICATIONS" == true ]]; then
+        notify-send -a "Screen Capture" "$@"
     fi
-  elif [ "$1" = "on" ]; then
-    [ ! -f "$TIMER_FILE.notify" ] && touch "$TIMER_FILE.notify"
-  else
-    [ -f "$TIMER_FILE.notify" ] && rm -f "$TIMER_FILE.notify"
-    dunstify --close="$NOTIFY_ID"
-  fi
 }
 
-# Delays if Delay is set
-delay() {
-  if [[ "$DELAY" =~ ^[0-9]+$ ]]; then
-    sleep "$DELAY"
-  fi
+# --- Cleanup function ---
+cleanup_audio() {
+    log "Cleaning up virtual audio sinks..."
+    pactl unload-module module-loopback || true
+    pactl unload-module module-null-sink || true
 }
 
-get_timer() {
-  if [ -f "$TIMER_FILE" ]; then
-    START_TIME=$(cat "$TIMER_FILE")
-    NOW=$(date +%s)
-    DURATION=$((NOW - START_TIME))
-    MINUTES=$(($DURATION / 60))
-    SECONDS=$(($DURATION % 60))
-    MESSAGE="$MINUTES mins $SECONDS sec"
-    echo "$MESSAGE"
-    is_notify_on && dunstify -i "$OBS_ICON" -a "OBS" -r "$NOTIFY_ID" "Elapsed: $MESSAGE"
-  fi
+start_recording() {
+    log "Starting screen recording..."
+    notify "🎥 Recording started"
 
-  if is_notify_on; then
-    get_timer >/dev/null 2>&1 &
-  fi
+    # Optionally delay start
+    if [[ "$DELAY" -gt 0 ]]; then
+        log "Waiting ${DELAY}s before recording..."
+        sleep "$DELAY"
+    fi
+
+    # Construct audio input string
+    local AUDIO_ARGS=()
+    if [[ "$USE_MONITOR_AUDIO" == true && "$USE_MIC_AUDIO" == true ]]; then
+        AUDIO_ARGS=(-a "alsa_output.combined_out.monitor")
+    elif [[ "$USE_MONITOR_AUDIO" == true ]]; then
+        AUDIO_ARGS=(-a "$AUDIO_MONITOR")
+    elif [[ "$USE_MIC_AUDIO" == true ]]; then
+        AUDIO_ARGS=(-a "$MIC_INPUT")
+    fi
+
+    # Record video
+    log "Saving to: $FILE_PATH"
+    wf-recorder -g "$(slurp)" "${AUDIO_ARGS[@]}" -f "$FILE_PATH" &
+    echo $! > "$TIMER_FILE"
 }
 
-function cleanup() {
-  if [ -d "$HOME/.config/obs-studio/logs" ]; then
-    rm -rf "$HOME/.config/obs-studio/logs" 2>/dev/null
-    mkdir -p "$HOME/.config/obs-studio/logs" 2>/dev/null
-    rm -f "$HOME/.config/obs-studio/safe_mode" 2>/dev/null
-  fi
+# --- Stop recording ---
+stop_recording() {
+    if [[ ! -f "$TIMER_FILE" ]]; then
+        err "No active recording found."
+        exit 1
+    fi
+
+    local PID
+    PID="$(cat "$TIMER_FILE")"
+    log "Stopping recording (PID $PID)..."
+    kill -INT "$PID" || true
+    rm -f "$TIMER_FILE"
+
+    sleep 1
+    cleanup_audio
+    notify "✅ Recording stopped"
+    log "Recording saved: $FILE_PATH"
 }
 
-function stop_recording() {
-  delay
-  command pkill obs >/dev/null 2>&1 &
-  [ -f "$TIMER_FILE" ] && rm -f "$TIMER_FILE" >/dev/null 2>&1
-  dunstify --close="$NOTIFY_ID"
+# --- Show help ---
+show_help() {
+    cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+  --start / --begin        Start recording
+  --stop  / --end          Stop recording
+  --delay=N                Start after N seconds
+  --mic                    Include microphone audio
+  --monitor / --display    Include monitor audio
+  --notify, -n             Show desktop notifications
+  --filedir=PATH           Set output directory
+  --filename=NAME          Set base name (without extension)
+  --filepath=FULLPATH      Override full output path
+  --help                   Show this help message
+EOF
 }
 
-is_recording() {
-  if [ -f "$TIMER_FILE" ]; then
-    return 0
-  else
-    return 1
-  fi
-}
 
-function start_recording() {
-  if is_recording; then
-    message="Already recording"
-    is_notify_on && dunstify -u critical -i "$OBS_ICON" -a "OSB" "$message"
-    exit 0
-  fi
 
-  delay                   # if delay is passed
-  cleanup                 # cleanup logs of obs
-  date +%s >"$TIMER_FILE" # create new timer file
-  DRI_PRIME=1 obs \
-    --profile "$PROFILE" \
-    --minimize-to-tray \
-    --startrecording >/dev/null 2>&1 &
-}
-
-capture_selection() {
-  delay # if delay is passed
-  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
-  gnome-screenshot --area --file="$FILEPATH" >/dev/null 2>&1 &&
-    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
-}
-
-capture_window() {
-  delay # if delay is passed
-  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
-  gnome-screenshot --window --file="$FILEPATH" >/dev/null 2>&1 &&
-    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot captured" "$FILEPATH"
-}
-
-capture_screen() {
-  delay # if delay is passed
-  FILENAME=$(date +"%Y-%m-%d_%H-%M-%S_%3N")
-  FILEPATH="$SCREENSHOT_DIR/$FILENAME.png"
-  gnome-screenshot --file="$FILEPATH" >/dev/null 2>&1 &&
-    is_notify_on && dunstify -i "$FILEPATH" -a "Screenshot" "Screenshot Captured" "$FILEPATH"
-}
-
-open_directory() {
-  if command -v xdg-open &>/dev/null; then
-    xdg-open "$1" # Linux
-  elif command -v open &>/dev/null; then
-    open "$1" # macOS
-  else
-    echo "No supported file explorer found."
-  fi
-}
-
-# screenshot options
-OPTS=("screen capture" "window capture" "selection capture")
-
-# enable or disable notifications for screenshot and recordings
-if is_notify_on; then
-  OPTS+=("notification disable")
-else
-  OPTS+=("notification enable")
-fi
-
-# if recording, then "stop" and "timer" are valid options
-if is_recording; then
-  OPTS+=("stop recording" "timer recording")
-else
-  # if not recording, then only "start recording" options should be present
-  OPTS+=("start recording")
-fi
-
-# adding them last becz i want them to display i last of the list
-OPTS+=("screenshots directory" "recordings directory")
-
-# rofi options
-ROFI_OPTS=$(printf "%s\n" "${OPTS[@]}")
-
-# only get selection if action is empty
-[ -z "$ACTION" ] && SELECTION=$(echo "$ROFI_OPTS" | rofi -dmenu -theme "$ROFI_THEME" -p "Capture : ")
-
-# if selection is not empty then set action to selection
-[ -n "$SELECTION" ] && ACTION=$(echo "$SELECTION" | awk '{print $1}') # $1 is action in all opts
-
+# =============== step: main control
+#
 case "$ACTION" in
-start | record)
-  start_recording
-  ;;
-stop | cancel)
-  stop_recording
-  ;;
-timer | duration | elapsed)
-  get_timer
-  ;;
-notification | notify)
-  toggle_notify ""
-  ;;
-screen | fullscreen | desktop)
-  capture_screen
-  ;;
-window)
-  capture_window
-  ;;
-selection | area | selected | mouse)
-  capture_selection
-  ;;
-screenshot | screenshots | images | captures | shots)
-  open_directory "$SCREENSHOT_DIR"
-  ;;
-recording | recordings | vidoes | files)
-  open_directory "$RECORDINGS_DIR"
-  ;;
-help)
-  show_help
-  ;;
-*)
-  exit 0
-  ;;
+    start)
+        start_recording
+        ;;
+    stop)
+        stop_recording
+        ;;
+    help|"")
+        show_help
+        ;;
+    *)
+        err "Unknown action: $ACTION"
+        show_help
+        exit 1
+        ;;
 esac

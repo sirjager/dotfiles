@@ -4,6 +4,8 @@
 
 [managers.packages]
 items = [
+  "go",                  # Golang
+  "fnm",                 # Fast and simple node version manaager
   "serpl",               # Search and Replace through terminal
   "docker",              # Containerization platform
   "docker-compose",      # Tool for defining and running multi-container Docker apps

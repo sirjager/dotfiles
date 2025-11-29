@@ -1,0 +1,18 @@
+# ----------------------------------- #
+#    Package Manager Configuration    #
+# ----------------------------------- #
+
+add = "pnpm add #:?"
+remove = "pnpm remove #:?"
+
+plural_name = "node packages"
+
+hook_name = "node_packages"
+
+# ------------------------------- #
+#    Additional configuration.    #
+# ------------------------------- #
+
+[config]
+many_args = true
+arg_sep = " "

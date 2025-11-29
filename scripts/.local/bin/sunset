@@ -26,109 +26,127 @@ get_status() { cat "$STATUSFILE"; }
 set_status() { echo "$1" >"$STATUSFILE"; }
 
 send_notification() {
-  local temp=$1
-  local status=$2
-  notify-send \
-    -i "weather-clear-symbolic" \
-    -a "Night Light" \
-    -r "$msgId" \
-    -h int:value:"$temp" \
-    -h string:synchronous:"nightlight" \
-    "Night Light" "Temperature: ${temp}K ($status)"
+    local temp="$1"
+    local status="$2"
+    local idfile="/tmp/sunset.id"
+
+    # Read previous ID (for replace-id)
+    local old_id=""
+    [ -f "$idfile" ] && old_id=$(command  cat "$idfile")
+
+    # Build flags
+    local replace_flag=()
+    [ -n "$old_id" ] && replace_flag=(--replace-id="$old_id")
+
+    # Send notification
+    local new_id=$(
+        notify-send \
+            --print-id \
+            "${replace_flag[@]}" \
+            -i "weather-clear-symbolic" \
+            -a "Night Light" \
+            -h int:value:"$temp" \
+            "Night Light" "Temperature: ${temp}K (${status})"
+    )
+
+    # Save new ID
+    echo "$new_id" > "$idfile"
 }
+
+
 
 # Convert percent to temp
 percent_to_temp() {
-  local pct=$1
-  [ "$pct" -gt 100 ] && pct=100
-  [ "$pct" -lt 0 ] && pct=0
-  echo $((MIN_TEMP + (pct * (MAX_TEMP - MIN_TEMP) / 100)))
+    local pct=$1
+    [ "$pct" -gt 100 ] && pct=100
+    [ "$pct" -lt 0 ] && pct=0
+    echo $((MIN_TEMP + (pct * (MAX_TEMP - MIN_TEMP) / 100)))
 }
 
 # Convert temp to percent
 temp_to_percent() {
-  local temp=$1
-  echo $(((temp - MIN_TEMP) * 100 / (MAX_TEMP - MIN_TEMP)))
+    local temp=$1
+    echo $(((temp - MIN_TEMP) * 100 / (MAX_TEMP - MIN_TEMP)))
 }
 
 # Functions
 increase() {
-  temp=$(get_temp)
-  new=$((temp - 250))
-  [ "$new" -lt "$MIN_TEMP" ] && new=$MIN_TEMP
-  set_temp_file "$new"
-  start_wlsunset "$new"
+    temp=$(get_temp)
+    new=$((temp - 250))
+    [ "$new" -lt "$MIN_TEMP" ] && new=$MIN_TEMP
+    set_temp_file "$new"
+    start_wlsunset "$new"
 }
 
 decrease() {
-  temp=$(get_temp)
-  new=$((temp + 250))
-  [ "$new" -gt "$MAX_TEMP" ] && new=$MAX_TEMP
-  set_temp_file "$new"
-  start_wlsunset "$new"
+    temp=$(get_temp)
+    new=$((temp + 250))
+    [ "$new" -gt "$MAX_TEMP" ] && new=$MAX_TEMP
+    set_temp_file "$new"
+    start_wlsunset "$new"
 }
 
 set_value() {
-  local temp=$1
-  [ "$temp" -lt "$MIN_TEMP" ] && temp=$MIN_TEMP
-  [ "$temp" -gt "$MAX_TEMP" ] && temp=$MAX_TEMP
-  set_temp_file "$temp"
-  start_wlsunset "$temp"
+    local temp=$1
+    [ "$temp" -lt "$MIN_TEMP" ] && temp=$MIN_TEMP
+    [ "$temp" -gt "$MAX_TEMP" ] && temp=$MAX_TEMP
+    set_temp_file "$temp"
+    start_wlsunset "$temp"
 }
 
 set_percent() {
-  local pct=$1
-  local temp=$(percent_to_temp "$pct")
-  set_value "$temp"
+    local pct=$1
+    local temp=$(percent_to_temp "$pct")
+    set_value "$temp"
 }
 
 get_current() {
-  echo "$(get_temp)K ($(get_status))"
+    echo "$(get_temp)K ($(get_status))"
 }
 
 get_percent() {
-  temp_to_percent "$(get_temp)"
+    temp_to_percent "$(get_temp)"
 }
 
 toggle() {
-  if [ "$(get_status)" = "off" ]; then on; else off; fi
+    if [ "$(get_status)" = "off" ]; then on; else off; fi
 }
 
 on() {
-  set_status "on"
-  start_wlsunset "$(get_temp)"
+    set_status "on"
+    start_wlsunset "$(get_temp)"
 }
 
 off() {
-  set_status "off"
-  pkill wlsunset 2>/dev/null
-  set_status "off"
-  send_notification "$(get_temp)" "off"
+    set_status "off"
+    pkill wlsunset 2>/dev/null
+    set_status "off"
+    send_notification "$(get_temp)" "off"
 }
 
 # Start wlsunset with optional temp override
 start_wlsunset() {
-  local temp=$1
-  pkill wlsunset 2>/dev/null
-  wlsunset -t "$temp" -d $DURATION &
-  send_notification "$temp" "on"
+    local temp=$1
+    pkill wlsunset 2>/dev/null
+    wlsunset -t "$temp" -d $DURATION &
+    send_notification "$temp" "on"
 }
 
 # Dispatcher
 case "$1" in
-increase | up) increase ;;
-decrease | down) decrease ;;
-reset) set_value "$DEFAULT_TEMP" ;;
-set) set_value "$2" ;;
-set_percent) set_percent "$2" ;;
-get | current) get_current ;;
-get_percent) get_percent ;;
-toggle) toggle ;;
-on) on ;;
-off) off ;;
-auto) on ;; # alias
-*)
-  echo "Usage: $0 {increase|decrease|reset|set <temp>|set_percent <0-100>|get|get_percent|toggle|on|off|auto}"
-  exit 1
-  ;;
+    increase | up) increase ;;
+    decrease | down) decrease ;;
+    reset) set_value "$DEFAULT_TEMP" ;;
+    set) set_value "$2" ;;
+    set_percent) set_percent "$2" ;;
+    get | current) get_current ;;
+    get_percent) get_percent ;;
+    toggle) toggle ;;
+    on) on ;;
+    off) off ;;
+    auto) on ;; # alias
+    *)
+        echo "Usage: $0 {increase|decrease|reset|set <temp>|set_percent <0-100>|get|get_percent|toggle|on|off|auto}"
+        exit 1
+        ;;
 esac

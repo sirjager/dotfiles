@@ -110,8 +110,20 @@ return {
   { "<leader>ln", ":lua vim.diagnostic.enable(true)<CR>", icon = " ", desc = "O[N]" },
   { "<leader>li", ":Lspsaga incoming_calls<CR>", icon = " ", desc = "[I]ncoming calls" },
 
-  -- -- NOTE: Tools
-  -- { "<leader>t", group = "[T]ools", icon = " " },
+  -- Flash
+  { "<leader>f", group = "[F]lash", icon = " " },
+  {"<leader>fj",function()require("flash").jump()end,icon = " ",desc = "[J]ump To"},
+  {"<leader>ft",function()require("flash").treesitter()end,icon = " ",desc = "[T]reesitter"},
+  {"<leader>fs",function()require("flash").treesitter_search()end,icon = " ",desc = "[S]earch Treesitter"},
+
+   -- NOTE: Toggle Keys
+  { "<leader>t", group = "[T]oggle", icon = "󰊹 " },
+  { "<leader>td",function()require('snacks').toggle.dim()end, icon = "", desc = "[D]im" },
+  {"<leader>ts","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
+  { "<leader>tk", "<CMD>Screenkey<CR>", icon = " ", desc = "Screen[k]eys" },
+  { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
+  { "<leader>tt", "<CMD>Typr<CR>", icon = " ", desc = "[T]ypist" },
+  { "<leader>ty", "<CMD>TyprStats<CR>", icon = " ", desc = "T[y]pist Stats" },
   -- { "<leader>tz", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
   -- -- Tools:Lab
   -- { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
@@ -124,19 +136,6 @@ return {
   -- { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
   -- { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
   -- { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
-
-  -- Flash
-  { "<leader>f", group = "[F]lash", icon = " " },
-  {"<leader>fj",function()require("flash").jump()end,icon = " ",desc = "[J]ump To"},
-  {"<leader>ft",function()require("flash").treesitter()end,icon = " ",desc = "[T]reesitter"},
-  {"<leader>fs",function()require("flash").treesitter_search()end,icon = " ",desc = "[S]earch Treesitter"},
-
-   -- NOTE: Toggle Keys
-  { "<leader>t", group = "[T]oggle", icon = "󰊹 " },
-  { "<leader>td",function()require('snacks').toggle.dim()end, icon = "", desc = "[D]im" },
-  { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
-  { "<leader>tk", "<CMD>Screenkey<CR>", icon = " ", desc = "Screen[k]eys" },
-  {"<leader>ts","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
 
 
 }

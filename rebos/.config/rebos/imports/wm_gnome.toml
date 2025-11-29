@@ -1,0 +1,12 @@
+# Gnome Window Manager
+[managers.packages]
+items = [
+  "gnome-shell",               # Core GNOME UI and window manager shell
+  "mutter",                    # GNOME's compositor and window manager backend
+  "gnome-session",             # Manages GNOME desktop sessions
+  "gnome-settings-daemon",     # Applies GNOME settings and system integrations
+  "gnome-control-center",      # Settings application for configuring GNOME
+  "gsettings-desktop-schemas", # Provides GNOME-wide configuration schemas
+  "gnome-keyring",             # Secure key storage and secrets manager
+  "adwaita-icon-theme",        # Default GNOME icon theme required by apps
+]
