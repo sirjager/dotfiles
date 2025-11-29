@@ -26,13 +26,13 @@ if [ -z "$NIRI_SOCKET" ]; then
   export NIRI_SOCKET=$(find /run/user/$UID -maxdepth 1 -type s -name "niri.$WAYLAND_DISPLAY*.sock" | head -n 1)
 fi
 
-# Attach existing tmux session if not attached, else new session
-if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
-  tmux attach-session \
-    -t "$(tmux list-sessions \
-    -F "#{session_id}" 2>/dev/null | head -n 1)" || \
-    tmux new-session
-fi
+# # Attach existing tmux session if not attached, else new session
+# if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+#   tmux attach-session \
+#     -t "$(tmux list-sessions \
+#     -F "#{session_id}" 2>/dev/null | head -n 1)" || \
+#     tmux new-session
+# fi
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 

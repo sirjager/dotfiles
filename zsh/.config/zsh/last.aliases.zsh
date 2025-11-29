@@ -101,10 +101,11 @@ alias font-cache='fc-cache -f >/dev/null 2>&1'                                  
 alias font-list="fc-list | awk '{print \$F}' | sed 's/://g' | fzf >/dev/null 2>&1" # Search Font
 
 # Neovim aliases
-alias n="NVIM_APPNAME=JagerVim nvim"
+alias n="nvim"
 alias nb="NVIM_APPNAME=BlazeVim nvim"
-alias vi="NVIM_APPNAME=JagerVim nvim"
-alias snv="sudo -E -s NVIM_APPNAME=JagerVim nvim"
+alias nj="NVIM_APPNAME=JagerVim nvim"
+alias vi="nvim"
+alias snv="sudo -E -s nvim"
 
 # Applications
 alias obsidian="command obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland"

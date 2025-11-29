@@ -9,8 +9,6 @@ local M = {
 
     { 'declancm/maximize.nvim', cmd = { 'Maximize' } },
 
-    { 'christoomey/vim-tmux-navigator', keys = { '<C-h>', '<C-j>', '<C-k>', '<C-l>' } },
-
     { 'RRethy/vim-illuminate', event = 'BufReadPost' },
 
     { 'echasnovski/mini.icons' },

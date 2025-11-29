@@ -48,6 +48,7 @@ M.todo_comments_opts = {
     TEST = { icon = '󰙨 ', color = 'test', alt = { 'TESTING', 'PASSED', 'FAILED' } },
     FIX = { icon = ' ', color = 'fix', alt = { 'FIXME', 'FIXIT', 'ISSUE', 'ERROR', 'BROKEN' } },
     IMP = { icon = '', color = 'fix', alt = { 'IMPORTANT', 'MAIN', 'CORE' } },
+    HEADLINE = { icon = '', color = 'info', alt = { 'HEAD', 'TITLE', 'HEADING' } },
   },
   gui_style = {
     fg = 'NONE', -- The gui style to use for the fg highlight group.

@@ -1,11 +1,11 @@
 local keymaps = {
   n = {
     ['<Esc>'] = { '<ESC>:noh<CR>', 'clear highlights' },
-    -- ['q'] = { '<ESC><ESC>:noh<CR>', 'clear highlights' }, -- disabling macro recording
+    ['q'] = { '<ESC><ESC>:noh<CR>', 'clear highlights' }, -- disabling macro recording
     ['w'] = { '<ESC>ve', 'select word to right' },
     ['b'] = { '<ESC>vb', 'select word to left' },
     ['f'] = { ":lua require('flash').jump()<CR>", 'flash jump' },
-    ['O'] = { ":so<CR>:restart<CR>", 'relaod configs' },
+    ['O'] = { ':so<CR>:restart<CR>', 'relaod configs' },
 
     ['W'] = { [[<ESC>:execute "normal! v" .. (col('$') - col('.')) .. 'l'<CR>]], 'select words till end of line' },
     ['B'] = { [[:execute "normal! v" .. (col('.') - 1) .. 'h'<CR>]], 'select words till start of line' },
@@ -14,6 +14,11 @@ local keymaps = {
     ['<C-s>'] = { '<ESC><ESC>:w<CR>', 'save buffer' }, -- save buffers
     ['<C-w>'] = { ':bd<CR>', 'close buffer' }, -- close buffers
     ['<C-n>'] = { '<CMD>enew<CR>', 'new buffer' }, -- new buffer
+
+    -- ['<C-h>'] = { '<CMD>KittyNavigateRight<CR>', 'KittyNavigateRight' },
+    -- ['<C-j>'] = { '<CMD>KittyNavigateDown<CR>', 'KittyNavigateDown' },
+    -- ['<C-k>'] = { '<CMD>KittyNavigateUp<CR>', 'KittyNavigateUp' },
+    -- ['<C-l>'] = { '<CMD>KittyNavigateLeft<CR>', 'KittyNavigateLeft' },
 
     ['<C-Up>'] = { ':resize +2<CR>', 'increase window height' },
     ['<C-Down>'] = { ':resize -2<CR>', 'decrease window height' },
@@ -72,7 +77,6 @@ local keymaps = {
 
     ['<A-v>'] = { ":lua require'ufo'.openAllFolds()<CR>", 'open all folds' },
     -- ['<A-b>'] = { ":lua require'ufo'.closeAllFolds()<CR>", 'close all folds' },
-
 
     ['<A-r>'] = { ':Lspsaga rename<CR>', 'smart rename' },
     -- ["<A-i>"] = { ":Lspsaga hover_doc<CR>", "documentation" },

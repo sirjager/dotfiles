@@ -196,6 +196,10 @@ window-rule {
     match app-id="org.qutebrowser.qutebrowser"
     opacity 0.8
 }
+window-rule {
+    match app-id="kitty"
+    geometry-corner-radius 2
+}
 //==============================================================================
 // Key binds
 //==============================================================================
@@ -253,9 +257,11 @@ binds {
     Alt+Space repeat=false hotkey-overlay-title="launch:: rofi application launcher" {
         spawn-sh "rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi"
     }
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
     Alt+Return repeat=false hotkey-overlay-title="launch:: terminal kitty" {
-        spawn-sh "kitty bash -c tmux attach"
+        spawn-sh "kitty"
+    }
+    Mod+Shift+Return repeat=false hotkey-overlay-title="launch:: terminal kitty with tmux" {
+        spawn-sh "kitty --config ~/.config/kitty/kitty-tmux.conf /usr/bin/zsh -c tmux attach"
     }
     Mod+B repeat=false hotkey-overlay-title="launch:: brave browser profile:: sirjager" {
         spawn "brave" "--profile-directory=sirjager"
