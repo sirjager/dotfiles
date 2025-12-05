@@ -1,6 +1,6 @@
 local M = {
-  "hedyhli/outline.nvim",
-  cmd = { "Outline", "OutlineOpen" },
+  'hedyhli/outline.nvim',
+  cmd = { 'Outline', 'OutlineOpen' },
 }
 
 M.opts = {
@@ -16,8 +16,8 @@ M.opts = {
   },
 }
 
-M.config = function(_,opts)
-  require("outline").setup(opts)
+M.config = function(_, opts)
+  require('outline').setup(opts)
 end
 
 return M

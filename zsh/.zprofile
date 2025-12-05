@@ -64,7 +64,7 @@ export GOBIN="$mystorage/workspace/goenv/bin"
 # export NVM_DIR="$mystorage/programs/nvm"
 # export FNM_PATH="$mystorage/programs/fnm"
 # export FNM_DIR="$mystorage/programs/fnm"
-# export PNPM_HOME="$mystorage/programs/pnpm"
+export PNPM_HOME="/home/jager/.local/share/pnpm"
 
 export BUN_INSTALL="$mystorage/programs/bun"
 export CARGO_HOME="$mystorage/programs/cargo"

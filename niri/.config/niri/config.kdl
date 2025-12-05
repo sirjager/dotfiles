@@ -101,7 +101,7 @@ layout {
     }
     focus-ring {
         //::toggle::focus-ring
-        // off
+        off
         width 2
         active-color "#ffc87f"
     }
@@ -113,7 +113,7 @@ layout {
     }
     shadow {
         //::toggle::shadow
-        on
+// on
         softness 30
         spread 5
         offset x=0 y=5
@@ -196,10 +196,6 @@ window-rule {
     match app-id="org.qutebrowser.qutebrowser"
     opacity 0.8
 }
-window-rule {
-    match app-id="kitty"
-    geometry-corner-radius 2
-}
 //==============================================================================
 // Key binds
 //==============================================================================
@@ -257,11 +253,11 @@ binds {
     Alt+Space repeat=false hotkey-overlay-title="launch:: rofi application launcher" {
         spawn-sh "rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi"
     }
-    Alt+Return repeat=false hotkey-overlay-title="launch:: terminal kitty" {
-        spawn-sh "kitty"
-    }
-    Mod+Shift+Return repeat=false hotkey-overlay-title="launch:: terminal kitty with tmux" {
+    Alt+Return repeat=false hotkey-overlay-title="launch:: terminal kitty with tmux" {
         spawn-sh "kitty --config ~/.config/kitty/kitty-tmux.conf /usr/bin/zsh -c tmux attach"
+    }
+    Mod+Shift+Return repeat=false hotkey-overlay-title="launch:: terminal kitty" {
+        spawn-sh "kitty"
     }
     Mod+B repeat=false hotkey-overlay-title="launch:: brave browser profile:: sirjager" {
         spawn "brave" "--profile-directory=sirjager"

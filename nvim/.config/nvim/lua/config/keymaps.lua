@@ -30,8 +30,6 @@ local keymaps = {
     ['<S-k>'] = { ':resize -2<CR>', 'decrease window height' },
     ['<S-j>'] = { ':resize +2<CR>', 'increase window height' },
 
-    ['<S-m>'] = { '<CMD>MarksListAll<CR>', 'list all marks' },
-
     -- INFO:  =================================================================
     -- All Most Used toggleable options using Alt key
     -- DO NOT USE Alt+q Prefix;  Alt+q is use by tmux
@@ -68,7 +66,7 @@ local keymaps = {
     ['<A-k>'] = { '<CMD>HarpoonPrevMarked<CR>', 'harpoon prev marked file' },
 
     ['<A-c>'] = { 'gcc', 'toggle comment' },
-    -- ['<A-o>'] = { ':Outline<CR>', 'Toggle LSP Outline' },
+    ['<A-o>'] = { ':Outline<CR>', 'Toggle LSP Outline' },
     ['<A-u>'] = { ':BufferLinePick<CR>', 'focus any active buffers' },
     ['<A-w>'] = { ':BufferLineCloseOthers<CR>', 'close other buffers' },
     ['<C-p>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
@@ -85,8 +83,11 @@ local keymaps = {
     ['<A-d>'] = { ':Lspsaga goto_definition<CR>', 'goto definition' },
     ['<A-f>'] = { ':Lspsaga code_action<CR>', 'code action' },
 
-    -- ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
-    -- ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
+
+    ['m'] = { ":lua require('globals.utils').mark_cmd('m')<CR>", 'Set new [m]ark' },
+    ['M'] = { ":lua require('globals.utils').mark_cmd('`')<CR>", 'Jump to [M]ark' },
+    ['<C-m>'] = { ":lua require('globals.utils').mark_cmd('delmarks')<CR>", 'Delete [M]ark' },
+    ['<C-S-m>'] = { "lua require('globals.utils').mark_cmd('delmarks!')<CR>", 'Delete all [M]arks' },
   },
 
   -- insert mode
@@ -118,9 +119,6 @@ local keymaps = {
     ['K'] = { ":move '<-2<CR>gv-gv", 'move selection up' },
 
     ['<A-c>'] = { 'gcc', 'toggle comment' }, -- Toggle Comment: Also in normal mode
-
-    -- ["<C-m>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
-    -- ["<RightMouse>"] = { ":lua  require('menu').open('default')<CR>", "open option menu" },
   },
 
   -- terminal

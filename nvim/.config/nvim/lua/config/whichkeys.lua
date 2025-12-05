@@ -137,6 +137,12 @@ return {
   -- { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
   -- { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
+  -- Marks
+  { "<leader>m", group = "[M]ark", icon = "󱘈" },
+  {"<leader>mm",":lua require('globals.utils').mark_cmd('m')<CR>",icon = " ",desc = "Set new [m]ark"},
+  {"<leader>mM",":lua require('globals.utils').mark_cmd('`')<CR>",icon = "󰓘 ",desc = "Jump to [M]ark"},
+  {"<leader>md",":lua require('globals.utils').mark_cmd('delmarks')<CR>",icon = "󰆴 ",desc = "Delete [M]ark"},
+  {"<leader>mx","lua require('globals.utils').mark_cmd('delmarks!')<CR>",icon = "󰗩 ",desc = "Delete all [M]arks"},
 
 }
 

@@ -5,6 +5,7 @@
 [managers.packages]
 items = [
   "go",                  # Golang
+  "migrate",             # Migrate package for database migration with sql files
   "fnm",                 # Fast and simple node version manaager
   "serpl",               # Search and Replace through terminal
   "docker",              # Containerization platform
